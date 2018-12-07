@@ -1,0 +1,55 @@
+
+
+<!-- Navigation -->
+    <nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
+      <div class="container-fluid">
+        <div class="navbar-header ml-auto">
+            <a class="navbar-brand" href="index.html">
+              <img class="menu-logo" src="./img/logo/wojo2.jpg">
+            </a>
+            <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#!/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/allEvents">Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/login" ng-show="!model.loggedUser">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedUser">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/profile" ng-show="model.loggedUser">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" style="color: #DB685F;" href="#!/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/contact">Contact</a>
+            </li>  
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- <br><br> -->
+<!-- /Navigation -->
+
+
+
+
+<div class="container container-top-125">
+	<h1>About us</h1>
+	<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+</div>

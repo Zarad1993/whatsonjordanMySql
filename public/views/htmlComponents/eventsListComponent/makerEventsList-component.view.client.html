@@ -1,0 +1,50 @@
+<div>
+	<h2 ng-cloak>Event Maker Name: {{model.loggedMaker.name.firstName}} {{model.loggedMaker.name.middleName}} {{model.loggedMaker.name.lastName}}</h2>
+	<h4>Events List: </h4>
+	<div class="row">
+		<div class="col-3"> <h5>Name</h5> </div>
+		<div class="col-2"> <h5>Category</h5> </div>
+		<div class="col-2"> <h5>Sub-Category</h5> </div>
+		<div class="col-2"> <h5>Created</h5> </div>
+		<div class="col-1"> <h5>Edit</h5> </div>
+		<div class="col-1"> <h5>Remove</h5> </div>
+	</div>
+	<hr>	
+	<div class="row" ng-repeat="event in model.eventsList">
+		<div class="col-3"> <h5 ng-cloak>{{event.name}}</h5> </div>
+		<div class="col-2"> <h5 ng-cloak>{{event.category}}</h5> </div>
+		<div class="col-2"> <h5 ng-cloak>{{event.subcategory}}</h5> </div>
+		<div class="col-2"> <h5 ng-cloak>{{event.created | date}}</h5> </div>
+		<div class="col-1"> <h5><a href="#!/makerProfile/editEvent"><span class="fa fa-pencil-square-o" aria-hidden="true"></span></a></h5></div>
+		<div class="col-1" ng-click="model.removeEvent(event.makerId, event._id)"> <h5><a href="" ><span class="fa fa-trash-o" aria-hidden="true"></span></a></h5> </div>
+
+
+
+		<!-- for the future try the modal to make it work the problem with the below one that the modal disappear but the blur still on the screen -->
+		<!-- Modal to confirm the remove of an event-->
+
+		<!-- <div class="modal collapse" id="{{event.name}}">
+		  <div class="modal-dialog" role="dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">Confirm removing event</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <h5>Are your sure you want to remove the following event:</h5>
+		        <div><p>{{event.name}}</p></div>
+		        <div><p>{{event.makerId}}</p></div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" ng-click="model.removeEvent(event.eventId)">Remove</button>
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+		      </div>
+		    </div>
+		  </div>
+		</div> -->
+
+
+	</div>
+</div>

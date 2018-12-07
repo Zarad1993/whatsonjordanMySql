@@ -1,0 +1,286 @@
+
+
+
+<!-- Navigation -->
+    <nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
+      <div class="container-fluid">
+        <div class="navbar-header ml-auto">
+            <a class="navbar-brand" href="index.html">
+              <img class="menu-logo" src="./img/logo/wojo2.jpg">
+            </a>
+            <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#!/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" style="color: #DB685F;" href="#!/allEvents">Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/login" ng-show="!model.loggedUser">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedUser">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/profile" ng-show="model.loggedUser">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- <br><br> -->
+<!-- /Navigation -->
+
+
+
+<div class="container container-top-125">
+	<h1 class="text-danger">Event details:</h1>
+	<hr>
+
+
+	<div class="alert alert-danger" role="alert" ng-show="model.error1">
+  		<p>{{model.error1}}</p>
+  		<a href="#!/login" class="alert-link">Login / Register</a>
+	</div>
+	<div class="alert alert-danger" role="alert" ng-show="model.error2">
+  		<p>{{model.error2}}</p>
+	</div>
+	
+
+	<!-- Event Image -->
+  <img class="img-fluid rounded mb-4" ng-src="{{model.eventDetails.images.img1200x300}}" alt="">
+	<h3>Event Name: </h3>
+	<p>{{model.eventDetails.name}}</p>
+	<h3>Event Category: </h3>
+	<p>{{model.eventDetails.category}}</p>
+	<h3>Event Sub-Category: </h3>
+	<p>{{model.eventDetails.subcategory}}</p>
+	<h3>Age Category: </h3>
+  <p>{{model.eventDetails.ageGroup.ageGroupTitle}}: Ages from: {{model.eventDetails.ageGroup.ageFrom}} To: {{model.eventDetails.ageGroup.ageTo}} years old.</p>
+  <h3>Event Details: </h3>
+	<p>{{model.eventDetails.details}}</p>
+	<h3>Event Address: </h3>
+  <p>{{model.eventDetails.address}}</p>
+  <h3>Start date: </h3>
+	<p>{{model.eventDetails.startingDate | date}}</p>
+	<h3>End date: </h3>
+	<p>{{model.eventDetails.expiryDate | date}}</p>
+  <h3>Session's start time: </h3>
+  <p>{{model.eventDetails.sessionStartTime | date: 'shortTime'}}</p>
+  <h3>Session's end time: </h3>
+  <p>{{model.eventDetails.sessionEndTime | date: 'shortTime'}}</p>
+  <h3>Price: </h3>
+  <p>{{model.eventDetails.price | currency:"JOD "}}</p>
+	<br>
+
+	<!-- <a href="" class="btn btn-lg btn-success" ng-click="model.eventRegistration(model.eventDetails)">Register</a> -->
+	<button class="btn btn-lg btn-success" data-toggle="modal" data-target="#eventRegistrationModal"><b>Register</b></button>
+  <a href="#!/allEvents" class="btn btn-lg btn-danger">Cancel</a>
+
+
+
+
+  <!-- Registration info -->
+  <!-- <div class="row">
+    <div class="col-sm-4">
+      <button class="btn btn-success" data-toggle="modal" data-target="#eventRegistrationModal"><b>Register</b></button>
+    </div>
+  </div> -->
+  <div class="modal fade" id="eventRegistrationModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Event Registration..</h5>
+        </div>
+        <div class="modal-body">
+          <form id="registrationForm">
+            <!-- Name -->
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="firstName">First Name</label>
+                  <input type="text" class="form-control" disabled id="firstName" placeholder="First Name" ng-model="model.loggedUser.name.firstName">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="middleName">Middle Name</label>
+                  <input type="text" class="form-control" disabled id="middleName" placeholder="Middle Name" ng-model="model.loggedUser.name.middleName">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="lastName">Last Name</label>
+                  <input type="text" class="form-control" disabled id="lastName" placeholder="Last Name" ng-model="model.loggedUser.name.lastName">
+                </div>
+            </div>
+
+
+
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="gender">Gender</label>
+                <select id="gender" class="form-control" ng-model="model.loggedUser.gender">
+                  <option>Male</option>
+                  <option>Female</option>
+                  </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="DOB">Date of birth</label>
+                <input type="date" class="form-control" id="DOB" placeholder="Date of birth" ng-model="model.loggedUser.DOB">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="grade">Grade</label>
+                <select id="grade" class="form-control" ng-model="model.loggedUser.grade">
+                  <option>KG1</option>
+                  <option>KG2</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                  <option>12</option>
+                  </select>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="school">School</label>
+                <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.loggedUser.school">
+              </div>
+          </div>
+
+
+
+
+          <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="medicalIssue">Any medical issues?</label>
+                <select id="medicalIssue" class="form-control" ng-model="model.loggedUser.medical.medicalIssues">
+                  <option>Yes</option>
+                  <option>No</option>
+                  </select>
+              </div>
+              <div class="form-group col-md-8">
+                <label for="problemDetails">If yes please fill the details:</label>
+                <input type="text" class="form-control" id="problemDetails" placeholder="Medical issue details..." ng-model="model.loggedUser.medical.problemDetails">
+              </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" placeholder="Address" ng-model="model.loggedUser.address">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+            <label for="nationality">Nationality</label>
+            <input type="text" class="form-control" id="nationality" placeholder="Nationality" ng-model="model.loggedUser.nationality">
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label><h3>Contact details:</h3></label>
+            </div>
+          </div>
+
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="fatherName">Father Name</label>
+                <input type="text" id="fatherName" class="form-control" placeholder="Father Name" ng-model="model.loggedUser.contact.father.name">
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="fatherPhone">Father phone number</label>
+                <input type="text" id="fatherPhone" class="form-control" placeholder="Father phone number" ng-model="model.loggedUser.contact.father.phone">
+              </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="motherName">Mother Name</label>
+              <input type="text" id="motherName" class="form-control" placeholder="Mother Name" ng-model="model.loggedUser.contact.mother.name">
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="motherPhone">Mother phone number</label>
+              <input type="text" id="motherPhone" class="form-control" placeholder="Mother phone number" ng-model="model.loggedUser.contact.mother.phone">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="emergencyName">Emergency Name</label>
+              <input type="text" id="emergencyName" class="form-control" placeholder="Emergency Name" ng-model="model.loggedUser.contact.emergency.name">
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="emergencyPhone">Emergency phone number</label>
+              <input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number" ng-model="model.loggedUser.contact.emergency.phone">
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="notes">Notes:</label>
+              <input type="text" class="form-control" id="notes" name="notes" placeholder="Notes..." ng-model="model.loggedUser.notes">
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <div class="form-row" ng-show="model.eventDetails.termsAndConditions">
+            <div class="form-group col-md-12">
+              <label for="termsAndConditions">Terms and conditions:</label>
+              <textarea class="form-control" rows='5'  id="termsAndConditions" disabled ng-model="model.eventDetails.termsAndConditions"></textarea>
+              <!-- <input type="checkbox"  name="termsAcceptance" id="termsAcceptance" required ng-model="model.loggedUser.termsAcceptance"> <label for="termsAcceptance">I read and agree the terms and conditions.</label> -->
+              <br>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" ng-model="model.termsAcceptance" id="termsAcceptance" name="termsAcceptance">
+                <label class="form-check-label" for="termsAcceptance">
+                  I read and agree the terms and conditions.
+                </label>
+              </div>
+
+            </div>
+          </div>
+
+            
+            <br>
+            <input type="submit" class="btn btn-success pull-right" name="register" ng-click="model.eventRegistration(model.eventDetails, model.loggedUser)" >
+          </form>
+          <br>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+<!-- / Registration info -->
+
+
+
+
+
+
+
+
+
+
+</div>

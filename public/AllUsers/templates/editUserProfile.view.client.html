@@ -1,0 +1,218 @@
+
+
+<!-- Navigation -->
+    <nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
+      <div class="container-fluid">
+        <div class="navbar-header ml-auto">
+            <a class="navbar-brand" href="index.html">
+              <img class="menu-logo" src="./img/logo/wojo2.jpg">
+            </a>
+            <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#!/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/allEvents">Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/login" ng-show="!model.loggedUser">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedUser">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedUser">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/contact">Contact</a>
+            </li>            
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- <br><br> -->
+<!-- /Navigation -->
+
+
+
+<!--  -->
+
+<div class="container container-top-125">
+			
+	<div class="jumbotron" >
+		<img ng-src="{{model.userProfile.profileImage.location}}" class="mx-auto d-block profile-img">
+		
+
+		<!-- <h5>Update profile image: </h5>
+		<p>Note: The uploaded picture should be less than 1 mg and with the following extension (jpeg, jpg, png, gif)</p>
+		<div class="alert alert-danger" role="alert" ng-show="model.userProfile.profileImage.size > 1000000">
+  			The uploaded picture should be less than 1MB.
+		</div> -->
+
+		<form action="/api/userProfile/uploadProfilePic" method="POST" enctype="multipart/form-data" class="col-sm-6">
+			<input type="file" name="profilePicture" id="profilePicture" class="form-control" onchange="ValidateSize(this)">
+			<script type="text/javascript">
+				function ValidateSize(file) {
+	        		var FileSize = file.files[0].size / 1024 / 1024; // in MB
+	        		if (FileSize > 1) {
+	            		alert('File size exceeds 1 MB');
+	            		return false;
+	        		} 
+	        		// else {
+	        		// 	alert(file.files[0].size);
+	        		// 	return true;
+	        		// }
+    			}
+			</script>
+			<input type="submit" name="uploadImage" class="form-control" >
+		</form>
+
+
+
+	  <h1 class="display-3">Update profile:</h1>
+	  <hr class="my-4">
+		<form>
+			<div nd-show="model.error" class="text-danger">{{model.error}}</div>
+
+		  <div class="form-row">
+			    <div class="form-group col-md-4">
+			      <label for="firstName">First Name</label>
+			      <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="model.userProfile.name.firstName">
+			    </div>
+			    <div class="form-group col-md-4">
+			      <label for="middleName">Middle Name</label>
+			      <input type="text" class="form-control" id="middleName" placeholder="Middle Name" ng-model="model.userProfile.name.middleName">
+			    </div>
+			    <div class="form-group col-md-4">
+			      <label for="lastName">Last Name</label>
+			      <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="model.userProfile.name.lastName">
+			    </div>
+		  </div>
+
+		  <div class="form-row">
+			    <div class="form-group col-md-4">
+			      <label for="gender">Gender</label>
+			      <select id="gender" class="form-control" ng-model="model.userProfile.gender">
+			        <option>Male</option>
+			        <option>Female</option>
+      			  </select>
+			    </div>
+			    <div class="form-group col-md-4">
+			      <label for="DOB">Date of birth</label>
+			      <input type="date" class="form-control" id="DOB" placeholder="Date of birth" ng-model="model.userProfile.DOB">
+			    </div>
+			    <div class="form-group col-md-4">
+			      <label for="grade">Grade</label>
+			      <select id="grade" class="form-control" ng-model="model.userProfile.grade">
+			        <option>KG1</option>
+			        <option>KG2</option>
+			        <option>1</option>
+			        <option>2</option>
+			        <option>3</option>
+			        <option>4</option>
+			        <option>5</option>
+			        <option>6</option>
+			        <option>7</option>
+			        <option>8</option>
+			        <option>9</option>
+      			  </select>
+			    </div>
+			    <div class="form-group col-md-12">
+			      <label for="school">School</label>
+			      <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.userProfile.school">
+		    	</div>
+		  </div>
+
+		  <div class="form-row">
+			    <div class="form-group col-md-4">
+			      <label for="medicalIssue">Any medical issues?</label>
+			      <select id="medicalIssue" class="form-control" ng-model="model.userProfile.medical.medicalIssues">
+			        <option>Yes</option>
+			        <option>No</option>
+      			  </select>
+			    </div>
+			    <div class="form-group col-md-8">
+			      <label for="problemDetails">If yes please fill the details:</label>
+			      <input type="text" class="form-control" id="problemDetails" placeholder="Medical issue details..." ng-model="model.userProfile.medical.problemDetails">
+			    </div>
+		  </div>
+
+		  <div class="form-row">
+			  <div class="form-group col-md-12">
+				<label for="address">Address</label>
+				<input type="text" class="form-control" id="address" placeholder="Address" ng-model="model.userProfile.address">
+			  </div>
+		  </div>
+
+		  <hr class="my-4">
+
+		  <div class="form-row">
+		  	<div class="form-group col-md-12">
+		  		<label><h3>Contact details:</h3></label>
+		  	</div>
+		  </div>
+
+		  <div class="form-row">
+			    <div class="form-group col-md-6">
+			      <label for="fatherName">Father Name</label>
+			      <input type="text" id="fatherName" class="form-control" placeholder="Father Name" ng-model="model.userProfile.contact.father.name">
+			    </div>
+
+			    <div class="form-group col-md-6">
+			      <label for="fatherPhone">Father phone number</label>
+			      <input type="text" id="fatherPhone" class="form-control" placeholder="Father phone number" ng-model="model.userProfile.contact.father.phone">
+			    </div>
+		  </div>
+
+
+		  <div class="form-row">
+			    <div class="form-group col-md-6">
+			      <label for="motherName">Mother Name</label>
+			      <input type="text" id="motherName" class="form-control" placeholder="Mother Name" ng-model="model.userProfile.contact.mother.name">
+			    </div>
+
+			    <div class="form-group col-md-6">
+			      <label for="motherPhone">Mother phone number</label>
+			      <input type="text" id="motherPhone" class="form-control" placeholder="Mother phone number" ng-model="model.userProfile.contact.mother.phone">
+			    </div>
+		  </div>
+
+
+
+		  <div class="form-row">
+			    <div class="form-group col-md-6">
+			      <label for="emergencyName">Emergency Name</label>
+			      <input type="text" id="emergencyName" class="form-control" placeholder="Emergency Name" ng-model="model.userProfile.contact.emergency.name">
+			    </div>
+
+			    <div class="form-group col-md-6">
+			      <label for="emergencyPhone">Emergency phone number</label>
+			      <input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number" ng-model="model.userProfile.contact.emergency.phone">
+			    </div>
+		  </div>
+
+		  <hr class="my-4">
+
+  		  <div class="form-row">
+			  <div class="form-group col-md-12">
+				<label for="notes">Notes:</label>
+				<input type="text" class="form-control" id="notes" placeholder="Notes..." ng-model="model.userProfile.notes">
+			  </div>
+		  </div>
+
+
+			  
+		  <button type="submit" class="btn btn-success" ng-click="model.updateProfile(model.userProfile)">Update profile</button>
+	  	  <a class="btn btn-danger" href="#!/" role="button">Cancel</a>
+		</form>
+	</div>
+</div>
+

@@ -1,0 +1,95 @@
+<!-- Navigation -->
+    <nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
+      <div class="container-fluid">
+        <div class="navbar-header ml-auto">
+            <a class="navbar-brand" href="index.html">
+              <img class="menu-logo" src="./img/logo/wojo2.jpg">
+            </a>
+            <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#!/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/allEvents">Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" style="color: #DB685F;" href="#!/login" ng-show="!model.loggedUser">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedUser">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/profile" ng-show="model.loggedUser">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/contact">Contact</a>
+            </li>
+            
+           
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- <br><br> -->
+<!-- /Navigation -->
+
+
+<!-- <br><br> -->
+<div class="container container-top-125">
+	<div class="jumbotron">
+    <div class="col-xs-12">
+  	  <h1 class="poiret-font"><strong>Welcome back champ..</strong></h1>
+  	  <!-- <hr class="my-4"> -->
+      <br>
+  	  <form>
+  	  	<fieldset>
+  			  <div class="form-group">
+  		      	<label for="email">Email address</label>
+  		      	<input type="email" 
+  		      			class="form-control" 
+  		      			id="email" 
+  		      			aria-describedby="emailHelp" 
+  		      			placeholder="Enter email" 
+  		      			ng-model="model.user.email">
+  		      	<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  		      	<div nd-show="error" class="text-danger">{{model.error}}</div>
+  	    	</div>
+  	    	
+  	    	<div class="form-group">
+  		      	<label for="password">Password</label>
+  		      	<input type="password" 
+  		      			class="form-control" 
+        					id="password" 
+        					placeholder="Password" 
+        					ng-model="model.user.password">
+  			</div>
+  	  	
+  	  		<button type="submit" class="btn btn-success" ng-click="model.login(model.user)">Login</button>
+  	  		
+  	  		<!-- register with google -->
+
+  	  		<!-- <a href="/jordanEvents/auth/google" class="btn btn-danger">
+      			<span class="fa fa-google-plus"></span>
+      			Google
+  			</a> -->
+
+  	  		<!-- end register with google -->
+
+  	  		<a class="btn btn-warning" href="#!/register" role="button">Register</a>
+
+          <br><br>
+          <p>Forget password? click <span> <a href="#!/forgetPassword">here</a> </span> to reset password.</p>
+  	  	</fieldset>
+  	  </form>
+  	</div>
+  </div>
+</div>

@@ -1,0 +1,205 @@
+
+<!-- Navigation -->
+    <nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
+      <div class="container-fluid">
+        <div class="navbar-header ml-auto">
+            <a class="navbar-brand" href="index.html">
+              <img class="menu-logo" src="./img/logo/wojo2.jpg">
+            </a>
+            <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" style="color: #DB685F;" href="#!/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/allEvents">Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/login" ng-show="!model.loggedUser">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedUser">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/profile" ng-show="model.loggedUser">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<!-- /Navigation -->
+
+<!-- UIB carousel -->
+<!--   <div>
+    
+  </div>
+ -->
+  <!-- <br>
+  <br> -->
+<!-- UIB carousel -->
+
+
+
+<!-- carousel -->
+    <!-- <div>
+    <header>
+      <div id="homePageCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#homePageCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#homePageCarousel" data-slide-to="1"></li>
+          <li data-target="#homePageCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+          <div class="carousel-item active" style="background-image: url('http://www.elementalsports.nl/wp-content/uploads/2016/11/kidsplaying-1920x1080.jpg')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Fun with freinds</h3>
+              <p>The most favourite camps in jordan.</p>
+            </div>
+          </div>
+          <div class="carousel-item" style="background-image: url('http://www.elementalsports.nl/wp-content/uploads/2016/11/palaimaxoi-back-1900x1080.jpg')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Activity</h3>
+              <p>Best football programs</p>
+            </div>
+          </div>
+          <div class="carousel-item" style="background-image: url('https://www.secureshop.gr/POOL/fourseasons/booking_manager/images/articles/ART777114568594772185122512380_small.jpg')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Swimming courses </h3>
+              <p>Based on the most famouse international program.</p>
+            </div>
+          </div>
+        </div> -->
+        <!-- the left and right buttons -->
+        <!-- <a class="carousel-control-prev" href="#homePageCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#homePageCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a> -->
+      <!-- </div>
+    </header>
+    </div> -->
+<!-- /carousel -->
+
+
+
+
+
+<!-- Page Content -->
+    <!-- <br>
+    <br>
+ -->
+    <div class="container container-top-125">
+      <div class="row">
+        <!-- <div class="col-lg-4 mb-4" ng-repeat="event in model.eventsList | filter:{approved: true}"> -->
+        <div class="col-md-6 mb-0" ng-repeat="maker in model.makersList" >
+          <div class="card h-100 text-center">
+            <a href="#!/allEvents/{{maker._id}}">
+              <img class="card-img-top" ng-src="{{maker.profileImage}}" alt="{{maker.name.firstName}}"> 
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <br><br>
+      
+
+
+      <!-- Special event -->
+      <!-- <div class="row" ng-show="model.specialEvent">
+        <div class="col-lg-6">
+          <img class="img-fluid rounded mb-4" ng-src="{{model.specialEvent.images.img750x450}}" alt="">
+        </div>
+        <div class="col-lg-6">
+          <h2>Special event...</h2>
+          <h2 ng-cloak>{{model.specialEvent.name}}</h2>
+          <p ng-cloak>{{model.specialEvent.details}}</p>
+          <a href="#!/allEvents/{{model.specialEvent._id}}">More details...</a>
+        </div>
+      </div> -->
+      <!-- /Special event -->
+    
+    <!-- <br><br><br> -->
+
+      <!-- Available events -->
+<!--       <h2>Available events</h2>
+      <div class="row">
+        <div class="col-lg-4 mb-4" ng-repeat="event in model.eventsList | filter:{approved: true}">
+          <div class="card h-100 text-center">
+            <img class="card-img-top" ng-src="{{event.images.img750x450}}" alt="{{event.name}}">
+            <div class="card-body">
+              <h4 class="card-title" ng-cloak>{{event.name}}</h4>
+              <h6 class="card-subtitle mb-2 text-muted" ng-cloak>{{event.category}}</h6>
+              <p class="card-text" ng-cloak>from: {{event.startingDate | date}}</p>
+              <p class="card-text" ng-cloak>to: {{event.expiryDate | date}}</p>
+            </div>
+            <div class="card-footer">
+              <a href="#!/allEvents/{{event._id}}">More details...</a>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- /Available Events -->
+
+      <br>
+      <br>
+      
+      <!-- <blockquote><h4>Random Feedbacks</h4></blockquote>
+      <div class="feedbackContainer">
+        <div class="feedbackContent">
+          <div ng-repeat="feedback in model.feedbacks" ng-show="feedback.approved">
+            <h3 style="color: #090; text-align: left; clear: both;"><span>&#8220;</span>{{feedback.feedback}}<span>&#8221;</span></h3>
+            <div class="pull-right">
+              <h5 style="color: darkviolet; text-align: center;">{{feedback.eventName}}</h5>
+              <p style="margin-top: -10px; text-align: center;">{{feedback.userName}}</p>
+              <p style="margin-top: -20px; text-align: center;">on: {{feedback.date | date}}:</p>
+            </div>
+            <br>
+            <br>
+            <br>
+          </div>
+        </div>
+      </div>
+ -->
+
+      <!-- Partners -->
+      <h2>Our Partners</h2>
+      <div class="row">
+        <div class="col-lg-2 col-sm-4 mb-4">
+          <img class="img-fluid" src="https://placehold.it/500x300" alt="">
+        </div>
+        <div class="col-lg-2 col-sm-4 mb-4">
+          <img class="img-fluid" src="https://placehold.it/500x300" alt="">
+        </div>
+        <div class="col-lg-2 col-sm-4 mb-4">
+          <img class="img-fluid" src="https://placehold.it/500x300" alt="">
+        </div>
+        <div class="col-lg-2 col-sm-4 mb-4">
+          <img class="img-fluid" src="https://placehold.it/500x300" alt="">
+        </div>
+        <div class="col-lg-2 col-sm-4 mb-4">
+          <img class="img-fluid" src="https://placehold.it/500x300" alt="">
+        </div>
+        <div class="col-lg-2 col-sm-4 mb-4">
+          <img class="img-fluid" src="https://placehold.it/500x300" alt="">
+        </div>
+      </div>
+      <!-- / Partners -->
+
+    </div>
+    <!-- /.container -->
+
+
+

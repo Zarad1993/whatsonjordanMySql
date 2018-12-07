@@ -1,0 +1,217 @@
+<!-- Navigation -->
+    <nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
+      <div class="container-fluid">
+        <div class="navbar-header ml-auto">
+            <a class="navbar-brand" href="index.html">
+              <img class="menu-logo" src="./img/logo/wojo2.jpg">
+            </a>
+            <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#!/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/allEvents">Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/login" ng-show="!model.loggedMaker">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedMaker">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedMaker">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- <br><br> -->
+<!-- /Navigation -->
+
+
+
+<div class="container container-top-125">
+	<h1>Edit Event</h1>
+			<hr>
+
+	<div class="row">
+		<!-- Left side -->
+		<div class="col-3"  style="overflow-y: scroll; height:400px;" >
+			<h3>Events List</h3>
+			<hr>
+			<div class="row" ng-repeat="event in model.eventsList">
+				<div class="col-12" ng-click="model.selectEvent(event._id)"> 
+					<h5>{{event.name}}
+						<span><i class="fa fa-pencil-square-o pull-right" aria-hidden="true" ></i></span>
+					</h5>
+				</div>
+				<!-- <div class="col-2" ng-click="model.selectEvent(event._id)"> <h5><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></h5> </div>	 -->
+			</div>
+
+		</div>
+		<!-- colomn space -->
+		<div class="col-1"></div>
+		
+		<!-- Right side -->
+		<div class="col-8" ng-show="model.updateEventMain">
+			<h4>Main event details:</h4>
+			<div class="form-group">
+				<form>
+					<fieldset>
+				    
+				    <p><i class="fa fa-angle-double-left" aria-hidden="true" style="font-size: 150%;"></i> Select event from the list on left to edit:</p>
+
+					<div class="form-group">
+						<label for="eventName">Event Name:</label>
+						<input class="form-control" type="text" name="eventName" id="eventName" ng-model="model.selectedEvent.name">
+				    </div>
+
+
+				    <div class="form-group">
+						<label for="category">Category:</label>
+						<input class="form-control" type="text" name="category" id="category" ng-model="model.selectedEvent.category">
+					</div>
+
+
+					<div class="form-group">
+						<label for="subcategory">Sub-Category:</label>
+						<input class="form-control" type="text" name="subcategory" id="subcategory" ng-model="model.selectedEvent.subcategory">
+					</div>
+
+					<div class="form-group">
+						<label for="ageGroupTitle">Age Group Title:</label>
+						<input class="form-control" type="text" name="ageGroupTitle" id="ageGroupTitle" ng-model="model.selectedEvent.ageGroup.ageGroupTitle">
+					</div>
+
+					<div class="form-group">
+						<label for="ageGroupFrom">Age from (inclusive):</label>
+						<input class="form-control" type="number" name="ageGroupFrom" id="ageGroupFrom" ng-model="model.selectedEvent.ageGroup.ageFrom">
+					</div>
+
+					<div class="form-group">
+						<label for="ageGroupTo">Age to (inclusive):</label>
+						<input class="form-control" type="number" name="ageGroupTo" id="ageGroupTo" ng-model="model.selectedEvent.ageGroup.ageTo">
+					</div>
+
+					<div class="form-group">
+						<label for="details">Details:</label>
+						<textarea class="form-control" rows="4" cols="50" name="details" id="details" ng-model="model.selectedEvent.details"></textarea>
+					</div>
+
+
+					<div class="form-group">
+						<label for="category">Start date:</label>
+						<input class="form-control" type="date" name="category" id="category" ng-model="model.selectedEvent.startingDate">
+					</div>
+
+					<div class="form-group">
+						<label for="category">End date:</label>
+						<input class="form-control" type="date" name="category" id="category" ng-model="model.selectedEvent.expiryDate">
+					</div>
+
+					<div class="form-group">
+						<label for="sessionStartTime">Session's starting time:</label>
+						<input type="time" class="form-control" rows="4" cols="50" name="sessionStartTime" id="sessionStartTime" ng-model="model.selectedEvent.sessionStartTime">
+					</div>
+
+					<div class="form-group">
+						<label for="sessionEndTime">Session's end time:</label>
+						<input type="time" class="form-control" rows="4" cols="50" name="sessionEndTime" id="sessionEndTime" ng-model="model.selectedEvent.sessionEndTime">
+					</div>
+
+					<div>
+						<div class="weekDays-selector">
+						  <input type="checkbox" id="weekday-sat" class="weekday" ng-model="model.daysOfWeek.Sat"/>
+						  <label for="weekday-sat">Sat</label>
+						  <input type="checkbox" id="weekday-sun" class="weekday" ng-model="model.daysOfWeek.Sun"/>
+						  <label for="weekday-sun">Sun</label>
+						  <input type="checkbox" id="weekday-mon" class="weekday" ng-model="model.daysOfWeek.Mon"/>
+						  <label for="weekday-mon">Mon</label>
+						  <input type="checkbox" id="weekday-tue" class="weekday" ng-model="model.daysOfWeek.Tue"/>
+						  <label for="weekday-tue">Tue</label>
+						  <input type="checkbox" id="weekday-wed" class="weekday" ng-model="model.daysOfWeek.Wed"/>
+						  <label for="weekday-wed">Wed</label>
+						  <input type="checkbox" id="weekday-thu" class="weekday" ng-model="model.daysOfWeek.Thu"/>
+						  <label for="weekday-thu">Thu</label>
+						  <input type="checkbox" id="weekday-fri" class="weekday" ng-model="model.daysOfWeek.Fri"/>
+						  <label for="weekday-fri">Fri</label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="price">Price:</label>
+						<input type="text" class="form-control" name="price" id="price" ng-model="model.selectedEvent.price">
+					</div>
+
+					<div>
+						<label for="address">Address:</label>
+						<input class="form-control" type="text" name="address" id="address" ng-model="model.selectedEvent.address">
+					</div>
+
+					<div class="form-group">
+						<label for="img750x450">Image source 750x450:</label>
+						<input type="text" class="form-control" rows="4" cols="50" name="img750x450" id="img750x450" ng-model="model.selectedEvent.images.img750x450">
+					</div>
+
+					<div class="form-group">
+						<label for="img1200x300">Image source 1200x300:</label>
+						<input type="text" class="form-control" rows="4" cols="50" name="img1200x300" id="img1200x300" ng-model="model.selectedEvent.images.img1200x300">
+					</div>
+
+					<div class="form-group">
+						<label for="termsAndConditions">Terms & conditions: <span style="font-size: 70%; color: grey">if it is not required; please leave it empty</span></label>
+						<textarea class="form-control" rows="5" cols="50" name="termsAndConditions" id="termsAndConditions" ng-model="model.selectedEvent.termsAndConditions"></textarea>
+					</div>
+
+					<button type="button" name="save" class="btn btn-primary" ng-click="model.updateMainEventDetails(model.selectedEvent, model.daysOfWeek)">Update Details</button>
+					<button type="button" name="cancel1" class="btn btn-danger" ng-click="model.cancelUpdate()">Cancel</button>
+					</fieldset>
+
+				</form>
+			</div>
+		</div>
+
+		<!-- Day By Day Details -->
+		<div class="col-8" ng-show="model.updateEventProgramDetails">
+			<div class="col-12">
+				<h1>Program Details Day By Day</h1>
+				<div class="form-group">
+					<form>
+						<fieldset>
+							<legend>Program Details:</legend>
+							<div>
+								<div style="margin-left: 50px;" class="form-group" ng-repeat="day in model.selectedEvent.eventDays">
+									<label style="background-color: lightgreen;"><b>Day: </b>{{day}}</label>
+									<input type="text" class="form-control" placeholder="program Title" ng-model="model.selectedEvent.programDailyDetails[day].title" style="margin-bottom: 3px;">
+									<textarea class="form-control" style="border-left: 5px; border-style: solid; border-left-color: red; margin-bottom: 3px;" rows="4" cols="50" ng-model="model.selectedEvent.programDailyDetails[day].details">Program details</textarea>
+									<input type="text" class="form-control" placeholder="link for video" ng-model="model.selectedEvent.programDailyDetails[day].videoLink">
+									<br>
+								</div>
+							</div>
+							<button type="button" name="updateDetails" class="btn btn-primary" ng-click="model.updateEvent(model.selectedEvent)">Update</button>
+
+							<button type="button" name="cancel2" class="btn btn-danger" ng-click="model.cancelUpdate()">Cancel</button>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+	
+	<br>
+	<hr>
+	
+</div>

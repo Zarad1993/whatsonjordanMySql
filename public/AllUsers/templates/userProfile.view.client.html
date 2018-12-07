@@ -1,0 +1,140 @@
+<!-- Navigation -->
+    <nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
+      <div class="container-fluid">
+        <div class="navbar-header ml-auto">
+            <a class="navbar-brand" href="index.html">
+              <img class="menu-logo" src="./img/logo/wojo2.jpg">
+            </a>
+            <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#!/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/allEvents">Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/login" ng-show="!model.loggedUser">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedUser">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedUser">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/contact">Contact</a>
+            </li>            
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- <br><br> -->
+<!-- /Navigation -->
+
+<!-- Main container -->
+<div class="container-top-125" style="margin-left: 50px; margin-right: 50px;">
+	<div class="row" style="background-color: lightgrey;">
+		<!-- Header including pucture and  -->
+		<div class="col-md-3" style="background-color: lightgreen; padding: 30px;">
+			<img ng-src="{{model.userProfile.profileImage.location}}" class="mx-auto d-block profile-img">		
+			<br>
+			<h1 class="poiret-font" style="text-align: center;"><strong>{{model.userProfile.name.firstName}} {{model.userProfile.name.middleName}} {{model.userProfile.name.lastName}}</strong></h1>
+			<div style="text-align: center;">
+				<a class="btn btn-warning" href="#!/updateUserProfile" > <i class="fas fa-pencil-alt"></i>Update profile</a>
+			</div>
+			<br>
+			<h4><i class="fas fa-envelope"></i><span> {{model.userProfile.email}}</span></h4>
+			<h4><i class="fas fa-birthday-cake"></i> {{model.userProfile.DOB |date}}</h4>
+			<h4><i class="fas fa-transgender"></i> {{model.userProfile.gender}}</h4>
+			<h4> <i class="fas fa-map-marked-alt"></i> {{model.userProfile.address}}</h4>
+			<h4><i class="fas fa-graduation-cap"></i> {{model.userProfile.school}}</h4>
+			<h4><i class="fas fa-user-graduate"></i> {{model.userProfile.grade}}</h4>
+			<h4><i class="fas fa-phone"></i> Contacts list:</h4>
+				<h5 style="text-indent: 30px;" ng-show="model.userProfile.contact.father.phone">{{model.userProfile.contact.father.name}}: {{model.userProfile.contact.father.phone}}</h5></li>
+				<h5 style="text-indent: 30px;" ng-show="model.userProfile.contact.mother.phone">{{model.userProfile.contact.mother.name}}: {{model.userProfile.contact.mother.phone}}</h5></li>
+				<h5 style="text-indent: 30px;" ng-show="model.userProfile.contact.emergency.phone">{{model.userProfile.contact.emergency.name}}: {{model.userProfile.contact.emergency.phone}}</h5></li>
+				<h5 style="text-indent: 30px;" ng-show="model.userProfile.contact.phone">{{model.userProfile.contact.phone}}</h5></li>
+			<h4 ng-show="model.userProfile.medical.problemDetails"><i class="fas fa-briefcase-medical"></i> {{model.userProfile.medical.problemDetails}}</h4>
+			<h4 ng-show="model.userProfile.notes"><i class="fas fa-sticky-note"></i> {{model.userProfile.notes}}</h4>
+			
+		</div>
+		<div class="col-md-9" style="background-color: #F0F5EF; padding: 30px;">
+			<h1 class="poiret-font" ><strong>Registered Events:</strong></h1>
+			<hr>
+			<!-- <div class="container"> -->
+				<h2 class="poiret-font">Upcomming Program:</h2>
+				<div class="row mb-1" ng-show="model.upcommingProgram.length > 0" ng-repeat="program in model.upcommingProgram">
+			        <div class="col-md-12">
+			          <div class="card flex-md-row mb-4 box-shadow h-md-250" style="background-color: #F0F5EF">
+			            <div class="card-body d-flex flex-column align-items-start">
+			              <h3 class="d-inline-block mb-2 text-warning">{{program.event}}:</h3>
+			              <h5 class="mb-0">{{program.programDetails.title}}</h5>
+			              <div class="mb-1 text-muted">{{program.date | date}}</div>
+			              <p class="card-text mb-auto">
+			              	{{program.programDetails.details}}
+			              </p>
+				        </div>
+			            
+			            <div class="video-container">
+			            	<iframe width="400px;" height="100%" ng-src="{{model.trustedUrl(program.programDetails.videoLink)}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+			            </div>
+			          </div>
+			        </div>
+				</div>
+				<div class="row">
+					<div class="card border-success col-xl-4 aws-margin10" ng-repeat='event in model.userProfile.registeredEventsList' style="max-width: 20rem;">
+					  <div class="card-header text-danger"><h3>{{event.name}}</h3></div>
+					  <div class="card-body">
+					    <p class="card-title"><b>Category: </b>{{event.category}}</p>
+					    <p class="card-title"><b>Starting date: </b>{{event.startingDate | date}}</p>
+					    <p class="card-title"><b>Ending date: </b>{{event.expiryDate | date}}</p>
+					    <p class="card-title"><b>Payments: </b>{{model.totalPayments(event._id, event.price).totals | currency:"JOD "}}</p>
+					    <p class="card-title"><b>Balance: </b>{{model.totalPayments(event._id, event.price).balance | currency:"JOD "}}</p>
+					    <p class="card-title"><b>Attended Days: </b>{{model.attendedDays(event._id).attended}}</p>
+					    <p class="card-title"><b>Missed Days: </b>{{model.attendedDays(event._id).missed}}</p>
+					  </div>
+					</div>
+				</div>
+				<!-- Feedback -->
+				<div>
+					<div class="row" style="margin-top: 50px;">
+						<div class="col-sm-12">
+							<h3 class="text-success">Give us a feedback:</h3>
+						</div>
+						<div class="col-sm-6" style="margin: 5px;">
+							<select ng-model="selectedEvent" class="custom-select" ng-options="event.name for event in model.registeredEventsList">
+								<option value="" disabled >Select event...</option>
+							</select>
+						</div>
+						<div class="col-sm-10" style="margin: 5px;">
+							<textarea name="feedback" class="form-control" ng-model="feedbackText"></textarea>
+						</div>
+						<div class="col-sm-4" style="margin: 5px;">
+							<a class="btn btn-success form-control" ng-click="model.submitFeedback(selectedEvent._id, selectedEvent.name, feedbackText)" style="background-color: lightgreen">Submit</a>
+						</div>
+					</div>
+					<div style="margin-top: 50px;">
+						<h3 class="text-success">Previous feedbacks:</h3>
+						<div ng-repeat="feed in model.userFeedbacks">
+							<h4><em>{{feed.eventName}}</em></h4>
+							<p class="pull-right" style="margin: 0px; color: green;">{{feed.date | date}}</p>
+							<br>
+							<h5>"{{feed.feedback}}"</h5>
+							<hr>
+						</div>
+					</div>
+					<!-- /Feedback -->
+				</div>
+			<!-- </div> -->
+		</div>
+	</div>		
+</div>		
+

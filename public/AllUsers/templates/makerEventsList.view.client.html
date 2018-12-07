@@ -1,0 +1,143 @@
+
+<!-- Navigation -->
+    <nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
+      <div class="container-fluid">
+        <div class="navbar-header ml-auto">
+            <a class="navbar-brand" href="index.html">
+              <img class="menu-logo" src="./img/logo/wojo2.jpg">
+            </a>
+            <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#!/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/allEvents">Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/login" ng-show="!model.loggedMaker">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedMaker">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedMaker">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/contact">Contact</a>
+            </li>
+            
+           
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- <br><br> -->
+<!-- /Navigation -->
+
+
+
+
+<div class="container container-top-125">
+<!-- 	<ng-include 
+		src="'../../views/htmlComponents/eventsListComponent/makerEventsList-component.view.client.html'">
+	</ng-include> -->
+
+	<h2 ng-cloak>Event Maker Name: {{model.loggedMaker.name.firstName}} {{model.loggedMaker.name.middleName}} {{model.loggedMaker.name.lastName}}</h2>
+	<h4>Events List: </h4>
+
+	<table id="t01">
+	  <tr>
+	    <th width="15%" class="text-center">Name</th>
+	    <th width="10%" class="text-center">Category</th> 
+	    <th width="15%" class="text-center">Sub-Category</th>
+	    <th width="15%" class="text-center">Created</th>
+	    <th width="10%" class="text-center">Members</th>
+	    <th width="10%" class="text-center">Edit</th>
+	    <!-- <th>Remove</th> -->
+	    <th width="10%" class="text-center">Re-create</th>
+	    <th width="15%" class="text-center">Details</th>
+
+
+	  </tr>
+	  <tr ng-repeat="event in model.eventsList">
+	    <td class="text-center">{{event.name}}</td>
+	    <td class="text-center">{{event.category}}</td>
+	    <td class="text-center">{{event.subcategory}}</td>
+	    <td class="text-center">{{event.created | date}}</td>
+	    <td class="text-center">{{event.registeredMembers.length}}</td>
+	    <td class="text-center"><a href="#!/makerProfile/editEvent"><span class="fa fa-pencil-square-o" aria-hidden="true"></span></a></td>
+	    <!-- <td><a href="" ><span class="fa fa-trash-o" aria-hidden="true"></span></a></td> -->
+	    <td><a href="#!/makerProfile/reNewEvent/{{event._id}}">ReNewEvent</a></td>
+	    <!-- <td><button class="btn btn-warning" data-toggle="modal" data-target="#recreateEventModal-{{$index}}">Re-create</button>
+		    <div class="modal fade" id="recreateEventModal-{{$index}}" role="dialog">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Recreate Event...</h5>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<div class="modal-body">
+							<div>
+								<form>
+									<div class="row">
+										<label class="col-sm-3">Date:</label>
+										<label class="col-sm-9">{{event.startingDate | date}}</label>
+									</div>
+									<br>
+									<div class="row">
+										<label class="col-sm-3">Event name:</label>
+										<input class="col-sm-9 form-control" type="text" name="eventName" ng-model="event.name">
+									</div>
+									<br>
+									<br>
+									<br>
+									<div class="row">
+										<label class="col-sm-5"></label>
+										<input type="submit" class="col-sm-7 btn btn-success" name="recreateEvent" ng-click="model.reCreateEvent(event)" data-dismiss="modal">
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</td> -->
+	    <td class="text-center"><a href="#!/makerProfile/makerEventDetails/{{event._id}}" class=" btn btn-default pull-right">More details...</a></td>
+	  </tr>
+	</table>
+
+		
+
+	<!-- <div class="row">
+		<div class="col-3"> <h5>Name</h5> </div>
+		<div class="col-2"> <h5>Category</h5> </div>
+		<div class="col-2"> <h5>Sub-Category</h5> </div>
+		<div class="col-2"> <h5>Created</h5> </div>
+		<div class="col-1"> <h5>Edit</h5> </div>
+		<div class="col-1"> <h5>Remove</h5> </div>
+	</div>
+	<hr>	
+	<div class="row" ng-repeat="event in model.eventsList">
+		<div class="col-3"> <h5 ng-cloak>{{event.name}}</h5> </div>
+		<div class="col-2"> <h5 ng-cloak>{{event.category}}</h5> </div>
+		<div class="col-2"> <h5 ng-cloak>{{event.subcategory}}</h5> </div>
+		<div class="col-2"> <h5 ng-cloak>{{event.created | date}}</h5> </div>
+		<div class="col-1"> <h5><a href="#!/makerProfile/editEvent"><span class="fa fa-pencil-square-o" aria-hidden="true"></span></a></h5></div>
+		<div class="col-1" ng-click="model.removeEvent(event.makerId, event._id)"> <h5><a href="" ><span class="fa fa-trash-o" aria-hidden="true"></span></a></h5> </div>
+
+	</div> -->
+
+</div>

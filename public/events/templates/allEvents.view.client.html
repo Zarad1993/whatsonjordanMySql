@@ -1,0 +1,104 @@
+<!-- Navigation -->
+    <nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
+      <div class="container-fluid">
+        <div class="navbar-header ml-auto">
+            <a class="navbar-brand" href="index.html">
+              <img class="menu-logo" src="./img/logo/wojo2.jpg">
+            </a>
+            <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#!/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" style="color: #DB685F;" href="#!/allEvents">Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/login" ng-show="!model.loggedUser">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedUser">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/profile" ng-show="model.loggedUser">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- <br><br><br><br> -->
+<!-- /Navigation -->
+
+
+
+
+
+
+<!-- ng-show="model.dateCompare(event.startingDate)" -->
+
+
+<div class="container container-top-125">
+    
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="poiret-font" style="padding-top: 1px;"><strong>All available events</strong></h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <input type="text" class="form-control" name="searchByName" ng-model="search.name" placeholder="Filter by Event name">
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" name="searchBySubcategory" ng-model="search.subcategory" placeholder="Filter by Event Subcategory">
+    </div>
+    <div class="col-md-3">
+      <input type="number" class="form-control" name="filterByAcceptedAge" ng-model="filterByAcceptedAge" placeholder="Filter by age">
+      
+    </div>
+  </div>
+  <hr class="my-3">
+  <div class="container">
+        <div>
+          <div class="alert alert-danger" role="alert" ng-show="filteredEvents.length==0">
+            There are no events based on your filter!
+          </div>
+          <!-- {{filteredEvents.length}} -->
+        </div>
+
+        <div class="waitingCircle" ng-if="model.loadingData">
+          <!-- <img src="../../img/lg.dual-gear-loading-icon.gif"> -->
+        </div>
+    <div class="row">
+        <div class="col-lg-4 mb-4" ng-repeat="event in filteredEvents = (model.eventsList | filter:{approved: true} | filter:search | ageFilter:filterByAcceptedAge)" style="max-width: 20rem;">
+          <div class="card h-100 text-center">
+            <img class="card-img-top" ng-src="{{event.images.img750x450}}" alt="{{event.name}}">
+            <div class="card-body">
+              <h4 class="card-title" ng-cloak>{{event.name}}</h4>
+              <h4 class="card-subtitle mb-2 text-muted" ng-cloak>{{event.category}}</h4>
+              <p class="card-text" ng-cloak>From: {{event.startingDate | date}}</p>
+              <p class="card-text" ng-cloak>To: {{event.expiryDate | date}}</p>
+              <p class="card-text" ng-cloak>Address: {{event.address}}</p>
+            </div>
+            <div class="card-footer">
+              <a href="#!/eventDetails/{{event._id}}">More details...</a>
+            </div>
+          </div>
+        </div>
+          
+		</div>
+	</div>
+
+
+  <!-- Map div -->
+  <div class="map" id="mapContainer"></div>
+</div>
