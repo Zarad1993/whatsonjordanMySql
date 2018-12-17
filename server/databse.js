@@ -1,20 +1,42 @@
-var mongoose = require('mongoose');
+// var mongoose = require('mongoose');
+var Sequelize = require('sequelize');
 
-var connectionString = 'mongodb://localhost/jordaneventsemifinal'; // for local
+var username = process.env.MYSQL_USERNAME;
+var password = process.env.MYSQL_PASSWORD;
 
-// check if running remotely
-if(process.env.GOOGLE_CALLBACK_URL) { 
-        var username = process.env.MLAB_USERNAME;
-        var password = process.env.MLAB_PASSWORD;
-        connectionString = 'mongodb://' + username + ':' + password;
-        connectionString += '@ds147920.mlab.com:47920/heroku_sqjcbg63';
-}
+var sequelize = new Sequelize('whatsonjordan', username, password, {
+	host: 'localhost',
+	dialect: 'mysql',
+	operatorsAliases: false,
+	pool:{
+		max:10,
+		min: 0,
+		acquire: 30000,
+		idle: 10000
+	}
+});
 
-// if(process.env.MONGODB_URI) { 
-//         var connectionString = process.env.MONGODB_URI;
-// }
+sequelize
+	.authenticate()
+	.then(function(){
+		console.log('Connected successfully');
 
-mongoose.connect(connectionString);
+	})
+	.catch(function(err){
+		console.error('Unable to connect to DB', err);
+	});
 
-//mongodb://<dbuser>:<dbpassword>@ds147920.mlab.com:47920/heroku_sqjcbg63
-// mongodb://heroku_sqjcbg63:n4hgr936ocahk45fmj6qfvl4co@ds147920.mlab.com:47920/heroku_sqjcbg63
+// sequelize
+// 	.sync()
+// 	.then(function(){
+// 		console.log('whatsonjordan db and user table created successfully');
+// 	});
+
+var db = {};
+ 
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+// db.user = require('./models/user.model.js')(sequelize, Sequelize);
+// console.log(db); 
+ 
+module.exports = db;

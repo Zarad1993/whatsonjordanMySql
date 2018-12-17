@@ -1,7 +1,13 @@
-var mongoose = require('mongoose');
-var usersSchema = require('./users.schema.server.js');
 
-var usersDB = mongoose.model('usersDB', usersSchema);
+// var mongoose = require('mongoose');
+// var usersSchema = require('./users.schema.server.js');
+
+// var usersDB = mongoose.model('usersDB', usersSchema);
+var db = require('../databse');
+
+// var usersDB = db.user;
+
+var usersDB = require('../models/user.model.js')(db.sequelize, db.Sequelize);
 
 module.exports = usersDB;
 
@@ -274,7 +280,15 @@ function findUserByGoogleId(googleId){
 }
 
 function addNewUser(user){
-	return usersDB.create(user);
+	user.gender = 'male';
+	user.DOB = Date.now();
+	user.grade = 9;
+	
+	return usersDB
+			.create(
+					user, 
+					{fields: ['firstName', 'middleName', 'lastName', 'email', 'password']}
+			);
 }
 
 function loginUser(username, password){
@@ -303,7 +317,9 @@ function findUserById(userId){
 }
 
 function findUserByEmail(userEmail){
-	return usersDB.findOne({email: userEmail});
+	console.log('checking the email: ', userEmail);
+	console.log(usersDB);
+	return usersDB.findOne({where:{email: userEmail}});
 }
 
 function addEventId(userId, eventId){

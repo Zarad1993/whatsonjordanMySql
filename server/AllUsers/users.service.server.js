@@ -421,6 +421,7 @@ function findUserByEmail(req, res){
 		.then(
 			// if seccess
 			function(result){
+				console.log('the result from check mail is; ',result);
 				if(result){
 					res.send(result);
 					return;
@@ -428,12 +429,16 @@ function findUserByEmail(req, res){
 					res.send('error');
 					return;
 				}
-			},
-			function(err){
-				res.sendStatus(404).send(err);
-				return;
-			}
-		);
+			}//,
+			// function(err){
+			// 	res.sendStatus(404).send(err);
+			// 	return;
+			// }
+		)
+		.catch(function(err){
+			console.log('problem communicating with db');
+			res.status(500).json(err);
+		});
 }
 
 function findUserById(req, res){
@@ -625,10 +630,15 @@ function getAllMakers(req, res){
 
 function addNewUser(req, res){
 	var newUser = req.body;
+	// newUser.createdAt = Date.now();
+	// newUser.updatedAt = Date.now();
+	// newUser.user_id = 1;
 	newUser.password = bcrypt.hashSync(newUser.password);
+	console.log('the length of password is: ', newUser.password.length);
 	usersDB
 		.addNewUser(newUser)
 		.then(function (addedUser){
+			console.log(addedUser.dataValues);
 			req.login(addedUser, function(err){
 				if(err){
 					return err;

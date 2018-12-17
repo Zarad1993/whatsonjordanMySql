@@ -1,6 +1,9 @@
-var mongoose = require('mongoose');
+// var mongoose = require('mongoose');
+var Sequelize = require('sequelize');
 
 // var bcrypt   = require('bcrypt-nodejs');
+
+
 
 var usersSchema = mongoose.Schema({
 	userType: {
