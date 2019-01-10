@@ -30,6 +30,7 @@
     "passport-local": "^1.0.0",
     "sequelize": "^4.41.2",
     "sync": "^0.2.5",
-    "underscore": "^1.9.1"
+    "underscore": "^1.9.1",
+    "volleyball": "^1.5.1"
   }
 }

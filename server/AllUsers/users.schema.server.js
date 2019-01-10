@@ -1,5 +1,5 @@
-// var mongoose = require('mongoose');
-var Sequelize = require('sequelize');
+var mongoose = require('mongoose');
+// var Sequelize = require('sequelize');
 
 // var bcrypt   = require('bcrypt-nodejs');
 

@@ -7,7 +7,7 @@ var db = require('../databse');
 
 // var usersDB = db.user;
 
-var usersDB = require('../models/user.model.js')(db.sequelize, db.Sequelize);
+var usersDB = require('../models/user.model.js');
 
 module.exports = usersDB;
 
@@ -59,7 +59,7 @@ function updateFeedbackByAdmin(feedback){
 
 function getAllFeedbacks(){
 	return usersDB
-				.find({userType: "user"})
+				.find({userTypeId: 1})
 				.then(function(users){
 					return users;
 				});
@@ -280,18 +280,18 @@ function findUserByGoogleId(googleId){
 }
 
 function addNewUser(user){
-	user.gender = 'male';
-	user.DOB = Date.now();
-	user.grade = 9;
-	
+	// user.gender = 'male';
+	// user.DOB = Date.now();
+	// user.grade = 9;
+
 	return usersDB
-			.create(
-					user, 
-					{fields: ['firstName', 'middleName', 'lastName', 'email', 'password']}
+			.create(user
+					// ,{fields: ['firstName', 'middleName', 'lastName', 'email', 'password', 'DOB']}
 			);
 }
 
 function loginUser(username, password){
+	console.log('somebody call me', username);
 	return usersDB.findOne({email: username, password: password});
 }
 
@@ -305,20 +305,24 @@ function getAllUsers(){
 
 function getAllMakers(){
 	return usersDB
-				.find({userType: 'maker'});
+				.find({userTypeId: 2});
 }
 
 function findUserById(userId){
+	console.log('the userId from the find userById is: ', userId)
 	return usersDB
 				.findById(userId)
-				.populate('events')
-				.populate('registeredEventsList')
-				.exec();
+				.then(function(result){
+					console.log('the result from the find userById is: ', result.dataValues);
+					return result.dataValues;
+				})
+				// .populate('events')
+				// .populate('registeredEventsList')
+				// .exec();
 }
 
 function findUserByEmail(userEmail){
 	console.log('checking the email: ', userEmail);
-	console.log(usersDB);
 	return usersDB.findOne({where:{email: userEmail}});
 }
 

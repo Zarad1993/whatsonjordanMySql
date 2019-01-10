@@ -393,3 +393,14 @@ Docker:
 Sequelpro:
 - Install SequelPro on your computer [done]
 - Connect to the Database from sequelpro [done]
+
+
+
+
+
+
+working with sql:
+	[x] create and connect to the mysql database whatsonjordan.
+	[x] create users through the signup form.
+	[x] login registered user.
+	[x] create a userType table and connect it to users table

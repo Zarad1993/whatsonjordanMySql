@@ -485,12 +485,15 @@ function userStrategy(username, password, done) {
 	usersDB
 		.findUserByEmail(username)
 		.then(
-			function(user){
+			function(foundedUser){
+				user = foundedUser.dataValues;
+				console.log('the user from userStrategy: ', user);
 				if(!user){
 					return done(null, false);
 				} else if(user && !bcrypt.compareSync(password, user.password)){
 					return done(null, false);
 				} else if(user && bcrypt.compareSync(password, user.password)){
+					console.log('user founded');
 					return done(null, user);
 				} 
 			},
@@ -555,6 +558,7 @@ function logout(req, res){
 
 function loginUser(req, res){
 	var user = req.user;
+	console.log('the user details are: ', user);
 	res.json(user);
 }
 
@@ -604,6 +608,7 @@ function getAllUsers(req, res) {
 		.getAllUsers()
 		.then(function(result){
 			if(result){
+				console.log(result);
 				res.send(result);
 				return;
 			} else {
@@ -634,48 +639,48 @@ function addNewUser(req, res){
 	// newUser.updatedAt = Date.now();
 	// newUser.user_id = 1;
 	newUser.password = bcrypt.hashSync(newUser.password);
-	console.log('the length of password is: ', newUser.password.length);
 	usersDB
 		.addNewUser(newUser)
 		.then(function (addedUser){
-			console.log(addedUser.dataValues);
+			// console.log(addedUser.dataValues);
 			req.login(addedUser, function(err){
 				if(err){
 					return err;
 				}else{
-					var mailOptions = {
-						from: 'whatsonjordan@gmail.com',
-						to: addedUser.email,
-						subject: 'Registration complete',
-						html: 
-							'<div align="center" style="background-color: beige">'+
-									'<br><br>'+
-									'<img src="cid:whatsOnJordanLogo001" style="width: 300px; height: 200px;"/>'+
-									'<br>'+
-									'<h1 style="color: #DB685F; font-size: 4em;">Welcome '+ addedUser.name.firstName + '!'+'</h1>'+
-									'<h3 style="font-size: 2em;" >Your registration has been completed...</h3>'+
-									'<br>'+
-									'<p style="font-size: 1.5em;">You can now enjouy our services by logging in to <a href="www.whatsonjordan.com">our site</a> and register for deferents activities</p>'+
-									'<br>'+
-									'<h3 style="font-size: 2em;">What\'s on Jordan Team</h3>'+
-									'<br><br><br><br><br>'+
-							'</div>',
+					// commented for test
+					// var mailOptions = {
+					// 	from: 'whatsonjordan@gmail.com',
+					// 	to: addedUser.email,
+					// 	subject: 'Registration complete',
+					// 	html: 
+					// 		'<div align="center" style="background-color: beige">'+
+					// 				'<br><br>'+
+					// 				'<img src="cid:whatsOnJordanLogo001" style="width: 300px; height: 200px;"/>'+
+					// 				'<br>'+
+					// 				'<h1 style="color: #DB685F; font-size: 4em;">Welcome '+ addedUser.name.firstName + '!'+'</h1>'+
+					// 				'<h3 style="font-size: 2em;" >Your registration has been completed...</h3>'+
+					// 				'<br>'+
+					// 				'<p style="font-size: 1.5em;">You can now enjouy our services by logging in to <a href="www.whatsonjordan.com">our site</a> and register for deferents activities</p>'+
+					// 				'<br>'+
+					// 				'<h3 style="font-size: 2em;">What\'s on Jordan Team</h3>'+
+					// 				'<br><br><br><br><br>'+
+					// 		'</div>',
 							
-							attachments: [{
-					        	filename: 'wojo2.jpg',
-					        	path: __dirname+'/../../public/img/logo/wojo2.jpg',
-					        	cid: 'whatsOnJordanLogo001' 
-					    	}]
+					// 		attachments: [{
+					//         	filename: 'wojo2.jpg',
+					//         	path: __dirname+'/../../public/img/logo/wojo2.jpg',
+					//         	cid: 'whatsOnJordanLogo001' 
+					//     	}]
 						
-						};
+					// 	};
 
-					transporter.sendMail(mailOptions, function(error, info){
-						if (error) {
-							console.log(error);
-						} else {
-							console.log('Email sent: ' + info.response);
-						}
-					});
+					// transporter.sendMail(mailOptions, function(error, info){
+					// 	if (error) {
+					// 		console.log(error);
+					// 	} else {
+					// 		console.log('Email sent: ' + info.response);
+					// 	}
+					// });
 
 					res.json(addedUser);
 				}
@@ -686,6 +691,7 @@ function addNewUser(req, res){
 
 function checkUserLogin(req, res){
 	console.log('step 8');
+	console.log('the req.user from the checkUserLogin: ', req.user);
 	if(req.user){
 		var birthDay = new Date(req.user.DOB);
 		var today = new Date();
@@ -696,7 +702,7 @@ function checkUserLogin(req, res){
 }
 
 function isMaker(req, res){
-	res.send(req.isAuthenticated() && req.user.userType === 'maker' ? req.user : null);
+	res.send(req.isAuthenticated() && req.user.userTypeId === 2 ? req.user : null);
 }
 
 function isAdmin(req, res){
@@ -705,7 +711,7 @@ function isAdmin(req, res){
 }
 
 function checkAdmin(req, res, next){
-	if(req.isAuthenticated() && req.user.userType === 'admin'){
+	if (req.isAuthenticated() && req.user.userTypeId === 3){
 		next();
 	}
 	else{

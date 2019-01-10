@@ -50,22 +50,22 @@
 	        <a class="nav-link" href="#!/allEvents">Events</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="#!/loginUser" ng-show="model.loggedUser.userType !== 'user'">Login User</a>
+	        <a class="nav-link" href="#!/loginUser" ng-show="model.loggedUser.userTypeId !== 1">Login User</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="#!/loginMaker" ng-show="model.loggedMaker.userType !== 'maker'">Login Maker</a>
+	        <a class="nav-link" href="#!/loginMaker" ng-show="model.loggedMaker.userTypeId !== 2">Login Maker</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="#" ng-click="logoutUser()" ng-show="model.loggedUser.userType === 'user'">Logout User</a>
+	        <a class="nav-link" href="#" ng-click="logoutUser()" ng-show="model.loggedUser.userTypeId === 1">Logout User</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" ng-click="logoutMaker()" href="#" ng-show="model.loggedMaker.userType === 'maker'">Logout Maker</a>
+	        <a class="nav-link" ng-click="logoutMaker()" href="#" ng-show="model.loggedMaker.userTypeId === 2">Logout Maker</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="#!/userProfile" ng-show="model.loggedUser.userType === 'user'">User Profile</a>
+	        <a class="nav-link" href="#!/userProfile" ng-show="model.loggedUser.userTypeId === 1">User Profile</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="#!/makerProfile" ng-show="model.loggedMaker.userType === 'maker'">Maker Profile</a>
+	        <a class="nav-link" href="#!/makerProfile" ng-show="model.loggedMaker.userTypeId === 2">Maker Profile</a>
 	      </li>
 	      <li class="nav-item">
 	        <a class="nav-link" href="#!/contact">Contact</a>
@@ -82,7 +82,7 @@
 	</nav>
 	
 	<div>
-		maker:<h5> {{model.loggedMaker.userType === 'maker'}}</h5>
-		user: <h5>{{model.loggedUser.userType === 'user'}}</h5>
+		maker:<h5> {{model.loggedMaker.userTypeId === 2}}</h5>
+		user: <h5>{{model.loggedUser.userTypeId === 1}}</h5>
 	</div>
 </div>

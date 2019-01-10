@@ -1,4 +1,5 @@
 var express 	 = require('express');
+var volleyball = require('volleyball');
 var app 		 = express();
 var bodyParser 	 = require('body-parser');
 
@@ -13,6 +14,8 @@ require('dotenv').config();
 
 app.use(express.static(__dirname + '/public'));
 
+// to logg req and res
+app.use(volleyball);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({

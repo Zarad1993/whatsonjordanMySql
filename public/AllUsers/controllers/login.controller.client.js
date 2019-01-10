@@ -13,6 +13,7 @@
 			userService
 					.checkUserLogin()
 					.then(function(result){
+						console.log('from login controller', result);
 						if(result){
 							model.loggedUser = result;
 						}

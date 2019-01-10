@@ -39,8 +39,9 @@
 				model.error = null;
 				return userService
 					.createUser(user)
-					.then(function(result){
-						console.log(result);
+					.then(function(createdUser){
+						$location.url('/profile');
+						// console.log('the createdUser on controller for the created user: ', createdUser);
 					});
 					// .findUserByEmail(user.email)
 					// .then(function(result){

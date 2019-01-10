@@ -40,3 +40,8 @@ db.sequelize = sequelize;
 // console.log(db); 
  
 module.exports = db;
+
+db.User = require('./models/user.model');
+db.UserType = require('./models/userType.model');
+
+db.User.belongsTo(db.UserType);

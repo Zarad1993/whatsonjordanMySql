@@ -1,4 +1,4 @@
-(function() {
+(function () {
 	angular
 		.module('whatsOnJordan')
 		.config(configuration);
@@ -189,6 +189,7 @@
 	
 	// check the user if still logged in through the server cockies if the user logged in he is in the cockies based on that we can protect the url
 	function isUser(userService, $q, $location){
+		console.log('from isUser in config: ');
 		var deferred = $q.defer();
 		userService
 			.checkUserLogin()
@@ -197,6 +198,7 @@
 					deferred.reject();
 					$location.url('/login');
 				} else{
+					console.log('from isUser in config: ', user);
 					deferred.resolve(user);
 				}
 			});
@@ -238,15 +240,16 @@
 		userService
 			.checkUserLogin()
 			.then(function(user){
-				if(user.userType === 'user'){
+				console.log('somebody call me..........')
+				if(user.userTypeId === 1){
 					deferred.resolve(user);
 					$location.url('/userProfile');
 					return deferred.promise;
-				} else if(user.userType === 'maker'){
+				} else if(user.userTypeId === 2){
 					deferred.resolve(user);
 					$location.url('/makerProfile');
 					return deferred.promise;
-				}else if(user.userType === 'admin'){
+				}else if(user.userTypeId === 3){
 					deferred.resolve(user);
 					$location.url('/adminPage');
 					return deferred.promise;

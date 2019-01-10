@@ -132,7 +132,7 @@
 			var url = '/api/user/findUserByEmail/'+email;
 			return $http.get(url)
 				.then(function(response) {
-					var result = response.data;
+					var result = response.dataValues;
 					if(result.email){
 						return ('email already exist');
 					} else{
@@ -145,10 +145,11 @@
 			var url = '/api/user/login';
 			return $http.post(url, {username: username, password: password})
 				.then(function(response) {
-					if(response.data === null){
+					if (response === null){
 						return '0';
 					}
-						return response.data;
+					console.log('i found the user: ', response);
+					return response;
 				},
 				function(err){
 					return err;
@@ -161,6 +162,7 @@
 		function createUser(user){
 			return $http.post('/api/user/', user)
 				.then(function(response){
+					console.log('the response after create a user: ', response.data);
 					return(response.data);
 				});
 		}
@@ -173,6 +175,7 @@
 			return $http
 					.get(url)
 					.then(function(result){
+						console.log('the user from service client checkUserLogin', result);
 						return result.data;
 					});
 		}

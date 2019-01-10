@@ -37,7 +37,7 @@
 							model.eventsList = eventsParams.eventsList.filter(function(event){return (event.makerId._id == makerId);});
 						}
 						// if there is a logged user then filter the events based on the user age compare to the event accepted ages
-						if(model.loggedUser && model.loggedUser.userType=='user'){
+						if(model.loggedUser && model.loggedUser.userTypeId===1){
 							model.eventsList = model.eventsList.filter(function(event){return (event.ageGroup.ageFrom<=model.loggedUser.age && event.ageGroup.ageTo>=model.loggedUser.age);});
 						}
 						//  if there are events initialize them on the map

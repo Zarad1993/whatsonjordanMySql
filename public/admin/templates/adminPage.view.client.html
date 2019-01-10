@@ -75,7 +75,7 @@
 			<tr ng-repeat="user in model.users">
 				<td>{{user.name.firstName}} {{user.name.middleName}} {{user.name.lastName}}</td>
 				<td>{{user.email}}</td>
-				<td>{{user.userType}}</td>
+				<td>{{user.userTypeId}}</td>
 				<td>
 					<ul ng-repeat="event in user.events">
 						<li>{{event.name}}</li>

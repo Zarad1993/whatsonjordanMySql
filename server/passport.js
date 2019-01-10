@@ -19,12 +19,13 @@ module.exports = function(passport) {
 
     // used to deserialize the user
     function deserializeUser(user, done) {
-        console.log('deserializeUser');
+        console.log('deserializeUser', user);
         // console.log(user);
             usersDB
-                .findUserById(user._id)
+                .findUserById(user.id)
                 .then(
                     function(response){
+                        console.log('the response from the deserialize: ' ,response);
                         done(null, response);
                     },
                     function(err){
