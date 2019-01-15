@@ -4,14 +4,20 @@
 
 // var usersDB = mongoose.model('usersDB', usersSchema);
 var db = require('../databse');
+// var role = require('../models/userType.model');
+var usersDB = require('../models/user.model');
+var role = require('../models/userType.model');
+// db.User.belongsTo(db.UserType);
+db.sync();
 
-// var usersDB = db.user;
+console.log('the User in the database is:', usersDB);
 
-var usersDB = require('../models/user.model.js');
+
 
 module.exports = usersDB;
 
 usersDB.addNewUser = addNewUser;
+usersDB.setUserRole = setUserRole;
 usersDB.loginUser = loginUser;
 usersDB.getAllUsers = getAllUsers;
 usersDB.getAllMakers = getAllMakers;
@@ -283,11 +289,24 @@ function addNewUser(user){
 	// user.gender = 'male';
 	// user.DOB = Date.now();
 	// user.grade = 9;
-
 	return usersDB
 			.create(user
 					// ,{fields: ['firstName', 'middleName', 'lastName', 'email', 'password', 'DOB']}
-			);
+			).then(function(addedUser){
+				addedUser.setUser_type(1)
+				return addedUser.save();
+			})
+}
+
+// in case of changing the user role like from user to maker
+function setUserRole(user, roleId){
+	return usersDB
+		// Be careful about the user is the user object or the whole user 
+		.findById(user.id)
+		.then(function(foundUser){
+			foundUser.setUser_type(roleId);
+			return foundUser.save();
+		});
 }
 
 function loginUser(username, password){
@@ -297,10 +316,10 @@ function loginUser(username, password){
 
 function getAllUsers(){
 	return usersDB
-				.find()
-				.populate('events')
-				.populate('registeredEventsList')
-				.exec();
+				.findAll();
+				// .populate('events')
+				// .populate('registeredEventsList')
+				// .exec();
 }
 
 function getAllMakers(){

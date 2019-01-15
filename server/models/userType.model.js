@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-var db = require('../databse').sequelize;
+var db = require('../databse');
 var UserType = db.define('user_type', {
     userType : {
         type: Sequelize.STRING,

@@ -4,7 +4,7 @@ var Sequelize = require('sequelize');
 var username = process.env.MYSQL_USERNAME;
 var password = process.env.MYSQL_PASSWORD;
 
-var sequelize = new Sequelize('whatsonjordan', username, password, {
+var db = new Sequelize('whatsonjordan', username, password, {
 	host: 'localhost',
 	dialect: 'mysql',
 	operatorsAliases: false,
@@ -16,7 +16,7 @@ var sequelize = new Sequelize('whatsonjordan', username, password, {
 	}
 });
 
-sequelize
+db
 	.authenticate()
 	.then(function(){
 		console.log('Connected successfully');
@@ -32,16 +32,42 @@ sequelize
 // 		console.log('whatsonjordan db and user table created successfully');
 // 	});
 
-var db = {};
+// var db = {};
  
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+// db.Sequelize = Sequelize;
+// db.sequelize = sequelize;
 // db.user = require('./models/user.model.js')(sequelize, Sequelize);
 // console.log(db); 
  
 module.exports = db;
 
-db.User = require('./models/user.model');
-db.UserType = require('./models/userType.model');
+var User = require('./models/user.model');
+var Role = require('./models/userType.model');
 
-db.User.belongsTo(db.UserType);
+User.belongsTo(Role);
+db.sync();
+
+// Eager loading iclude all associated models
+// User
+// 	.findById(5,{include: [{all:true}]})
+// 	.then(function(user){
+// 		console.log(user.dataValues.user_type.dataValues);
+// 	});
+
+// User
+// 	.findById(5)
+// 	.then(function(foundUser){
+// 		// console.log(foundUser.dataValues);
+// 		foundUser.setUser_type(3);
+// 		foundUser.save();
+// 	})
+
+// User.findById(1).then(function(user) {
+// 	user.setUser_type(1)
+// 	user.save();
+// 	console.log(user);
+// });
+
+// Role.findById(1).then(function(roles){
+// 	console.log(roles);
+// });

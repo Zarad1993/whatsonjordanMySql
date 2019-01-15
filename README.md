@@ -404,3 +404,8 @@ working with sql:
 	[x] create users through the signup form.
 	[x] login registered user.
 	[x] create a userType table and connect it to users table
+	[ ] create events table
+	[ ] create event by maker
+	[ ] fetch events from the database
+	[ ] to add the ability to the admin to change the user_type (1 user, 2 maker, 3 admin)
+	

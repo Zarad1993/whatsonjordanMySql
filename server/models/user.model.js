@@ -1,6 +1,6 @@
 // module.exports = function(sequelize, Sequelize){
-	var Sequelize = require('Sequelize');
-	var db = require('../databse').sequelize;
+	var Sequelize = require('sequelize');
+	var db = require('../databse');
 	var User = db.define('users', {
 	  // user_id: {
    //      type: Sequelize.INTEGER,
@@ -30,18 +30,14 @@
 	  		type: Sequelize.STRING,
 	  		allowNull: false
 	  	},
-	  	// userType: {
-		// 	type: Sequelize.STRING, 
-		// 	defaultValue: 'user'
-		// },
-		// createdAt:{
-		// 	type: Sequelize.DATE,
-		// 	defaultValue: Sequelize.literal('NOW()')
-		// },
-		// updatedAt:{
-		// 	type: Sequelize.DATE,
-		// 	defaultValue: Sequelize.literal('NOW()')
-		// }
+		createdAt:{
+			type: Sequelize.DATE,
+			defaultValue: Sequelize.literal('NOW()')
+		},
+		updatedAt:{
+			type: Sequelize.DATE,
+			defaultValue: Sequelize.literal('NOW()')
+		}
 	});	
 	module.exports = User;
 // };

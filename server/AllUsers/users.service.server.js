@@ -642,11 +642,30 @@ function addNewUser(req, res){
 	usersDB
 		.addNewUser(newUser)
 		.then(function (addedUser){
-			// console.log(addedUser.dataValues);
+			console.log(addedUser);
 			req.login(addedUser, function(err){
 				if(err){
 					return err;
 				}else{
+					res.json(addedUser);
+				}
+			})
+			// usersDB
+			// 	.setUserRole(addedUser, 1)
+			// 	.then(function(updatedUser){
+			// 		req.login(updatedUser, function(err){
+			// 			if(err){
+			// 				return err;
+			// 			}else{
+			// 				res.json(updatedUser);
+			// 			}
+			// 		})
+			// 	})
+			
+			// req.login(addedUser, function(err){
+			// 	if(err){
+			// 		return err;
+			// 	}else{
 					// commented for test
 					// var mailOptions = {
 					// 	from: 'whatsonjordan@gmail.com',
@@ -682,9 +701,9 @@ function addNewUser(req, res){
 					// 	}
 					// });
 
-					res.json(addedUser);
-				}
-			});
+					// res.json(addedUser);
+				// }
+			// });
 		});
 }
 
