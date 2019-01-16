@@ -43,8 +43,10 @@ module.exports = db;
 
 var User = require('./models/user.model');
 var Role = require('./models/userType.model');
+var Contact = require('./models/contact.model');
 
 User.belongsTo(Role);
+User.hasOne(Contact);
 db.sync();
 
 // Eager loading iclude all associated models
