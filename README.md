@@ -403,8 +403,9 @@ working with sql:
 	[x] create and connect to the mysql database whatsonjordan.
 	[x] create users through the signup form.
 	[x] login registered user.
-	[x] create a userType table and connect it to users table
-	[x] create a contact table and connect it to the users table
+	[x] create the userType table and connect it to users table
+	[x] create the contact table and connect it to the users table
+	[x] create the address table and connect it to the users table
 	[ ] create events table
 	[ ] create event by maker
 	[ ] fetch events from the database
