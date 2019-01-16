@@ -46,12 +46,19 @@ var Role = require('./models/userType.model');
 var Contact = require('./models/contact.model');
 var Addrress = require('./models/address.model');
 var Nationality = require('./models/nationality.model');
+var Events = require('./models/event.model');
+var Category = require('./models/category.model');
+var AgeGroup = require('./models/ageGroup.model');
 
 
 User.belongsTo(Role);
 User.hasOne(Contact);
 User.hasOne(Addrress);
 User.hasOne(Nationality);
+User.hasOne(Events);
+Events.belongsTo(Category);
+Events.belongsTo(AgeGroup)
+
 db.sync();
 
 // Eager loading iclude all associated models

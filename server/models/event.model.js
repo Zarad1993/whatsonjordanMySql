@@ -4,7 +4,7 @@ var db = require('../databse');
 var Events = db.define('event', {
     name: {
         type: Sequelize.STRING,
-        allowNull = false
+        allowNull: false
     },
     details: {
         type: Sequelize.STRING
