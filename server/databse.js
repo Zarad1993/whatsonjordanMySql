@@ -45,10 +45,13 @@ var User = require('./models/user.model');
 var Role = require('./models/userType.model');
 var Contact = require('./models/contact.model');
 var Addrress = require('./models/address.model');
+var Nationality = require('./models/nationality.model');
+
 
 User.belongsTo(Role);
 User.hasOne(Contact);
 User.hasOne(Addrress);
+User.hasOne(Nationality);
 db.sync();
 
 // Eager loading iclude all associated models

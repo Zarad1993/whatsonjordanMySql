@@ -403,10 +403,73 @@ working with sql:
 	[x] create and connect to the mysql database whatsonjordan.
 	[x] create users through the signup form.
 	[x] login registered user.
-	[x] create the userType table and connect it to users table
-	[x] create the contact table and connect it to the users table
-	[x] create the address table and connect it to the users table
+	[x] create the userType table and connect it to users table (1:1)
+	[x] create the contact table and connect it to the users table (1:1)
+	[x] create the address table and connect it to the users table (1:1)
+	[x] create the nationality table and connect it to the users table (1:1)
 	[ ] create events table
 	[ ] create event by maker
 	[ ] fetch events from the database
 	[ ] to add the ability to the admin to change the user_type (1 user, 2 maker, 3 admin)
+
+
+remaining from user:
+	events: 
+	registeredEventsList: 
+	userEventParameters: [
+        {
+            _id: false,
+            eventId: String,
+            discountType: String,
+            discountTag: String,
+            percentage: Number,
+            eventDays: [String],
+            discountedEventPrice: Number,
+            normalEventPrice: Number,
+            freezeDays: [String],
+            payments: [
+            	{
+            		_id: false,
+            		date: Date,
+            		amount: Number
+            	}
+            ],
+            attendedDays: [
+            	{
+            		_id: false,
+            		date: String,
+            		attended: Boolean	
+            	}
+            ],
+            feedbacks: [
+            	{
+            		_id: false,
+            		date: Date,
+            		eventName: String,
+            		feedback: String,
+                    userId: String,
+                    approved: Boolean
+            	}
+            ]
+        }
+
+	],
+	google: {
+        id: String,
+        token: String
+    },
+    grade: String,
+    school: String,
+    medical: {
+    	medicalIssues: String,
+    	problemDetails: String 
+    },
+    payments: [],
+    attendedEvents: [],
+    userFeedback: [],
+    // totalOfPayments: [],
+    notes: String,
+    resetPasswordToken: String,
+ 	resetPasswordExpires: Date,
+    // additionalInfo: {}
+}, {collection: 'users'});
