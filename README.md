@@ -407,11 +407,12 @@ working with sql:
 	[x] create the contact table and connect it to the users table (1:1)
 	[x] create the address table and connect it to the users table (1:1)
 	[x] create the nationality table and connect it to the users table (1:1)
+	[x] create the school table and connect it to the users table (1:1)
+	[x] create the grade table and connect it to the users table (1:1)
 	[x] create the events table	
 	[x] create the ageGroup table and connect it to the events table (1:1)
 	[x] create the categories table and connect it to the events table (1:1)
-	
-	[ ] create events table
+
 	[ ] create event by maker
 	[ ] fetch events from the database
 	[ ] to add the ability to the admin to change the user_type (1 user, 2 maker, 3 admin)
@@ -462,8 +463,6 @@ remaining from user:
         id: String,
         token: String
     },
-    grade: String,
-    school: String,
     medical: {
     	medicalIssues: String,
     	problemDetails: String 

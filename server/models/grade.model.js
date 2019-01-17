@@ -1,9 +1,9 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
-var UserType = db.define('user_type', {
-    userType : {
-        type: Sequelize.STRING,
-        allowNull : false
+
+var Grade = db.define('grade', {
+    grade: {
+        type: Sequelize.STRING
     },
     createdAt: {
         type: Sequelize.DATE,
@@ -14,4 +14,5 @@ var UserType = db.define('user_type', {
         defaultValue: Sequelize.literal('NOW()')
     }
 });
-module.exports = UserType;
+
+module.exports = Grade;

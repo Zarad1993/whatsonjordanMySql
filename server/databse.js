@@ -49,23 +49,38 @@ var Nationality = require('./models/nationality.model');
 var Events = require('./models/event.model');
 var Category = require('./models/category.model');
 var AgeGroup = require('./models/ageGroup.model');
+var Grade = require('./models/grade.model');
+var School = require('./models/school.model');
 
 
 User.belongsTo(Role);
-User.hasOne(Contact);
-User.hasOne(Addrress);
-User.hasOne(Nationality);
-User.hasOne(Events);
+User.belongsTo(Contact);
+User.belongsTo(Addrress);
+User.belongsTo(Nationality);
+User.belongsTo(School);
+User.belongsTo(Grade);
+User.belongsTo(Events);
 Events.belongsTo(Category);
-Events.belongsTo(AgeGroup)
+Events.belongsTo(AgeGroup);
 
 db.sync();
+// db.sync().then(function(){
+// 	// Eager loading iclude all associated models
+// 	User
+// 		.findById(1, { include: [{ all: true }] })
+// 		.then(function (user) {
+// 			console.log('Eager loading..............................', user.dataValues.user_type.dataValues);
+// 		});
+// });
 
-// Eager loading iclude all associated models
+
+// console.log('Eager loading..............................');
+// // Eager loading iclude all associated models
+
 // User
 // 	.findById(5,{include: [{all:true}]})
 // 	.then(function(user){
-// 		console.log(user.dataValues.user_type.dataValues);
+// 		console.log(user.dataValues);
 // 	});
 
 // User
