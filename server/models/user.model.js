@@ -30,6 +30,12 @@ var User = db.define('users', {
 	gender: {
 		type: Sequelize.STRING
 	},
+	resetPasswordToken:{
+		type: Sequelize.STRING
+	},
+	resetPasswordExpires:{
+		type: Sequelize.DATE
+	},
 	createdAt:{
 		type: Sequelize.DATE,
 		defaultValue: Sequelize.literal('NOW()')

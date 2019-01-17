@@ -409,6 +409,7 @@ working with sql:
 	[x] create the nationality table and connect it to the users table (1:1)
 	[x] create the school table and connect it to the users table (1:1)
 	[x] create the grade table and connect it to the users table (1:1)
+	[x] add resetPasswordToken and resetPasswordExpires column to users table;
 	[x] create the events table	
 	[x] create the ageGroup table and connect it to the events table (1:1)
 	[x] create the categories table and connect it to the events table (1:1)
@@ -472,7 +473,5 @@ remaining from user:
     userFeedback: [],
     // totalOfPayments: [],
     notes: String,
-    resetPasswordToken: String,
- 	resetPasswordExpires: Date,
     // additionalInfo: {}
 }, {collection: 'users'});
