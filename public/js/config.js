@@ -64,11 +64,11 @@
 			})
 			
 			.when('/updateUserProfile', {
-				templateUrl:'AllUsers/templates/editUserProfile.view.client.html',
+				templateUrl:'AllUsers/templates/updateUserProfile.view.client.html',
 				controller: 'updateUserProfile',
 				controllerAs: 'model',
 				resolve:{
-					loggedUser: isUser
+						loggedUser: isUser
 				}
 			})
 
@@ -189,7 +189,6 @@
 	
 	// check the user if still logged in through the server cockies if the user logged in he is in the cockies based on that we can protect the url
 	function isUser(userService, $q, $location){
-		console.log('from isUser in config: ');
 		var deferred = $q.defer();
 		userService
 			.checkUserLogin()
@@ -256,6 +255,5 @@
 				}
 			});
 	}
-
 
 })();

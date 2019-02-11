@@ -85,49 +85,55 @@
 		  <div class="form-row">
 			    <div class="form-group col-md-4">
 			      <label for="firstName">First Name</label>
-			      <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="model.userProfile.name.firstName">
+			      <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="model.userProfile.member.firstName">
 			    </div>
 			    <div class="form-group col-md-4">
 			      <label for="middleName">Middle Name</label>
-			      <input type="text" class="form-control" id="middleName" placeholder="Middle Name" ng-model="model.userProfile.name.middleName">
+			      <input type="text" class="form-control" id="middleName" placeholder="Middle Name" ng-model="model.userProfile.member.middleName">
 			    </div>
 			    <div class="form-group col-md-4">
 			      <label for="lastName">Last Name</label>
-			      <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="model.userProfile.name.lastName">
+			      <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="model.userProfile.member.lastName">
 			    </div>
 		  </div>
 
 		  <div class="form-row">
 			    <div class="form-group col-md-4">
 			      <label for="gender">Gender</label>
-			      <select id="gender" class="form-control" ng-model="model.userProfile.gender">
+			      <select id="gender" class="form-control" ng-model="model.userProfile.member.gender">
 			        <option>Male</option>
 			        <option>Female</option>
-      			  </select>
+      			</select>
 			    </div>
 			    <div class="form-group col-md-4">
-			      <label for="DOB">Date of birth</label>
-			      <input type="date" class="form-control" id="DOB" placeholder="Date of birth" ng-model="model.userProfile.DOB">
+						<label for="DOB">Date of birth</label>
+			      <input type="date" class="form-control" id="DOB" placeholder="Date of birth" ng-model="model.userProfile.member.DOB">
 			    </div>
 			    <div class="form-group col-md-4">
-			      <label for="grade">Grade</label>
-			      <select id="grade" class="form-control" ng-model="model.userProfile.grade">
-			        <option>KG1</option>
-			        <option>KG2</option>
-			        <option>1</option>
-			        <option>2</option>
-			        <option>3</option>
-			        <option>4</option>
-			        <option>5</option>
-			        <option>6</option>
-			        <option>7</option>
-			        <option>8</option>
-			        <option>9</option>
-      			  </select>
+						<label for="grade">Grade (current grade: {{model.userProfile.member.grade.grade}})</label>
+						<!-- {{model.userProfile.member.gradeId.gradeId}} -->
+						<!-- {{grade.gradeId}} -->
+			      <select id="grade" class="form-control" ng-model="model.userProfile.member.gradeId" ng-options="grade.id as grade.grade for grade in model.allGrades">
+							<!-- <option>KG1</option>
+								<option>KG2</option>
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+								<option>5</option>
+								<option>6</option>
+								<option>7</option>
+								<option>8</option>
+								<option>9</option> -->
+						</select>
+						the grade id: {{model.userProfile.member.gradeId}}
 			    </div>
 			    <div class="form-group col-md-12">
 			      <label for="school">School</label>
-			      <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.userProfile.school">
+						<select id="school" class="form-control" ng-model="model.userProfile.member.schoolId" ng-options="school.id as school.name for school in model.allSchools">
+						</select>
+						{{model.userProfile.member.schoolId}}
+						<!-- <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.userProfile.member.school.name"> -->
 		    	</div>
 		  </div>
 
@@ -147,8 +153,13 @@
 
 		  <div class="form-row">
 			  <div class="form-group col-md-12">
-				<label for="address">Address</label>
-				<input type="text" class="form-control" id="address" placeholder="Address" ng-model="model.userProfile.address">
+					<label for="address">Address</label>
+					<br>
+					Country: <input type="text" class="form-control" id="addressCountry" placeholder="Country" ng-model="model.userProfile.member.address.country">
+					Province: <input type="text" class="form-control" id="addressProvince" placeholder="Province" ng-model="model.userProfile.member.address.province">
+					City: <input type="text" class="form-control" id="addressCity" placeholder="City" ng-model="model.userProfile.member.address.city">
+					Street: <input type="text" class="form-control" id="addressStreet" placeholder="Street" ng-model="model.userProfile.member.address.street">
+					Building number: <input type="text" class="form-control" id="addressBuilding" placeholder="Building" ng-model="model.userProfile.member.address.building">
 			  </div>
 		  </div>
 
@@ -161,57 +172,55 @@
 		  </div>
 
 		  <div class="form-row">
-			    <div class="form-group col-md-6">
+			    <!-- <div class="form-group col-md-6">
 			      <label for="fatherName">Father Name</label>
 			      <input type="text" id="fatherName" class="form-control" placeholder="Father Name" ng-model="model.userProfile.contact.father.name">
-			    </div>
+			    </div> -->
 
 			    <div class="form-group col-md-6">
 			      <label for="fatherPhone">Father phone number</label>
-			      <input type="text" id="fatherPhone" class="form-control" placeholder="Father phone number" ng-model="model.userProfile.contact.father.phone">
+			      <input type="text" id="fatherPhone" class="form-control" placeholder="Father phone number" ng-model="model.userProfile.member.contact.fatherPhone">
 			    </div>
 		  </div>
 
 
 		  <div class="form-row">
-			    <div class="form-group col-md-6">
+			    <!-- <div class="form-group col-md-6">
 			      <label for="motherName">Mother Name</label>
 			      <input type="text" id="motherName" class="form-control" placeholder="Mother Name" ng-model="model.userProfile.contact.mother.name">
-			    </div>
+			    </div> -->
 
 			    <div class="form-group col-md-6">
 			      <label for="motherPhone">Mother phone number</label>
-			      <input type="text" id="motherPhone" class="form-control" placeholder="Mother phone number" ng-model="model.userProfile.contact.mother.phone">
+			      <input type="text" id="motherPhone" class="form-control" placeholder="Mother phone number" ng-model="model.userProfile.member.contact.motherPhone">
 			    </div>
 		  </div>
 
 
 
 		  <div class="form-row">
-			    <div class="form-group col-md-6">
+			    <!-- <div class="form-group col-md-6">
 			      <label for="emergencyName">Emergency Name</label>
 			      <input type="text" id="emergencyName" class="form-control" placeholder="Emergency Name" ng-model="model.userProfile.contact.emergency.name">
-			    </div>
+			    </div> -->
 
 			    <div class="form-group col-md-6">
 			      <label for="emergencyPhone">Emergency phone number</label>
-			      <input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number" ng-model="model.userProfile.contact.emergency.phone">
+			      <input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number" ng-model="model.userProfile.member.contact.emergency">
 			    </div>
 		  </div>
 
 		  <hr class="my-4">
 
-  		  <div class="form-row">
+  		<div class="form-row">
 			  <div class="form-group col-md-12">
-				<label for="notes">Notes:</label>
-				<input type="text" class="form-control" id="notes" placeholder="Notes..." ng-model="model.userProfile.notes">
+					<label for="notes">Notes:</label>
+					<input type="text" class="form-control" id="notes" placeholder="Notes..." ng-model="model.userProfile.notes">
 			  </div>
 		  </div>
-
-
 			  
 		  <button type="submit" class="btn btn-success" ng-click="model.updateProfile(model.userProfile)">Update profile</button>
-	  	  <a class="btn btn-danger" href="#!/" role="button">Cancel</a>
+			<a class="btn btn-danger" href="#!/" role="button">Cancel</a>
 		</form>
 	</div>
 </div>

@@ -124,6 +124,7 @@
 			return $http.get(url)
 				.then(function(response) {
 					var userProfile = response.data;
+					console.log('findUserById has been called called', response);
 					return userProfile;
 				});
 		}

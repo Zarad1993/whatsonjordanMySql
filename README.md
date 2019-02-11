@@ -401,9 +401,11 @@ Sequelpro:
 
 working with sql:
 	[x] create and connect to the mysql database whatsonjordan.
-	[x] create users through the signup form.
-	[x] login registered user.
+	[x] create user (initial info email and password with default userType: member) through the signup form.
 	[x] create the userType table and connect it to users table (1:1)
+	[x] create a member on on the same step of creating the user 
+	[x] add member id to memberId in users table 
+	[x] login registered user (if userType is member include the member details through memberId).
 	[x] create the contact table and connect it to the users table (1:1)
 	[x] create the address table and connect it to the users table (1:1)
 	[x] create the nationality table and connect it to the users table (1:1)
@@ -413,7 +415,17 @@ working with sql:
 	[x] create the events table	
 	[x] create the ageGroup table and connect it to the events table (1:1)
 	[x] create the categories table and connect it to the events table (1:1)
+	[x] edit user profile
+		when edit user profile:
+		1. [x] call the updateProfile function with the updated profile.
+		2. [x] on the server call the membersDB to update the member on the server model.
+		3. [x] on the membersDB the updated items will be (DOB, name, gender, gradeId, nationalityId, schoolId).
+		4. on the membersDB call the following: 
+			[x] addressesDB.updateAddressDetails to update the address details
+			[x] contactsDB.updateContactsDetails to update the contacts details
 
+
+	[ ] get all the schools and save them on the database then the user could choose one from the list
 	[ ] create event by maker
 	[ ] fetch events from the database
 	[ ] to add the ability to the admin to change the user_type (1 user, 2 maker, 3 admin)

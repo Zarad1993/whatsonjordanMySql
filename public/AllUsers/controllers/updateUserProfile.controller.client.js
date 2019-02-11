@@ -3,13 +3,32 @@
 		.module('whatsOnJordan')
 		.controller('updateUserProfile', updateUserProfile);
 
-	function updateUserProfile(userService, loggedUser, $location) {
+	function updateUserProfile(userService, gradesService, schoolsService, loggedUser, $location) {
 		var model = this;
 
 		function init() {
-			loggedUser.DOB = new Date(loggedUser.DOB);
+			loggedUser.member.DOB = new Date(loggedUser.member.DOB);
 			model.userProfile = loggedUser;
 			model.loggedUser = loggedUser;
+			gradesService
+				.getAllGrades()
+				.then(function(result){
+					console.log('the grades: ', result.data);
+					// var grades = [];
+					// for(var i in result.data){
+					// 	grades.push({gradeId: result.data[i].id, grade: result.data[i].grade});
+					// }
+					// model.allGrades = grades;
+					// console.log(model.allGrades);
+					model.allGrades = result.data;
+				});
+			schoolsService
+				.getAllSchools()
+				.then(function(schools){
+					console.log('the schools are: ', schools.data);
+					model.allSchools = schools.data;
+				})
+			
 		}
 		init();
 
@@ -22,9 +41,10 @@
 			userService
 				.updateProfile(updatedUserProfile)
 				.then(function(result){
-					console.log('Profile Updated');
+					console.log('Profile Updated', result);
+					// model.logout();
+					$location.url('/profile');
 				})
-				$location.url('/profile');
 		}
 
 		function ValidateSize(file) {

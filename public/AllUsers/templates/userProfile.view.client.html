@@ -46,22 +46,26 @@
 		<div class="col-md-3" style="background-color: lightgreen; padding: 30px;">
 			<img ng-src="{{model.userProfile.profileImage.location}}" class="mx-auto d-block profile-img">		
 			<br>
-			<h1 class="poiret-font" style="text-align: center;"><strong>{{model.userProfile.name.firstName}} {{model.userProfile.name.middleName}} {{model.userProfile.name.lastName}}</strong></h1>
+			<h1 class="poiret-font" style="text-align: center;"><strong>{{model.userProfile.member.firstName}} {{model.userProfile.member.middleName}} {{model.userProfile.member.lastName}}</strong></h1>
 			<div style="text-align: center;">
 				<a class="btn btn-warning" href="#!/updateUserProfile" > <i class="fas fa-pencil-alt"></i>Update profile</a>
 			</div>
 			<br>
 			<h4><i class="fas fa-envelope"></i><span> {{model.userProfile.email}}</span></h4>
-			<h4><i class="fas fa-birthday-cake"></i> {{model.userProfile.DOB |date}}</h4>
-			<h4><i class="fas fa-transgender"></i> {{model.userProfile.gender}}</h4>
-			<h4> <i class="fas fa-map-marked-alt"></i> {{model.userProfile.address}}</h4>
-			<h4><i class="fas fa-graduation-cap"></i> {{model.userProfile.school}}</h4>
-			<h4><i class="fas fa-user-graduate"></i> {{model.userProfile.grade}}</h4>
+			<h4><i class="fas fa-birthday-cake"></i> {{model.userProfile.member.DOB |date}}</h4>
+			<h4><i class="fas fa-transgender"></i> {{model.userProfile.member.gender}}</h4>
+			<h4> <i class="fas fa-map-marked-alt"></i> {{model.userProfile.member.address.country}}, {{model.userProfile.member.address.province}} - {{model.userProfile.member.address.city}} - {{model.userProfile.member.address.street}} street</h4>
+			<h4><i class="fas fa-graduation-cap"></i> {{model.userProfile.member.school.name}}</h4>
+			<h4><i class="fas fa-user-graduate"></i> Grade: {{model.userProfile.member.grade.grade}}</h4>
 			<h4><i class="fas fa-phone"></i> Contacts list:</h4>
-				<h5 style="text-indent: 30px;" ng-show="model.userProfile.contact.father.phone">{{model.userProfile.contact.father.name}}: {{model.userProfile.contact.father.phone}}</h5></li>
-				<h5 style="text-indent: 30px;" ng-show="model.userProfile.contact.mother.phone">{{model.userProfile.contact.mother.name}}: {{model.userProfile.contact.mother.phone}}</h5></li>
-				<h5 style="text-indent: 30px;" ng-show="model.userProfile.contact.emergency.phone">{{model.userProfile.contact.emergency.name}}: {{model.userProfile.contact.emergency.phone}}</h5></li>
-				<h5 style="text-indent: 30px;" ng-show="model.userProfile.contact.phone">{{model.userProfile.contact.phone}}</h5></li>
+				<h5 style="text-indent: 30px;" ng-show="model.userProfile.member.contact.fatherPhone">Father Phone: {{model.userProfile.member.contact.fatherPhone}}</h5></li>
+				<h5 style="text-indent: 30px;" ng-show="model.userProfile.member.contact.motherPhone">Mother Phone: {{model.userProfile.member.contact.motherPhone}}</h5></li>
+				<h5 style="text-indent: 30px;" ng-show="model.userProfile.member.contact.emergency">Emergency Phone: {{model.userProfile.member.contact.emergency}}</h5></li>
+				<h5 style="text-indent: 30px;" ng-show="model.userProfile.member.contact.phone">Personal Phone:
+					{{model.userProfile.member.contact.phone}}</h5>
+				</li>
+
+				<!-- <h5 style="text-indent: 30px;" ng-show="model.userProfile.contact.phone">{{model.userProfile.contact.phone}}</h5></li> -->
 			<h4 ng-show="model.userProfile.medical.problemDetails"><i class="fas fa-briefcase-medical"></i> {{model.userProfile.medical.problemDetails}}</h4>
 			<h4 ng-show="model.userProfile.notes"><i class="fas fa-sticky-note"></i> {{model.userProfile.notes}}</h4>
 			

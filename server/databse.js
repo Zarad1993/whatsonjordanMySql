@@ -8,6 +8,7 @@ var db = new Sequelize('whatsonjordan', username, password, {
 	host: 'localhost',
 	dialect: 'mysql',
 	operatorsAliases: false,
+	logging: false,
 	pool:{
 		max:10,
 		min: 0,
@@ -43,6 +44,8 @@ module.exports = db;
 
 var User = require('./models/user.model');
 var Role = require('./models/userType.model');
+var Member = require('./models/member.model');
+var Maker = require('./models/maker.model');
 var Contact = require('./models/contact.model');
 var Addrress = require('./models/address.model');
 var Nationality = require('./models/nationality.model');
@@ -54,18 +57,28 @@ var School = require('./models/school.model');
 
 
 User.belongsTo(Role);
-User.belongsTo(Contact);
-User.belongsTo(Addrress);
-User.belongsTo(Nationality);
-User.belongsTo(School);
-User.belongsTo(Grade);
-User.belongsTo(Events);
+User.belongsTo(Member);
+User.belongsTo(Maker);
+
+Member.belongsTo(School);
+Member.belongsTo(Contact);
+Member.belongsTo(Addrress);
+Member.belongsTo(Nationality);
+Member.belongsTo(Grade);
+Member.hasMany(Events);
+
+Maker.belongsTo(Contact);
+Maker.belongsTo(Addrress);
+Maker.hasMany(Events)
+
 Events.belongsTo(Category);
 Events.belongsTo(AgeGroup);
 
 db.sync();
+
+
+// Eager loading iclude all associated models
 // db.sync().then(function(){
-// 	// Eager loading iclude all associated models
 // 	User
 // 		.findById(1, { include: [{ all: true }] })
 // 		.then(function (user) {
@@ -74,29 +87,13 @@ db.sync();
 // });
 
 
-// console.log('Eager loading..............................');
-// // Eager loading iclude all associated models
-
-// User
-// 	.findById(5,{include: [{all:true}]})
-// 	.then(function(user){
-// 		console.log(user.dataValues);
-// 	});
-
-// User
-// 	.findById(5)
-// 	.then(function(foundUser){
-// 		// console.log(foundUser.dataValues);
-// 		foundUser.setUser_type(3);
-// 		foundUser.save();
-// 	})
-
-// User.findById(1).then(function(user) {
-// 	user.setUser_type(1)
-// 	user.save();
-// 	console.log(user);
-// });
-
-// Role.findById(1).then(function(roles){
-// 	console.log(roles);
+// change the user_type for particular user
+// db.sync().then(function(){
+// 	User
+// 		.findById(3)
+// 		.then(function(foundUser){
+// 			// console.log(foundUser.dataValues);
+// 			foundUser.setUser_type(3);
+// 			foundUser.save();
+// 		});
 // });

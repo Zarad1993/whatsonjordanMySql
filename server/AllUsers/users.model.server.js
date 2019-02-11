@@ -6,11 +6,17 @@
 var db = require('../databse');
 // var role = require('../models/userType.model');
 var usersDB = require('../models/user.model');
-var role = require('../models/userType.model');
-// db.User.belongsTo(db.UserType);
+var membersDB = require('./members.model.server');
+var Member = require('../models/member.model');
+var School = require('../models/school.model');
+var Contact = require('../models/contact.model');
+var Address = require('../models/address.model');
+var Nationality = require('../models/nationality.model');
+var Grade = require('../models/grade.model');
+// var role = require('../models/userType.model');
 db.sync();
 
-console.log('the User in the database is:', usersDB);
+// console.log('the User in the database is:', usersDB);
 
 
 
@@ -18,6 +24,7 @@ module.exports = usersDB;
 
 usersDB.addNewUser = addNewUser;
 usersDB.setUserRole = setUserRole;
+usersDB.addMemberIdToUser = addMemberIdToUser;
 usersDB.loginUser = loginUser;
 usersDB.getAllUsers = getAllUsers;
 usersDB.getAllMakers = getAllMakers;
@@ -41,6 +48,26 @@ usersDB.freezeMembership = freezeMembership;
 usersDB.removeFrozeDays = removeFrozeDays;
 usersDB.getAllFeedbacks = getAllFeedbacks;
 usersDB.updateFeedbackByAdmin = updateFeedbackByAdmin;
+usersDB.getUserDetails = getUserDetails;
+
+
+function getUserDetails(userId){
+	return usersDB
+		.findOne({
+			where: { id: userId },
+			include: [
+				{
+					model: Member, include: [
+						Contact, Address, Nationality, School, Grade
+					]
+				}
+			]
+			})
+		.then(function(user){
+			console.log('the user on getUserDetails: ', user.get({plain: true}));
+			return user.get({plain: true});
+		})
+}
 
 function updateFeedbackByAdmin(feedback){
 	// console.log(feedback);
@@ -226,11 +253,28 @@ function makePayment(payment){
 
 
 function updateProfile(updatedProfile){
-	return usersDB
-			.findByIdAndUpdate(updatedProfile._id, updatedProfile)
-			.then(function(result){
-				return result;
-			});
+	// console.log('the updated profile: ', updatedProfile);
+	return membersDB
+				.updateMemberDetails(updatedProfile.memberId, updatedProfile.member)
+				.then(function(result){
+					console.log('the result from update member: ', result);	
+					return result;
+				})
+				.then(function(){
+					return usersDB
+						.findById(updatedProfile.id, {
+							include: [
+								{
+									model: Member, include: [
+										Contact, Address, Nationality, School, Grade
+									]
+								}
+							]
+						})
+						.then(function(user){
+							return user;
+						})
+				})
 }
 
 function resetPassword(user, newPassword){
@@ -309,8 +353,17 @@ function setUserRole(user, roleId){
 		});
 }
 
+function addMemberIdToUser(userId, memberId){
+	return usersDB
+			.findById(userId)
+			.then(function(user){
+				user.setMember(memberId);
+				return user.save();
+			})
+}
+
 function loginUser(username, password){
-	console.log('somebody call me', username);
+	// console.log('somebody call me', username);
 	return usersDB.findOne({email: username, password: password});
 }
 
@@ -332,8 +385,18 @@ function findUserById(userId){
 	return usersDB
 				.findById(userId)
 				.then(function(result){
-					console.log('the result from the find userById is: ', result.dataValues);
-					return result.dataValues;
+					var user = result.dataValues;
+					// console.log('the user from the find userById is: ', user);
+					if (user.userTypeId === 1) {
+						return membersDB
+							.findMemberById(user.memberId)
+							.then(function (member) {
+								user.memberDetails = member;
+								// console.log('the final user is: ', user);
+								return user;
+							})
+					}
+					// return result.dataValues;
 				})
 				// .populate('events')
 				// .populate('registeredEventsList')
@@ -341,8 +404,15 @@ function findUserById(userId){
 }
 
 function findUserByEmail(userEmail){
-	console.log('checking the email: ', userEmail);
-	return usersDB.findOne({where:{email: userEmail}});
+	// console.log('checking the email: ', userEmail);
+	return usersDB.findOne({
+		where:{email: userEmail},
+		include: [
+			{model: Member, include: [
+				Contact, Address, Nationality, School, Grade 
+			]}
+		]
+	});
 }
 
 function addEventId(userId, eventId){

@@ -16,6 +16,8 @@
 						console.log('from login controller', result);
 						if(result){
 							model.loggedUser = result;
+						}else{
+							return;
 						}
 					});
 		}

@@ -2,6 +2,7 @@ module.exports = function(app) {
 
 
 var usersDB 		= require('./users.model.server.js');
+var membersDB		= require('./members.model.server');
 var eventsDB 		= require('../events/events.model.server.js');
 var passport 		= require('passport');
 var bcrypt   		= require('bcrypt-nodejs');
@@ -275,8 +276,11 @@ function updateProfile(req, res){
 	usersDB
 		.updateProfile(updatedProfile)
 		.then(function(result){
-			// console.log(result);
-			res.send(result);
+			console.log('the final Updated User in users.server: ', result);
+			res.send(req.isAuthenticated() ? req.user : null);
+			// req.user = result.dataValues;
+			// console.log('the req.user is:', req.user);
+			// res.send(result);
 		});
 }
 
@@ -421,7 +425,7 @@ function findUserByEmail(req, res){
 		.then(
 			// if seccess
 			function(result){
-				console.log('the result from check mail is; ',result);
+				// console.log('the result from check mail is: ',result);
 				if(result){
 					res.send(result);
 					return;
@@ -485,16 +489,25 @@ function userStrategy(username, password, done) {
 	usersDB
 		.findUserByEmail(username)
 		.then(
-			function(foundedUser){
-				user = foundedUser.dataValues;
-				console.log('the user from userStrategy: ', user);
+			function(foundUser){
+				user = foundUser.dataValues;
+				// console.log('the user from userStrategy: ', user);
 				if(!user){
 					return done(null, false);
 				} else if(user && !bcrypt.compareSync(password, user.password)){
 					return done(null, false);
 				} else if(user && bcrypt.compareSync(password, user.password)){
-					console.log('user founded');
-					return done(null, user);
+					// console.log('user founded', user);
+					// if(user.userTypeId === 1){
+						// membersDB
+						// 	.findMemberByUserId(user.id)
+						// 	.then(function(member){
+						// 		user.memberDetails = member;
+						// 		console.log('the final user is: ', user);
+								return done(null, user);
+							// })
+					// }
+					// return done(null, user);
 				} 
 			},
 			function(err){
@@ -558,7 +571,7 @@ function logout(req, res){
 
 function loginUser(req, res){
 	var user = req.user;
-	console.log('the user details are: ', user);
+	// console.log('the user details are: ', user);
 	res.json(user);
 }
 
@@ -635,21 +648,35 @@ function getAllMakers(req, res){
 
 function addNewUser(req, res){
 	var newUser = req.body;
-	// newUser.createdAt = Date.now();
-	// newUser.updatedAt = Date.now();
 	// newUser.user_id = 1;
 	newUser.password = bcrypt.hashSync(newUser.password);
 	usersDB
 		.addNewUser(newUser)
 		.then(function (addedUser){
-			console.log(addedUser);
-			req.login(addedUser, function(err){
-				if(err){
-					return err;
-				}else{
-					res.json(addedUser);
-				}
-			})
+			// console.log('the created user in usersDB is: ', addedUser);
+			membersDB
+				.addNewMember(addedUser.dataValues.id)
+				.then(function(addedMember){
+					// console.log('the addedMember is: ', addedMember);
+					usersDB
+						.addMemberIdToUser(addedUser.dataValues.id, addedMember.dataValues.id)
+						.then(function(finalUser){
+							// console.log('the final created user with member id is: ', finalUser);
+							req.login(finalUser, function (err) {
+								if (err) {
+									return err;
+								} else {
+									// finalUser.firstName = addedMember.firstName;
+									// finalUser.middleName = addedMember.middleName;
+									// finalUser.lastName = addedMember.lastName;
+									// finalUser.DOB = addedMember.DOB;
+									// finalUser.gender = addedMember.gender;
+									res.json(finalUser);
+								}
+							})
+						})
+				})
+			
 			// usersDB
 			// 	.setUserRole(addedUser, 1)
 			// 	.then(function(updatedUser){
@@ -710,14 +737,33 @@ function addNewUser(req, res){
 
 function checkUserLogin(req, res){
 	console.log('step 8');
-	console.log('the req.user from the checkUserLogin: ', req.user);
-	if(req.user){
-		var birthDay = new Date(req.user.DOB);
-		var today = new Date();
-		req.user.age =  Math.abs((new Date(today - birthDay.getTime())).getUTCFullYear() - 1970);
-		console.log(req.user.age)
+	// console.log('the user in req is: ', req.user);
+	if (req.user) {
+		// console.log('the req.user from the checkUserLogin:', req.user);
+		if (req.user.userTypeId === 1){
+			// membersDB
+			// 	.findMemberByUserId(req.user.id)
+			// 	.then(function (member) {
+					// req.user.memberDetails = member;
+					// console.log('the req.user from the checkUserLogin: ', req.user);
+					// res.send(req.isAuthenticated() ? req.user : null);
+					if(req.user.member.DOB){
+						var birthDay = new Date(req.user.member.DOB);
+						var today = new Date();
+						req.user.age = Math.abs((new Date(today - birthDay.getTime())).getUTCFullYear() - 1970);
+						console.log(req.user.age)
+						res.send(req.isAuthenticated() ? req.user : null);
+					}else{
+						console.log('Please update your profile details to get the events fits to your age');
+						res.send(req.isAuthenticated() ? req.user : null);
+					}
+				// });
+		}
+	} else {
+		// console.log('im here');
+		res.send(null);
+		// return null;
 	}
-	res.send(req.isAuthenticated()? req.user : null);
 }
 
 function isMaker(req, res){

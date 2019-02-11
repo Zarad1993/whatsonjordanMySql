@@ -1,0 +1,35 @@
+var db = require('../databse');
+var schoolsDB = require('../models/school.model');
+
+db.sync();
+
+module.exports = schoolsDB;
+
+schoolsDB.addNewSchool = addNewSchool;
+schoolsDB.findSchoolBySchoolId = findSchoolBySchoolId;
+schoolsDB.getAllSchools = getAllSchools;
+
+function addNewSchool(id) {
+    return schoolsDB
+        .create()
+        .then(function (newSchool) {
+            return newSchool.save();
+        })
+}
+
+function findSchoolBySchoolId(schoolId) {
+    return schoolsDB
+        .findOne({ schoolId: schoolId })
+        .then(function (foundSchool) {
+            // console.log('foundMember is: ', foundMember);
+            return foundSchool.dataValues;
+        })
+}
+
+function getAllSchools() {
+    return schoolsDB
+        .findAll()
+        .then(function (foundSchools) {
+            return foundSchools;
+        })
+}
