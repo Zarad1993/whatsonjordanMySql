@@ -22,7 +22,7 @@ function findSchoolBySchoolId(schoolId) {
         .findOne({ schoolId: schoolId })
         .then(function (foundSchool) {
             // console.log('foundMember is: ', foundMember);
-            return foundSchool.dataValues;
+            return foundSchool.get({plain:true});
         })
 }
 

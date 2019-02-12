@@ -15,11 +15,7 @@ membersDB.updateMemberDetails = updateMemberDetails;
 
 function addNewMember(id){
     return membersDB
-                .create()
-                .then(function(addedMember){
-                    // addedMember.setUser(id);
-                    return addedMember.save();
-                })
+                .create();
 }
 
 function findMemberById(memberId){
@@ -27,7 +23,7 @@ function findMemberById(memberId){
         .findOne({where: {id: memberId}, includ: [{model: Contacts}]})
         .then(function(foundMember){
             // console.log('foundMember is: ', foundMember);
-            return foundMember.dataValues;
+            return foundMember.get({plain: true});
         })
 }
 
@@ -35,33 +31,41 @@ function updateMemberDetails(id, member){
     return membersDB
                 .findById(id)
                 .then(function(foundMember){
+                    if(member.address){
+                        return addressesDB
+                            .updateAddressDetails(member.address)
+                            .then(function (updatedAddress) {
+                                var addressId = updatedAddress.id
+                                return foundMember
+                                    .setAddress(addressId)
+                                    .then(function(freshMember){
+                                        member.addressId = addressId;
+                                        return freshMember.save();
+                                    })
+                            });
+                    }else{
+                        return foundMember;
+                    }
+                })
+                .then(function(foundMember){
+                    if (member.contact) {
+                        return contactsDB
+                            .updateContactsDetails(member.contact)
+                            .then(function (updatedContact) {
+                                var contactId = updatedContact.id
+                                return foundMember
+                                    .setContact(contactId)
+                                    .then(function(freshMember){
+                                        member.contactId = contactId;
+                                        return freshMember.save();
+                                    });
+                            });
+                    }else{
+                        return foundMember;
+                    }
+                })
+                .then(function(foundMember){
                     return foundMember
-                                .update(member)
-                                // .then(function(updatedMember){
-                                //     console.log('the updated member in membersDB', updatedMember);
-                                //     return updatedMember;
-                                // })
-                                .then(function(){
-                                    addressesDB
-                                        .updateAddressDetails(member.address)
-                                        .then(function(updatedAddress){
-                                            console.log('the updated Address: ', updatedAddress);
-                                        });
-                                })
-                                .then(function(){
-                                    contactsDB
-                                        .updateContactsDetails(member.contact)
-                                        .then(function(updatedContact){
-                                            console.log('the updated contact details: ', updatedContact);
-                                        });
-                                });
-                        })
-                // .then(function (updatedMember){
-                //     console.log('the updated member in membersDB', updatedMember);
-                //     return membersDB
-                //                 .findById(updatedMember.id)
-                //                 .then(function(result){
-                //                     return result;
-                //                 });
-                // })
+                        .update(member)
+                })
 }

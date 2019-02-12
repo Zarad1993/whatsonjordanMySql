@@ -18,22 +18,20 @@ module.exports = function(passport) {
 
     // used to deserialize the user
     function deserializeUser(user, done) {
-        console.log('deserializeUser has been called');
-        usersDB
-            .getUserDetails(user.id)
-            .then(
-                function(foundUser){
-                console.log('the found user on deserialized: ', foundUser);
-                done(null, foundUser)
-                },
-                function(err){
-                    done(err, null);
-                }
-            )
-        // if(user){
-        //         // console.log('the update date: ', user.member.updatedAt);
-        // }else{
-        //     done(err, null);
-        // }   
+        // console.log('deserializeUser has been called');
+        if(user){
+            usersDB
+                .getUserDetails(user.id)
+                .then(
+                    function(foundUser){
+                    done(null, foundUser)
+                    },
+                    function(err){
+                        done(err, null);
+                    }
+                );
+        }else{
+            done(err, null);
+        }
     }
 };

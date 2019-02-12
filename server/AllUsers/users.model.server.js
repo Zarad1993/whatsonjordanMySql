@@ -64,7 +64,7 @@ function getUserDetails(userId){
 			]
 			})
 		.then(function(user){
-			console.log('the user on getUserDetails: ', user.get({plain: true}));
+			// console.log('the user on getUserDetails: ', user.get({plain: true}));
 			return user.get({plain: true});
 		})
 }
@@ -272,7 +272,7 @@ function updateProfile(updatedProfile){
 							]
 						})
 						.then(function(user){
-							return user;
+							return user.get({plain: true});
 						})
 				})
 }
@@ -334,9 +334,8 @@ function addNewUser(user){
 	// user.DOB = Date.now();
 	// user.grade = 9;
 	return usersDB
-			.create(user
-					// ,{fields: ['firstName', 'middleName', 'lastName', 'email', 'password', 'DOB']}
-			).then(function(addedUser){
+			.create(user)
+			.then(function(addedUser){
 				addedUser.setUser_type(1)
 				return addedUser.save();
 			})
@@ -385,7 +384,7 @@ function findUserById(userId){
 	return usersDB
 				.findById(userId)
 				.then(function(result){
-					var user = result.dataValues;
+					var user = result.get({plain: true});
 					// console.log('the user from the find userById is: ', user);
 					if (user.userTypeId === 1) {
 						return membersDB
@@ -405,14 +404,18 @@ function findUserById(userId){
 
 function findUserByEmail(userEmail){
 	// console.log('checking the email: ', userEmail);
-	return usersDB.findOne({
-		where:{email: userEmail},
-		include: [
-			{model: Member, include: [
-				Contact, Address, Nationality, School, Grade 
-			]}
-		]
-	});
+	return usersDB
+				.findOne({
+					where:{email: userEmail},
+					include: [
+						{model: Member, include: [
+							Contact, Address, Nationality, School, Grade 
+						]}
+					]
+				})
+				.then(function(foundUser){
+					return foundUser.get({ plain: true })
+				})
 }
 
 function addEventId(userId, eventId){

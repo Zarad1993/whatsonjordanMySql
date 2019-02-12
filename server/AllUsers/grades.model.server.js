@@ -23,7 +23,10 @@ function findGradeByGradeId(gradeId){
         .findOne({gradeId: gradeId})
         .then(function(foundGrade){
             // console.log('foundMember is: ', foundMember);
-            return foundGrade.dataValues;
+            
+            // original
+            //return foundGrade.dataValues;            
+            return foundGrade.get({plain: true});
         })
 }
 

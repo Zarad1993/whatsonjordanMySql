@@ -133,7 +133,9 @@
 			var url = '/api/user/findUserByEmail/'+email;
 			return $http.get(url)
 				.then(function(response) {
-					var result = response.dataValues;
+					// original
+					// var result = response.dataValues;
+					var result = response;
 					if(result.email){
 						return ('email already exist');
 					} else{

@@ -490,7 +490,7 @@ function userStrategy(username, password, done) {
 		.findUserByEmail(username)
 		.then(
 			function(foundUser){
-				user = foundUser.dataValues;
+				user = foundUser;
 				// console.log('the user from userStrategy: ', user);
 				if(!user){
 					return done(null, false);
@@ -652,14 +652,16 @@ function addNewUser(req, res){
 	newUser.password = bcrypt.hashSync(newUser.password);
 	usersDB
 		.addNewUser(newUser)
-		.then(function (addedUser){
-			// console.log('the created user in usersDB is: ', addedUser);
+		.then(function (user){
+			// console.log('the created user in usersDB is: ', addedUser.get({plain: true}));
+			var addedUser = user.get({ plain: true })
 			membersDB
-				.addNewMember(addedUser.dataValues.id)
-				.then(function(addedMember){
-					// console.log('the addedMember is: ', addedMember);
+				.addNewMember(addedUser.id)
+				.then(function(member){
+					var addedMember = member.get({plain: true});
+					console.log('the addedMember is: ', addedMember);
 					usersDB
-						.addMemberIdToUser(addedUser.dataValues.id, addedMember.dataValues.id)
+						.addMemberIdToUser(addedUser.id, addedMember.id)
 						.then(function(finalUser){
 							// console.log('the final created user with member id is: ', finalUser);
 							req.login(finalUser, function (err) {
