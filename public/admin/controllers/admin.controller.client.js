@@ -3,10 +3,19 @@
 		.module('whatsOnJordan')
 		.controller('adminController', adminController);
 
-	function adminController(userService, eventsService, loggedAdmin, $location) {
+	function adminController(userService, eventsService, userTypesService, loggedAdmin, $location) {
 		var model = this;
 
 		function init() {
+			if(!loggedAdmin){
+				$location.url('/')
+			}
+			userTypesService
+				.getAllUserTypes()
+				.then(function(userTypes){
+					console.log('user types: ', userTypes);
+					model.userTypes = userTypes.data;
+				})
 			model.loggedAdmin = loggedAdmin;
 			model.adminPage = loggedAdmin;
 			model.users = null;
@@ -44,6 +53,8 @@
 				.getAllUsers()
 				.then(function (users){
 					if(users){
+						console.log(users.data);
+						
 						model.users = users.data;
 					}
 				});

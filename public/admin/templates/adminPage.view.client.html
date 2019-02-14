@@ -61,22 +61,38 @@
 
 <!-- All Users -->
 <div ng-show="model.users" >
+	<div class="row">
+		<div class="col-md-3">
+			<input type="text" class="form-control" name="searchByEmail" ng-model="search.email"
+				placeholder="Search by Email">
+		</div>
+		<div class="col-md-3">
+			<label>Filter by user type</label>
+			<select ng-options="userType.id as userType.userType for userType in model.userTypes" ng-model="search.userTypeId"></select>
+		</div>
+	</div>
 	<table class="table table-responsive-sm table-hover">
 		<thead class="table-primary">
 			<tr>
-				<th>Name</th>
+				<!-- <th>Name</th> -->
+				<th>ID</th>
 				<th>Email</th>
-				<th>User Type</th>
-				<th>Maker events</th>
-				<th>User Registered events</th>
+				<th>User Type ID</th>
+				<!-- <th>Maker events</th>
+				<th>User Registered events</th> -->
 			</tr>
 		</thead>
 		<tbody >
-			<tr ng-repeat="user in model.users">
-				<td>{{user.name.firstName}} {{user.name.middleName}} {{user.name.lastName}}</td>
+			<tr ng-repeat="user in filteredUsers = (model.users | filter:search)">
+				<!-- <td>{{user.name.firstName}} {{user.name.middleName}} {{user.name.lastName}}</td> -->
+				<td>{{user.id}}</td>
 				<td>{{user.email}}</td>
-				<td>{{user.userTypeId}}</td>
+				<!-- <td>{{user.userTypeId}}</td> -->
 				<td>
+					<select id="userType" ng-model="user.userTypeId" ng-options="userType.id as userType.userType for userType in model.userTypes">
+					</select>
+				</td>
+				<!-- <td>
 					<ul ng-repeat="event in user.events">
 						<li>{{event.name}}</li>
 					</ul>
@@ -85,7 +101,7 @@
 					<ul ng-repeat="rEvent in user.registeredEventsList">
 						<li>{{rEvent.name}}</li>
 					</ul>
-				</td>
+				</td> -->
 			</tr>
 		</tbody>
 	</table>

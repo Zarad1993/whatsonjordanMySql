@@ -426,8 +426,10 @@ working with sql:
 	
 	
 	[x] admin login
-	
-	[ ] update the admin page functionality 
+	[x] admin list all users with userTypeId
+	[x] filter users by email and userType
+
+
 	[ ] add the ability to change the user type from the system
 
 

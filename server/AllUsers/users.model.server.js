@@ -368,7 +368,7 @@ function loginUser(username, password){
 
 function getAllUsers(){
 	return usersDB
-				.findAll();
+				.findAll({attributes: ['id', 'email', 'userTypeId']});
 				// .populate('events')
 				// .populate('registeredEventsList')
 				// .exec();

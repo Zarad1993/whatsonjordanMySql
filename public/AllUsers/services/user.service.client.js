@@ -28,6 +28,7 @@
 		this.getAllFeedbacks = getAllFeedbacks;
 		this.updateFeedbackByAdmin = updateFeedbackByAdmin;
 		this.getAllMakers = getAllMakers;
+		this.getAllUserTypes = getAllUserTypes;
 		
 
 
@@ -96,6 +97,10 @@
 
 		function getAllMakers(){
 			return $http.get('/api/user/getAllMakers');
+		}
+
+		function getAllUserTypes(){
+			return $http.get('/api/userTypes/getAllUserTypes');
 		}
 
 		function addEventToUserEventsList(event, user){

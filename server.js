@@ -38,6 +38,7 @@ require('./server/events/event.service.server')(app);
 require('./server/AllUsers/grades.service.server')(app);
 require('./server/AllUsers/schools.service.server')(app);
 require('./server/AllUsers/nationalities.service.server')(app);
+require('./server/AllUsers/userTypes.service.server')(app);
 require('./server/databse.js');
 
 
