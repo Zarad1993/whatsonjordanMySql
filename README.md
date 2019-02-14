@@ -423,6 +423,25 @@ working with sql:
 		4. on the membersDB call the following: 
 			[x] addressesDB.updateAddressDetails to update the address details
 			[x] contactsDB.updateContactsDetails to update the contacts details
+	
+	
+	[x] admin login
+	
+	[ ] update the admin page functionality 
+	[ ] add the ability to change the user type from the system
+
+
+	[ ] maker profile
+		registration procedure:
+		1. maker register as normal user
+		2. admin change the userTypeId from 1(default) to 2(maker)
+		3. when maker login again (now as maker) the system redirect him/her to maker profile (empty).
+		4. the maker update the profile 
+		5. on update after submit the object including maker details the server do the following:
+			1. check if the memberId still --> then remove it.
+			2. 
+			3. add makerId instead by fire the user.setMaker(makerId)
+
 
 
 	[ ] get all the schools and save them on the database then the user could choose one from the list

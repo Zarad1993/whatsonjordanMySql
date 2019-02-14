@@ -9,9 +9,13 @@
 		model.updateMakerProfile = updateMakerProfile;
 
 		function init() {
+			if(!loggedMaker){
+				$location.url('/login');
+			}
 			model.loggedMaker = loggedMaker;
 			loggedMaker.DOB = new Date(loggedMaker.DOB);
 			model.makerProfile = loggedMaker;
+			console.log(loggedMaker);
 		}
 		init();
 

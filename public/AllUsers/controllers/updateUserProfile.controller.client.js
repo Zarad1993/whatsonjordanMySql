@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('updateUserProfile', updateUserProfile);
 
-	function updateUserProfile(userService, gradesService, schoolsService, loggedUser, $location) {
+	function updateUserProfile(userService, gradesService, schoolsService, nationalitiesService, loggedUser, $location) {
 		var model = this;
 
 		function init() {
@@ -27,7 +27,13 @@
 				.then(function(schools){
 					console.log('the schools are: ', schools.data);
 					model.allSchools = schools.data;
-				})
+				});
+			nationalitiesService
+				.getAllNationalities()
+				.then(function(nationalities){
+					console.log('the nationalities are: ', nationalities.data);
+					model.nationalities = nationalities.data;
+				});
 			
 		}
 		init();

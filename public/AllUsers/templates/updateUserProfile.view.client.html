@@ -108,7 +108,17 @@
 			    <div class="form-group col-md-4">
 						<label for="DOB">Date of birth</label>
 			      <input type="date" class="form-control" id="DOB" placeholder="Date of birth" ng-model="model.userProfile.member.DOB">
-			    </div>
+					</div>
+					
+					<div class="form-group col-md-12">
+						<label for="nationality">nationality</label>
+						<select id="nationality" class="form-control" ng-model="model.userProfile.member.nationalityId"
+							ng-options="nationality.id as nationality.nationality for nationality in model.nationalities">
+						</select>
+						{{model.userProfile.member.nationalityId}}
+						<!-- <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.userProfile.member.school.name"> -->
+					</div>
+
 			    <div class="form-group col-md-4">
 						<label for="grade">Grade (current grade: {{model.userProfile.member.grade.grade}})</label>
 						<!-- {{model.userProfile.member.gradeId.gradeId}} -->
@@ -172,10 +182,11 @@
 		  </div>
 
 		  <div class="form-row">
-			    <!-- <div class="form-group col-md-6">
-			      <label for="fatherName">Father Name</label>
-			      <input type="text" id="fatherName" class="form-control" placeholder="Father Name" ng-model="model.userProfile.contact.father.name">
-			    </div> -->
+					<div class="form-group col-md-6">
+						<label for="phone">Personal phone number</label>
+						<input type="text" id="phone" class="form-control" placeholder="Personal phone number"
+							ng-model="model.userProfile.member.contact.phone">
+					</div>
 
 			    <div class="form-group col-md-6">
 			      <label for="fatherPhone">Father phone number</label>
@@ -185,31 +196,22 @@
 
 
 		  <div class="form-row">
-			    <!-- <div class="form-group col-md-6">
-			      <label for="motherName">Mother Name</label>
-			      <input type="text" id="motherName" class="form-control" placeholder="Mother Name" ng-model="model.userProfile.contact.mother.name">
-			    </div> -->
-
+			    
 			    <div class="form-group col-md-6">
 			      <label for="motherPhone">Mother phone number</label>
 			      <input type="text" id="motherPhone" class="form-control" placeholder="Mother phone number" ng-model="model.userProfile.member.contact.motherPhone">
-			    </div>
+					</div>
+					
+					<div class="form-group col-md-6">
+						<label for="emergencyPhone">Emergency phone number</label>
+						<input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number"
+							ng-model="model.userProfile.member.contact.emergency">
+					</div>
 		  </div>
 
 
 
-		  <div class="form-row">
-			    <!-- <div class="form-group col-md-6">
-			      <label for="emergencyName">Emergency Name</label>
-			      <input type="text" id="emergencyName" class="form-control" placeholder="Emergency Name" ng-model="model.userProfile.contact.emergency.name">
-			    </div> -->
-
-			    <div class="form-group col-md-6">
-			      <label for="emergencyPhone">Emergency phone number</label>
-			      <input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number" ng-model="model.userProfile.member.contact.emergency">
-			    </div>
-		  </div>
-
+		  
 		  <hr class="my-4">
 
   		<div class="form-row">
@@ -217,8 +219,8 @@
 					<label for="notes">Notes:</label>
 					<input type="text" class="form-control" id="notes" placeholder="Notes..." ng-model="model.userProfile.notes">
 			  </div>
-		  </div>
-			  
+			</div>
+			
 		  <button type="submit" class="btn btn-success" ng-click="model.updateProfile(model.userProfile)">Update profile</button>
 			<a class="btn btn-danger" href="#!/" role="button">Cancel</a>
 		</form>

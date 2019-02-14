@@ -743,28 +743,23 @@ function checkUserLogin(req, res){
 	if (req.user) {
 		// console.log('the req.user from the checkUserLogin:', req.user);
 		if (req.user.userTypeId === 1){
-			// membersDB
-			// 	.findMemberByUserId(req.user.id)
-			// 	.then(function (member) {
-					// req.user.memberDetails = member;
-					// console.log('the req.user from the checkUserLogin: ', req.user);
-					// res.send(req.isAuthenticated() ? req.user : null);
-					if(req.user.member.DOB){
-						var birthDay = new Date(req.user.member.DOB);
-						var today = new Date();
-						req.user.age = Math.abs((new Date(today - birthDay.getTime())).getUTCFullYear() - 1970);
-						console.log(req.user.age)
-						res.send(req.isAuthenticated() ? req.user : null);
-					}else{
-						console.log('Please update your profile details to get the events fits to your age');
-						res.send(req.isAuthenticated() ? req.user : null);
-					}
-				// });
+			if(req.user.member.DOB){
+				var birthDay = new Date(req.user.member.DOB);
+				var today = new Date();
+				req.user.age = Math.abs((new Date(today - birthDay.getTime())).getUTCFullYear() - 1970);
+				console.log(req.user.age)
+				res.send(req.isAuthenticated() ? req.user : null);
+			}else{
+				console.log('Please update your profile details to get the events fits to your age');
+				res.send(req.isAuthenticated() ? req.user : null);
+			}
+		}else if(req.user.userTypeId == 2){
+			res.send(req.isAuthenticated() ? req.user : null)
+		}else if(req.user.userTypeId == 3){
+			res.send(req.isAuthenticated() ? req.user : null)
 		}
 	} else {
-		// console.log('im here');
 		res.send(null);
-		// return null;
 	}
 }
 

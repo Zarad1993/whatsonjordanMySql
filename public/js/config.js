@@ -82,7 +82,7 @@
 			})
 
 			.when('/updateMakerProfile', {
-				templateUrl:'AllUsers/templates/editMakerProfile.view.client.html',
+				templateUrl:'AllUsers/templates/updateMakerProfile.view.client.html',
 				controller: 'makerProfileController',
 				controllerAs: 'model',
 				resolve:{
@@ -239,7 +239,7 @@
 		userService
 			.checkUserLogin()
 			.then(function(user){
-				console.log('somebody call me..........')
+				// console.log('somebody call me..........')
 				if(user.userTypeId === 1){
 					deferred.resolve(user);
 					$location.url('/userProfile');

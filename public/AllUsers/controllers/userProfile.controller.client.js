@@ -7,6 +7,9 @@
 		var model = this;
 
 		function init() {
+			if(!loggedUser){
+				$location.url('/login')
+			}
 			model.userProfile = loggedUser;
 			model.loggedUser = loggedUser;
 			model.upcommingProgram = [];
