@@ -14,12 +14,6 @@
 				.getAllGrades()
 				.then(function(result){
 					console.log('the grades: ', result.data);
-					// var grades = [];
-					// for(var i in result.data){
-					// 	grades.push({gradeId: result.data[i].id, grade: result.data[i].grade});
-					// }
-					// model.allGrades = grades;
-					// console.log(model.allGrades);
 					model.allGrades = result.data;
 				});
 			schoolsService

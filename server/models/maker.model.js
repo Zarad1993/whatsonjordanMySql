@@ -2,22 +2,19 @@ var Sequelize = require('sequelize');
 var db = require('../databse');
 var Maker = db.define('maker', {
     firstName: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
     },
     middleName: {
         type: Sequelize.STRING
     },
     lastName: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
     },
     organizationName:{
         type: Sequelize.STRING
     },
     DOB: {
-        type: Sequelize.DATE,
-        allowNull: false
+        type: Sequelize.DATE
     },
     profileImage: {
         type: Sequelize.STRING

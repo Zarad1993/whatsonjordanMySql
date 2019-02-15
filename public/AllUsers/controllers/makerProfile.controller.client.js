@@ -15,7 +15,6 @@
 			model.loggedMaker = loggedMaker;
 			loggedMaker.DOB = new Date(loggedMaker.DOB);
 			model.makerProfile = loggedMaker;
-			console.log(loggedMaker);
 		}
 		init();
 

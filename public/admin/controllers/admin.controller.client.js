@@ -8,7 +8,7 @@
 
 		function init() {
 			if(!loggedAdmin){
-				$location.url('/')
+				$location.url('/login');
 			}
 			userTypesService
 				.getAllUserTypes()
@@ -87,7 +87,6 @@
 		}
 
 		function setUserRole(user){
-			console.log('the selected user ', user);
 			userService
 				.setUserRole(user)
 				.then(function(result){

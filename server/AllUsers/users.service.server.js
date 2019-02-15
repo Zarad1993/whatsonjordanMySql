@@ -621,7 +621,6 @@ function getAllUsers(req, res) {
 		.getAllUsers()
 		.then(function(result){
 			if(result){
-				console.log(result);
 				res.send(result);
 				return;
 			} else {
@@ -777,6 +776,7 @@ function checkAdmin(req, res, next){
 		next();
 	}
 	else{
+		res.send(null);
 		return null;
 	}
 }

@@ -428,8 +428,11 @@ working with sql:
 	[x] admin login
 	[x] admin list all users with userTypeId
 	[x] filter users by email and userType
-
 	[x] add the ability to change the user type from the system by admin
+	[x] when admin change the userType from user to maker:
+		1. check if user already has maker profile
+		2. if not have record create maker record on Maker table
+		3. connect the maker record with the makerId on user table
 
 
 
@@ -442,9 +445,7 @@ working with sql:
 		3. when maker login again (now as maker) the system redirect him/her to maker profile (empty).
 		4. the maker update the profile 
 		5. on update after submit the object including maker details the server do the following:
-			1. check if the memberId still --> then remove it.
-			2. 
-			3. add makerId instead by fire the user.setMaker(makerId)
+			
 
 
 

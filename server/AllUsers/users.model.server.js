@@ -7,6 +7,7 @@ var db = require('../databse');
 // var role = require('../models/userType.model');
 var usersDB = require('../models/user.model');
 var membersDB = require('./members.model.server');
+var makersDB = require('./makers.model.server');
 var Member = require('../models/member.model');
 var School = require('../models/school.model');
 var Contact = require('../models/contact.model');
@@ -346,11 +347,34 @@ function setUserRole(updatedUser){
 	var newRole = updatedUser.userTypeId;
 	var userId = updatedUser.id;
 	return usersDB
-		// Be careful about the user is the user object or the whole user 
 		.findById(userId)
 		.then(function(foundUser){
-			foundUser.setUser_type(newRole);
-			return foundUser.save();
+			if(newRole == 2){
+				return foundUser
+					.setUser_type(newRole)
+					.then(function(){
+						if (!foundUser.dataValues.makerId){
+							return makersDB
+								.addNewMaker()
+								.then(function(createdMaker){
+									console.log('the created maker: ', createdMaker.get({plain: true}));
+									var makerId = createdMaker.id;
+									return foundUser
+										.setMaker(makerId)
+										// .then(function () {
+										// 	return foundUser.save();
+										// }) 
+									// return createdMaker;
+								});
+						}
+					});
+			}else if(newRole == 1){
+				return foundUser
+							.setUser_type(newRole)
+							.then(function(){
+								return foundUser.save();
+							});
+			}
 		});
 }
 
