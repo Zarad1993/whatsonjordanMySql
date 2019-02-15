@@ -23,7 +23,6 @@ db.sync();
 module.exports = usersDB;
 
 usersDB.addNewUser = addNewUser;
-usersDB.setUserRole = setUserRole;
 usersDB.addMemberIdToUser = addMemberIdToUser;
 usersDB.loginUser = loginUser;
 usersDB.getAllUsers = getAllUsers;
@@ -49,6 +48,7 @@ usersDB.removeFrozeDays = removeFrozeDays;
 usersDB.getAllFeedbacks = getAllFeedbacks;
 usersDB.updateFeedbackByAdmin = updateFeedbackByAdmin;
 usersDB.getUserDetails = getUserDetails;
+usersDB.setUserRole = setUserRole;
 
 
 function getUserDetails(userId){
@@ -341,13 +341,15 @@ function addNewUser(user){
 			})
 }
 
-// in case of changing the user role like from user to maker
-function setUserRole(user, roleId){
+// in case of changing the user role like from user to maker by admin
+function setUserRole(updatedUser){
+	var newRole = updatedUser.userTypeId;
+	var userId = updatedUser.id;
 	return usersDB
 		// Be careful about the user is the user object or the whole user 
-		.findById(user.id)
+		.findById(userId)
 		.then(function(foundUser){
-			foundUser.setUser_type(roleId);
+			foundUser.setUser_type(newRole);
 			return foundUser.save();
 		});
 }

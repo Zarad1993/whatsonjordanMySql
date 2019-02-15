@@ -78,6 +78,7 @@
 				<th>ID</th>
 				<th>Email</th>
 				<th>User Type ID</th>
+				<th>Change user type</th>
 				<!-- <th>Maker events</th>
 				<th>User Registered events</th> -->
 			</tr>
@@ -91,6 +92,10 @@
 				<td>
 					<select id="userType" ng-model="user.userTypeId" ng-options="userType.id as userType.userType for userType in model.userTypes">
 					</select>
+				</td>
+				
+				<td>
+					<button class="btn btn-danger" ng-click="model.setUserRole(user)">Confirm</button>
 				</td>
 				<!-- <td>
 					<ul ng-repeat="event in user.events">

@@ -138,7 +138,7 @@ app.put('/api/user/freezeMembership', freezeMembership);
 app.delete('/api/user/removeFrozeDays/:userId/:eventId', removeFrozeDays);
 app.get('/api/user/getAllFeedbacks', getAllFeedbacks);
 app.put('/api/admin/updateFeedbackByAdmin', updateFeedbackByAdmin);
-
+app.put('/api/admin/setUserRole', setUserRole);
 
 // ---------------------------------- /APIs requests ----------------------------------
 
@@ -821,6 +821,15 @@ function removeRegisteredEvent(req, res){
 			res.send(status);
 		});
 }
+
+	function setUserRole(req, res){
+		var updatedUser = req.body;
+		usersDB
+			.setUserRole(updatedUser)
+			.then(function(result){
+				res.send(result);
+			})
+	}
 
 
 };

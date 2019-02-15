@@ -429,8 +429,10 @@ working with sql:
 	[x] admin list all users with userTypeId
 	[x] filter users by email and userType
 
+	[x] add the ability to change the user type from the system by admin
 
-	[ ] add the ability to change the user type from the system
+
+
 
 
 	[ ] maker profile

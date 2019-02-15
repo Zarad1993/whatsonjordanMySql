@@ -29,6 +29,7 @@
 		this.updateFeedbackByAdmin = updateFeedbackByAdmin;
 		this.getAllMakers = getAllMakers;
 		this.getAllUserTypes = getAllUserTypes;
+		this.setUserRole = setUserRole;
 		
 
 
@@ -202,6 +203,10 @@
 					.then(function(result){
 						return result.data;
 					});
+		}
+
+		function setUserRole(updatedUser){
+			return $http.put('/api/admin/setUserRole', updatedUser);
 		}
 
 	}
