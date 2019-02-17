@@ -107,18 +107,6 @@
 				controllerAs: 'model'
 			})
 
-			
-			// .when('/loginMaker', {
-			// 	templateUrl: 'makers/templates/loginMaker.view.client.html',
-			// 	controller: 'loginMakerController',
-			// 	controllerAs: 'model'
-			// })
-			// .when('/registerMaker', {
-			// 	templateUrl: 'makers/templates/registerMaker.view.cliet.html',
-			// 	controller: 'makerRegisterController',
-			// 	controllerAs: 'model'
-			// })
-
 
 			.when('/makerProfile/eventsList', {
 				templateUrl:  'AllUsers/templates/makerEventsList.view.client.html',

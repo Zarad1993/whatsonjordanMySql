@@ -13,17 +13,23 @@
 				$location.url('/login');
 			}
 			model.loggedMaker = loggedMaker;
-			loggedMaker.DOB = new Date(loggedMaker.DOB);
+			
+			// if (loggedMaker.DOB){
+			// 	loggedMaker.DOB = new Date(loggedMaker.DOB);
+			// }
 			model.makerProfile = loggedMaker;
+			console.log('the maker profile: ', model.makerProfile);
+			
 		}
 		init();
 
 		function updateMakerProfile(updatedMakerProfile){
+			console.log('the updated maker profile: ', updatedMakerProfile);
 			userService
-				.updateProfile(updatedMakerProfile)
+				.updateMakerProfile(updatedMakerProfile)
 				.then(function(result){
 					console.log('Profile Updated');
-					$location.url('/profile')
+					$location.url('/profile');
 				})
 		}
 

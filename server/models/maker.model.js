@@ -13,15 +13,15 @@ var Maker = db.define('maker', {
     organizationName:{
         type: Sequelize.STRING
     },
-    DOB: {
-        type: Sequelize.DATE
-    },
+    // DOB: {
+    //     type: Sequelize.DATE
+    // },
     profileImage: {
         type: Sequelize.STRING
     },
-    gender: {
-        type: Sequelize.STRING
-    },
+    // gender: {
+    //     type: Sequelize.STRING
+    // },
     createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('NOW()')

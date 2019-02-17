@@ -55,19 +55,26 @@
 		  <div class="form-row">
 			    <div class="form-group col-md-4">
 			      <label for="firstName">First Name</label>
-			      <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="model.makerProfile.name.firstName">
+			      <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="model.makerProfile.maker.firstName">
 			    </div>
 			    <div class="form-group col-md-4">
 			      <label for="middleName">Middle Name</label>
-			      <input type="text" class="form-control" id="middleName" placeholder="Middle Name" ng-model="model.makerProfile.name.middleName">
+			      <input type="text" class="form-control" id="middleName" placeholder="Middle Name" ng-model="model.makerProfile.maker.middleName">
 			    </div>
 			    <div class="form-group col-md-4">
 			      <label for="lastName">Last Name</label>
-			      <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="model.makerProfile.name.lastName">
+			      <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="model.makerProfile.maker.lastName">
 			    </div>
-		  </div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-12">
+					<label for="middleName">Organization Name</label>
+					<input type="text" class="form-control" id="organizationName" placeholder="Organization Name"
+						ng-model="model.makerProfile.maker.organizationName">
+				</div>
+			</div>
 
-		  <div class="form-row">
+		  <!-- <div class="form-row">
 			    <div class="form-group col-md-4">
 			      <label for="gender">Gender</label>
 			      <select id="gender" class="form-control" ng-model="model.makerProfile.gender">
@@ -79,12 +86,23 @@
 			      <label for="DOB">Date of birth</label>
 			      <input type="date" class="form-control" id="DOB" placeholder="Date of birth" ng-model="model.makerProfile.DOB">
 			    </div>
-		  </div>
+		  </div> -->
 
 		  <div class="form-row">
 			  <div class="form-group col-md-12">
 				<label for="address">Address</label>
-				<input type="text" class="form-control" id="address" placeholder="Address" ng-model="model.makerProfile.address">
+				<!-- <input type="text" class="form-control" id="address" placeholder="Address" ng-model="model.makerProfile.address"> -->
+				<br>
+				Country: <input type="text" class="form-control" id="addressCountry" placeholder="Country"
+					ng-model="model.makerProfile.maker.address.country">
+				Province: <input type="text" class="form-control" id="addressProvince" placeholder="Province"
+					ng-model="model.makerProfile.maker.address.province">
+				City: <input type="text" class="form-control" id="addressCity" placeholder="City"
+					ng-model="model.makerProfile.maker.address.city">
+				Street: <input type="text" class="form-control" id="addressStreet" placeholder="Street"
+					ng-model="model.makerProfile.maker.address.street">
+				Building number: <input type="text" class="form-control" id="addressBuilding" placeholder="Building"
+					ng-model="model.makerProfile.maker.address.building">
 			  </div>
 		  </div>
 
@@ -99,35 +117,35 @@
 		  <div class="form-row">
 			    <div class="form-group col-md-6">
 			      <label for="phone1">Phone 1</label>
-			      <input type="text" id="phone1" class="form-control" placeholder="Phone 1" ng-model="model.makerProfile.contact.phone1">
+			      <input type="text" id="phone1" class="form-control" placeholder="Phone 1" ng-model="model.makerProfile.maker.contact.phone1">
 			    </div>
 
 			    <div class="form-group col-md-6">
 			      <label for="phone2">Phone 2</label>
-			      <input type="text" id="phone2" class="form-control" placeholder="Phone 2" ng-model="model.makerProfile.contact.phone2">
+			      <input type="text" id="phone2" class="form-control" placeholder="Phone 2" ng-model="model.makerProfile.maker.contact.phone2">
 			    </div>
 		  </div>
 
 		  <div class="form-row">
-			    <div class="form-group col-md-6">
+			    <!-- <div class="form-group col-md-6">
 			      <label for="emergencyName">Emergency Contact Name:</label>
 			      <input type="text" id="emergencyName" class="form-control" placeholder="Emergency Contact Name" ng-model="model.makerProfile.contact.emergency.name">
-			    </div>
+			    </div> -->
 
 			    <div class="form-group col-md-6">
 			      <label for="emergencyPhone">Emergency phone number</label>
-			      <input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number" ng-model="model.makerProfile.contact.emergency.phone">
+			      <input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number" ng-model="model.makerProfile.maker.contact.emergency">
 			    </div>
 		  </div>
 
 		  <hr class="my-4">
 
-  		  <div class="form-row">
+  		<!-- <div class="form-row">
 			  <div class="form-group col-md-12">
 				<label for="notes">Notes:</label>
 				<input type="text" class="form-control" id="notes" placeholder="Notes..." ng-model="model.makerProfile.notes">
 			  </div>
-		  </div>
+		  </div> -->
 
 
 			  

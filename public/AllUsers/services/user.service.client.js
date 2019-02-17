@@ -19,6 +19,7 @@
 		this.forgetPassword = forgetPassword;
 		this.resetPassword = resetPassword;
 		this.updateProfile = updateProfile;
+		this.updateMakerProfile = updateMakerProfile;
 		this.makePayment = makePayment;
 		this.confirmAttendance = confirmAttendance;
 		this.submitFeedback = submitFeedback;
@@ -79,6 +80,11 @@
 		function updateProfile(updatedProfile){
 			var url = '/api/user/updateProfile';
 			return $http.put(url, updatedProfile);
+		}
+
+		function updateMakerProfile(updatedMakerProfile){
+			var url = '/api/maker/updateMakerProfile';
+			return  $http.put(url, updatedMakerProfile);
 		}
 
 		function forgetPassword(email){

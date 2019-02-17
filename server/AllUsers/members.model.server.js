@@ -52,7 +52,7 @@ function updateMemberDetails(id, member){
                         return contactsDB
                             .updateContactsDetails(member.contact)
                             .then(function (updatedContact) {
-                                var contactId = updatedContact.id
+                                var contactId = updatedContact.id;
                                 return foundMember
                                     .setContact(contactId)
                                     .then(function(freshMember){

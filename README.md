@@ -438,14 +438,13 @@ working with sql:
 
 
 
-	[ ] maker profile
+	[x] maker profile
 		registration procedure:
 		1. maker register as normal user
-		2. admin change the userTypeId from 1(default) to 2(maker)
+		2. admin change the userTypeId from 1(default member) to 2(maker)
 		3. when maker login again (now as maker) the system redirect him/her to maker profile (empty).
 		4. the maker update the profile 
-		5. on update after submit the object including maker details the server do the following:
-			
+		5. on update after submit the object including maker details the server do the sane procedure of updating member profile.
 
 
 

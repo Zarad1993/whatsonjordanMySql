@@ -3,6 +3,7 @@ module.exports = function(app) {
 
 var usersDB 		= require('./users.model.server.js');
 var membersDB		= require('./members.model.server');
+var makersDB		= require('./makers.model.server');
 var eventsDB 		= require('../events/events.model.server.js');
 var passport 		= require('passport');
 var bcrypt   		= require('bcrypt-nodejs');
@@ -130,6 +131,7 @@ app.post('/api/userProfile/uploadProfilePic', upload.single('profilePicture'), u
 app.post('/api/forgetPassword/:email', forgetPassword);
 app.post('/api/resetPassword/:token', checkToken, resetPassword);
 app.put('/api/user/updateProfile', updateProfile);
+app.put('/api/maker/updateMakerProfile', updateMakerProfile);
 app.put('/api/maker/makePayment', makePayment);
 app.put('/api/maker/confirmAttendance', confirmAttendance);
 app.put('/api/user/submitFeedback', submitFeedback);
@@ -278,10 +280,18 @@ function updateProfile(req, res){
 		.then(function(result){
 			console.log('the final Updated User in users.server: ', result);
 			res.send(req.isAuthenticated() ? req.user : null);
-			// req.user = result.dataValues;
-			// console.log('the req.user is:', req.user);
-			// res.send(result);
+			
 		});
+}
+
+function updateMakerProfile(req, res){
+	var updatedMakerProfile = req.body;
+	usersDB
+		.updateMakerProfile(updatedMakerProfile)
+		.then(function(result){
+			console.log('the final Updated Maker in users.server: ', result);
+			res.send(req.isAuthenticated() ? req.user : null);
+		})
 }
 
 // Do the action here
@@ -490,8 +500,8 @@ function userStrategy(username, password, done) {
 		.findUserByEmail(username)
 		.then(
 			function(foundUser){
-				user = foundUser;
-				// console.log('the user from userStrategy: ', user);
+				var user = foundUser;
+				console.log('the user from userStrategy: ', user);
 				if(!user){
 					return done(null, false);
 				} else if(user && !bcrypt.compareSync(password, user.password)){

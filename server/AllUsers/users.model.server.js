@@ -9,6 +9,7 @@ var usersDB = require('../models/user.model');
 var membersDB = require('./members.model.server');
 var makersDB = require('./makers.model.server');
 var Member = require('../models/member.model');
+var Maker = require('../models/maker.model');
 var School = require('../models/school.model');
 var Contact = require('../models/contact.model');
 var Address = require('../models/address.model');
@@ -40,6 +41,7 @@ usersDB.addTokenToUser = addTokenToUser;
 usersDB.findUserByToken = findUserByToken;
 usersDB.resetPassword = resetPassword;
 usersDB.updateProfile = updateProfile;
+usersDB.updateMakerProfile = updateMakerProfile;
 usersDB.makePayment = makePayment;
 usersDB.confirmAttendance = confirmAttendance;
 usersDB.submitFeedback = submitFeedback;
@@ -56,10 +58,16 @@ function getUserDetails(userId){
 	return usersDB
 		.findOne({
 			where: { id: userId },
+			attributes: { exclude: ['password', 'resetPasswordExpires', 'resetPasswordToken']},
 			include: [
 				{
 					model: Member, include: [
 						Contact, Address, Nationality, School, Grade
+					]
+				},
+				{
+					model: Maker, include: [
+						{all: true}
 					]
 				}
 			]
@@ -278,6 +286,29 @@ function updateProfile(updatedProfile){
 				})
 }
 
+
+function updateMakerProfile(updatedMakerProfile){
+	return makersDB
+			.updateMakerProfile(updatedMakerProfile.maker)
+			.then(function(result){
+				console.log('the result from update maker: ', result);
+				return result;
+			})
+			.then(function(){
+				return usersDB
+					.findById(updatedMakerProfile.id, {
+						include: [
+							{
+								model: Maker, include: [{all: true}]
+							}
+						]
+					})
+					.then(function (maker) {
+						return maker.get({ plain: true });
+					})
+			})
+}
+
 function resetPassword(user, newPassword){
 	return usersDB
 			.findById(user._id)
@@ -433,14 +464,30 @@ function findUserByEmail(userEmail){
 	return usersDB
 				.findOne({
 					where:{email: userEmail},
+					// this one works
+					// attributes: {exclude: ['email']},
 					include: [
-						{model: Member, include: [
-							Contact, Address, Nationality, School, Grade 
-						]}
+						// if the user is member
+						{
+							model: Member, include: [
+								Contact, Address, Nationality, School, Grade
+							]
+						},
+						{
+							model: Maker, include: [
+								{all: true}
+							]
+						}
 					]
 				})
 				.then(function(foundUser){
-					return foundUser.get({ plain: true })
+					if(foundUser){
+						var user = foundUser.get({ plain: true });
+						console.log('the found user ', user);
+						return user;
+					}else{
+						return null;
+					}
 				})
 }
 
