@@ -7,13 +7,18 @@
 		var model = this;
 
 		function init() {
+			if(!loggedMaker){
+				$location.url('/login');
+			}
 			model.loggedMaker = loggedMaker;
 			// var makerName = loggedMaker.name;
 			// var loggedMakerId = loggedMaker._id;
 			// model.makerName = makerName;
 			// model.makerId = loggedMakerId;
+			console.log('the logged maker', loggedMaker);
+			
 			eventsService
-				.findEventsByMakerId(loggedMaker._id)
+				.findEventsByMakerId(loggedMaker.maker.id)
 				.then(function(events){
 					model.eventsList = events;
 				});

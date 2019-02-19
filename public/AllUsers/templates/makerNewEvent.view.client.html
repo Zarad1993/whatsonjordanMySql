@@ -1,50 +1,45 @@
 <!-- Navigation -->
-    <nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
-      <div class="container-fluid">
-        <div class="navbar-header ml-auto">
-            <a class="navbar-brand" href="index.html">
-              <img class="menu-logo" src="./img/logo/wojo2.jpg">
-            </a>
-            <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#!/">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#!/allEvents">Events</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#!/login" ng-show="!model.loggedMaker">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedMaker">Logout</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedMaker">Profile</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#!/about">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#!/contact">Contact</a>
-            </li>
-            
-           
-            
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <!-- <br><br> -->
+<nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
+	<div class="container-fluid">
+		<div class="navbar-header ml-auto">
+			<a class="navbar-brand" href="index.html">
+				<img class="menu-logo" src="./img/logo/wojo2.jpg">
+			</a>
+			<button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse"
+				data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		</div>
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="#!/">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!/allEvents">Events</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!/login" ng-show="!model.loggedMaker">Login</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedMaker">Logout</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedMaker">Profile</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!/about">About</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!/contact">Contact</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<!-- <br><br> -->
 <!-- /Navigation -->
-
-
-
-
 
 
 
@@ -54,161 +49,195 @@
 
 		<div class="col-12">
 			<h1>New Event</h1>
-
 			<div class="form-group">
 				<form>
 					<fieldset>
-				    <legend>New Event:</legend>
+						<legend>New Event:</legend>
 
-					<div class="form-group">
-						<label for="eventName">Event Name:</label>
-						<input class="form-control" type="text" name="eventName" id="eventName" ng-model="newEvent.name">
-				    </div>
-
-
-				    <div class="form-group">
-						<label for="category">Category:</label>
-						<input class="form-control" type="text" name="category" id="category" ng-model="newEvent.category">
-					</div>
-
-					<div class="form-group">
-						<label for="subcategory">Sub-Category:</label>
-						<input class="form-control" type="text" name="subcategory" id="subcategory" ng-model="newEvent.subcategory">
-					</div>
-					
-					<div class="form-inline">
-						<div class="form-group" style="margin-left: 10px;>
-							<label for="ageGroupTitle">Age Group Title:</label>
-							<input class="form-control" type="text" name="ageGroupTitle" id="ageGroupTitle" ng-model="newEvent.ageGroup.ageGroupTitle">
+						<div class="form-group">
+							<label for="eventName">Event Name:</label>
+							<input class="form-control" type="text" name="eventName" id="eventName" ng-model="newEvent.name">
 						</div>
 
-						<div class="form-group" style="margin-left: 10px;">
-							<label for="ageGroupFrom">Age from (inclusive):</label>
-							<input class="form-control" type="number" name="ageGroupFrom" id="ageGroupFrom" ng-model="newEvent.ageGroup.ageGroupFrom">
+						<div class="form-group">
+							<label for="category">Category:</label>
+							<select id="category" class="form-control" ng-model="newEvent.categoryId"
+								ng-options="category.id as category.category for category in model.allCategories"></select>
 						</div>
 
-						<div class="form-group" style="margin-left: 10px;>
-							<label for="ageGroupTo">Age to (inclusive):</label>
-							<input class="form-control" type="number" name="ageGroupTo" id="ageGroupTo" ng-model="newEvent.ageGroup.ageGroupTo">
+						<div class="form-group">
+							<label for="subcategory">Sub-Category:</label>
+							<select id="subCategory" class="form-control" ng-model="newEvent.subCategoryId"
+								ng-options="subCategory.id as subCategory.subcategory for subCategory in filteredSubcategories = (model.allSubCategories | filter: {categoryId: newEvent.categoryId})"></select>
 						</div>
-					</div>
-
-					<div class="form-group">
-						<label for="details">Details:</label>
-						<textarea class="form-control" rows="4" cols="50" name="details" id="details" ng-model="newEvent.details"></textarea>
-					</div>
 
 
-					<div class="form-group">
-						<label for="startingDate">Starting Date:</label>
-						<input type="date" class="form-control" rows="4" cols="50" name="startingDate" id="startingDate" ng-model="newEvent.startingDate">
-					</div>
-
-					<div class="form-group">
-						<label for="expiryDate">End Date:</label>
-						<input type="date" class="form-control" rows="4" cols="50" name="expiryDate" id="expiryDate" ng-model="newEvent.expiryDate">
-					</div>
-
-					<div class="form-group">
-						<label for="sessionStartTime">Session's starting time:</label>
-						<input type="time" class="form-control" rows="4" cols="50" name="sessionStartTime" id="sessionStartTime" ng-model="newEvent.sessionStartTime">
-					</div>
-
-					<div class="form-group">
-						<label for="sessionEndTime">Session's end time:</label>
-						<input type="time" class="form-control" rows="4" cols="50" name="sessionEndTime" id="sessionEndTime" ng-model="newEvent.sessionEndTime">
-					</div>					
-
-					<div>
-						<div class="weekDays-selector">
-						  <input type="checkbox" id="weekday-sat" class="weekday" ng-model="daysOfWeek.Sat"/>
-						  <label for="weekday-sat">Sat</label>
-						  <input type="checkbox" id="weekday-sun" class="weekday" ng-model="daysOfWeek.Sun"/>
-						  <label for="weekday-sun">Sun</label>
-						  <input type="checkbox" id="weekday-mon" class="weekday" ng-model="daysOfWeek.Mon"/>
-						  <label for="weekday-mon">Mon</label>
-						  <input type="checkbox" id="weekday-tue" class="weekday" ng-model="daysOfWeek.Tue"/>
-						  <label for="weekday-tue">Tue</label>
-						  <input type="checkbox" id="weekday-wed" class="weekday" ng-model="daysOfWeek.Wed"/>
-						  <label for="weekday-wed">Wed</label>
-						  <input type="checkbox" id="weekday-thu" class="weekday" ng-model="daysOfWeek.Thu"/>
-						  <label for="weekday-thu">Thu</label>
-						  <input type="checkbox" id="weekday-fri" class="weekday" ng-model="daysOfWeek.Fri"/>
-						  <label for="weekday-fri">Fri</label>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label for="price">Price:</label>
-						<input type="text" class="form-control" rows="4" cols="50" name="price" id="price" ng-model="newEvent.price">
-					</div>
-
-					<div class="form-group">
-						<label for="address">Address:</label>
-						<input class="form-control" type="text" name="address" id="address" ng-model="newEvent.address">
-					</div>
-
-					<div class=" form-group">
-					    <label >Map Location:  </label>
-					    <div class="form-inline">
-						    <a class="btn btn-warning" style="margin-left: 10px;" ng-click="model.getCurrentLocation()">Current location</a>
-						    <a class="btn btn-warning" data-toggle="modal" data-target="#mapModal" style="margin-left: 10px;">Location on map</a>
-						    <!-- <div class="map" id="mapForLocation"></div> -->
-						    <!-- Modal -->
-							<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalTitle" aria-hidden="true">
-							  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-							    <div class="modal-content">
-							      <div class="modal-header">
-							        <h5 class="modal-title" id="modalTitle">Get your position:</h5>
-							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							          <span aria-hidden="true">&times;</span>
-							        </button>
-							      </div>
-							      <div class="modal-body">
-							        <div class="map" id="mapForLocation"></div>
-							      </div>
-							      <div class="modal-footer">
-							      	<label type="text" id="mapLng"></label>
-							      	<label type="text" id="mapLat"></label>
-
-							        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-							        <button type="button" class="btn btn-primary" ng-click="model.getLocationFromMap()" data-dismiss="modal">Confirm Location</button>
-							      </div>
-							    </div>
-							  </div>
+						<div class="form-inline">
+							<div class="form-group" style="margin-left: 10px;">
+								<label for="ageGroupTitle">Age Group:</label>
+								<!-- <input class="form-control" type="text" name="ageGroupTitle" id="ageGroupTitle" ng-model="newEvent.ageGroup.ageGroupTitle"> -->
+								<select id="ageGroupTitle" class="form-control" ng-model="newEvent.ageGroup"
+									ng-options="ageGroup as ageGroup.name for ageGroup in model.allAgeGroups"></select>
 							</div>
-					    </div>
-						    <small class="text-danger" style="margin-left: 10px;">To show current position your browser should accept geolocation by accepting the warning message</small>
-							<br>
-						    <small class="text-danger" style="margin-left: 10px;">If the latitude and longitude not shown direct on the following boxes please reclick on the current location button again </small>
-					    <div class="form-inline">
-					      <input type="text" id="mapLongitude" class="form-control" placeholder="longitude" ng-model="model.mapLocation.longitude" style="margin-left: 10px; margin-top: 20px;">
-					      <input type="text" id="mapLatitude" class="form-control" placeholder="latitude" ng-model="model.mapLocation.latitude" style="margin-left: 10px; margin-top: 20px;">
-					    </div>
-				    </div>
+							<div class="form-group" style="margin-left: 10px;">
+								<label for="ageGroupFrom">Age from (inclusive):</label>
+								<input class="form-control" type="number" name="ageGroupFrom" id="ageGroupFrom" ng-model="newEvent.ageGroup.from" disabled>
+							
+								<label for="ageGroupTo">Age to (inclusive):</label>
+								<input class="form-control"  type="number" name="ageGroupTo" id="ageGroupTo" ng-model="newEvent.ageGroup.to" disabled>
+							</div>
+						</div>
 
-					<div class="form-group">
-						<label for="img750x450">Image source 750x450:</label>
-						<input type="text" class="form-control" rows="4" cols="50" name="img750x450" id="img750x450" ng-model="newEvent.images.img750x450">
-					</div>
+						<div class="form-group">
+							<label for="details">Details:</label>
+							<textarea class="form-control" rows="4" cols="50" name="details" id="details"
+								ng-model="newEvent.details"></textarea>
+						</div>
 
-					<div class="form-group">
-						<label for="img1200x300">Image source 1200x300:</label>
-						<input type="text" class="form-control" rows="4" cols="50" name="img1200x300" id="img1200x300" ng-model="newEvent.images.img1200x300">
-					</div>
 
-					<div class="form-group">
-						<label for="termsAndConditions">Terms & conditions: <span style="font-size: 70%; color: grey">if it is not required; please leave it empty</span></label>
-						<textarea class="form-control" rows="5" cols="50" name="termsAndConditions" id="termsAndConditions" ng-model="newEvent.termsAndConditions"></textarea>
-					</div>
+						<div class="form-group">
+							<label for="startingDate">Starting Date:</label>
+							<input type="date" class="form-control" rows="4" cols="50" name="startingDate" id="startingDate"
+								ng-model="newEvent.startingDate">
+						</div>
 
-					<!-- <button type="button" name="create" class="btn btn-primary" ng-click="model.createEvent(newEvent)">Create</button> -->
-					<button type="button" name="createEvent" class="btn btn-primary" ng-click="model.createEventDetails(newEvent, daysOfWeek, model.mapLocation)">Create Details</button>
-					</fieldset>
-				</form>
+						<div class="form-group">
+							<label for="expiryDate">End Date:</label>
+							<input type="date" class="form-control" rows="4" cols="50" name="expiryDate" id="expiryDate"
+								ng-model="newEvent.expiryDate">
+						</div>
+
+						<div class="form-group">
+							<label for="sessionStartTime">Session's starting time:</label>
+							<input type="time" class="form-control" rows="4" cols="50" name="sessionStartTime" id="sessionStartTime"
+								ng-model="newEvent.sessionStartTime">
+						</div>
+
+						<div class="form-group">
+							<label for="sessionEndTime">Session's end time:</label>
+							<input type="time" class="form-control" rows="4" cols="50" name="sessionEndTime" id="sessionEndTime"
+								ng-model="newEvent.sessionEndTime">
+						</div>
+
+						<div>
+							<div class="weekDays-selector">
+								<input type="checkbox" id="weekday-sat" class="weekday" ng-model="daysOfWeek.Sat" />
+								<label for="weekday-sat">Sat</label>
+								<input type="checkbox" id="weekday-sun" class="weekday" ng-model="daysOfWeek.Sun" />
+								<label for="weekday-sun">Sun</label>
+								<input type="checkbox" id="weekday-mon" class="weekday" ng-model="daysOfWeek.Mon" />
+								<label for="weekday-mon">Mon</label>
+								<input type="checkbox" id="weekday-tue" class="weekday" ng-model="daysOfWeek.Tue" />
+								<label for="weekday-tue">Tue</label>
+								<input type="checkbox" id="weekday-wed" class="weekday" ng-model="daysOfWeek.Wed" />
+								<label for="weekday-wed">Wed</label>
+								<input type="checkbox" id="weekday-thu" class="weekday" ng-model="daysOfWeek.Thu" />
+								<label for="weekday-thu">Thu</label>
+								<input type="checkbox" id="weekday-fri" class="weekday" ng-model="daysOfWeek.Fri" />
+								<label for="weekday-fri">Fri</label>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="price">Price:</label>
+							<input type="text" class="form-control" rows="4" cols="50" name="price" id="price"
+								ng-model="newEvent.price">
+						</div>
+
+						<div class="form-group">
+							<!-- <label for="address">Address:</label>
+							<input class="form-control" type="text" name="address" id="address" ng-model="newEvent.address"> -->
+							<div class="form-group col-md-12">
+								<label for="address">Address</label>
+								<br>
+								Country: <input type="text" class="form-control" id="addressCountry" placeholder="Country"
+									ng-model="newEvent.address.country">
+								Province: <input type="text" class="form-control" id="addressProvince" placeholder="Province"
+									ng-model="newEvent.address.province">
+								City: <input type="text" class="form-control" id="addressCity" placeholder="City"
+									ng-model="newEvent.address.city">
+								Street: <input type="text" class="form-control" id="addressStreet" placeholder="Street"
+									ng-model="newEvent.address.street">
+								Building number: <input type="text" class="form-control" id="addressBuilding" placeholder="Building"
+									ng-model="newEvent.address.building">
+							</div>
+						</div>
 			</div>
+
+			<div class=" form-group">
+				<label>Map Location: </label>
+				<div class="form-inline">
+					<a class="btn btn-warning" style="margin-left: 10px;" ng-click="model.getCurrentLocation()">Current
+						location</a>
+					<a class="btn btn-warning" data-toggle="modal" data-target="#mapModal" style="margin-left: 10px;">Location on
+						map</a>
+					<!-- <div class="map" id="mapForLocation"></div> -->
+					<!-- Modal -->
+					<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalTitle"
+						aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="modalTitle">Get your position:</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<div class="map" id="mapForLocation"></div>
+								</div>
+								<div class="modal-footer">
+									<label type="text" id="mapLng"></label>
+									<label type="text" id="mapLat"></label>
+
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+									<button type="button" class="btn btn-primary" ng-click="model.getLocationFromMap()"
+										data-dismiss="modal">Confirm Location</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<small class="text-danger" style="margin-left: 10px;">To show current position your browser should accept
+					geolocation by accepting the warning message</small>
+				<br>
+				<small class="text-danger" style="margin-left: 10px;">If the latitude and longitude not shown direct on the
+					following boxes please reclick on the current location button again </small>
+				<div class="form-inline">
+					<input type="text" id="mapLongitude" class="form-control" placeholder="longitude"
+						ng-model="model.mapLocation.longitude" style="margin-left: 10px; margin-top: 20px;">
+					<input type="text" id="mapLatitude" class="form-control" placeholder="latitude"
+						ng-model="model.mapLocation.latitude" style="margin-left: 10px; margin-top: 20px;">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="img750x450">Image source 750x450:</label>
+				<input type="text" class="form-control" rows="4" cols="50" name="img750x450" id="img750x450"
+					ng-model="newEvent.images.img750x450">
+			</div>
+
+			<div class="form-group">
+				<label for="img1200x300">Image source 1200x300:</label>
+				<input type="text" class="form-control" rows="4" cols="50" name="img1200x300" id="img1200x300"
+					ng-model="newEvent.images.img1200x300">
+			</div>
+
+			<div class="form-group">
+				<label for="termsAndConditions">Terms & conditions: <span style="font-size: 70%; color: grey">if it is not
+						required; please leave it empty</span></label>
+				<textarea class="form-control" rows="5" cols="50" name="termsAndConditions" id="termsAndConditions"
+					ng-model="newEvent.termsAndConditions"></textarea>
+			</div>
+
+			<!-- <button type="button" name="create" class="btn btn-primary" ng-click="model.createEvent(newEvent)">Create</button> -->
+			<button type="button" name="createEvent" class="btn btn-primary"
+				ng-click="model.createEventDetails(newEvent, daysOfWeek, model.mapLocation)">Create Details</button>
+			</fieldset>
+			</form>
 		</div>
 	</div>
+</div>
 
 </div>
 
@@ -225,21 +254,21 @@
 						<div>
 							<div style="margin-left: 50px;" class="form-group" ng-repeat="day in model.newEvent.eventDays">
 								<label style="background-color: lightgreen;"><b>Day: </b>{{day}}</label>
-								<input type="text" class="form-control" placeholder="program Title" ng-model="model.newEvent.programDailyDetails[day].title" style="margin-bottom: 3px;">
-								<textarea class="form-control" style="border-left: 5px; border-style: solid; border-left-color: red; margin-bottom: 3px;" rows="4" cols="50" ng-model="model.newEvent.programDailyDetails[day].details">Program details</textarea>
-								<input type="text" class="form-control" placeholder="link for video" ng-model="model.newEvent.programDailyDetails[day].videoLink">
+								<input type="text" class="form-control" placeholder="program Title"
+									ng-model="model.newEvent.programDailyDetails[day].title" style="margin-bottom: 3px;">
+								<textarea class="form-control"
+									style="border-left: 5px; border-style: solid; border-left-color: red; margin-bottom: 3px;" rows="4"
+									cols="50" ng-model="model.newEvent.programDailyDetails[day].details">Program details</textarea>
+								<input type="text" class="form-control" placeholder="link for video"
+									ng-model="model.newEvent.programDailyDetails[day].videoLink">
 								<br>
 							</div>
 						</div>
-						<button type="button" name="createDetails" class="btn btn-primary" ng-click="model.createEvent(model.newEvent)">Create</button>
+						<button type="button" name="createDetails" class="btn btn-primary"
+							ng-click="model.createEvent(model.newEvent)">Create</button>
 					</fieldset>
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
-
-		
-
-
-

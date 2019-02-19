@@ -240,6 +240,9 @@
 					deferred.resolve(user);
 					$location.url('/adminPage');
 					return deferred.promise;
+				}else{
+					deferred.reject();
+					$location.url('/');
 				}
 			});
 	}

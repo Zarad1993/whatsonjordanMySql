@@ -1,10 +1,10 @@
 var Sequelize = require('sequelize')
 var db = require('../databse')
 
-var Category = db.define('category', {
-    category: {
+var SubCategory = db.define('subCategory', {
+    subcategory: {
         type: Sequelize.STRING
     }
 })
 
-module.exports = Category;
+module.exports = SubCategory;

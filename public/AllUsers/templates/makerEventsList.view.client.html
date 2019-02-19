@@ -51,9 +51,9 @@
 		src="'../../views/htmlComponents/eventsListComponent/makerEventsList-component.view.client.html'">
 	</ng-include> -->
 
-	<h2 ng-cloak>Event Maker Name: {{model.loggedMaker.name.firstName}} {{model.loggedMaker.name.middleName}} {{model.loggedMaker.name.lastName}}</h2>
+	<h2 ng-cloak>Event Maker Name: {{model.loggedMaker.maker.firstName}} {{model.loggedMaker.maker.middleName}} {{model.loggedMaker.maker.lastName}}</h2>
 	<h4>Events List: </h4>
-
+	{{model.eventsList}}
 	<table id="t01">
 	  <tr>
 	    <th width="15%" class="text-center">Name</th>
@@ -65,8 +65,6 @@
 	    <!-- <th>Remove</th> -->
 	    <th width="10%" class="text-center">Re-create</th>
 	    <th width="15%" class="text-center">Details</th>
-
-
 	  </tr>
 	  <tr ng-repeat="event in model.eventsList">
 	    <td class="text-center">{{event.name}}</td>

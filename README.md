@@ -435,9 +435,6 @@ working with sql:
 		3. connect the maker record with the makerId on user table
 
 
-
-
-
 	[x] maker profile
 		registration procedure:
 		1. maker register as normal user
@@ -445,6 +442,13 @@ working with sql:
 		3. when maker login again (now as maker) the system redirect him/her to maker profile (empty).
 		4. the maker update the profile 
 		5. on update after submit the object including maker details the server do the sane procedure of updating member profile.
+
+
+	[x] maker create new event part 1
+		[x] create and connect category table with subcategory
+		[x] load all the categories and the subcategories once the create new event fired
+		[x] when maker choose category subCategory list will be filtered by the categoryId on subcategory object
+		[x] choose age group fom the model.allAgeGroups and set the ageGroupId on the created event
 
 
 

@@ -2,9 +2,15 @@ var Sequelize = require('sequelize');
 var db = require('../databse');
 
 var AgeGroup = db.define('ageGroup', {
-    ageGroup: {
+    name: {
         type: Sequelize.STRING
     },
-})
+    from: {
+        type: Sequelize.INTEGER
+    },
+    to: {
+        type: Sequelize.INTEGER
+    }
+});
 
 module.exports = AgeGroup;

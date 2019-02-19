@@ -3,50 +3,71 @@
 		.module('whatsOnJordan')
 		.controller('makerNewEventController', makerNewEventController);
 
-		function makerNewEventController($location, eventsService, loggedMaker, userService){
+	function makerNewEventController($location, eventsService, categoriesService, subCategoriesService, ageGroupsService, loggedMaker, userService){
 			var model = this;
 			function init(){
+				if(!loggedMaker){
+					$location.url('/login')
+				}
 				model.newEventMain = true;
 				model.loggedMaker = loggedMaker;
-				eventsService
-					.getMapBoxKey()
-					.then(function(mapBoxKey){
-						model.mapBoxKey = mapBoxKey.data;
-
-						// MapBox Maps
-					    // Get the access token from the server
-					    mapboxgl.accessToken = model.mapBoxKey;
-						
-						$('#mapModal').on('shown.bs.modal', function() {
-							// Initilise the map 
-							var map = new mapboxgl.Map({
-								container: 'mapForLocation',
-								// style: 'mapbox://styles/mapbox/streets-v10',
-								style: 'mapbox://styles/mapbox/satellite-streets-v9',
-								center: [35.87741988743201, 32.003009804995955],
-								// center: [model.position.currentposition.lng, model.position.currentposition.lat],
-								zoom: 12
+				categoriesService
+					.getAllCategories()
+					.then(function (categories) {
+						console.log('the categories:', categories);
+						model.allCategories = categories.data;
+						subCategoriesService
+							.getAllSubCategories()
+							.then(function (subCategories) {
+								console.log('the sub categories:', subCategories);
+								model.allSubCategories = subCategories.data;
+							})
+					})
+					.then(function(){
+						ageGroupsService
+							.getAllAgeGroups()
+							.then(function(allAgeGroups){
+								model.allAgeGroups = allAgeGroups.data;
 							});
-
-							// Show map controller
-							map.addControl(new mapboxgl.NavigationControl());
-
-							// Get the location from the map
-							map.on('click', function(e) {
-							    // var latitude = e.lngLat.lat;
-							    // var longitude = e.lngLat.lng;
-							    model.mapLocation.latitude = e.lngLat.lat;
-								model.mapLocation.longitude = e.lngLat.lng;
-							    document.getElementById('mapLat').innerHTML = model.mapLocation.latitude;
-							    document.getElementById('mapLng').innerHTML = model.mapLocation.longitude;
-							});
-
-						});	
-						
-						
- 						
-
-					});
+					})
+					.then(function () {
+						eventsService
+							.getMapBoxKey()
+							.then(function(mapBoxKey){
+								model.mapBoxKey = mapBoxKey.data;
+		
+								// MapBox Maps
+								// Get the access token from the server
+								mapboxgl.accessToken = model.mapBoxKey;
+								
+								$('#mapModal').on('shown.bs.modal', function() {
+									// Initilise the map 
+									var map = new mapboxgl.Map({
+										container: 'mapForLocation',
+										// style: 'mapbox://styles/mapbox/streets-v10',
+										style: 'mapbox://styles/mapbox/satellite-streets-v9',
+										center: [35.87741988743201, 32.003009804995955],
+										// center: [model.position.currentposition.lng, model.position.currentposition.lat],
+										zoom: 12
+									});
+		
+									// Show map controller
+									map.addControl(new mapboxgl.NavigationControl());
+		
+									// Get the location from the map
+									map.on('click', function(e) {
+										// var latitude = e.lngLat.lat;
+										// var longitude = e.lngLat.lng;
+										model.mapLocation.latitude = e.lngLat.lat;
+										model.mapLocation.longitude = e.lngLat.lng;
+										document.getElementById('mapLat').innerHTML = model.mapLocation.latitude;
+										document.getElementById('mapLng').innerHTML = model.mapLocation.longitude;
+									});
+		
+								});	
+							})
+					})
+					
 			}
 			init();
 			var _makerId = loggedMaker._id;
@@ -115,6 +136,7 @@
 				}
 				newEvent.daysPerWeek = days;
 				
+				// to create event days for the whole event based on days per week
 				for (start; end>start; start.setDate(start.getDate()+1)){
 					inner:
 					for(var j in days){
@@ -133,12 +155,13 @@
 
 			
 			function createEvent(newEvent){
-				newEvent.makerId = _makerId;
+				newEvent.makerId = model.loggedMaker.makerId;
 				console.log(newEvent.makerId);
 				eventsService
 					.addNewEvent(newEvent)
 					.then(function(addedEvent){
-						$location.url('/makerProfile/eventsList');
+						// $location.url('/makerProfile/eventsList');
+						console.log('the created event is: ', addedEvent);
 					});
 			}
 

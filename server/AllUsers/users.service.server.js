@@ -501,7 +501,7 @@ function userStrategy(username, password, done) {
 		.then(
 			function(foundUser){
 				var user = foundUser;
-				console.log('the user from userStrategy: ', user);
+				// console.log('the user from userStrategy: ', user);
 				if(!user){
 					return done(null, false);
 				} else if(user && !bcrypt.compareSync(password, user.password)){

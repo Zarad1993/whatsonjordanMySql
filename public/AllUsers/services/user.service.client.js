@@ -163,7 +163,7 @@
 					if (response === null){
 						return '0';
 					}
-					console.log('i found the user: ', response);
+					// console.log('i found the user: ', response);
 					return response;
 				},
 				function(err){
@@ -190,7 +190,7 @@
 			return $http
 					.get(url)
 					.then(function(result){
-						console.log('the user from service client checkUserLogin', result);
+						// console.log('the user from service client checkUserLogin', result);
 						return result.data;
 					});
 		}

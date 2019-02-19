@@ -11,7 +11,7 @@ module.exports = function(app) {
 	// app.get('/api/event/', findEvent);
 	app.get('/api/makerEvents/:makerId', findEventsByMakerId);
 	// app.get('/api/makerEventsList/:makerId', createMakerEventsList);
-	app.get('/api/event/:eventId', findEventByEventId);
+	// app.get('/api/event/:eventId', findEventByEventId);
 	app.post('/api/event/', addNewEvent);
 	app.put('/api/event/', updateEvent);
 	app.delete('/api/event/', removeEvent);
@@ -143,25 +143,25 @@ module.exports = function(app) {
 	
 	function findEventsByMakerId(req, res){
 		var makerId = req.params.makerId;
-
 		eventsDB
 			.findEventsByMakerId(makerId)
 			.then(function(events){
+				console.log('the events ares: ', events);
 				res.send(events);
 				return;
 			});
 
 	}
 
-	function findEventByEventId(req, res){
-		var eventId = req.params.eventId;
-		eventsDB
-			.findEventByEventId(eventId)
-			.then(function(event){
-				res.send(event);
-				return;
-			});
-	}
+	// function findEventByEventId(req, res){
+	// 	var eventId = req.params.eventId;
+	// 	eventsDB
+	// 		.findEventByEventId(eventId)
+	// 		.then(function(event){
+	// 			res.send(event);
+	// 			return;
+	// 		});
+	// }
 
 	function getAllEvents(req, res){
 		eventsDB

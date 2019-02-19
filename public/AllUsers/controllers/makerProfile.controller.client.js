@@ -18,7 +18,7 @@
 			// 	loggedMaker.DOB = new Date(loggedMaker.DOB);
 			// }
 			model.makerProfile = loggedMaker;
-			console.log('the maker profile: ', model.makerProfile);
+			// console.log('the maker profile: ', model.makerProfile);
 			
 		}
 		init();

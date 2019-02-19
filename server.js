@@ -39,6 +39,9 @@ require('./server/AllUsers/grades.service.server')(app);
 require('./server/AllUsers/schools.service.server')(app);
 require('./server/AllUsers/nationalities.service.server')(app);
 require('./server/AllUsers/userTypes.service.server')(app);
+require('./server/AllUsers/categories.service.server')(app);
+require('./server/AllUsers/ageGroups.service.server')(app);
+require('./server/AllUsers/subCategories.service.server')(app);
 require('./server/databse.js');
 
 

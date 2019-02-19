@@ -483,7 +483,7 @@ function findUserByEmail(userEmail){
 				.then(function(foundUser){
 					if(foundUser){
 						var user = foundUser.get({ plain: true });
-						console.log('the found user ', user);
+						// console.log('the found user ', user);
 						return user;
 					}else{
 						return null;

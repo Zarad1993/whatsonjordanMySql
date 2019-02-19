@@ -49,8 +49,9 @@ var Maker = require('./models/maker.model');
 var Contact = require('./models/contact.model');
 var Addrress = require('./models/address.model');
 var Nationality = require('./models/nationality.model');
-var Events = require('./models/event.model');
+var Event = require('./models/event.model');
 var Category = require('./models/category.model');
+var SubCategory = require('./models/subCategory.model');
 var AgeGroup = require('./models/ageGroup.model');
 var Grade = require('./models/grade.model');
 var School = require('./models/school.model');
@@ -65,14 +66,20 @@ Member.belongsTo(Contact);
 Member.belongsTo(Addrress);
 Member.belongsTo(Nationality);
 Member.belongsTo(Grade);
-Member.hasMany(Events);
+Member.hasMany(Event);
 
 Maker.belongsTo(Contact);
 Maker.belongsTo(Addrress);
-Maker.hasMany(Events)
+Maker.hasMany(Event);
 
-Events.belongsTo(Category);
-Events.belongsTo(AgeGroup);
+SubCategory.belongsTo(Category);
+
+Event.belongsTo(Category);
+Event.belongsTo(AgeGroup);
+Event.belongsTo(Maker);
+Event.belongsTo(Addrress);
+Event.belongsTo(Category);
+Event.belongsTo(SubCategory);
 
 db.sync();
 

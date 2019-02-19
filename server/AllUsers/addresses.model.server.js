@@ -6,6 +6,7 @@ db.sync();
 module.exports = addressesDB;
 
 addressesDB.updateAddressDetails = updateAddressDetails;
+addressesDB.createAddress = createAddress;
 
 function updateAddressDetails(address) {
     console.log('the address from the addressdb: ', address);
@@ -18,4 +19,8 @@ function updateAddressDetails(address) {
     }else{
         return addressesDB.create(address);
     }
+}
+
+function createAddress(address){
+    return addressesDB.create(address);
 }
