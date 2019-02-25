@@ -12,7 +12,7 @@
 
 
         function getAllCategories() {
-            return $http.get('/api/event/getAllCategories');
+            return $http.get('/api/getAllCategories');
         }
     }
 

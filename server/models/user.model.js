@@ -37,13 +37,13 @@ var User = db.define('users', {
 	resetPasswordExpires:{
 		type: Sequelize.DATE
 	},
-	createdAt:{
+	createdAt: {
 		type: Sequelize.DATE,
-		defaultValue: Sequelize.literal('NOW()')
+		defaultValue: Sequelize.NOW
 	},
-	updatedAt:{
+	updatedAt: {
 		type: Sequelize.DATE,
-		defaultValue: Sequelize.literal('NOW()')
+		defaultValue: Sequelize.NOW
 	}
 });	
 module.exports = User;

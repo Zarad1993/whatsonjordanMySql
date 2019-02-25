@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('makerProfileController', makerProfileController);
 
-	function makerProfileController(userService, loggedMaker, $location) {
+	function makerProfileController(userService, eventsService, loggedMaker, $location) {
 		var model = this;
 		model.logout = logout;
 		model.updateMakerProfile = updateMakerProfile;
@@ -18,8 +18,12 @@
 			// 	loggedMaker.DOB = new Date(loggedMaker.DOB);
 			// }
 			model.makerProfile = loggedMaker;
-			// console.log('the maker profile: ', model.makerProfile);
 			
+			eventsService
+				.findEventsByMakerId(loggedMaker.maker.id)
+				.then(function (events) {
+					model.eventsList = events;
+				});
 		}
 		init();
 

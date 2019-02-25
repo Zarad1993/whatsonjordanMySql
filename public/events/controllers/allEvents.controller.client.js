@@ -21,12 +21,15 @@
 							var birthDay = new Date(model.loggedUser.DOB);
 							var today = new Date();
 							model.loggedUser.age =  Math.abs((new Date(today - birthDay.getTime())).getUTCFullYear() - 1970);
+							console.log('the user age is: ', model.loggedUser.age);
+							
 						}
 					});
 			
 			eventsService
 				.eventConfig()
 				.then(function(result){
+					console.log('the events are:', result.data.eventsList);
 					if(result.data.eventsList.length > 0){
 						var eventsParams = result.data;
 						// bring all the events
@@ -34,11 +37,11 @@
 						// if we want the specific maker events list
 						if($routeParams.makerId){
 							var makerId = $routeParams.makerId;
-							model.eventsList = eventsParams.eventsList.filter(function(event){return (event.makerId._id == makerId);});
+							model.eventsList = eventsParams.eventsList.filter(function(event){return (event.makerId == makerId);});
 						}
 						// if there is a logged user then filter the events based on the user age compare to the event accepted ages
 						if(model.loggedUser && model.loggedUser.userTypeId===1){
-							model.eventsList = model.eventsList.filter(function(event){return (event.ageGroup.ageFrom<=model.loggedUser.age && event.ageGroup.ageTo>=model.loggedUser.age);});
+							model.eventsList = model.eventsList.filter(function(event){return (event.ageGroup.from<=model.loggedUser.age && event.ageGroup.to>=model.loggedUser.age);});
 						}
 						//  if there are events initialize them on the map
 						if(model.eventsList.length>0){
@@ -50,7 +53,7 @@
 							                      },
 							                      "geometry": {
 							                        "type": "Point",
-							                        "coordinates": model.eventsList[e].coordinates,
+													"coordinates": [JSON.parse(model.eventsList[e].geoLocation.longitude), JSON.parse(model.eventsList[e].geoLocation.latitude)],
 							                        "zoom": 5
 							                      }
 									            });

@@ -16,13 +16,19 @@ var Events = db.define('event', {
         type: Sequelize.DATE
     },
     sessionStartTime: {
-        type: Sequelize.TIME
+        type: Sequelize.DATE
     },
     sessionEndTime: {
-        type: Sequelize.TIME
+        type: Sequelize.DATE
     },
     daysPerWeek: {
-        type: Sequelize.STRING
+        type: Sequelize.JSON
+    },
+    dailyDetails:{
+        type: Sequelize.JSON
+    },
+    images: {
+        type: Sequelize.JSON
     },
     price: {
         type: Sequelize.STRING
@@ -35,6 +41,14 @@ var Events = db.define('event', {
     },
     special:{
         type: Sequelize.BOOLEAN
+    },
+    createdAt: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.NOW
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.NOW
     }
 });
 

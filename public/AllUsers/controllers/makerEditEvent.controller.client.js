@@ -3,38 +3,127 @@
 		.module('whatsOnJordan')
 		.controller('makerEditEventController', makerEditEventController);
 
-	function makerEditEventController(eventsService, $location, loggedMaker, userService){
+	function makerEditEventController(eventsService, categoriesService, subCategoriesService, ageGroupsService,  $location, loggedMaker, userService){
 		var model = this;
 
 		function init(){
+			if(!loggedMaker){
+				$location.url('/login');
+				return;
+			}
 			model.updateEventMain = true;
 			model.loggedMaker = loggedMaker;
 			eventsService
-				.findEventsByMakerId(loggedMaker._id)
+				.findEventsByMakerId(loggedMaker.maker.id)
 				.then(function(events){
+					console.log('the events',events);
 					model.eventsList = events;
 				});
 			model.selectedEvent = null;
 
-			// userService
-			// 		.checkUserLogin()
-			// 		.then(function(result){
-			// 			if(result){
-			// 				model.loggedUser = result;
-			// 			}
-			// 		});
+			//  bring categories, subcategories, ageGroups from the database and the map config from server.
+			categoriesService
+				.getAllCategories()
+				.then(function (categories) {
+					console.log('the categories:', categories);
+					model.allCategories = categories.data;
+					subCategoriesService
+						.getAllSubCategories()
+						.then(function (subCategories) {
+							console.log('the sub categories:', subCategories);
+							model.allSubCategories = subCategories.data;
+						})
+				})
+				.then(function () {
+					ageGroupsService
+						.getAllAgeGroups()
+						.then(function (allAgeGroups) {
+							model.allAgeGroups = allAgeGroups.data;
+						});
+				})
+				.then(function () {
+					eventsService
+						.getMapBoxKey()
+						.then(function (mapBoxKey) {
+							model.mapBoxKey = mapBoxKey.data;
+
+							// MapBox Maps
+							// Get the access token from the server
+							mapboxgl.accessToken = model.mapBoxKey;
+
+							$('#mapModal').on('shown.bs.modal', function () {
+								// Initilise the map 
+								var map = new mapboxgl.Map({
+									container: 'mapForLocation',
+									// style: 'mapbox://styles/mapbox/streets-v10',
+									style: 'mapbox://styles/mapbox/satellite-streets-v9',
+									center: [35.87741988743201, 32.003009804995955],
+									// center: [model.position.currentposition.lng, model.position.currentposition.lat],
+									zoom: 12
+								});
+
+								// Show map controller
+								map.addControl(new mapboxgl.NavigationControl());
+
+								// Get the location from the map
+								map.on('click', function (e) {
+									// var latitude = e.lngLat.lat;
+									// var longitude = e.lngLat.lng;
+									model.mapLocation.latitude = e.lngLat.lat;
+									model.mapLocation.longitude = e.lngLat.lng;
+									document.getElementById('mapLat').innerHTML = model.mapLocation.latitude;
+									document.getElementById('mapLng').innerHTML = model.mapLocation.longitude;
+								});
+
+							});
+						})
+				})
 		}
 		init();
 
 		model.updateEvent = updateEvent;
 		model.selectEvent = selectEvent;
+		
+		model.getCurrentLocation = getCurrentLocation;
+		model.getLocationFromMap = getLocationFromMap;
+		model.mapLocation = {longitude: 0, latitude: 0};
+
 		model.logout = logout;
 		model.updateMainEventDetails = updateMainEventDetails;
 		model.cancelUpdate = cancelUpdate;
 
 
-		function updateMainEventDetails(updatedEvent, daysOfWeek){
 
+		function getCurrentLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition);
+			} else {
+				console.log("Geolocation is not supported by this browser.");
+			}
+		}
+
+		function showPosition(position) {
+			model.mapLocation.latitude = position.coords.latitude;
+			model.mapLocation.longitude = position.coords.longitude;
+			document.getElementById('mapLongitude').value = model.mapLocation.longitude;
+			document.getElementById('mapLatitude').value = model.mapLocation.latitude;
+
+		}
+
+		function getLocationFromMap() {
+			document.getElementById('mapLongitude').value = model.mapLocation.longitude;
+			document.getElementById('mapLatitude').value = model.mapLocation.latitude;
+		}
+
+
+
+		function updateMainEventDetails(updatedEvent, daysOfWeek, mapLocation){
+			
+			console.log('the updated event is:', updatedEvent);
+			
+			// updatedEvent.mapLocation = mapLocation;
+			updatedEvent.geoLocation.latitude = mapLocation.latitude;
+			updatedEvent.geoLocation.longitude = mapLocation.longitude;
 			// create dates based on start-end dates and the days of the weeks
 			var start = new Date(updatedEvent.startingDate);
 			var end = new Date(updatedEvent.expiryDate);
@@ -81,49 +170,56 @@
 					}	
 				}
 			}
+			console.log('the calculated event days', eventDays);
+			
+			// if(updatedEvent.eventDays.length === 0){
+			// 	updatedEvent.eventDays = eventDays;
+			// }
 
-			if(updatedEvent.eventDays.length === 0){
-				updatedEvent.eventDays = eventDays;
-			}
+			// if (!updatedEvent.eventDays || updatedEvent.eventDays.length === 0) {
+				model.eventDays = eventDays;
+			// }
 			
 			// When update: check if the days per week is changed
-			for(var e in model.selectedEvent.eventDays){
-				if(model.selectedEvent.eventDays[e] !== eventDays[e]){
-					// If the days chaned then store the new days per week
+			// for(var e in model.selectedEvent.eventDays){
+				// if(model.selectedEvent.eventDays[e] !== eventDays[e]){
+					// If the days changed then store the new days per week
 					updatedEvent.eventDays = eventDays;
 					
 					// temporary store the old details for each day in array
 					var detailsArray = [];
-					for(var n in updatedEvent.programDailyDetails){
-						detailsArray.push(updatedEvent.programDailyDetails[n]);
+					for(var n in updatedEvent.dailyDetails.programDailyDetails){
+						detailsArray.push(updatedEvent.dailyDetails.programDailyDetails[n]);
 					}
 
 					// remove the old details for old days
-					for(var h in updatedEvent.programDailyDetails){
-						delete updatedEvent.programDailyDetails[h];
+					for(var h in updatedEvent.dailyDetails.programDailyDetails){
+						delete updatedEvent.dailyDetails.programDailyDetails[h];
 					}
 					
 					// store the daily details in the new dates
 					for(var d in updatedEvent.eventDays){
-						updatedEvent.programDailyDetails[updatedEvent.eventDays[d]] = detailsArray[d];
+						updatedEvent.dailyDetails.programDailyDetails[updatedEvent.eventDays[d]] = detailsArray[d];
 					}
-					break;
-				}
-			}
+					// break;
+				// }
+			// }
 
 			
 			// switch to the next form 
 			model.updateEventMain = false;
 			model.updateEventProgramDetails = true;
 		}
-
-
+		
+		
 		function updateEvent(updatedEvent){
-			var eventId = model.selectedEvent._id;
+			var eventId = model.selectedEvent.id;
+			console.log('the final updated event to go:', updatedEvent);
 			eventsService
 				.updateEvent(updatedEvent, eventId)
 				.then(function(finalEvent){
-					var url = "/makerProfile";
+					console.log('the final result after update the event: ', finalEvent);
+					var url = "/makerProfile/eventsList";
 					$location.url(url);
 				});
 		}
@@ -132,11 +228,17 @@
 			eventsService
 				.findEventByEventId(eventId)
 				.then(function(event){
+					console.log('the selected event', event);
+					model.mapLocation = { longitude: event.geoLocation.longitude, latitude: event.geoLocation.latitude };
 					event.startingDate = new Date(event.startingDate);
 					event.expiryDate = new Date(event.expiryDate);
-					event.sessionStartTime = new Date (event.sessionStartTime);
+					// event.sessionStartTime = event.startingDate.getTime();
+					event.sessionStartTime = new Date(event.sessionStartTime);
 					event.sessionEndTime = new Date (event.sessionEndTime);
 					
+					event.daysPerWeek = JSON.parse(event.daysPerWeek);
+					event.dailyDetails = JSON.parse(event.dailyDetails);
+					event.images = JSON.parse(event.images);
 					model.selectedEvent = event;
 
 					// Reverse the selected days

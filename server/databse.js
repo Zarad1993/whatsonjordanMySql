@@ -1,5 +1,7 @@
 // var mongoose = require('mongoose');
 var Sequelize = require('sequelize');
+var Op = Sequelize.Op;
+var operatorsAliases = {$gte: Op.gte}
 
 var username = process.env.MYSQL_USERNAME;
 var password = process.env.MYSQL_PASSWORD;
@@ -7,7 +9,7 @@ var password = process.env.MYSQL_PASSWORD;
 var db = new Sequelize('whatsonjordan', username, password, {
 	host: 'localhost',
 	dialect: 'mysql',
-	operatorsAliases: false,
+	operatorsAliases: operatorsAliases,
 	logging: false,
 	pool:{
 		max:10,
@@ -48,6 +50,7 @@ var Member = require('./models/member.model');
 var Maker = require('./models/maker.model');
 var Contact = require('./models/contact.model');
 var Addrress = require('./models/address.model');
+var GeoLocation = require('./models/geoLocation.model');
 var Nationality = require('./models/nationality.model');
 var Event = require('./models/event.model');
 var Category = require('./models/category.model');
@@ -60,6 +63,8 @@ var School = require('./models/school.model');
 User.belongsTo(Role);
 User.belongsTo(Member);
 User.belongsTo(Maker);
+
+// Addrress.belongsTo(GeoLocation);
 
 Member.belongsTo(School);
 Member.belongsTo(Contact);
@@ -80,6 +85,7 @@ Event.belongsTo(Maker);
 Event.belongsTo(Addrress);
 Event.belongsTo(Category);
 Event.belongsTo(SubCategory);
+Event.belongsTo(GeoLocation);
 
 db.sync();
 

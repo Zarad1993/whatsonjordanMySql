@@ -9,7 +9,7 @@ addressesDB.updateAddressDetails = updateAddressDetails;
 addressesDB.createAddress = createAddress;
 
 function updateAddressDetails(address) {
-    console.log('the address from the addressdb: ', address);
+    // console.log('the address from the addressdb: ', address);
     if(address.id){
         return addressesDB
             .findById(address.id)

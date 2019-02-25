@@ -10,7 +10,7 @@ subCategoriesDB.getAllSubCategories = getAllSubCategories;
 
 function getAllSubCategories() {
     return subCategoriesDB
-        .findAll()
+        .findAll();
         // .then(function (allSubCategories) {
         //     return allSubCategories;
         // })

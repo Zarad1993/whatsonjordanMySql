@@ -5,7 +5,7 @@ module.exports = function (app) {
 
     // ---------------------------------- APIs requests ----------------------------------
 
-    app.get('/api/event/getAllAgeGroups', getAllAgeGroups);
+    app.get('/api/getAllAgeGroups', getAllAgeGroups);
 
     // ---------------------------------- /APIs requests ----------------------------------
 

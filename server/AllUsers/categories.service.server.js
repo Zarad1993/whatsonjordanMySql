@@ -4,12 +4,10 @@ module.exports = function (app) {
     var categoriesDB = require('./categories.model.server');
 
     // ---------------------------------- APIs requests ----------------------------------
-
-    app.get('/api/event/getAllCategories', getAllCategories);
+    
+    app.get('/api/getAllCategories', getAllCategories);
 
     // ---------------------------------- /APIs requests ----------------------------------
-
-
 
 
     // ------------------------------ Functions ------------------------------

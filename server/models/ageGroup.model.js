@@ -10,6 +10,14 @@ var AgeGroup = db.define('ageGroup', {
     },
     to: {
         type: Sequelize.INTEGER
+    },
+    createdAt: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
+    },
+    updatedAt: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
     }
 });
 

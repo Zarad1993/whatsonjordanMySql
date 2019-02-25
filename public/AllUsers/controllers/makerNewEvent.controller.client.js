@@ -15,58 +15,58 @@
 					.getAllCategories()
 					.then(function (categories) {
 						console.log('the categories:', categories);
-						model.allCategories = categories.data;
-						subCategoriesService
-							.getAllSubCategories()
-							.then(function (subCategories) {
-								console.log('the sub categories:', subCategories);
-								model.allSubCategories = subCategories.data;
-							})
-					})
-					.then(function(){
-						ageGroupsService
-							.getAllAgeGroups()
-							.then(function(allAgeGroups){
-								model.allAgeGroups = allAgeGroups.data;
-							});
-					})
-					.then(function () {
-						eventsService
-							.getMapBoxKey()
-							.then(function(mapBoxKey){
-								model.mapBoxKey = mapBoxKey.data;
-		
-								// MapBox Maps
-								// Get the access token from the server
-								mapboxgl.accessToken = model.mapBoxKey;
-								
-								$('#mapModal').on('shown.bs.modal', function() {
-									// Initilise the map 
-									var map = new mapboxgl.Map({
-										container: 'mapForLocation',
-										// style: 'mapbox://styles/mapbox/streets-v10',
-										style: 'mapbox://styles/mapbox/satellite-streets-v9',
-										center: [35.87741988743201, 32.003009804995955],
-										// center: [model.position.currentposition.lng, model.position.currentposition.lat],
-										zoom: 12
-									});
-		
-									// Show map controller
-									map.addControl(new mapboxgl.NavigationControl());
-		
-									// Get the location from the map
-									map.on('click', function(e) {
-										// var latitude = e.lngLat.lat;
-										// var longitude = e.lngLat.lng;
-										model.mapLocation.latitude = e.lngLat.lat;
-										model.mapLocation.longitude = e.lngLat.lng;
-										document.getElementById('mapLat').innerHTML = model.mapLocation.latitude;
-										document.getElementById('mapLng').innerHTML = model.mapLocation.longitude;
-									});
-		
-								});	
-							})
-					})
+							model.allCategories = categories.data;
+							subCategoriesService
+								.getAllSubCategories()
+								.then(function (subCategories) {
+									console.log('the sub categories:', subCategories);
+									model.allSubCategories = subCategories.data;
+								})
+						})
+						.then(function(){
+							ageGroupsService
+								.getAllAgeGroups()
+								.then(function(allAgeGroups){
+									model.allAgeGroups = allAgeGroups.data;
+								});
+						})
+						.then(function () {
+							eventsService
+								.getMapBoxKey()
+								.then(function(mapBoxKey){
+									model.mapBoxKey = mapBoxKey.data;
+			
+									// MapBox Maps
+									// Get the access token from the server
+									mapboxgl.accessToken = model.mapBoxKey;
+									
+									$('#mapModal').on('shown.bs.modal', function() {
+										// Initilise the map 
+										var map = new mapboxgl.Map({
+											container: 'mapForLocation',
+											// style: 'mapbox://styles/mapbox/streets-v10',
+											style: 'mapbox://styles/mapbox/satellite-streets-v9',
+											center: [35.87741988743201, 32.003009804995955],
+											// center: [model.position.currentposition.lng, model.position.currentposition.lat],
+											zoom: 12
+										});
+			
+										// Show map controller
+										map.addControl(new mapboxgl.NavigationControl());
+			
+										// Get the location from the map
+										map.on('click', function(e) {
+											// var latitude = e.lngLat.lat;
+											// var longitude = e.lngLat.lng;
+											model.mapLocation.latitude = e.lngLat.lat;
+											model.mapLocation.longitude = e.lngLat.lng;
+											document.getElementById('mapLat').innerHTML = model.mapLocation.latitude;
+											document.getElementById('mapLng').innerHTML = model.mapLocation.longitude;
+										});
+			
+									});	
+								})
+						})
 					
 			}
 			init();
@@ -103,8 +103,8 @@
 
 			function createEventDetails(newEvent, daysOfWeek, mapLocation){
 				// create dates based on start-end dates and the days of the weeks
-				var start = new Date(newEvent.startingDate);
-				var end = new Date(newEvent.expiryDate);
+				var start = new Date(newEvent.main.startingDate);
+				var end = new Date(newEvent.main.expiryDate);
 				var days = [];
 				var eventDays = [];
 				for(var i in daysOfWeek){
@@ -134,7 +134,7 @@
 						}
 					}
 				}
-				newEvent.daysPerWeek = days;
+				newEvent.main.daysPerWeek = days;
 				
 				// to create event days for the whole event based on days per week
 				for (start; end>start; start.setDate(start.getDate()+1)){
@@ -147,7 +147,7 @@
 					}
 				}
 				newEvent.eventDays = eventDays;
-				newEvent.coordinates = [mapLocation.longitude, mapLocation.latitude];
+				newEvent.geoLocation = mapLocation;
 				model.newEvent = newEvent;
 				model.newEventMain = false;
 				model.newEventProgramDetails = true;
@@ -156,7 +156,7 @@
 			
 			function createEvent(newEvent){
 				newEvent.makerId = model.loggedMaker.makerId;
-				console.log(newEvent.makerId);
+				console.log('the event to create', newEvent);
 				eventsService
 					.addNewEvent(newEvent)
 					.then(function(addedEvent){

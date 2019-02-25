@@ -5,7 +5,7 @@ module.exports = function (app) {
 
     // ---------------------------------- APIs requests ----------------------------------
 
-    app.get('/api/event/getAllSubCategories', getAllSubCategories);
+    app.get('/api/getAllSubCategories', getAllSubCategories);
 
     // ---------------------------------- /APIs requests ----------------------------------
 

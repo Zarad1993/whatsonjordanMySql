@@ -12,7 +12,7 @@
 
 
         function getAllSubCategories() {
-            return $http.get('/api/event/getAllSubCategories');
+            return $http.get('/api/getAllSubCategories');
         }
     }
 

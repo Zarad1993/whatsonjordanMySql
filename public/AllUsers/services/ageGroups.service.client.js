@@ -12,7 +12,7 @@
 
 
         function getAllAgeGroups() {
-            return $http.get('/api/event/getAllAgeGroups');
+            return $http.get('/api/getAllAgeGroups');
         }
     }
 

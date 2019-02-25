@@ -11,9 +11,9 @@ module.exports = function(app) {
 	// app.get('/api/event/', findEvent);
 	app.get('/api/makerEvents/:makerId', findEventsByMakerId);
 	// app.get('/api/makerEventsList/:makerId', createMakerEventsList);
-	// app.get('/api/event/:eventId', findEventByEventId);
-	app.post('/api/event/', addNewEvent);
-	app.put('/api/event/', updateEvent);
+	app.get('/api/event/:eventId', findEventByEventId);
+	app.post('/api/event/newEvent', addNewEvent);
+	app.put('/api/updateEvent/', updateEvent);
 	app.delete('/api/event/', removeEvent);
 	app.put('/api/admin/updateEventByAdmin/:eventId', checkAdmin, updateEventByAdmin);
 	app.get('/api/eventConfig', eventConfig);
@@ -146,22 +146,23 @@ module.exports = function(app) {
 		eventsDB
 			.findEventsByMakerId(makerId)
 			.then(function(events){
-				console.log('the events ares: ', events);
+				// console.log('the events ares: ', events);
 				res.send(events);
 				return;
 			});
 
 	}
 
-	// function findEventByEventId(req, res){
-	// 	var eventId = req.params.eventId;
-	// 	eventsDB
-	// 		.findEventByEventId(eventId)
-	// 		.then(function(event){
-	// 			res.send(event);
-	// 			return;
-	// 		});
-	// }
+	function findEventByEventId(req, res){
+		var eventId = req.params.eventId;
+		eventsDB
+			.findEventByEventId(eventId)
+			.then(function(event){
+				// console.log('the found event by id is:', event);
+				res.send(event);
+				return;
+			});
+	}
 
 	function getAllEvents(req, res){
 		eventsDB
@@ -199,6 +200,23 @@ module.exports = function(app) {
 	function addNewEvent(req, res){
 		var newEvent = req.body;
 		var makerId = newEvent.makerId;
+		newEvent.main.daysPerWeek = JSON.stringify(newEvent.main.daysPerWeek);
+		newEvent.main.dailyDetails = JSON.stringify(newEvent.main.dailyDetails);
+		newEvent.main.images = JSON.stringify(newEvent.main.images);
+		
+		// newEvent.main.sessionStartTime = (new Date(newEvent.main.sessionStartTime));
+		// console.log('the session start time:', newEvent.main.sessionStartTime);
+		
+		// newEvent.main.sessionEndTime = (new Date(newEvent.main.sessionEndTime));
+		
+		// newEvent.main.startingDate = new Date(newEvent.main.startingDate).setTime(newEvent.main.sessionStartTime)
+		console.log('the starting date:', newEvent.main.startingDate);
+		console.log('the end date:', newEvent.main.startingDate);
+		console.log('the session start time:', newEvent.main.startingDate);
+		console.log('the session end time:', newEvent.main.startingDate);
+		
+		newEvent.geoLocation.latitude = JSON.stringify(newEvent.geoLocation.latitude);
+		newEvent.geoLocation.longitude = JSON.stringify(newEvent.geoLocation.longitude)
 		// events.push(newEvent);
 		eventsDB
 			.addNewEvent(makerId, newEvent)
@@ -214,29 +232,14 @@ module.exports = function(app) {
 		// request the admin to approve the amendments
 		updatedEvent.approved = false;
 		updatedEvent.special = false;
+		// console.log('the event id: ', eventId);
+		// console.log('the event to update on server', updatedEvent);		
 		eventsDB
 			.updateEvent(eventId, updatedEvent)
-			.then(function(status){
-				// res.send(status);
-				// return;
-				eventsDB
-					.findEventByEventId(eventId)
-					.then(function(event){
-						res.send(event);
-						return;
-					})
+			.then(function(result){
+				// console.log('the result after update event on DB', result);
+				res.send(result);
 			});
-		// for(var e in events){
-		// 	if (events[e].eventId === eventId){
-		// 		events[e].name = newEvent.name;
-		// 		events[e].category = newEvent.category;
-		// 		events[e].subcategory = newEvent.subcategory;
-		// 		events[e].details = newEvent.details;
-		// 		res.send(events[e]);
-		// 		return;
-		// 	}
-		// }
-		// res.send('error');
 	}
 
 	function removeEvent(req, res){

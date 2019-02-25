@@ -65,19 +65,17 @@
 		<a class="btn btn-primary" href="#!/makerProfile/editEvent">Edit Event</a>
 		<a class="btn btn-primary" href="#!/makerProfile/eventsList">Events List</a>
     <a href="#!/updateMakerProfile" class="btn btn-warning">Update profile</a>
-
-
 	</div>
 	<br>
 	<h4>Events:</h4>
 	<hr>
 	<div class="container">
 		<div class="row">
-			<div class="card border-success col-xl-4 aws-margin10" ng-repeat='event in model.makerProfile.events' style="max-width: 20rem;">
+			<div class="card border-success col-xl-4 aws-margin10" ng-repeat='event in model.eventsList' style="max-width: 20rem;">
 			  <div class="card-header text-danger"><h3>{{event.name}}</h3></div>
 			  <div class="card-body">
-			    <h5 class="card-title">Category: {{event.category}}</h5>
-			    <h5 class="card-title">Sub-Category: {{event.subcategory}}</h5>
+			    <h5 class="card-title">Category: {{event.category.category}}</h5>
+			    <h5 class="card-title">Sub-Category: {{event.subCategory.subcategory}}</h5>
 			    <p class="card-text">Details: {{event.details}}</p>
 			    <!-- <a href="" ng-click="model.removeRegisteredEvent(model.userProfile._id, event._id)" class=" btn btn-default pull-right">Remove...</a> -->
 			  </div>

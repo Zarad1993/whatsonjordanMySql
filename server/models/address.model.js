@@ -5,7 +5,7 @@ var Address = db.define('address', {
     country: {
         type: Sequelize.STRING
     },
-    province:{
+    province: {
         type: Sequelize.STRING
     },
     city: {
@@ -14,7 +14,7 @@ var Address = db.define('address', {
     street: {
         type: Sequelize.STRING
     },
-    building:{
+    building: {
         type: Sequelize.STRING
     },
     note: {

@@ -1,8 +1,11 @@
 // var mongoose = require('mongoose');
 // var eventsSchema = require('./events.schema.server.js');
 var db = require('../databse');
+var Op = db.Sequelize.Op;
+
 var eventsDB = require('../models/event.model');
-var addressDB = require('../AllUsers/addresses.model.server');
+var addressesDB = require('../AllUsers/addresses.model.server');
+var geoLocationsDB = require('../AllUsers/geoLocation.model.server');
 db.sync();
 
 // var usersDB = require('../AllUsers/users.model.server.js');
@@ -12,12 +15,11 @@ db.sync();
 module.exports = eventsDB;
 
 eventsDB.addNewEvent = addNewEvent;
-// eventsDB.getAllEvents = getAllEvents;
-// eventsDB.findEventByEventId = findEventByEventId;
+eventsDB.getAllEvents = getAllEvents;
+eventsDB.findEventByEventId = findEventByEventId;
 eventsDB.findEventsByMakerId = findEventsByMakerId;
-// eventsDB.updateEvent = updateEvent;
-// eventsDB.removeEvent = removeEvent;
-// eventsDB.updateEventByAdmin = updateEventByAdmin;
+eventsDB.updateEvent = updateEvent;
+// eventsDB.updateEventByAdmin = updateEventByAdmin;;
 // eventsDB.addMemberToEvent = addMemberToEvent;
 // eventsDB.addToDiscountedMembers = addToDiscountedMembers;
 // eventsDB.addExpense = addExpense;
@@ -66,62 +68,54 @@ function addNewEvent(makerId, event) {
 	console.log('on the addNewEvent on model');
 	console.log('makerId: ', makerId);
 	console.log('event details: ', event);
-	var categoryId = event.categoryId;
-	var subCategoryId = event.subCategoryId;
-	var ageGroupId = event.ageGroup.id;
+	var categoryId = event.category.categoryId;
+	var subCategoryId = event.category.subCategoryId;
+	var ageGroupId = event.age.ageGroup.id;
 	var address = event.address;
-	var eventDetails ={
-		name: event.name,
-		category: event.category,
-		subcategory: event.subcategory,
-		ageGroup: event.ageGroup,
-		details: event.details,
-		startingDate: event.startingDate,
-		expiryDate: event.expiryDate,
-		sessionStartTime: (new Date(event.sessionStartTime)),
-		sessionEndTime: (new Date(event.sessionEndTime)),
-		price: event.price,
-		address: event.address,
-		termsAndConditions: event.termsAndConditions,
-		daysPerWeek: JSON.stringify(event.daysPerWeek)
-	}
+	var geoLocation = event.geoLocation;
+	
 	return eventsDB
-		.create(eventDetails)
+		.create(event.main)
 		.then(function (addedEvent) {
-			// eventTemp = addedEvent;
-			// return usersDB.addEventId(makerId, addedEvent._id);
-			
-			// send the address to addressDB to create address there and then set the id on the event
-			if(event.address){
-				return addressDB
-						.createAddress(address)
-						.then(function(addedAddress){
-							var addressId = addedAddress.id;
-							addedEvent.addressId = addressId;
-							addedEvent.makerId = makerId;
-							addedEvent.categoryId = categoryId;
-							addedEvent.subCategoryId = subCategoryId;
-							addedEvent.ageGroupId = ageGroupId;
-							return addedEvent.save();
-						})
-			}
-
+			// send the address to addressesDB to create address there and then set the id on the event
+			return addressesDB
+					.createAddresss(address)
+					.then(function(addedAddress){
+						var addressId = addedAddress.id;
+						addedEvent.addressId = addressId;
+						addedEvent.makerId = makerId;
+						addedEvent.categoryId = categoryId;
+						addedEvent.subCategoryId = subCategoryId;
+						addedEvent.ageGroupId = ageGroupId;
+						return addedEvent.save();
+					})
+		})
+		.then(function(addedEvent){
+			console.log('the addedEvent before geoLocation', addedEvent);
+			return geoLocationsDB
+					.addEventLocation(geoLocation)
+					.then(function(addedLocation){
+						console.log('the added location: ', addedLocation);
+						addedEvent.geoLocationId = addedLocation.id;
+						return addedEvent.save();
+					})
 		})
 		// .then(function (maker) {
 		// 	return eventTemp;
 		// });
 }
 
-// function getAllEvents() {
-// 	var today = (new Date()).toISOString();
-// 	return eventsDB
-// 		.find({
-// 			startingDate: { $gt: today }
-// 		})
-// 		.sort('startingDate')
-// 		.populate('makerId')
-// 		.exec();
-// }
+function getAllEvents() {
+	var today = (new Date()).toISOString();
+	return eventsDB
+		.findAll({
+			where: {startingDate: {$gte: today}},
+			include: [{ all: true }]
+		})
+		// .sort('startingDate')
+		// .populate('makerId')
+		// .exec();
+}
 
 
 
@@ -219,12 +213,14 @@ function addNewEvent(makerId, event) {
 // }
 
 
-// function findEventByEventId(eventId){
-// 	return eventsDB
-// 				.findById(eventId)
-// 				.populate('registeredMembers')
-// 				.exec();
-// }
+function findEventByEventId(eventId){
+	return eventsDB
+				.find({
+					where: {id: eventId},
+					attributes: {exclude: ['createdAt', 'updatedAt', 'appropved', 'special']},
+					include: [{all:true}]
+					});
+}
 
 function findEventsByMakerId(makerId){
 	console.log('the maker id: ', makerId);
@@ -258,9 +254,40 @@ function findEventsByMakerId(makerId){
 // }
 
 
-// function updateEvent(eventId, updatedEvent){
-// 	return eventsDB.update({_id: eventId}, {$set: updatedEvent});
-// }
+function updateEvent(eventId, updatedEvent){
+	// console.log('event id: ', eventId);
+	// console.log('updated event: ', updatedEvent);	
+	updatedEvent.daysPerWeek = JSON.stringify(updatedEvent.daysPerWeek);
+	updatedEvent.dailyDetails = JSON.stringify(updatedEvent.dailyDetails);
+	updatedEvent.images = JSON.stringify(updatedEvent.images);
+
+	return eventsDB
+		.findById(eventId)
+		.then(function (foundMember) {
+			return addressesDB
+				.updateAddressDetails(updatedEvent.address)
+				.then(function (updatedAddress) {
+					return foundMember;
+				});
+		})
+		.then(function (foundMember) {
+			return geoLocationsDB
+				.updateGeoLocation(updatedEvent.geoLocation)
+				.then(function (updatedGeoLocation) {
+					return foundMember
+						.update(updatedEvent)
+						.then(function(semiFinalEvent){
+							semiFinalEvent.categoryId = updatedEvent.category.id;
+							semiFinalEvent.subCategoryId = updatedEvent.subCategory.id;
+							semiFinalEvent.ageGroupId = updatedEvent.ageGroup.id;
+							return semiFinalEvent.save();
+						});
+				});
+		});
+}
+
+
+
 
 // function removeEvent(makerId, eventId){
 // 	return eventsDB

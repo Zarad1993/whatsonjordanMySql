@@ -10,8 +10,10 @@ categoriesDB.getAllCategories = getAllCategories;
 
 function getAllCategories() {
     return categoriesDB
-        .findAll({})
+        .findAll()
         // .then(function (allCategories) {
-        //     return allCategories.map(function (category) { return category.get({ plain: true }) });;
+        //     // return allCategories.map(function (category) { return category.get({ plain: true }) });;
+        //     console.log('the categories on the model:', allCategories);
+            
         // })
 }

@@ -53,7 +53,6 @@
 
 	<h2 ng-cloak>Event Maker Name: {{model.loggedMaker.maker.firstName}} {{model.loggedMaker.maker.middleName}} {{model.loggedMaker.maker.lastName}}</h2>
 	<h4>Events List: </h4>
-	{{model.eventsList}}
 	<table id="t01">
 	  <tr>
 	    <th width="15%" class="text-center">Name</th>
@@ -68,9 +67,9 @@
 	  </tr>
 	  <tr ng-repeat="event in model.eventsList">
 	    <td class="text-center">{{event.name}}</td>
-	    <td class="text-center">{{event.category}}</td>
-	    <td class="text-center">{{event.subcategory}}</td>
-	    <td class="text-center">{{event.created | date}}</td>
+	    <td class="text-center">{{event.category.category}}</td>
+	    <td class="text-center">{{event.subCategory.subcategory}}</td>
+	    <td class="text-center">{{event.createdAt | date}}</td>
 	    <td class="text-center">{{event.registeredMembers.length}}</td>
 	    <td class="text-center"><a href="#!/makerProfile/editEvent"><span class="fa fa-pencil-square-o" aria-hidden="true"></span></a></td>
 	    <!-- <td><a href="" ><span class="fa fa-trash-o" aria-hidden="true"></span></a></td> -->

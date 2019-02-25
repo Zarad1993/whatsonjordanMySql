@@ -27,11 +27,11 @@ var Member = db.define('member', {
     },
     createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('NOW()')
+        defaultValue: Sequelize.NOW
     },
     updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('NOW()')
+        defaultValue: Sequelize.NOW
     }
 });
 module.exports = Member;

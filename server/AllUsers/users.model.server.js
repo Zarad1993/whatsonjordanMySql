@@ -368,7 +368,7 @@ function addNewUser(user){
 	return usersDB
 			.create(user)
 			.then(function(addedUser){
-				addedUser.setUser_type(1)
+				addedUser.userTypeId = 1;
 				return addedUser.save();
 			})
 }
@@ -433,7 +433,10 @@ function getAllUsers(){
 
 function getAllMakers(){
 	return usersDB
-				.find({userTypeId: 2});
+				.findAll({
+					where: {userTypeId: 2},
+					attributes: { exclude: ['password', 'resetPasswordExpires', 'resetPasswordToken', 'updatedAt', 'createdAt']}
+				});
 }
 
 function findUserById(userId){

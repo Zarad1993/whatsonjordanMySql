@@ -188,7 +188,10 @@ body {
 
 
 
-
+/* Change the cursor to pointer whene apply ng-click on attribute */
+.ngClickPointer{
+  cursor: pointer;
+}
 
 
 /* table style*/

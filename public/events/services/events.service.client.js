@@ -87,7 +87,7 @@
 		}
 
 		function addNewEvent(newEvent){
-			return $http.post('/api/event/', newEvent)
+			return $http.post('/api/event/newEvent', newEvent)
 				.then(function(response){
 					return response.data;
 				});
@@ -96,7 +96,7 @@
 
 		function updateEvent(updatedEvent, eventId){
 			// var url = '/api/event/' + eventId;
-			return $http.put('/api/event/?eventId='+eventId, updatedEvent)
+			return $http.put('/api/updateEvent/?eventId='+eventId, updatedEvent)
 				.then(function (response){
 					return response.data;					
 				});			

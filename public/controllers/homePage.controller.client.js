@@ -24,6 +24,7 @@
 			userService
 				.getAllMakers()
 				.then(function(makers){
+					console.log('the makers are: ', makers.data);
 					model.makersList = makers.data;
 				});
 

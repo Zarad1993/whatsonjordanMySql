@@ -96,7 +96,6 @@
 
 
 
-
 <!-- Page Content -->
     <!-- <br>
     <br>
@@ -106,7 +105,7 @@
         <!-- <div class="col-lg-4 mb-4" ng-repeat="event in model.eventsList | filter:{approved: true}"> -->
         <div class="col-md-6 mb-0" ng-repeat="maker in model.makersList" >
           <div class="card h-100 text-center">
-            <a href="#!/allEvents/{{maker._id}}">
+            <a href="#!/allEvents/{{maker.id}}">
               <img class="card-img-top" ng-src="{{maker.profileImage}}" alt="{{maker.name.firstName}}"> 
             </a>
           </div>
