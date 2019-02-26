@@ -132,11 +132,11 @@
 		<tbody >
 			<tr ng-repeat="event in model.events">
 				<td>{{event.name}}</td>
-				<td>{{event.category}}</td>
-				<td>{{event.makerId.name.firstName}}</td>
+				<td>{{event.category.category}}</td>
+				<td>{{event.maker.organizationName}}</td>
 				<td>{{event.startingDate | date}}</td>
 				<td>{{event.expiryDate | date}}</td>
-				<td> <input ng-model="event.approved" type="checkbox" name="approved"></td>
+				<td><input ng-model="event.approved" type="checkbox" name="approved"></td>
 				<td> <input ng-model="event.special" type="checkbox" name="special"></td>
 				<td> <a class="btn btn-primary" href="" ng-click="model.updateEventByAdmin(event)">Update</a> </td>
 			</tr>

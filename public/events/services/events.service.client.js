@@ -58,7 +58,7 @@
 		}
 
 		function updateEventByAdmin(event){
-			return $http.put('/api/admin/updateEventByAdmin/'+event._id, event)
+			return $http.put('/api/admin/updateEventByAdmin/'+event.id, event)
 				.then(function(response){
 					return response.data;
 				});

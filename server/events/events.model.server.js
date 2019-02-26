@@ -19,7 +19,7 @@ eventsDB.getAllEvents = getAllEvents;
 eventsDB.findEventByEventId = findEventByEventId;
 eventsDB.findEventsByMakerId = findEventsByMakerId;
 eventsDB.updateEvent = updateEvent;
-// eventsDB.updateEventByAdmin = updateEventByAdmin;;
+eventsDB.updateEventByAdmin = updateEventByAdmin;
 // eventsDB.addMemberToEvent = addMemberToEvent;
 // eventsDB.addToDiscountedMembers = addToDiscountedMembers;
 // eventsDB.addExpense = addExpense;
@@ -249,9 +249,9 @@ function findEventsByMakerId(makerId){
 // }
 
 
-// function updateEventByAdmin(eventId, updatedEvent){
-// 	return eventsDB.update({_id: eventId}, {$set: updatedEvent});
-// }
+function updateEventByAdmin(eventId, updatedEvent){
+	return eventsDB.update(updatedEvent, {where: {id: eventId}});
+}
 
 
 function updateEvent(eventId, updatedEvent){

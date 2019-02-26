@@ -71,7 +71,7 @@ Member.belongsTo(Contact);
 Member.belongsTo(Addrress);
 Member.belongsTo(Nationality);
 Member.belongsTo(Grade);
-Member.hasMany(Event);
+// Member.hasMany(Event);
 
 Maker.belongsTo(Contact);
 Maker.belongsTo(Addrress);
@@ -86,6 +86,10 @@ Event.belongsTo(Addrress);
 Event.belongsTo(Category);
 Event.belongsTo(SubCategory);
 Event.belongsTo(GeoLocation);
+
+// Many to Many relationship (members register for many event And Events has many members)
+Member.belongsToMany(Event, {through: 'MemberEvent'});
+Event.belongsToMany(Member, {through: 'MemberEvent'});
 
 db.sync();
 

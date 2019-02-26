@@ -40,9 +40,9 @@
 							model.eventsList = eventsParams.eventsList.filter(function(event){return (event.makerId == makerId);});
 						}
 						// if there is a logged user then filter the events based on the user age compare to the event accepted ages
-						if(model.loggedUser && model.loggedUser.userTypeId===1){
-							model.eventsList = model.eventsList.filter(function(event){return (event.ageGroup.from<=model.loggedUser.age && event.ageGroup.to>=model.loggedUser.age);});
-						}
+						// if(model.loggedUser && model.loggedUser.userTypeId===1){
+						// 	model.eventsList = model.eventsList.filter(function(event){return (event.ageGroup.from<=model.loggedUser.age && event.ageGroup.to>=model.loggedUser.age);});
+						// }
 						//  if there are events initialize them on the map
 						if(model.eventsList.length>0){
 							var mapBoxKey = eventsParams.mapBoxKey;

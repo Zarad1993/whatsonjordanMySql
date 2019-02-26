@@ -34,4 +34,10 @@ var Member = db.define('member', {
         defaultValue: Sequelize.NOW
     }
 });
+
+// Member.associate = function(models){
+//     Member.belongsToMany(models.Event, {through: 'MemberEvent'})
+// }
+
+
 module.exports = Member;
