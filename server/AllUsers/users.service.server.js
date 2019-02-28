@@ -116,7 +116,8 @@ app.get('/api/checkUserLogin', checkUserLogin);
 app.get('/api/isMaker', isMaker);
 app.get('/api/admin/isAdmin', checkAdmin, isAdmin);
 app.post('/api/logout', logout);
-app.post('/api/addEventToUser', addEventToUserEventsList);
+app.post('/api/addEventToUser', addEventToUser);
+app.get('/api/getMemberEvents/:memberId', getMemberEvents);
 app.delete('/api/removeEventFromUser/:eventId', removeRegisteredEvent);
 
 // login with google
@@ -791,27 +792,27 @@ function checkAdmin(req, res, next){
 	}
 }
 
-function addEventToUserEventsList(req, res){
+function addEventToUser(req, res){
 	var parameters = req.body;
-	var eventDetails = parameters.eventDetails;
-	var userDetails = parameters.userDetails;
-	var userId = userDetails._id;
-	var eventId = eventDetails._id;
-	usersDB
-		.updateProfile(userDetails)
-			.then(function(updatedUser){
-				usersDB	
-					.addEventToUserEventsList(userId, eventId)
-						.then(function(user){
-							eventsDB
-								.addMemberToEvent(eventId, userId)
-									.then(function (result){
-										console.log(result);
-									});
-							res.send(user);
+	var eventID = parameters.eventID;
+	var memberId = parameters.memberId;
+	// usersDB
+	// 	.updateProfile(userDetails)
+	// 		.then(function(updatedUser){
+				membersDB	
+					.addEventToMember(eventID, memberId)
+						.then(function(result){
+							// eventsDB
+							// 	.addMemberToEvent(eventId, userId)
+							// 		.then(function (result){
+							// 			console.log(result);
+							// 		});
+							console.log('what happen on addEventToMember', result);
+							
+							res.send(result);
 						});
-			});
-		// .addEventToUserEventsList(userId, eventId, userDetails)
+			// });
+		// .addEventToUser(userId, eventId, userDetails)
 		// .then(function(user){
 		// 	eventsDB
 		// 		.addMemberToEvent(eventId, userId)
@@ -820,6 +821,16 @@ function addEventToUserEventsList(req, res){
 		// 		});
 		// 	res.send(user);
 		// });
+}
+
+function getMemberEvents(req, res){
+	var memberId = req.params.memberId;
+	membersDB
+		.getMemberEvents(memberId)
+		.then(function(registeredEvents){
+			console.log('the registered events list are: ', registeredEvents);
+			res.send(registeredEvents);
+		})
 }
 
 function removeRegisteredEvent(req, res){

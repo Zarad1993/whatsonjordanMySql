@@ -20,7 +20,7 @@
 					.then(function(result){
 						if(result){
 							model.loggedUser = result;
-							model.loggedUser.DOB = new Date(model.loggedUser.DOB);
+							model.loggedUser.member.DOB = new Date(model.loggedUser.member.DOB);
 						}
 					});
 
@@ -42,23 +42,26 @@
 
 
 			function eventRegistration(event, user){
+				var eventId = event.id;
+				var memberId = user.member.id;
+				console.log('event name: ', event.name , ' user name:', user.member.firstName);
 				if (!model.loggedUser){
 					model.error1 = 'Please login or sign-up to register on this event';
 					$('#eventRegistrationModal').modal('hide');
 					$('html, body').animate({ scrollTop: 0 }, 'slow');
-
 					return;
 				} else {
-					var userId = model.loggedUser._id;
+					var userId = model.loggedUser.id;
 					var eventsList = model.loggedUser.registeredEventsList;
 					for(var e in eventsList){
-						if(eventsList[e]._id === event._id){
+						if(eventsList[e].id === event.id){
 							model.error2 = 'You already registered for this event';
 							return;
 						}
 					}
+					
 					userService
-						.addEventToUserEventsList(event, user)
+						.addEventToUser(eventId, memberId)
 						.then(function (response){
 							$location.url('/userProfile');
 					});
@@ -67,19 +70,11 @@
 					}else{
 						$("#registrationForm").validate({
 						    rules: {
-						      // notes: {
-						      //   required: true,
-						      //   minlength: 8
-						      // },
 						      termsAcceptance: {
 						      	required: true
 						      }
 						    },
 						    messages: {
-						      // notes: {
-						      //   required: "Please enter some data",
-						      //   minlength: "Your data must be at least 8 characters"
-						      // },
 						      termsAcceptance: {
 						      	required: "<b style='color: red;'>Please accept the terms and conditions</b>"
 						      }

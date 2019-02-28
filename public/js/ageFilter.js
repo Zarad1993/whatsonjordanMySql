@@ -5,7 +5,7 @@ angular
 		return function(events, age){
 			if(age){
 				events = events.filter(function(event){
-					return (event.ageGroup.ageFrom <= age && event.ageGroup.ageTo >= age);
+					return (event.ageGroup.from <= age && event.ageGroup.to >= age);
 				});
 				return events;
 			}else{

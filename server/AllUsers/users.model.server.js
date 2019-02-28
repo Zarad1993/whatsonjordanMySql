@@ -17,10 +17,7 @@ var Nationality = require('../models/nationality.model');
 var Grade = require('../models/grade.model');
 // var role = require('../models/userType.model');
 db.sync();
-
 // console.log('the User in the database is:', usersDB);
-
-
 
 module.exports = usersDB;
 
@@ -34,7 +31,7 @@ usersDB.findUserByEmail = findUserByEmail;
 usersDB.addEventId = addEventId;
 usersDB.removeEventFromList = removeEventFromList;
 usersDB.findUserByGoogleId = findUserByGoogleId;
-usersDB.addEventToUserEventsList = addEventToUserEventsList;
+// usersDB.addEventToUser = addEventToUser;
 usersDB.removeRegisteredEvent = removeRegisteredEvent;
 usersDB.addProfileImage = addProfileImage;
 usersDB.addTokenToUser = addTokenToUser;
@@ -502,28 +499,29 @@ function addEventId(userId, eventId){
 		});
 }
 
-function addEventToUserEventsList(userId, eventId, userDetails){
-	return findUserById(userId)
-				.then(function(user){
-					// this will be instead of registeredEventsList
-					var eventParams = {
-					 	eventId: eventId,
-					 	discountType: '',
-					 	discountTag: '',
-					 	percentage: 1,
-					 	eventDays: [],
-					 	discountedEventPrice: 0,
-					 	freezeDays: [],
-					 	payments: [],
-					 	attendedDays: [],
-					 	feedbacks: []
-					};
-					user.userEventParameters.push(eventParams);
-					// ////////////
-					user.registeredEventsList.push(eventId);
-					return user.save();
-		});
-}
+// function addEventToUser(userDetails, eventDetails){
+// 	return findUserById(userDetails.id)
+// 				.then(function(user){
+// 					user.addEvent(event);
+// 					// this will be instead of registeredEventsList
+// 					// var eventParams = {
+// 					//  	eventId: eventId,
+// 					//  	discountType: '',
+// 					//  	discountTag: '',
+// 					//  	percentage: 1,
+// 					//  	eventDays: [],
+// 					//  	discountedEventPrice: 0,
+// 					//  	freezeDays: [],
+// 					//  	payments: [],
+// 					//  	attendedDays: [],
+// 					//  	feedbacks: []
+// 					// };
+// 					// user.userEventParameters.push(eventParams);
+// 					// // ////////////
+// 					// user.registeredEventsList.push(eventId);
+// 					// return user.save();
+// 		});
+// }
 
 
 function removeRegisteredEvent(userId, eventId){

@@ -18,10 +18,10 @@
 						if(result){
 							model.loggedUser = result;
 							// Calculate the logged user age and add the age to the user's object
-							var birthDay = new Date(model.loggedUser.DOB);
+							var birthDay = new Date(model.loggedUser.member.DOB);
 							var today = new Date();
 							model.loggedUser.age =  Math.abs((new Date(today - birthDay.getTime())).getUTCFullYear() - 1970);
-							console.log('the user age is: ', model.loggedUser.age);
+							// console.log('the user age is: ', model.loggedUser.age);
 							
 						}
 					});
@@ -30,10 +30,11 @@
 				.eventConfig()
 				.then(function(result){
 					console.log('the events are:', result.data.eventsList);
-					if(result.data.eventsList.length > 0){
-						var eventsParams = result.data;
+					var eventsParams = result.data;
+					if (eventsParams.eventsList.length > 0){
 						// bring all the events
 						model.eventsList = eventsParams.eventsList;
+						
 						// if we want the specific maker events list
 						if($routeParams.makerId){
 							var makerId = $routeParams.makerId;
@@ -41,7 +42,7 @@
 						}
 						// if there is a logged user then filter the events based on the user age compare to the event accepted ages
 						// if(model.loggedUser && model.loggedUser.userTypeId===1){
-						// 	model.eventsList = model.eventsList.filter(function(event){return (event.ageGroup.from<=model.loggedUser.age && event.ageGroup.to>=model.loggedUser.age);});
+							// model.eventsList = model.eventsList.filter(function (event) { return (event.ageGroup.from <= model.loggedUser.age && event.ageGroup.to >= model.loggedUser.age); });
 						// }
 						//  if there are events initialize them on the map
 						if(model.eventsList.length>0){
@@ -154,6 +155,8 @@
 							
 							});
 						}
+					}else{
+						model.eventsList = result.data.eventsList;
 					}
 				}).finally(function(){model.loadingData = false});
 		}

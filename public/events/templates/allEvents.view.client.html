@@ -51,10 +51,10 @@
       <input type="text" class="form-control" name="searchByName" ng-model="search.name" placeholder="Filter by Event name">
     </div>
     <div class="col-md-3">
-      <input type="text" class="form-control" name="searchBySubcategory" ng-model="search.subcategory" placeholder="Filter by Event Subcategory">
+      <input type="text" class="form-control" name="searchBySubcategory" ng-model="search.subCategory.subcategory" placeholder="Filter by Event Subcategory">
     </div>
     <div class="col-md-3">
-      <input type="number" class="form-control" name="filterByAcceptedAge" ng-model="filterByAcceptedAge" placeholder="Filter by age">
+    <input type="number" class="form-control" name="filterByAcceptedAge" ng-model="filterByAcceptedAge" placeholder="Filter by age">
       
     </div>
   </div>
@@ -64,25 +64,28 @@
           <div class="alert alert-danger" role="alert" ng-show="filteredEvents.length==0">
             There are no events based on your filter!
           </div>
-          <!-- {{filteredEvents.length}} -->
         </div>
 
         <div class="waitingCircle" ng-if="model.loadingData">
           <!-- <img src="../../img/lg.dual-gear-loading-icon.gif"> -->
         </div>
     <div class="row">
-        <div class="col-lg-4 mb-4" ng-repeat="event in filteredEvents = (model.eventsList | filter:{approved: true} | filter:search | ageFilter:filterByAcceptedAge)" style="max-width: 20rem;">
+      <!-- <div class="col-lg-4 mb-4" ng-repeat="event in filteredEvents = (model.eventsList | filter:{approved: true} | filter:search | ageFilter:filterByAcceptedAge)" style="max-width: 20rem;"> -->
+        <div class="col-lg-4 mb-4" ng-repeat="event in filteredEvents = (model.eventsList | filter:search | ageFilter:filterByAcceptedAge)" style="max-width: 20rem;">
           <div class="card h-100 text-center">
-            <img class="card-img-top" ng-src="{{event.images.img750x450}}" alt="{{event.name}}">
-            <div class="card-body">
+              <img class="card-img-top" ng-src="{{event.images.img750x450}}" alt="{{event.name}}">
+              <div class="card-body">
+                  {{event.subCategory}}
               <h4 class="card-title" ng-cloak>{{event.name}}</h4>
-              <h4 class="card-subtitle mb-2 text-muted" ng-cloak>{{event.category}}</h4>
+              <h4 class="card-subtitle mb-2 text-muted" ng-cloak>{{event.category.category}}</h4>
               <p class="card-text" ng-cloak>From: {{event.startingDate | date}}</p>
               <p class="card-text" ng-cloak>To: {{event.expiryDate | date}}</p>
-              <p class="card-text" ng-cloak>Address: {{event.address}}</p>
+              <p class="card-text" ng-cloak>Address:</p> 
+              <p>{{event.address.country}}, {{event.address.province}}, {{event.address.city}}</p>
+              <p>Street: {{event.address.street}}, Building: {{event.address.building}}</p>
             </div>
             <div class="card-footer">
-              <a href="#!/eventDetails/{{event._id}}">More details...</a>
+              <a href="#!/eventDetails/{{event.id}}">More details...</a>
             </div>
           </div>
         </div>

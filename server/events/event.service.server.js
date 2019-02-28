@@ -92,7 +92,13 @@ module.exports = function(app) {
 		eventsDB
 			.getAllEvents()
 			.then(function(events){
-				eventsParams.eventsList = events;
+				eventsParams.eventsList = events.filter(function (event) {
+					event.images = JSON.parse(event.images);
+					event.daysPerWeek = JSON.parse(event.daysPerWeek);
+					event.dailyDetails = JSON.parse(event.dailyDetails);
+					return event.approved == true;});
+				console.log('the events aer: ', eventsParams.eventsList);
+				
 				res.send(eventsParams);
 			});
 	}

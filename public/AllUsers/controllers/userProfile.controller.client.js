@@ -14,20 +14,31 @@
 			model.loggedUser = loggedUser;
 			model.upcommingProgram = [];
 			model.userFeedbacks = [];
-			model.registeredEventsList = model.userProfile.registeredEventsList;
-			// get the upcomming daily program item
-			for(var i in model.userProfile.registeredEventsList){
-				inner: 
-				for(var e in model.userProfile.registeredEventsList[i].programDailyDetails){
-					if(new Date(e) >= new Date()){
-						// var upcome = {}
-						model.upcommingProgram.push({event: model.userProfile.registeredEventsList[i].name, 
-													 date: new Date(e),
-													 programDetails: model.userProfile.registeredEventsList[i].programDailyDetails[e]});
-						break inner;
+			var memberId = loggedUser.member.id;
+			userService
+				.getMemberEvents(memberId)
+				.then(function(registeredEvents){
+					console.log('the registeredEvents list are: ', registeredEvents.data);
+					model.registeredEventsList = registeredEvents.data;
+					
+					// get the upcomming daily program item
+					for(var i in model.registeredEventsList){
+						model.registeredEventsList[i].dailyDetails = JSON.parse(model.registeredEventsList[i].dailyDetails)
+						inner: 
+						for (var e in model.registeredEventsList[i].dailyDetails.programDailyDetails){
+							if(new Date(e) >= new Date()){
+								// var upcome = {}
+								model.upcommingProgram.push({
+															event: model.registeredEventsList[i].name, 
+															date: new Date(e),
+															programDetails: model.registeredEventsList[i].dailyDetails.programDailyDetails[e]});
+								break inner;
+							}
+						}
 					}
-				}
-			}
+				})
+
+			// model.registeredEventsList = model.userProfile.registeredEventsList;
 			for(var j in model.userProfile.userEventParameters){
 				for(var f in model.userProfile.userEventParameters[j].feedbacks){
 					model.userFeedbacks.push(model.userProfile.userEventParameters[j].feedbacks[f]);

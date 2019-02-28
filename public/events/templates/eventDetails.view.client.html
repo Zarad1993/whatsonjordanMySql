@@ -1,6 +1,3 @@
-
-
-
 <!-- Navigation -->
     <nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
       <div class="container-fluid">
@@ -42,8 +39,6 @@
     <!-- <br><br> -->
 <!-- /Navigation -->
 
-
-
 <div class="container container-top-125">
 	<h1 class="text-danger">Event details:</h1>
 	<hr>
@@ -57,21 +52,20 @@
   		<p>{{model.error2}}</p>
 	</div>
 	
-
 	<!-- Event Image -->
   <img class="img-fluid rounded mb-4" ng-src="{{model.eventDetails.images.img1200x300}}" alt="">
 	<h3>Event Name: </h3>
 	<p>{{model.eventDetails.name}}</p>
 	<h3>Event Category: </h3>
-	<p>{{model.eventDetails.category}}</p>
+	<p>{{model.eventDetails.category.category}}</p>
 	<h3>Event Sub-Category: </h3>
-	<p>{{model.eventDetails.subcategory}}</p>
+	<p>{{model.eventDetails.subCategory.subcategory}}</p>
 	<h3>Age Category: </h3>
-  <p>{{model.eventDetails.ageGroup.ageGroupTitle}}: Ages from: {{model.eventDetails.ageGroup.ageFrom}} To: {{model.eventDetails.ageGroup.ageTo}} years old.</p>
+  <p>{{model.eventDetails.ageGroup.name}}: Ages from: {{model.eventDetails.ageGroup.from}} To: {{model.eventDetails.ageGroup.to}} years old.</p>
   <h3>Event Details: </h3>
 	<p>{{model.eventDetails.details}}</p>
 	<h3>Event Address: </h3>
-  <p>{{model.eventDetails.address}}</p>
+  <p>{{model.eventDetails.address.country}}, {{model.eventDetails.address.province}}, {{model.eventDetails.address.city}}, Street: {{model.eventDetails.address.street}}, Building: {{model.eventDetails.address.building}}</p>
   <h3>Start date: </h3>
 	<p>{{model.eventDetails.startingDate | date}}</p>
 	<h3>End date: </h3>
@@ -88,9 +82,6 @@
 	<button class="btn btn-lg btn-success" data-toggle="modal" data-target="#eventRegistrationModal"><b>Register</b></button>
   <a href="#!/allEvents" class="btn btn-lg btn-danger">Cancel</a>
 
-
-
-
   <!-- Registration info -->
   <!-- <div class="row">
     <div class="col-sm-4">
@@ -106,38 +97,35 @@
         <div class="modal-body">
           <form id="registrationForm">
             <!-- Name -->
+            {{model.loggedUser.member}}
             <div class="form-row">
                 <div class="form-group col-md-4">
                   <label for="firstName">First Name</label>
-                  <input type="text" class="form-control" disabled id="firstName" placeholder="First Name" ng-model="model.loggedUser.name.firstName">
+                  <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="model.loggedUser.member.firstName" disabled>
                 </div>
                 <div class="form-group col-md-4">
                   <label for="middleName">Middle Name</label>
-                  <input type="text" class="form-control" disabled id="middleName" placeholder="Middle Name" ng-model="model.loggedUser.name.middleName">
+                  <input type="text" class="form-control" id="middleName" placeholder="Middle Name" ng-model="model.loggedUser.member.middleName" disabled>
                 </div>
                 <div class="form-group col-md-4">
                   <label for="lastName">Last Name</label>
-                  <input type="text" class="form-control" disabled id="lastName" placeholder="Last Name" ng-model="model.loggedUser.name.lastName">
+                  <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="model.loggedUser.member.lastName" disabled>
                 </div>
             </div>
-
-
 
             <div class="form-row">
               <div class="form-group col-md-4">
                 <label for="gender">Gender</label>
-                <select id="gender" class="form-control" ng-model="model.loggedUser.gender">
-                  <option>Male</option>
-                  <option>Female</option>
-                  </select>
+                <input type="text" id="gender" class="form-control" ng-model="model.loggedUser.member.gender" disabled>
               </div>
               <div class="form-group col-md-4">
                 <label for="DOB">Date of birth</label>
-                <input type="date" class="form-control" id="DOB" placeholder="Date of birth" ng-model="model.loggedUser.DOB">
+                <input type="date" class="form-control" id="DOB" placeholder="Date of birth" ng-model="model.loggedUser.member.DOB" disabled>
               </div>
               <div class="form-group col-md-4">
                 <label for="grade">Grade</label>
-                <select id="grade" class="form-control" ng-model="model.loggedUser.grade">
+                <input type="text" class="form-control" id="grade" placeholder="Grade" ng-model="model.loggedUser.member.grade.grade" disabled>
+                <!-- <select id="grade" class="form-control" ng-model="model.loggedUser.member.grade.grade">
                   <option>KG1</option>
                   <option>KG2</option>
                   <option>1</option>
@@ -152,18 +140,15 @@
                   <option>10</option>
                   <option>11</option>
                   <option>12</option>
-                  </select>
+                  </select> -->
               </div>
               <div class="form-group col-md-12">
                 <label for="school">School</label>
-                <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.loggedUser.school">
+                <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.loggedUser.member.school.name" disabled>
               </div>
           </div>
 
-
-
-
-          <div class="form-row">
+          <!-- <div class="form-row">
               <div class="form-group col-md-4">
                 <label for="medicalIssue">Any medical issues?</label>
                 <select id="medicalIssue" class="form-control" ng-model="model.loggedUser.medical.medicalIssues">
@@ -175,19 +160,29 @@
                 <label for="problemDetails">If yes please fill the details:</label>
                 <input type="text" class="form-control" id="problemDetails" placeholder="Medical issue details..." ng-model="model.loggedUser.medical.problemDetails">
               </div>
-          </div>
+          </div> -->
 
           <div class="form-row">
             <div class="form-group col-md-12">
             <label for="address">Address</label>
-            <input type="text" class="form-control" id="address" placeholder="Address" ng-model="model.loggedUser.address">
+            <!-- <input type="text" class="form-control" id="address" placeholder="Address" ng-model="model.loggedUser.address"> -->
+            Country: <input type="text" class="form-control" id="addressCountry" placeholder="Country"
+              ng-model="model.loggedUser.member.address.country" disabled>
+            Province: <input type="text" class="form-control" id="addressProvince" placeholder="Province"
+              ng-model="model.loggedUser.member.address.province" disabled>
+            City: <input type="text" class="form-control" id="addressCity" placeholder="City"
+              ng-model="model.loggedUser.member.address.city" disabled>
+            Street: <input type="text" class="form-control" id="addressStreet" placeholder="Street"
+              ng-model="model.loggedUser.member.address.street" disabled>
+            Building number: <input type="text" class="form-control" id="addressBuilding" placeholder="Building"
+              ng-model="model.loggedUser.member.address.building" disabled>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group col-md-12">
             <label for="nationality">Nationality</label>
-            <input type="text" class="form-control" id="nationality" placeholder="Nationality" ng-model="model.loggedUser.nationality">
+            <input type="text" class="form-control" id="nationality" placeholder="Nationality" ng-model="model.loggedUser.member.nationality.nationality" disabled>
             </div>
           </div>
 
@@ -200,38 +195,31 @@
           </div>
 
           <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="fatherName">Father Name</label>
-                <input type="text" id="fatherName" class="form-control" placeholder="Father Name" ng-model="model.loggedUser.contact.father.name">
-              </div>
-
-              <div class="form-group col-md-6">
-                <label for="fatherPhone">Father phone number</label>
-                <input type="text" id="fatherPhone" class="form-control" placeholder="Father phone number" ng-model="model.loggedUser.contact.father.phone">
-              </div>
-          </div>
-
-          <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="motherName">Mother Name</label>
-              <input type="text" id="motherName" class="form-control" placeholder="Mother Name" ng-model="model.loggedUser.contact.mother.name">
+              <label for="phone">Personal phone number</label>
+              <input type="text" id="phone" class="form-control" placeholder="Personal phone number"
+                ng-model="model.loggedUser.member.contact.phone" disabled>
             </div>
-
+          
+            <div class="form-group col-md-6">
+              <label for="fatherPhone">Father phone number</label>
+              <input type="text" id="fatherPhone" class="form-control" placeholder="Father phone number"
+                ng-model="model.loggedUser.member.contact.fatherPhone" disabled>
+            </div>
+          </div>
+          
+          <div class="form-row">
+          
             <div class="form-group col-md-6">
               <label for="motherPhone">Mother phone number</label>
-              <input type="text" id="motherPhone" class="form-control" placeholder="Mother phone number" ng-model="model.loggedUser.contact.mother.phone">
+              <input type="text" id="motherPhone" class="form-control" placeholder="Mother phone number"
+                ng-model="model.loggedUser.member.contact.motherPhone" disabled>
             </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="emergencyName">Emergency Name</label>
-              <input type="text" id="emergencyName" class="form-control" placeholder="Emergency Name" ng-model="model.loggedUser.contact.emergency.name">
-            </div>
-
+          
             <div class="form-group col-md-6">
               <label for="emergencyPhone">Emergency phone number</label>
-              <input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number" ng-model="model.loggedUser.contact.emergency.phone">
+              <input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number"
+                ng-model="model.loggedUser.member.contact.emergency" disabled>
             </div>
           </div>
 
@@ -240,7 +228,7 @@
           <div class="form-row">
             <div class="form-group col-md-12">
               <label for="notes">Notes:</label>
-              <input type="text" class="form-control" id="notes" name="notes" placeholder="Notes..." ng-model="model.loggedUser.notes">
+              <input type="text" class="form-control" id="notes" name="notes" placeholder="Notes..." ng-model="model.loggedUser.notes" disabled>
             </div>
           </div>
 
@@ -249,11 +237,11 @@
           <div class="form-row" ng-show="model.eventDetails.termsAndConditions">
             <div class="form-group col-md-12">
               <label for="termsAndConditions">Terms and conditions:</label>
-              <textarea class="form-control" rows='5'  id="termsAndConditions" disabled ng-model="model.eventDetails.termsAndConditions"></textarea>
+              <textarea class="form-control" rows='5'  id="termsAndConditions" disabled ng-model="model.eventDetails.termsAndConditions" disabled></textarea>
               <!-- <input type="checkbox"  name="termsAcceptance" id="termsAcceptance" required ng-model="model.loggedUser.termsAcceptance"> <label for="termsAcceptance">I read and agree the terms and conditions.</label> -->
               <br>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" ng-model="model.termsAcceptance" id="termsAcceptance" name="termsAcceptance">
+                <input class="form-check-input" type="checkbox" value="" ng-model="model.loggedUser.termsAcceptance" id="termsAcceptance" name="termsAcceptance">
                 <label class="form-check-label" for="termsAcceptance">
                   I read and agree the terms and conditions.
                 </label>
@@ -262,7 +250,6 @@
             </div>
           </div>
 
-            
             <br>
             <input type="submit" class="btn btn-success pull-right" name="register" ng-click="model.eventRegistration(model.eventDetails, model.loggedUser)" >
           </form>

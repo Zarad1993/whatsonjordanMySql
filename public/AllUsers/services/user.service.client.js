@@ -13,7 +13,8 @@
 		this.logout = logout;
 		this.isMaker = isMaker;
 		this.isAdmin = isAdmin;
-		this.addEventToUserEventsList = addEventToUserEventsList;
+		this.addEventToUser = addEventToUser;
+		this.getMemberEvents = getMemberEvents;
 		this.removeRegisteredEvent = removeRegisteredEvent;
 		this.getAllUsers = getAllUsers;
 		this.forgetPassword = forgetPassword;
@@ -110,10 +111,15 @@
 			return $http.get('/api/userTypes/getAllUserTypes');
 		}
 
-		function addEventToUserEventsList(event, user){
-			var parameters = {eventDetails: event, userDetails: user};
+		function addEventToUser(eventID, memberId){
+			var parameters = { eventID: eventID, memberId: memberId};
 			var url = '/api/addEventToUser';
 				return $http.post(url, parameters);
+		}
+
+		function getMemberEvents(memberId){
+			var url = '/api/getMemberEvents/'+memberId;
+			return $http.get(url);
 		}
 
 		function removeRegisteredEvent(userId, eventId){

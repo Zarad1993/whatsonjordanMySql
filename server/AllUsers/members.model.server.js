@@ -12,6 +12,9 @@ module.exports = membersDB;
 membersDB.addNewMember = addNewMember;
 membersDB.findMemberById = findMemberById;
 membersDB.updateMemberDetails = updateMemberDetails;
+membersDB.addEventToMember = addEventToMember;
+membersDB.getMemberEvents = getMemberEvents;
+
 
 function addNewMember(id){
     return membersDB
@@ -68,4 +71,30 @@ function updateMemberDetails(id, member){
                     return foundMember
                         .update(member)
                 })
+}
+
+
+function addEventToMember(eventID, memberId){
+    return membersDB
+        .findById(memberId)
+        .then(function(member){
+            // console.log('OK2...............');
+            return member.addEvent(eventID)
+                // .then(function(result){
+                //     console.log('what happen on addEventToMember', result);
+                //     return result;
+                // })
+        })
+}
+
+function getMemberEvents(memberId){
+    return membersDB
+                .findById(memberId)
+                .then(function(member){
+                    return member.getEvents();
+                        // .then(function(result){
+                        //     console.log('the found events on membersDB', result);
+                            
+                        // })
+                });
 }

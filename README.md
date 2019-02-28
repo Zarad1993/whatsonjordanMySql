@@ -450,12 +450,15 @@ working with sql:
 		[x] when maker choose category subCategory list will be filtered by the categoryId on subcategory object
 		[x] choose age group fom the model.allAgeGroups and set the ageGroupId on the created event
 
+	[x] fetch events from the database
+	[x] to add the ability to the admin to change the user_type (1 user, 2 maker, 3 admin)
 
+	[ ] member can register to an event
+	[ ] re add the medical problem to the database either as table or in the member table
 
+	
+	
 	[ ] get all the schools and save them on the database then the user could choose one from the list
-	[ ] create event by maker
-	[ ] fetch events from the database
-	[ ] to add the ability to the admin to change the user_type (1 user, 2 maker, 3 admin)
 
 
 remaining from user:

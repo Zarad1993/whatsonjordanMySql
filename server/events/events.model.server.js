@@ -256,7 +256,7 @@ function updateEventByAdmin(eventId, updatedEvent){
 
 function updateEvent(eventId, updatedEvent){
 	// console.log('event id: ', eventId);
-	// console.log('updated event: ', updatedEvent);	
+	console.log('updated event: ', updatedEvent);	
 	updatedEvent.daysPerWeek = JSON.stringify(updatedEvent.daysPerWeek);
 	updatedEvent.dailyDetails = JSON.stringify(updatedEvent.dailyDetails);
 	updatedEvent.images = JSON.stringify(updatedEvent.images);
@@ -277,8 +277,8 @@ function updateEvent(eventId, updatedEvent){
 					return foundMember
 						.update(updatedEvent)
 						.then(function(semiFinalEvent){
-							semiFinalEvent.categoryId = updatedEvent.category.id;
-							semiFinalEvent.subCategoryId = updatedEvent.subCategory.id;
+							semiFinalEvent.categoryId = updatedEvent.categoryId;
+							semiFinalEvent.subCategoryId = updatedEvent.subCategoryId;
 							semiFinalEvent.ageGroupId = updatedEvent.ageGroup.id;
 							return semiFinalEvent.save();
 						});
