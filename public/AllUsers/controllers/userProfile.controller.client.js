@@ -8,12 +8,13 @@
 
 		function init() {
 			if(!loggedUser){
-				$location.url('/login')
+				$location.url('/login');
+				return;
 			}
 			model.userProfile = loggedUser;
 			model.loggedUser = loggedUser;
 			model.upcommingProgram = [];
-			model.userFeedbacks = [];
+			// model.userFeedbacks = [];
 			var memberId = loggedUser.member.id;
 			userService
 				.getMemberEvents(memberId)
@@ -37,16 +38,24 @@
 						}
 					}
 				})
+				.then(function(){
+					userService
+						.getMemberFeedbacks(memberId)
+						.then(function(feedbacksList){
+							console.log('the feedback list', feedbacksList);
+							model.memberFeedbacks = feedbacksList.data;
+						})
+				})
+				;
 
-			// model.registeredEventsList = model.userProfile.registeredEventsList;
-			for(var j in model.userProfile.userEventParameters){
-				for(var f in model.userProfile.userEventParameters[j].feedbacks){
-					model.userFeedbacks.push(model.userProfile.userEventParameters[j].feedbacks[f]);
-				}
-			}
+			// for(var j in model.userProfile.userEventParameters){
+			// 	for(var f in model.userProfile.userEventParameters[j].feedbacks){
+			// 		model.userFeedbacks.push(model.userProfile.userEventParameters[j].feedbacks[f]);
+			// 	}
+			// }
+
 		}
 		init();
-
 
 		model.logout = logout;
 		model.removeRegisteredEvent = removeRegisteredEvent;
@@ -55,8 +64,8 @@
 		model.trustedUrl = trustedUrl;
 		model.submitFeedback = submitFeedback;
 
-		function submitFeedback(eventId, eventName,feedbackText){
-			var feedbackObject = {userId: model.loggedUser._id, eventId: eventId, eventName: eventName, feedbackText: feedbackText};
+		function submitFeedback(eventId, feedbackText){
+			var feedbackObject = { memberId: loggedUser.member.id, eventId: eventId, details: feedbackText};
 			userService
 				.submitFeedback(feedbackObject)
 				.then(function(result){

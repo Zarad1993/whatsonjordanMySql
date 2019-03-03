@@ -452,8 +452,14 @@ working with sql:
 
 	[x] fetch events from the database
 	[x] to add the ability to the admin to change the user_type (1 user, 2 maker, 3 admin)
+	[x] member can register to an event
 
-	[ ] member can register to an event
+
+	[x] create feedback table, each feedback has memberId eventId and feedback 
+		member has many feedbacks 
+		event has many feedbacks
+
+
 	[ ] re add the medical problem to the database either as table or in the member table
 
 	
@@ -462,8 +468,6 @@ working with sql:
 
 
 remaining from user:
-	events: 
-	registeredEventsList: 
 	userEventParameters: [
         {
             _id: false,
@@ -489,16 +493,6 @@ remaining from user:
             		attended: Boolean	
             	}
             ],
-            feedbacks: [
-            	{
-            		_id: false,
-            		date: Date,
-            		eventName: String,
-            		feedback: String,
-                    userId: String,
-                    approved: Boolean
-            	}
-            ]
         }
 
 	],

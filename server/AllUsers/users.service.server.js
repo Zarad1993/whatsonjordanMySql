@@ -3,6 +3,7 @@ module.exports = function(app) {
 
 var usersDB 		= require('./users.model.server.js');
 var membersDB		= require('./members.model.server');
+var feedbacksDB 	= require('./feedbacks.model.server');
 var makersDB		= require('./makers.model.server');
 var eventsDB 		= require('../events/events.model.server.js');
 var passport 		= require('passport');
@@ -135,13 +136,14 @@ app.put('/api/user/updateProfile', updateProfile);
 app.put('/api/maker/updateMakerProfile', updateMakerProfile);
 app.put('/api/maker/makePayment', makePayment);
 app.put('/api/maker/confirmAttendance', confirmAttendance);
-app.put('/api/user/submitFeedback', submitFeedback);
 app.put('/api/user/updateUserEventParameters', updateUserEventParameters);
 app.put('/api/user/freezeMembership', freezeMembership);
 app.delete('/api/user/removeFrozeDays/:userId/:eventId', removeFrozeDays);
 app.get('/api/user/getAllFeedbacks', getAllFeedbacks);
 app.put('/api/admin/updateFeedbackByAdmin', updateFeedbackByAdmin);
 app.put('/api/admin/setUserRole', setUserRole);
+app.post('/api/member/submitFeedback', submitFeedback);
+app.get('/api/member/getMemberFeedbacks/:memberId', getMemberFeedbacks);
 
 // ---------------------------------- /APIs requests ----------------------------------
 
@@ -230,13 +232,21 @@ function updateUserEventParameters(req, res){
 
 function submitFeedback(req, res){
 	var feedbackObject = req.body;
-	usersDB
+	feedbacksDB
 		.submitFeedback(feedbackObject)
 		.then(function(result){
 			if(result){
 				res.send('feedback submitted');
-				
 			}
+		});
+}
+
+function getMemberFeedbacks(req, res){
+	var memberId = req.params.memberId;
+	feedbacksDB
+		.getMemberFeedbacks(memberId)
+		.then(function(feedbacksList){
+			res.send(feedbacksList);
 		});
 }
 
@@ -828,7 +838,6 @@ function getMemberEvents(req, res){
 	membersDB
 		.getMemberEvents(memberId)
 		.then(function(registeredEvents){
-			console.log('the registered events list are: ', registeredEvents);
 			res.send(registeredEvents);
 		})
 }

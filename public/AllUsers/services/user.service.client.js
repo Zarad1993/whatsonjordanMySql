@@ -23,7 +23,6 @@
 		this.updateMakerProfile = updateMakerProfile;
 		this.makePayment = makePayment;
 		this.confirmAttendance = confirmAttendance;
-		this.submitFeedback = submitFeedback;
 		this.updateUserEventParameters = updateUserEventParameters;
 		this.freezeMembership = freezeMembership;
 		this.removeFrozeDays = removeFrozeDays;
@@ -32,6 +31,8 @@
 		this.getAllMakers = getAllMakers;
 		this.getAllUserTypes = getAllUserTypes;
 		this.setUserRole = setUserRole;
+		this.submitFeedback = submitFeedback;
+		this.getMemberFeedbacks = getMemberFeedbacks;
 		
 
 
@@ -64,8 +65,13 @@
 		}
 
 		function submitFeedback(feedbackObject){
-			var url = '/api/user/submitFeedback';
-			return $http.put(url, feedbackObject);
+			var url = '/api/member/submitFeedback';
+			return $http.post(url, feedbackObject);
+		}
+
+		function getMemberFeedbacks(memberId){
+			var url = '/api/member/getMemberFeedbacks/'+memberId;
+			return $http.get(url);
 		}
 
 		function confirmAttendance(totalAttended){

@@ -78,12 +78,7 @@ function addEventToMember(eventID, memberId){
     return membersDB
         .findById(memberId)
         .then(function(member){
-            // console.log('OK2...............');
             return member.addEvent(eventID)
-                // .then(function(result){
-                //     console.log('what happen on addEventToMember', result);
-                //     return result;
-                // })
         })
 }
 
@@ -91,10 +86,8 @@ function getMemberEvents(memberId){
     return membersDB
                 .findById(memberId)
                 .then(function(member){
-                    return member.getEvents();
-                        // .then(function(result){
-                        //     console.log('the found events on membersDB', result);
-                            
-                        // })
+                    return member.getEvents({
+                        include: [{all: true}],
+                    });
                 });
 }

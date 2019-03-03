@@ -58,7 +58,7 @@ var SubCategory = require('./models/subCategory.model');
 var AgeGroup = require('./models/ageGroup.model');
 var Grade = require('./models/grade.model');
 var School = require('./models/school.model');
-
+var Feedback = require('./models/feedback.model');
 
 User.belongsTo(Role);
 User.belongsTo(Member);
@@ -90,6 +90,18 @@ Event.belongsTo(GeoLocation);
 // Many to Many relationship (members register for many event And Events has many members)
 Member.belongsToMany(Event, {through: 'MemberEvent'});
 Event.belongsToMany(Member, {through: 'MemberEvent'});
+
+// One to Many relationship between member and feedback each member has many feedbacks and each feedback belongsto member
+// feedback table (memberId, eventId, feedback)
+// Member.hasMany(Feedback);
+// will add to member .getFeedbacks .setFeedbacks .createFeedback .addFeedbacks .removeFeedback .removeFeedbacks .hasFeedback .hasFeedbacks .counFeedbacks
+Feedback.belongsTo(Member);
+// will create feedback .getMember .setMember .createMember
+Feedback.belongsTo(Event);
+// will create feedback .getEvent .setEvent .createEvent
+
+
+
 
 db.sync();
 
