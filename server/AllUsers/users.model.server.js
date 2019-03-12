@@ -432,7 +432,8 @@ function getAllMakers(){
 	return usersDB
 				.findAll({
 					where: {userTypeId: 2},
-					attributes: { exclude: ['password', 'resetPasswordExpires', 'resetPasswordToken', 'updatedAt', 'createdAt']}
+					attributes: { exclude: ['password', 'resetPasswordExpires', 'resetPasswordToken', 'updatedAt', 'createdAt']},
+					include: [{model: Maker}]
 				});
 }
 

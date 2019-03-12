@@ -44,7 +44,7 @@
 		}
 
 		function getAllFeedbacks(){
-			return $http.get('/api/user/getAllFeedbacks');
+			return $http.get('/api/member/getAllFeedbacks');
 		}
 
 
@@ -110,7 +110,7 @@
 		}
 
 		function getAllMakers(){
-			return $http.get('/api/user/getAllMakers');
+			return $http.get('/api/maker/getAllMakers');
 		}
 
 		function getAllUserTypes(){

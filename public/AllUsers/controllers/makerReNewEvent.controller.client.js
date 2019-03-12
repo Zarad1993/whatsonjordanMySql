@@ -3,81 +3,156 @@
 		.module('whatsOnJordan')
 		.controller('makerReNewEventController', makerReNewEventController);
 
-		function makerReNewEventController($location, $routeParams, eventsService, loggedMaker, userService){
+	function makerReNewEventController($location, $routeParams, eventsService, categoriesService, subCategoriesService, ageGroupsService, loggedMaker, userService){
 			var model = this;
 			function init(){
 				var eventId = $routeParams.eventId;
 				model.loggedMaker = loggedMaker;
-				
-				eventsService
-					.getMapBoxKey()
-					.then(function(mapBoxKey){
-						model.mapBoxKey = mapBoxKey.data;
+				model.newAddressAdded = false;
+				model.newGeoLocationAdded = false;
+				var makerId = loggedMaker.makerId;
 
-						// MapBox Maps
-					    // Get the access token from the server
-					    mapboxgl.accessToken = model.mapBoxKey;
-						
-						$('#mapModal').on('shown.bs.modal', function() {
-							// Initilise the map 
-							var map = new mapboxgl.Map({
-								container: 'mapForLocation',
-								// style: 'mapbox://styles/mapbox/streets-v10',
-								style: 'mapbox://styles/mapbox/satellite-streets-v9',
-								center: [35.87741988743201, 32.003009804995955],
-								// center: [model.position.currentposition.lng, model.position.currentposition.lat],
-								zoom: 12
+				categoriesService
+					.getAllCategories()
+					.then(function (categories) {
+						// console.log('the categories:', categories);
+						model.allCategories = categories.data;
+						subCategoriesService
+							.getAllSubCategories()
+							.then(function (subCategories) {
+								// console.log('the sub categories:', subCategories);
+								model.allSubCategories = subCategories.data;
+							})
+					})
+					.then(function () {
+						ageGroupsService
+							.getAllAgeGroups()
+							.then(function (allAgeGroups) {
+								model.allAgeGroups = allAgeGroups.data;
 							});
-
-							// Show map controller
-							map.addControl(new mapboxgl.NavigationControl());
-
-							// Get the location from the map
-							map.on('click', function(e) {
-							    // var latitude = e.lngLat.lat;
-							    // var longitude = e.lngLat.lng;
-							    model.mapLocation.latitude = e.lngLat.lat;
-								model.mapLocation.longitude = e.lngLat.lng;
-							    document.getElementById('mapLat').innerHTML = model.mapLocation.latitude;
-							    document.getElementById('mapLng').innerHTML = model.mapLocation.longitude;
+					})
+					.then(function(){
+						eventsService	
+							.getMakerAddresses(makerId)
+							.then(function(allAddresses){
+								model.allAddresses = allAddresses.data;
 							});
-						});	
+					})
+					.then(function () {
+						eventsService
+							.getMapBoxKey()
+							.then(function (mapBoxKey) {
+								model.mapBoxKey = mapBoxKey.data;
+
+								// MapBox Maps
+								// Get the access token from the server
+								mapboxgl.accessToken = model.mapBoxKey;
+
+								$('#mapModal').on('shown.bs.modal', function () {
+									// Initilise the map 
+									var map = new mapboxgl.Map({
+										container: 'mapForLocation',
+										// style: 'mapbox://styles/mapbox/streets-v10',
+										style: 'mapbox://styles/mapbox/satellite-streets-v9',
+										center: [35.87741988743201, 32.003009804995955],
+										// center: [model.position.currentposition.lng, model.position.currentposition.lat],
+										zoom: 12
+									});
+
+									// Show map controller
+									map.addControl(new mapboxgl.NavigationControl());
+
+									// Get the location from the map
+									map.on('click', function (e) {
+										// var latitude = e.lngLat.lat;
+										// var longitude = e.lngLat.lng;
+										model.mapLocation.latitude = e.lngLat.lat;
+										model.mapLocation.longitude = e.lngLat.lng;
+										document.getElementById('mapLat').innerHTML = model.mapLocation.latitude;
+										document.getElementById('mapLng').innerHTML = model.mapLocation.longitude;
+									});
+
+								});
+							});
 					});
 
 				eventsService
 					.findEventByEventId(eventId)
 					.then(function(eventDetails){
 						// model.eventDetails = eventDetails;
-						var oldEvent = eventDetails;
-						var oldEventId = oldEvent._id;
-						var unnecessaryProperties = ['created', 'eventDays', 'registeredMembers', 'discountedMembers', 'expenses', '_id', 'startingDate', 'expiryDate', 'makerId', 'special', '__v', 'approved', 'programDailyDetails'];
-						for(var i in unnecessaryProperties){
+						model.mapLocation = { longitude: eventDetails.geoLocation.longitude, latitude: eventDetails.geoLocation.latitude };
+						eventDetails.startingDate = new Date(eventDetails.startingDate);
+						eventDetails.expiryDate = new Date(eventDetails.expiryDate);
+						// event.sessionStartTime = event.startingDate.getTime();
+						eventDetails.sessionStartTime = new Date(eventDetails.sessionStartTime);
+						eventDetails.sessionEndTime = new Date(eventDetails.sessionEndTime);
+						
+						eventDetails.daysPerWeek = JSON.parse(eventDetails.daysPerWeek);
+						eventDetails.dailyDetails = JSON.parse(eventDetails.dailyDetails);
+						eventDetails.images = JSON.parse(eventDetails.images);
+						
+						// var oldEvent = eventDetails;
+						var originalEventId = eventDetails.id;
+						// var unnecessaryProperties = ['created', 'eventDays', 'registeredMembers', 'discountedMembers', 'expenses', 'id', 'startingDate', 'expiryDate', 'makerId', 'special', '__v', 'approved', 'programDailyDetails'];
+						var unnecessaryProperties = ['members', 'id', 'startingDate', 'expiryDate', 'special', 'approved'];
+						for(var c in unnecessaryProperties){
 							// console.log(oldEvent[unnecessaryProperties[i]]);
-							delete(oldEvent[unnecessaryProperties[i]]);
+							delete(eventDetails[unnecessaryProperties[c]]);
 						}
-						model.newEvent = oldEvent;
-						model.newEvent.originalEventId = oldEventId;
+						model.newEvent = eventDetails;
+						model.newEvent.originalEventId = originalEventId;
+						// Reverse the selected days
+						// 0: Sun   1: Mon   2: Tue   3: Wed    4: Thu  5: Fri  6: Sat 			
+						var daysOfWeek = { Sun: false, Mon: false, Tue: false, Wed: false, Thu: false, Fri: false, Sat: false };
+						for (var i in model.newEvent.daysPerWeek) {
+							switch (model.newEvent.daysPerWeek[i]) {
+								case 0:
+									daysOfWeek.Sun = true;
+									break;
+								case 1:
+									daysOfWeek.Mon = true;
+									break;
+								case 2:
+									daysOfWeek.Tue = true;
+									break;
+								case 3:
+									daysOfWeek.Wed = true;
+									break;
+								case 4:
+									daysOfWeek.Thu = true;
+									break;
+								case 5:
+									daysOfWeek.Fri = true;
+									break;
+								case 6:
+									daysOfWeek.Sat = true;
+									break;
+							}
+						}
+						model.daysOfWeek = daysOfWeek;
 						// console.log(model.newEvent);
+						// console.log('the event details to renew: ', model.newEvent);
 						model.eventDetailsMain = true;
 					});
-
-			}
-
+					
+				}
+				
 			init();
-			var _makerId = loggedMaker._id;
 
 
-			model.createEvent = createEvent;
+			model.reNewEvent = reNewEvent;
 			model.logout = logout;
 			model.createEventDetails = createEventDetails;
 			model.getCurrentLocation = getCurrentLocation;
 			model.getLocationFromMap = getLocationFromMap;
 			model.mapLocation = {longitude: 0, latitude: 0};
+			model.addNewAddress = addNewAddress;
 
 
 			function getCurrentLocation() {
 			    if (navigator.geolocation) {
-			        navigator.geolocation.getCurrentPosition(showPosition);
+					navigator.geolocation.getCurrentPosition(showPosition);
+					model.newGeoLocationAdded = true;
 			    } else { 
 			        console.log("Geolocation is not supported by this browser.");
 			    }
@@ -94,9 +169,14 @@
 			function getLocationFromMap(){
 				document.getElementById('mapLongitude').value = model.mapLocation.longitude;
 				document.getElementById('mapLatitude').value = model.mapLocation.latitude;
+				model.newGeoLocationAdded = true;
 			}
 
 			function createEventDetails(reNewed, newEvent, daysOfWeek, mapLocation){
+				console.log('the event to renew', reNewed);
+				
+				reNewed.geoLocation.latitude = mapLocation.latitude;
+				reNewed.geoLocation.longitude = mapLocation.longitude;
 				// create dates based on start-end dates and the days of the weeks
 				var start = new Date(newEvent.startingDate);
 				var end = new Date(newEvent.expiryDate);
@@ -129,7 +209,7 @@
 						}
 					}
 				}
-				newEvent.daysPerWeek = days;
+				reNewed.daysPerWeek = days;
 				
 				for (start; end>start; start.setDate(start.getDate()+1)){
 					inner:
@@ -140,15 +220,33 @@
 						}
 					}
 				}
-				newEvent.eventDays = eventDays;
-				if(mapLocation.longitude === 0){
-					newEvent.coordinates = model.newEvent.coordinates;	
-				}else{
-					newEvent.coordinates = [mapLocation.longitude, mapLocation.latitude];
+				reNewed.eventDays = eventDays;
+				// temporary store the old details for each day in array
+				var detailsArray = [];
+				for (var n in reNewed.dailyDetails.programDailyDetails) {
+					detailsArray.push(reNewed.dailyDetails.programDailyDetails[n]);
 				}
+
+				// remove the old details for old days
+				for (var h in reNewed.dailyDetails.programDailyDetails) {
+					delete reNewed.dailyDetails.programDailyDetails[h];
+				}
+
+				// store the daily details in the new dates
+				for (var d in reNewed.eventDays) {
+					reNewed.dailyDetails.programDailyDetails[reNewed.eventDays[d]] = detailsArray[d];
+				}
+
+
+
+				// if(mapLocation.longitude === 0){
+				// 	newEvent.coordinates = model.newEvent.coordinates;	
+				// }else{
+				// 	newEvent.coordinates = [mapLocation.longitude, mapLocation.latitude];
+				// }
 				
-				for(var n in newEvent){
-					model.newEvent[n] = newEvent[n];
+				for(var x in newEvent){
+					model.newEvent[x] = newEvent[x];
 				}
 
 				// model.newEvent = newEvent;
@@ -157,12 +255,15 @@
 			}
 
 			
-			function createEvent(reNewedEvent){
-				reNewedEvent.makerId = _makerId;
-				console.log(reNewedEvent);
+			function reNewEvent(reNewedEvent){
+				// reNewedEvent.makerId = makerId;
+				reNewedEvent.newAddressAdded = model.newAddressAdded;
+				reNewedEvent.newGeoLocationAdded = model.newGeoLocationAdded;
+				console.log('the final Event to go to renew', reNewedEvent);
 				eventsService
-					.addNewEvent(reNewedEvent)
+					.reNewEvent(reNewedEvent)
 					.then(function(addedEvent){
+						console.log('the renewed event is: ', addedEvent);
 						$location.url('/makerProfile/eventsList');
 					});
 			}
@@ -173,6 +274,11 @@
 					.then(function(){
 						$location.url('/');
 					});
+			}
+
+			function addNewAddress(){
+				console.log('new address added');
+				model.newAddressAdded = true;
 			}
 			
 			

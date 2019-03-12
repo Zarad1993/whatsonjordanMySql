@@ -29,7 +29,6 @@
 			eventsService
 				.eventConfig()
 				.then(function(result){
-					console.log('the events are:', result.data.eventsList);
 					var eventsParams = result.data;
 					if (eventsParams.eventsList.length > 0){
 						// bring all the events

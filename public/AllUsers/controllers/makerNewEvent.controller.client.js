@@ -11,15 +11,18 @@
 				}
 				model.newEventMain = true;
 				model.loggedMaker = loggedMaker;
+				model.newAddressAdded = false;
+				model.newGeoLocationAdded = false;
+				var makerId = loggedMaker.makerId;
 				categoriesService
 					.getAllCategories()
 					.then(function (categories) {
-						console.log('the categories:', categories);
+						// console.log('the categories:', categories);
 							model.allCategories = categories.data;
 							subCategoriesService
 								.getAllSubCategories()
 								.then(function (subCategories) {
-									console.log('the sub categories:', subCategories);
+									// console.log('the sub categories:', subCategories);
 									model.allSubCategories = subCategories.data;
 								})
 						})
@@ -28,6 +31,13 @@
 								.getAllAgeGroups()
 								.then(function(allAgeGroups){
 									model.allAgeGroups = allAgeGroups.data;
+								});
+						})
+						.then(function () {
+							eventsService
+								.getMakerAddresses(makerId)
+								.then(function (allAddresses) {
+									model.allAddresses = allAddresses.data;
 								});
 						})
 						.then(function () {
@@ -70,7 +80,6 @@
 					
 			}
 			init();
-			var _makerId = loggedMaker._id;
 			
 			model.createEvent = createEvent;
 			model.logout = logout;
@@ -78,6 +87,7 @@
 			model.getCurrentLocation = getCurrentLocation;
 			model.getLocationFromMap = getLocationFromMap;
 			model.mapLocation = {longitude: 0, latitude: 0};
+			model.addNewAddress = addNewAddress;
 
 
 			function getCurrentLocation() {
@@ -99,6 +109,7 @@
 			function getLocationFromMap(){
 				document.getElementById('mapLongitude').value = model.mapLocation.longitude;
 				document.getElementById('mapLatitude').value = model.mapLocation.latitude;
+				model.newGeoLocationAdded = true;
 			}
 
 			function createEventDetails(newEvent, daysOfWeek, mapLocation){
@@ -156,11 +167,13 @@
 			
 			function createEvent(newEvent){
 				newEvent.makerId = model.loggedMaker.makerId;
+				newEvent.newAddressAdded = model.newAddressAdded;
+				newEvent.newGeoLocationAdded = model.newGeoLocationAdded;
 				console.log('the event to create', newEvent);
 				eventsService
 					.addNewEvent(newEvent)
 					.then(function(addedEvent){
-						// $location.url('/makerProfile/eventsList');
+						$location.url('/makerProfile/eventsList');
 						console.log('the created event is: ', addedEvent);
 					});
 			}
@@ -171,6 +184,11 @@
 					.then(function(){
 						$location.url('/');
 					});
+			}
+
+			function addNewAddress() {
+				console.log('new address added');
+				model.newAddressAdded = true;
 			}
 			
 			

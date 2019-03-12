@@ -459,12 +459,29 @@ working with sql:
 		member has many feedbacks 
 		event has many feedbacks
 
+	[x] the maker have the ability to add new address that will appear each time he create/edit/renew event
+		[x] add a button to open a modal for enter new adderss
+		[x] after fill the modal store data in temporary object that will send to create a new address on database after submit the event
+	[x] create a list of addresses for each maker to choose from each time the maker create event or renew one or edit it
+	
+	[x] Add the same scenario of adding new address and the location for the create a new event or chose from old address.
+
+	[] its better to make the geolocation on the address table not seperate table.
+
+	[] maker profile -> events list:
+		[x] show registered members
+		[] Maker could renew event
+
+	
+	
+
+	[] Member profile working on:
+		Payments, Balance: Attended Days for each event on event list.
 
 	[ ] re add the medical problem to the database either as table or in the member table
-
-	
-	
 	[ ] get all the schools and save them on the database then the user could choose one from the list
+
+Missed Days: 
 
 
 remaining from user:

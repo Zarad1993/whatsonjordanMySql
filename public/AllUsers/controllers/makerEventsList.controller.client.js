@@ -15,12 +15,13 @@
 			// var loggedMakerId = loggedMaker._id;
 			// model.makerName = makerName;
 			// model.makerId = loggedMakerId;
-			console.log('the logged maker', loggedMaker);
+			// console.log('the logged maker', loggedMaker);
 			
 			eventsService
 				.findEventsByMakerId(loggedMaker.maker.id)
 				.then(function(events){
-					model.eventsList = events;
+					// console.log('the maker events are:', events.data);
+					model.eventsList = events.data;
 				});
 
 			

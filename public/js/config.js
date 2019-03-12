@@ -185,7 +185,7 @@
 					deferred.reject();
 					$location.url('/login');
 				} else{
-					console.log('from isUser in config: ', user);
+					// console.log('from isUser in config: ', user);
 					deferred.resolve(user);
 				}
 			});

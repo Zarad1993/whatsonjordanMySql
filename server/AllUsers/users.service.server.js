@@ -108,7 +108,7 @@ var async			= require('async');
 // ---------------------------------- APIs requests ----------------------------------
 
 app.get('/api/user/getAllUsers', getAllUsers);
-app.get('/api/user/getAllMakers', getAllMakers);
+app.get('/api/maker/getAllMakers', getAllMakers);
 app.get('/api/user/findUserById/:userId', findUserById);
 app.get('/api/user/findUserByEmail/:userEmail', findUserByEmail);
 app.post('/api/user/login', passport.authenticate('localUser'), loginUser);
@@ -139,7 +139,7 @@ app.put('/api/maker/confirmAttendance', confirmAttendance);
 app.put('/api/user/updateUserEventParameters', updateUserEventParameters);
 app.put('/api/user/freezeMembership', freezeMembership);
 app.delete('/api/user/removeFrozeDays/:userId/:eventId', removeFrozeDays);
-app.get('/api/user/getAllFeedbacks', getAllFeedbacks);
+app.get('/api/member/getAllFeedbacks', getAllFeedbacks);
 app.put('/api/admin/updateFeedbackByAdmin', updateFeedbackByAdmin);
 app.put('/api/admin/setUserRole', setUserRole);
 app.post('/api/member/submitFeedback', submitFeedback);
@@ -165,32 +165,32 @@ function updateFeedbackByAdmin(req, res){
 
 
 function getAllFeedbacks(req, res){
-	usersDB
+	feedbacksDB
 		.getAllFeedbacks()
-		.then(function(users){
-			var feeds = [];
-			for(var i in users){
-				for(var j in users[i].userEventParameters){
-					if(users[i].userEventParameters[j].feedbacks && users[i].userEventParameters[j].feedbacks.length>0){
-						// console.log((users[i].userEventParameters[j].feedbacks));
-						for(var f in users[i].userEventParameters[j].feedbacks){
-							if(users[i].userEventParameters[j].feedbacks[f].feedback){
-								var temp = {};
-								temp.feedback = users[i].userEventParameters[j].feedbacks[f].feedback;
-								temp.userName = users[i].name.firstName+" "+users[i].name.lastName;
-								temp.eventName = users[i].userEventParameters[j].feedbacks[f].eventName;
-								temp.date = users[i].userEventParameters[j].feedbacks[f].date;
-								temp.approved = users[i].userEventParameters[j].feedbacks[f].approved;
-								temp.userId = users[i].userEventParameters[j].feedbacks[f].userId;
-								feeds.push(temp);
-							}
-						}
-					}
-				}	
-			}
+		.then(function(feedbacksList){
+			// var feeds = [];
+			// for(var i in users){
+			// 	for(var j in users[i].userEventParameters){
+			// 		if(users[i].userEventParameters[j].feedbacks && users[i].userEventParameters[j].feedbacks.length>0){
+			// 			// console.log((users[i].userEventParameters[j].feedbacks));
+			// 			for(var f in users[i].userEventParameters[j].feedbacks){
+			// 				if(users[i].userEventParameters[j].feedbacks[f].feedback){
+			// 					var temp = {};
+			// 					temp.feedback = users[i].userEventParameters[j].feedbacks[f].feedback;
+			// 					temp.userName = users[i].name.firstName+" "+users[i].name.lastName;
+			// 					temp.eventName = users[i].userEventParameters[j].feedbacks[f].eventName;
+			// 					temp.date = users[i].userEventParameters[j].feedbacks[f].date;
+			// 					temp.approved = users[i].userEventParameters[j].feedbacks[f].approved;
+			// 					temp.userId = users[i].userEventParameters[j].feedbacks[f].userId;
+			// 					feeds.push(temp);
+			// 				}
+			// 			}
+			// 		}
+			// 	}	
+			// }
 			// console.log('the feeds are:');
 			// console.log(feeds);
-			res.send(feeds);
+			res.send(feedbacksList);
 		});
 }
 
@@ -652,7 +652,7 @@ function getAllUsers(req, res) {
 }
 
 function getAllMakers(req, res){
-	usersDB
+	makersDB
 		.getAllMakers()
 		.then(function(makers){
 			if(makers){

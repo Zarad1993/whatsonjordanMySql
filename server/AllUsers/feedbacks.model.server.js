@@ -1,6 +1,7 @@
 var db = require('../databse');
 var feedbacksDB = require('../models/feedback.model');
 var Event = require('../models/event.model');
+var Member = require('../models/member.model');
 
 db.sync();
 
@@ -8,6 +9,7 @@ module.exports = feedbacksDB;
 
 feedbacksDB.submitFeedback = submitFeedback;
 feedbacksDB.getMemberFeedbacks = getMemberFeedbacks;
+feedbacksDB.getAllFeedbacks = getAllFeedbacks;
 
 
 function submitFeedback(feedbackObject){
@@ -31,4 +33,12 @@ function getMemberFeedbacks(memberId){
                         where: {memberId: memberId},
                         include: [{model: Event, attributes: ['name']}]
                     });
+}
+
+function getAllFeedbacks(){
+    return feedbacksDB.findAll({
+                            include: [
+                                    {model: Event, attributes: ['name']},
+                                    {model: Member, attributes: ['firstName', 'middleName', 'lastName']}
+                    ]});
 }

@@ -13,11 +13,15 @@
 			}
 			model.updateEventMain = true;
 			model.loggedMaker = loggedMaker;
+			model.newAddressAdded = false;
+			model.newGeoLocationAdded = false;
+			var makerId = loggedMaker.makerId;
+
 			eventsService
 				.findEventsByMakerId(loggedMaker.maker.id)
 				.then(function(events){
 					console.log('the events',events);
-					model.eventsList = events;
+					model.eventsList = events.data;
 				});
 			model.selectedEvent = null;
 
@@ -25,12 +29,12 @@
 			categoriesService
 				.getAllCategories()
 				.then(function (categories) {
-					console.log('the categories:', categories);
+					// console.log('the categories:', categories);
 					model.allCategories = categories.data;
 					subCategoriesService
 						.getAllSubCategories()
 						.then(function (subCategories) {
-							console.log('the sub categories:', subCategories);
+							// console.log('the sub categories:', subCategories);
 							model.allSubCategories = subCategories.data;
 						})
 				})
@@ -39,6 +43,13 @@
 						.getAllAgeGroups()
 						.then(function (allAgeGroups) {
 							model.allAgeGroups = allAgeGroups.data;
+						});
+				})
+				.then(function () {
+					eventsService
+						.getMakerAddresses(makerId)
+						.then(function (allAddresses) {
+							model.allAddresses = allAddresses.data;
 						});
 				})
 				.then(function () {
@@ -90,6 +101,7 @@
 
 		model.logout = logout;
 		model.updateMainEventDetails = updateMainEventDetails;
+		model.addNewAddress = addNewAddress;
 		model.cancelUpdate = cancelUpdate;
 
 
@@ -97,6 +109,7 @@
 		function getCurrentLocation() {
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(showPosition);
+				model.newGeoLocationAdded = true;
 			} else {
 				console.log("Geolocation is not supported by this browser.");
 			}
@@ -113,6 +126,7 @@
 		function getLocationFromMap() {
 			document.getElementById('mapLongitude').value = model.mapLocation.longitude;
 			document.getElementById('mapLatitude').value = model.mapLocation.latitude;
+			model.newGeoLocationAdded = true;
 		}
 
 
@@ -214,11 +228,13 @@
 		
 		function updateEvent(updatedEvent){
 			var eventId = model.selectedEvent.id;
+			updatedEvent.newAddressAdded = model.newAddressAdded;
+			updatedEvent.newGeoLocationAdded = model.newGeoLocationAdded;
 			console.log('the final updated event to go:', updatedEvent);
 			eventsService
 				.updateEvent(updatedEvent, eventId)
 				.then(function(finalEvent){
-					console.log('the final result after update the event: ', finalEvent);
+					console.log('the final result after update the event: ', finalEvent.data);
 					var url = "/makerProfile/eventsList";
 					$location.url(url);
 				});
@@ -228,7 +244,7 @@
 			eventsService
 				.findEventByEventId(eventId)
 				.then(function(event){
-					console.log('the selected event', event);
+					// console.log('the selected event', event);
 					model.mapLocation = { longitude: event.geoLocation.longitude, latitude: event.geoLocation.latitude };
 					event.startingDate = new Date(event.startingDate);
 					event.expiryDate = new Date(event.expiryDate);
@@ -270,8 +286,12 @@
 						}
 					}
 					model.daysOfWeek = daysOfWeek;
-					console.log(model.selectedEvent.daysPerWeek)
 				});
+		}
+
+		function addNewAddress() {
+			console.log('new address added');
+			model.newAddressAdded = true;
 		}
 
 

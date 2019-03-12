@@ -48,7 +48,7 @@
 	<div class="row">
 
 		<div class="col-12">
-			<h1> Renew Event</h1>
+			<h1>Renew Event</h1>
 
 			<div class="form-group">
 				<form>
@@ -63,17 +63,39 @@
 
 				    <div class="form-group">
 						<label for="category">Category:</label>
-						<input class="form-control" type="text" name="category" id="category" ng-model="model.newEvent.category">
+						<!-- <input class="form-control" type="text" name="category" id="category" ng-model="model.newEvent.category.category"> -->
+						<select id="category" class="form-control" ng-model="model.newEvent.categoryId"
+							ng-options="category.id as category.category for category in model.allCategories"></select>
 					</div>
 
 					<div class="form-group">
 						<label for="subcategory">Sub-Category:</label>
-						<input class="form-control" type="text" name="subcategory" id="subcategory" ng-model="model.newEvent.subcategory">
+						<select id="subCategory" class="form-control" ng-model="model.newEvent.subCategoryId"
+							ng-options="subCategory.id as subCategory.subcategory for subCategory in filteredSubcategories = (model.allSubCategories | filter: {categoryId: model.newEvent.categoryId})"></select>
 					</div>
 
 					<div class="form-group">
 						<label for="details">Details:</label>
 						<textarea class="form-control" rows="4" cols="50" name="details" id="details" ng-model="model.newEvent.details"></textarea>
+					</div>
+
+					<div class="form-group">
+						<label for="ageGroupTitle">Age Group Title:</label>
+						<!-- <input class="form-control" type="text" name="ageGroupTitle" id="ageGroupTitle" ng-model="model.selectedEvent.ageGroup.name"> -->
+						<select id="ageGroupTitl e" class="form-control" ng-model="model.newEvent.ageGroup"
+							ng-options="ageGroup as ageGroup.name for ageGroup in model.allAgeGroups"></select>
+					</div>
+					
+					<div class="form-group">
+						<label for="ageGroupFrom">Age from (inclusive):</label>
+						<input class="form-control" type="number" name="ageGroupFrom" id="ageGroupFrom"
+							ng-model="model.newEvent.ageGroup.from" disabled>
+					</div>
+					
+					<div class="form-group">
+						<label for="ageGroupTo">Age to (inclusive):</label>
+						<input class="form-control" type="number" name="ageGroupTo" id="ageGroupTo" ng-model="model.newEvent.ageGroup.to"
+							disabled>
 					</div>
 
 					<div class="form-group">
@@ -86,21 +108,34 @@
 						<input type="date" class="form-control" rows="4" cols="50" name="expiryDate" id="expiryDate" ng-model="newEvent.expiryDate">
 					</div>
 
+					<div class="form-group">
+						<label for="sessionStartTime">Session's starting time:</label>
+						<input type="time" class="form-control" rows="4" cols="50" name="sessionStartTime" id="sessionStartTime"
+							ng-model="newEvent.sessionStartTime">
+					</div>
+					
+					<div class="form-group">
+						<label for="sessionEndTime">Session's end time:</label>
+						<input type="time" class="form-control" rows="4" cols="50" name="sessionEndTime" id="sessionEndTime"
+							ng-model="newEvent.sessionEndTime">
+					</div>
+
+
 					<div>
 						<div class="weekDays-selector">
-						  <input type="checkbox" id="weekday-sat" class="weekday" ng-model="daysOfWeek.Sat"/>
+						  <input type="checkbox" id="weekday-sat" class="weekday" ng-model="model.daysOfWeek.Sat"/>
 						  <label for="weekday-sat">Sat</label>
-						  <input type="checkbox" id="weekday-sun" class="weekday" ng-model="daysOfWeek.Sun"/>
+						  <input type="checkbox" id="weekday-sun" class="weekday" ng-model="model.daysOfWeek.Sun"/>
 						  <label for="weekday-sun">Sun</label>
-						  <input type="checkbox" id="weekday-mon" class="weekday" ng-model="daysOfWeek.Mon"/>
+						  <input type="checkbox" id="weekday-mon" class="weekday" ng-model="model.daysOfWeek.Mon"/>
 						  <label for="weekday-mon">Mon</label>
-						  <input type="checkbox" id="weekday-tue" class="weekday" ng-model="daysOfWeek.Tue"/>
+						  <input type="checkbox" id="weekday-tue" class="weekday" ng-model="model.daysOfWeek.Tue"/>
 						  <label for="weekday-tue">Tue</label>
-						  <input type="checkbox" id="weekday-wed" class="weekday" ng-model="daysOfWeek.Wed"/>
+						  <input type="checkbox" id="weekday-wed" class="weekday" ng-model="model.daysOfWeek.Wed"/>
 						  <label for="weekday-wed">Wed</label>
-						  <input type="checkbox" id="weekday-thu" class="weekday" ng-model="daysOfWeek.Thu"/>
+						  <input type="checkbox" id="weekday-thu" class="weekday" ng-model="model.daysOfWeek.Thu"/>
 						  <label for="weekday-thu">Thi</label>
-						  <input type="checkbox" id="weekday-fri" class="weekday" ng-model="daysOfWeek.Fri"/>
+						  <input type="checkbox" id="weekday-fri" class="weekday" ng-model="model.daysOfWeek.Fri"/>
 						  <label for="weekday-fri">Fri</label>
 						</div>
 					</div>
@@ -111,8 +146,62 @@
 					</div>
 
 					<div class="form-group">
-						<label for="address">Address:</label>
-						<input class="form-control" type="text" name="address" id="address" ng-model="model.newEvent.address">
+						<label for="address">Address</label>
+						<!-- Add new address modal -->
+						<a class="btn btn-warning" data-toggle="modal" data-target="#newAddressModal" style="margin-left: 10px;">New Address</a>
+						<div class="modal fade" id="newAddressModal" tabindex="-1" role="dialog" aria-labelledby="newAddressModalTitle" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="modalTitle">Add new address:</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<div>
+											Country: <input type="text" class="form-control" id="addressCountry" placeholder="Country"
+												ng-model="model.newEvent.address.country">
+											Province: <input type="text" class="form-control" id="addressProvince" placeholder="Province"
+												ng-model="model.newEvent.address.province">
+											City: <input type="text" class="form-control" id="addressCity" placeholder="City"
+												ng-model="model.newEvent.address.city">
+											Street: <input type="text" class="form-control" id="addressStreet" placeholder="Street"
+												ng-model="model.newEvent.address.street">
+											Building number: <input type="text" class="form-control" id="addressBuilding" placeholder="Building"
+												ng-model="model.newEvent.address.building">
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+										<button type="button" class="btn btn-primary" ng-click="model.addNewAddress()" data-dismiss="modal">Add</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- / Add new address modal -->
+
+						<br>
+						<!-- Slect address from address list -->
+						<div class="form-group">
+							<label for="selectAddress">Select address:</label>
+							<select id="selectAddress" class="form-control" ng-model="model.newEvent.address"
+								ng-options="address.address as address.address.city for address in model.allAddresses"></select>
+						</div>
+						<!-- / Slect address from address list -->
+
+
+						<!-- Address details -->
+						Country: <input type="text" class="form-control" id="addressCountry" placeholder="Country"
+							ng-model="model.newEvent.address.country">
+						Province: <input type="text" class="form-control" id="addressProvince" placeholder="Province"
+							ng-model="model.newEvent.address.province">
+						City: <input type="text" class="form-control" id="addressCity" placeholder="City"
+							ng-model="model.newEvent.address.city">
+						Street: <input type="text" class="form-control" id="addressStreet" placeholder="Street"
+							ng-model="model.newEvent.address.street">
+						Building number: <input type="text" class="form-control" id="addressBuilding" placeholder="Building"
+							ng-model="model.newEvent.address.building">
 					</div>
 
 					<div class=" form-group">
@@ -148,12 +237,18 @@
 						    <small class="text-danger" style="margin-left: 10px;">To show current position your browser should accept geolocation by accepting the warning message</small>
 							<br>
 						    <small class="text-danger" style="margin-left: 10px;">If the latitude and longitude not shown direct on the following boxes please reclick on the current location button again </small>
-					    <div class="form-inline">
+								<div class="form-inline">
+									<input type="text" id="mapLongitude" class="form-control" placeholder="longitude"
+										ng-model="model.mapLocation.longitude" style="margin-left: 10px; margin-top: 20px;">
+									<input type="text" id="mapLatitude" class="form-control" placeholder="latitude" ng-model="model.mapLocation.latitude"
+										style="margin-left: 10px; margin-top: 20px;">
+								</div>
+								<!-- <div class="form-inline">
 					      <input type="text" id="mapLongitude" class="form-control" placeholder="longitude" ng-show="model.mapLocation.longitude" ng-model="model.mapLocation.longitude" style="margin-left: 10px; margin-top: 20px;">
 					      <input type="text" id="mapLongitude" class="form-control" placeholder="longitude" ng-hide="model.mapLocation.longitude" ng-model="model.newEvent.coordinates[0]" style="margin-left: 10px; margin-top: 20px;">
 					      <input type="text" id="mapLatitude" class="form-control" placeholder="latitude" ng-show="model.mapLocation.latitude"ng-model="model.mapLocation.latitude" style="margin-left: 10px; margin-top: 20px;">
 					      <input type="text" id="mapLatitude" class="form-control" placeholder="latitude" ng-hide="model.mapLocation.latitude"ng-model="model.newEvent.coordinates[1]" style="margin-left: 10px; margin-top: 20px;">
-					    </div>
+					    </div> -->
 				    </div>
 
 					<div class="form-group">
@@ -167,7 +262,7 @@
 					</div>
 
 					<!-- <button type="button" name="create" class="btn btn-primary" ng-click="model.createEvent(newEvent)">Create</button> -->
-					<button type="button" name="createEvent" class="btn btn-primary" ng-click="model.createEventDetails(model.newEvent, newEvent, daysOfWeek, model.mapLocation)">Create Details</button>
+					<button type="button" name="createEvent" class="btn btn-primary" ng-click="model.createEventDetails(model.newEvent, newEvent, model.daysOfWeek, model.mapLocation)">Create Details</button>
 					</fieldset>
 				</form>
 			</div>
@@ -189,13 +284,13 @@
 						<div>
 							<div style="margin-left: 50px;" class="form-group" ng-repeat="day in model.newEvent.eventDays">
 								<label style="background-color: lightgreen;"><b>Day: </b>{{day}}</label>
-								<input type="text" class="form-control" placeholder="program Title" ng-model="model.newEvent.programDailyDetails[day].title" style="margin-bottom: 3px;">
-								<textarea class="form-control" style="border-left: 5px; border-style: solid; border-left-color: red; margin-bottom: 3px;" rows="4" cols="50" ng-model="model.newEvent.programDailyDetails[day].details">Program details</textarea>
-								<input type="text" class="form-control" placeholder="link for video" ng-model="model.newEvent.programDailyDetails[day].videoLink">
+								<input type="text" class="form-control" placeholder="program Title" ng-model="model.newEvent.dailyDetails.programDailyDetails[day].title" style="margin-bottom: 3px;">
+								<textarea class="form-control" style="border-left: 5px; border-style: solid; border-left-color: red; margin-bottom: 3px;" rows="4" cols="50" ng-model="model.newEvent.dailyDetails.programDailyDetails[day].details">Program details</textarea>
+								<input type="text" class="form-control" placeholder="link for video" ng-model="model.newEvent.dailyDetails.programDailyDetails[day].videoLink">
 								<br>
 							</div>
 						</div>
-						<button type="button" name="createDetails" class="btn btn-primary" ng-click="model.createEvent(model.newEvent)">Create</button>
+						<button type="button" name="createDetails" class="btn btn-primary" ng-click="model.reNewEvent(model.newEvent)">Create</button>
 					</fieldset>
 				</form>
 			</div>

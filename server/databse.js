@@ -49,7 +49,7 @@ var Role = require('./models/userType.model');
 var Member = require('./models/member.model');
 var Maker = require('./models/maker.model');
 var Contact = require('./models/contact.model');
-var Addrress = require('./models/address.model');
+var Address = require('./models/address.model');
 var GeoLocation = require('./models/geoLocation.model');
 var Nationality = require('./models/nationality.model');
 var Event = require('./models/event.model');
@@ -64,17 +64,17 @@ User.belongsTo(Role);
 User.belongsTo(Member);
 User.belongsTo(Maker);
 
-// Addrress.belongsTo(GeoLocation);
+// Address.belongsTo(GeoLocation);
 
 Member.belongsTo(School);
 Member.belongsTo(Contact);
-Member.belongsTo(Addrress);
+Member.belongsTo(Address);
 Member.belongsTo(Nationality);
 Member.belongsTo(Grade);
 // Member.hasMany(Event);
 
 Maker.belongsTo(Contact);
-Maker.belongsTo(Addrress);
+Maker.belongsTo(Address);
 Maker.hasMany(Event);
 
 SubCategory.belongsTo(Category);
@@ -82,7 +82,7 @@ SubCategory.belongsTo(Category);
 Event.belongsTo(Category);
 Event.belongsTo(AgeGroup);
 Event.belongsTo(Maker);
-Event.belongsTo(Addrress);
+Event.belongsTo(Address);
 Event.belongsTo(Category);
 Event.belongsTo(SubCategory);
 Event.belongsTo(GeoLocation);

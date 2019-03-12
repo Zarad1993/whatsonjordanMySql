@@ -36,6 +36,10 @@ var Events = db.define('event', {
     termsAndConditions: {
         type: Sequelize.STRING
     },
+    originalEventId: {
+      type: Sequelize.STRING,
+      defaultValue: null
+    },
     approved: {
         type: Sequelize.BOOLEAN
     },

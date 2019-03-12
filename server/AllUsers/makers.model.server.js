@@ -10,6 +10,7 @@ module.exports = makersDB;
 
 makersDB.addNewMaker = addNewMaker;
 makersDB.updateMakerProfile = updateMakerProfile;
+makersDB.getAllMakers = getAllMakers;
 
 
 function updateMakerProfile(maker){
@@ -61,4 +62,8 @@ function addNewMaker() {
         //     addedMaker.setUser(maker.id);
         //     return addedMaker.save();
         // })
+}
+
+function getAllMakers(){
+    return makersDB.findAll();
 }

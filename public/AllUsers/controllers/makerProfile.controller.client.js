@@ -22,7 +22,7 @@
 			eventsService
 				.findEventsByMakerId(loggedMaker.maker.id)
 				.then(function (events) {
-					model.eventsList = events;
+					model.eventsList = events.data;
 				});
 		}
 		init();

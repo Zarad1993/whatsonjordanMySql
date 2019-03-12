@@ -13,6 +13,8 @@
 		this.findEventByEventId = findEventByEventId;
 		this.findEventsByMakerId = findEventsByMakerId;
 		this.addNewEvent = addNewEvent;
+		this.reNewEvent = reNewEvent;
+		this.getMakerAddresses = getMakerAddresses;
 		this.updateEvent = updateEvent;
 		this.removeEvent = removeEvent;
 		this.updateEventByAdmin = updateEventByAdmin;
@@ -81,33 +83,33 @@
 
 		function findEventsByMakerId(makerId) {
 			return $http.get('/api/makerEvents/' + makerId)
-				.then(function(response){
-					return response.data;
-				});
+				// .then(function(response){
+					
+				// 	return response.data;
+				// });
 		}
 
 		function addNewEvent(newEvent){
-			return $http.post('/api/event/newEvent', newEvent)
-				.then(function(response){
-					return response.data;
-				});
+			return $http.post('/api/event/newEvent', newEvent);
+				// .then(function(response){
+				// 	return response.data;
+				// });
 			// events.push(newEvent);
 		}
 
+		function reNewEvent(reNewedEvent){
+			return $http.post('/api/event/reNewEvent', reNewedEvent);
+		}
+
+		function getMakerAddresses(makerId){
+			return $http.get('/api/maker/getMakerAddresses/'+makerId)
+		}
+
 		function updateEvent(updatedEvent, eventId){
-			// var url = '/api/event/' + eventId;
-			return $http.put('/api/updateEvent/?eventId='+eventId, updatedEvent)
-				.then(function (response){
-					return response.data;					
-				});			
-			// for(var e in events){
-			// 	if (events[e].eventId === eventId){
-			// 		events[e].name = newEvent.name;
-			// 		events[e].category = newEvent.category;
-			// 		events[e].subcategory = newEvent.subcategory;
-			// 		events[e].details = newEvent.details;
-			// 	}
-			// }
+			return $http.put('/api/updateEvent/?eventId='+eventId, updatedEvent);
+				// .then(function (response){
+				// 	return response.data;					
+				// });			
 		}
 
 

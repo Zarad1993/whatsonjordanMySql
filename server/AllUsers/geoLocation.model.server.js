@@ -18,7 +18,7 @@ function getAllLocations() {
 }
 
 function addEventLocation(location){
-    console.log('the geolocation on geolocation mopdel', location);
+    console.log('the geolocation on geolocation model', location);
     return geoLocationDB
             .create(location);
 }

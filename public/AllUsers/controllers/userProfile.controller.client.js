@@ -19,7 +19,7 @@
 			userService
 				.getMemberEvents(memberId)
 				.then(function(registeredEvents){
-					console.log('the registeredEvents list are: ', registeredEvents.data);
+					// Fthe feedback listconsole.log('the registeredEvents list are: ', registeredEvents.data);
 					model.registeredEventsList = registeredEvents.data;
 					
 					// get the upcomming daily program item
@@ -42,7 +42,7 @@
 					userService
 						.getMemberFeedbacks(memberId)
 						.then(function(feedbacksList){
-							console.log('the feedback list', feedbacksList);
+							// console.log('the feedback list', feedbacksList);
 							model.memberFeedbacks = feedbacksList.data;
 						})
 				})

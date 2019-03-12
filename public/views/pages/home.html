@@ -105,8 +105,9 @@
         <!-- <div class="col-lg-4 mb-4" ng-repeat="event in model.eventsList | filter:{approved: true}"> -->
         <div class="col-md-6 mb-0" ng-repeat="maker in model.makersList" >
           <div class="card h-100 text-center">
-            <a href="#!/allEvents/{{maker.id}}">
-              <img class="card-img-top" ng-src="{{maker.profileImage}}" alt="{{maker.name.firstName}}"> 
+            <a href="#!/allEvents/{{maker.id}}" style="text-decoration:none">
+              <h1 ng-show="!maker.profileImage">{{maker.organizationName}}</h1>
+              <img class="card-img-top" ng-src="{{maker.profileImage}}" alt="{{maker.name.firstName}}" ng-show="maker.profileImage"> 
             </a>
           </div>
         </div>
@@ -154,16 +155,16 @@
 
       <br>
       <br>
-      
-      <!-- <blockquote><h4>Random Feedbacks</h4></blockquote>
+      <blockquote><h4>Random Feedbacks</h4></blockquote>
       <div class="feedbackContainer">
         <div class="feedbackContent">
-          <div ng-repeat="feedback in model.feedbacks" ng-show="feedback.approved">
-            <h3 style="color: #090; text-align: left; clear: both;"><span>&#8220;</span>{{feedback.feedback}}<span>&#8221;</span></h3>
+          <!-- <div ng-repeat="feedback in model.feedbacks" ng-show="feedback.approved"> -->
+          <div ng-repeat="feedback in model.feedbacks">
+            <h3 style="color: #090; text-align: left; clear: both;"><span>&#8220;</span>{{feedback.details}}<span>&#8221;</span></h3>
             <div class="pull-right">
-              <h5 style="color: darkviolet; text-align: center;">{{feedback.eventName}}</h5>
-              <p style="margin-top: -10px; text-align: center;">{{feedback.userName}}</p>
-              <p style="margin-top: -20px; text-align: center;">on: {{feedback.date | date}}:</p>
+              <h5 style="color: darkviolet; text-align: center;">{{feedback.event.name}}</h5>
+              <p style="margin-top: -10px; text-align: center;">{{feedback.member.firstName}} {{feedback.member.lastName}}</p>
+              <p style="margin-top: -20px; text-align: center;">on: {{feedback.createdAt | date}}:</p>
             </div>
             <br>
             <br>
@@ -171,7 +172,7 @@
           </div>
         </div>
       </div>
- -->
+
 
       <!-- Partners -->
       <h2>Our Partners</h2>

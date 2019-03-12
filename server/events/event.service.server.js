@@ -6,13 +6,15 @@ module.exports = function(app) {
 
 	// http handlers
 	app.get('/api/allEvents', getAllEvents);
-	app.get('/api/eventDetails/:makerId', findEventsByMakerId);
+	// app.get('/api/eventDetails/:makerId', findEventsByMakerId);
 	// app.get('/api/event/:eventId', findEvent);
 	// app.get('/api/event/', findEvent);
 	app.get('/api/makerEvents/:makerId', findEventsByMakerId);
 	// app.get('/api/makerEventsList/:makerId', createMakerEventsList);
 	app.get('/api/event/:eventId', findEventByEventId);
+	app.get('/api/maker/getMakerAddresses/:makerId', getMakerAddresses);
 	app.post('/api/event/newEvent', addNewEvent);
+	app.post('/api/event/reNewEvent', reNewEvent);
 	app.put('/api/updateEvent/', updateEvent);
 	app.delete('/api/event/', removeEvent);
 	app.put('/api/admin/updateEventByAdmin/:eventId', checkAdmin, updateEventByAdmin);
@@ -93,12 +95,10 @@ module.exports = function(app) {
 			.getAllEvents()
 			.then(function(events){
 				eventsParams.eventsList = events.filter(function (event) {
-					event.images = JSON.parse(event.images);
-					event.daysPerWeek = JSON.parse(event.daysPerWeek);
-					event.dailyDetails = JSON.parse(event.dailyDetails);
-					return event.approved == true;});
-				console.log('the events aer: ', eventsParams.eventsList);
-				
+				event.images = JSON.parse(event.images);
+				event.daysPerWeek = JSON.parse(event.daysPerWeek);
+				event.dailyDetails = JSON.parse(event.dailyDetails);
+				return event.approved == true;});
 				res.send(eventsParams);
 			});
 	}
@@ -152,7 +152,6 @@ module.exports = function(app) {
 		eventsDB
 			.findEventsByMakerId(makerId)
 			.then(function(events){
-				// console.log('the events ares: ', events);
 				res.send(events);
 				return;
 			});
@@ -168,6 +167,17 @@ module.exports = function(app) {
 				res.send(event);
 				return;
 			});
+	}
+
+	function getMakerAddresses(req, res){
+		var makerId = req.params.makerId;
+		eventsDB
+			.getMakerAddresses(makerId)
+			.then(function(addresses){
+				
+				res.send(addresses);
+				return;
+			})
 	}
 
 	function getAllEvents(req, res){
@@ -209,28 +219,31 @@ module.exports = function(app) {
 		newEvent.main.daysPerWeek = JSON.stringify(newEvent.main.daysPerWeek);
 		newEvent.main.dailyDetails = JSON.stringify(newEvent.main.dailyDetails);
 		newEvent.main.images = JSON.stringify(newEvent.main.images);
-		
-		// newEvent.main.sessionStartTime = (new Date(newEvent.main.sessionStartTime));
-		// console.log('the session start time:', newEvent.main.sessionStartTime);
-		
-		// newEvent.main.sessionEndTime = (new Date(newEvent.main.sessionEndTime));
-		
-		// newEvent.main.startingDate = new Date(newEvent.main.startingDate).setTime(newEvent.main.sessionStartTime)
-		console.log('the starting date:', newEvent.main.startingDate);
-		console.log('the end date:', newEvent.main.startingDate);
-		console.log('the session start time:', newEvent.main.startingDate);
-		console.log('the session end time:', newEvent.main.startingDate);
-		
 		newEvent.geoLocation.latitude = JSON.stringify(newEvent.geoLocation.latitude);
-		newEvent.geoLocation.longitude = JSON.stringify(newEvent.geoLocation.longitude)
-		// events.push(newEvent);
+		newEvent.geoLocation.longitude = JSON.stringify(newEvent.geoLocation.longitude);
+	
+		console.log('the event to create is: ', newEvent);
 		eventsDB
 			.addNewEvent(makerId, newEvent)
 			.then(function(addedEvent){
+				console.log('the created event is: ', addedEvent);				
 				res.send(addedEvent);
 				return;
 			});
 	}
+
+	function reNewEvent(req, res){
+		var reNewedEvent = req.body;
+		// console.log('the received renewed event', reNewedEvent);
+		eventsDB
+			.reNewEvent(reNewedEvent)
+			.then(function(result){
+				console.log('the result after renew event: ', result);
+				res.send(result);
+				
+			});
+	}
+
 
 	function updateEvent(req, res){
 		var eventId = req.query.eventId;
