@@ -14,7 +14,6 @@
 		this.findEventsByMakerId = findEventsByMakerId;
 		this.addNewEvent = addNewEvent;
 		this.reNewEvent = reNewEvent;
-		this.getMakerAddresses = getMakerAddresses;
 		this.updateEvent = updateEvent;
 		this.removeEvent = removeEvent;
 		this.updateEventByAdmin = updateEventByAdmin;
@@ -99,10 +98,6 @@
 
 		function reNewEvent(reNewedEvent){
 			return $http.post('/api/event/reNewEvent', reNewedEvent);
-		}
-
-		function getMakerAddresses(makerId){
-			return $http.get('/api/maker/getMakerAddresses/'+makerId)
 		}
 
 		function updateEvent(updatedEvent, eventId){

@@ -12,7 +12,6 @@ module.exports = function(app) {
 	app.get('/api/makerEvents/:makerId', findEventsByMakerId);
 	// app.get('/api/makerEventsList/:makerId', createMakerEventsList);
 	app.get('/api/event/:eventId', findEventByEventId);
-	app.get('/api/maker/getMakerAddresses/:makerId', getMakerAddresses);
 	app.post('/api/event/newEvent', addNewEvent);
 	app.post('/api/event/reNewEvent', reNewEvent);
 	app.put('/api/updateEvent/', updateEvent);
@@ -169,16 +168,6 @@ module.exports = function(app) {
 			});
 	}
 
-	function getMakerAddresses(req, res){
-		var makerId = req.params.makerId;
-		eventsDB
-			.getMakerAddresses(makerId)
-			.then(function(addresses){
-				
-				res.send(addresses);
-				return;
-			})
-	}
 
 	function getAllEvents(req, res){
 		eventsDB
@@ -219,10 +208,21 @@ module.exports = function(app) {
 		newEvent.main.daysPerWeek = JSON.stringify(newEvent.main.daysPerWeek);
 		newEvent.main.dailyDetails = JSON.stringify(newEvent.main.dailyDetails);
 		newEvent.main.images = JSON.stringify(newEvent.main.images);
-		newEvent.geoLocation.latitude = JSON.stringify(newEvent.geoLocation.latitude);
-		newEvent.geoLocation.longitude = JSON.stringify(newEvent.geoLocation.longitude);
-	
-		console.log('the event to create is: ', newEvent);
+		newEvent.main.categoryId = newEvent.category.categoryId;
+		newEvent.main.subCategoryId = newEvent.category.subCategoryId;
+		newEvent.main.ageGroupId = newEvent.age.ageGroup.id;
+		newEvent.main.makerId = makerId;
+		
+		if (newEvent.addressSelected){
+			newEvent.main.addressId = newEvent.address.id;
+			delete(newEvent.geoLocation);
+			delete(newEvent.address);
+		} else if (newEvent.newAddressAdded){
+			newEvent.addressId = null;
+			newEvent.geoLocation.latitude = JSON.stringify(newEvent.geoLocation.latitude);
+			newEvent.geoLocation.longitude = JSON.stringify(newEvent.geoLocation.longitude);
+		}
+		// console.log('the event to create is: ', newEvent);
 		eventsDB
 			.addNewEvent(makerId, newEvent)
 			.then(function(addedEvent){
@@ -235,6 +235,28 @@ module.exports = function(app) {
 	function reNewEvent(req, res){
 		var reNewedEvent = req.body;
 		// console.log('the received renewed event', reNewedEvent);
+		reNewedEvent.approved = false;
+		reNewedEvent.special = false;
+
+		reNewedEvent.daysPerWeek = JSON.stringify(reNewedEvent.daysPerWeek);
+		reNewedEvent.dailyDetails = JSON.stringify(reNewedEvent.dailyDetails);
+		reNewedEvent.images = JSON.stringify(reNewedEvent.images);
+		reNewedEvent.ageGroupId = reNewedEvent.ageGroup.id;
+
+		if (reNewedEvent.addressSelected){
+			reNewedEvent.addressId = reNewedEvent.address.id;
+			delete (reNewedEvent.address);
+		} else if (reNewedEvent.newAddressAdded){
+			reNewedEvent.addressId = null;
+			reNewedEvent.geoLocation.latitude = JSON.stringify(reNewedEvent.geoLocation.latitude);
+			reNewedEvent.geoLocation.longitude = JSON.stringify(reNewedEvent.geoLocation.longitude);
+			// Prepare the address object
+			var removedKeys = ['id', 'createdAt', 'updatedAt', 'geoLocationId', 'geoLocation'];
+			for (var a in removedKeys) {
+				delete (reNewedEvent.address[removedKeys[a]]);
+			}
+		}
+
 		eventsDB
 			.reNewEvent(reNewedEvent)
 			.then(function(result){
@@ -251,6 +273,27 @@ module.exports = function(app) {
 		// request the admin to approve the amendments
 		updatedEvent.approved = false;
 		updatedEvent.special = false;
+
+		updatedEvent.daysPerWeek = JSON.stringify(updatedEvent.daysPerWeek);
+		updatedEvent.dailyDetails = JSON.stringify(updatedEvent.dailyDetails);
+		updatedEvent.images = JSON.stringify(updatedEvent.images);
+		updatedEvent.ageGroupId = updatedEvent.ageGroup.id;
+		
+		if (updatedEvent.addressSelected) {
+			updatedEvent.addressId = updatedEvent.address.id;
+			// delete (updatedEvent.geoLocation);
+			delete (updatedEvent.address);
+		} else if (updatedEvent.newAddressAdded) {
+			updatedEvent.addressId = null;
+			updatedEvent.geoLocation.latitude = JSON.stringify(updatedEvent.geoLocation.latitude);
+			updatedEvent.geoLocation.longitude = JSON.stringify(updatedEvent.geoLocation.longitude);
+			// Prepare the address object
+			var removedKeys = ['id', 'createdAt', 'updatedAt', 'geoLocationId', 'geoLocation'];
+			for (var a in removedKeys) {
+				delete (updatedEvent.address[removedKeys[a]]);
+			}
+		}
+
 		// console.log('the event id: ', eventId);
 		// console.log('the event to update on server', updatedEvent);		
 		eventsDB

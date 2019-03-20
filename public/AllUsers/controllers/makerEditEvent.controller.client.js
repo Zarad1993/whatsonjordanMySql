@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('makerEditEventController', makerEditEventController);
 
-	function makerEditEventController(eventsService, categoriesService, subCategoriesService, ageGroupsService,  $location, loggedMaker, userService){
+	function makerEditEventController(eventsService, addressService, categoriesService, subCategoriesService, ageGroupsService,  $location, loggedMaker, userService){
 		var model = this;
 
 		function init(){
@@ -14,13 +14,14 @@
 			model.updateEventMain = true;
 			model.loggedMaker = loggedMaker;
 			model.newAddressAdded = false;
-			model.newGeoLocationAdded = false;
+			model.addressSelected = false;
+			// model.newGeoLocationAdded = false;
 			var makerId = loggedMaker.makerId;
 
 			eventsService
 				.findEventsByMakerId(loggedMaker.maker.id)
 				.then(function(events){
-					console.log('the events',events);
+					// console.log('the events',events);
 					model.eventsList = events.data;
 				});
 			model.selectedEvent = null;
@@ -36,7 +37,7 @@
 						.then(function (subCategories) {
 							// console.log('the sub categories:', subCategories);
 							model.allSubCategories = subCategories.data;
-						})
+						});
 				})
 				.then(function () {
 					ageGroupsService
@@ -46,10 +47,12 @@
 						});
 				})
 				.then(function () {
-					eventsService
+					addressService
 						.getMakerAddresses(makerId)
-						.then(function (allAddresses) {
+						.then(function (allAddresses){
 							model.allAddresses = allAddresses.data;
+							console.log('the addresses are: ', model.allAddresses);
+							
 						});
 				})
 				.then(function () {
@@ -87,8 +90,8 @@
 								});
 
 							});
-						})
-				})
+						});
+				});
 		}
 		init();
 
@@ -103,13 +106,18 @@
 		model.updateMainEventDetails = updateMainEventDetails;
 		model.addNewAddress = addNewAddress;
 		model.cancelUpdate = cancelUpdate;
+		model.selectAddress = selectAddress;
 
-
+		
+		function selectAddress() {
+			model.addressSelected = true;
+			model.newAddressAdded = false;
+		}
 
 		function getCurrentLocation() {
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(showPosition);
-				model.newGeoLocationAdded = true;
+				// model.newGeoLocationAdded = true;
 			} else {
 				console.log("Geolocation is not supported by this browser.");
 			}
@@ -120,24 +128,25 @@
 			model.mapLocation.longitude = position.coords.longitude;
 			document.getElementById('mapLongitude').value = model.mapLocation.longitude;
 			document.getElementById('mapLatitude').value = model.mapLocation.latitude;
-
 		}
 
 		function getLocationFromMap() {
 			document.getElementById('mapLongitude').value = model.mapLocation.longitude;
 			document.getElementById('mapLatitude').value = model.mapLocation.latitude;
-			model.newGeoLocationAdded = true;
+			// model.newGeoLocationAdded = true;
 		}
 
 
 
 		function updateMainEventDetails(updatedEvent, daysOfWeek, mapLocation){
+			console.log('the map location: ', mapLocation);
 			
-			console.log('the updated event is:', updatedEvent);
-			
+			// console.log('the updated event is:', updatedEvent);
 			// updatedEvent.mapLocation = mapLocation;
-			updatedEvent.geoLocation.latitude = mapLocation.latitude;
-			updatedEvent.geoLocation.longitude = mapLocation.longitude;
+			if(model.newAddressAdded){
+				updatedEvent.geoLocation = mapLocation;
+				// updatedEvent.geoLocation.longitude = mapLocation.longitude;
+			}
 			// create dates based on start-end dates and the days of the weeks
 			var start = new Date(updatedEvent.startingDate);
 			var end = new Date(updatedEvent.expiryDate);
@@ -184,7 +193,7 @@
 					}	
 				}
 			}
-			console.log('the calculated event days', eventDays);
+			// console.log('the calculated event days', eventDays);
 			
 			// if(updatedEvent.eventDays.length === 0){
 			// 	updatedEvent.eventDays = eventDays;
@@ -200,20 +209,23 @@
 					// If the days changed then store the new days per week
 					updatedEvent.eventDays = eventDays;
 					
-					// temporary store the old details for each day in array
-					var detailsArray = [];
-					for(var n in updatedEvent.dailyDetails.programDailyDetails){
-						detailsArray.push(updatedEvent.dailyDetails.programDailyDetails[n]);
-					}
+					if (updatedEvent.dailyDetails){
+						// temporary store the old details for each day in array
+						var detailsArray = [];
+						for(var n in updatedEvent.dailyDetails.programDailyDetails){
+							detailsArray.push(updatedEvent.dailyDetails.programDailyDetails[n]);
+						}
+	
+						// remove the old details for old days
+						for(var h in updatedEvent.dailyDetails.programDailyDetails){
+							delete updatedEvent.dailyDetails.programDailyDetails[h];
+						}
+						
+						// store the daily details in the new dates
+						for(var d in updatedEvent.eventDays){
+							updatedEvent.dailyDetails.programDailyDetails[updatedEvent.eventDays[d]] = detailsArray[d];
+						}
 
-					// remove the old details for old days
-					for(var h in updatedEvent.dailyDetails.programDailyDetails){
-						delete updatedEvent.dailyDetails.programDailyDetails[h];
-					}
-					
-					// store the daily details in the new dates
-					for(var d in updatedEvent.eventDays){
-						updatedEvent.dailyDetails.programDailyDetails[updatedEvent.eventDays[d]] = detailsArray[d];
 					}
 					// break;
 				// }
@@ -229,7 +241,8 @@
 		function updateEvent(updatedEvent){
 			var eventId = model.selectedEvent.id;
 			updatedEvent.newAddressAdded = model.newAddressAdded;
-			updatedEvent.newGeoLocationAdded = model.newGeoLocationAdded;
+			updatedEvent.addressSelected = model.addressSelected;
+			// updatedEvent.newGeoLocationAdded = model.newGeoLocationAdded;
 			console.log('the final updated event to go:', updatedEvent);
 			eventsService
 				.updateEvent(updatedEvent, eventId)
@@ -245,7 +258,7 @@
 				.findEventByEventId(eventId)
 				.then(function(event){
 					// console.log('the selected event', event);
-					model.mapLocation = { longitude: event.geoLocation.longitude, latitude: event.geoLocation.latitude };
+					model.mapLocation = { longitude: event.address.geoLocation.longitude, latitude: event.address.geoLocation.latitude };
 					event.startingDate = new Date(event.startingDate);
 					event.expiryDate = new Date(event.expiryDate);
 					// event.sessionStartTime = event.startingDate.getTime();
@@ -290,8 +303,9 @@
 		}
 
 		function addNewAddress() {
-			console.log('new address added');
+			// console.log('new address added');
 			model.newAddressAdded = true;
+			model.addressSelected = false;
 		}
 
 

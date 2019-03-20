@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('makerNewEventController', makerNewEventController);
 
-	function makerNewEventController($location, eventsService, categoriesService, subCategoriesService, ageGroupsService, loggedMaker, userService){
+	function makerNewEventController($location, eventsService, addressService, categoriesService, subCategoriesService, ageGroupsService, loggedMaker, userService){
 			var model = this;
 			function init(){
 				if(!loggedMaker){
@@ -12,7 +12,8 @@
 				model.newEventMain = true;
 				model.loggedMaker = loggedMaker;
 				model.newAddressAdded = false;
-				model.newGeoLocationAdded = false;
+				model.addressSelected = false;
+				// model.newGeoLocationAdded = false;
 				var makerId = loggedMaker.makerId;
 				categoriesService
 					.getAllCategories()
@@ -34,7 +35,7 @@
 								});
 						})
 						.then(function () {
-							eventsService
+							addressService
 								.getMakerAddresses(makerId)
 								.then(function (allAddresses) {
 									model.allAddresses = allAddresses.data;
@@ -88,6 +89,12 @@
 			model.getLocationFromMap = getLocationFromMap;
 			model.mapLocation = {longitude: 0, latitude: 0};
 			model.addNewAddress = addNewAddress;
+			model.selectAddress = selectAddress;
+
+			function selectAddress(){
+				model.addressSelected = true;
+				model.newAddressAdded = false;
+			}
 
 
 			function getCurrentLocation() {
@@ -109,7 +116,8 @@
 			function getLocationFromMap(){
 				document.getElementById('mapLongitude').value = model.mapLocation.longitude;
 				document.getElementById('mapLatitude').value = model.mapLocation.latitude;
-				model.newGeoLocationAdded = true;
+				// model.newAddressAdded = false;
+				// model.newGeoLocationAdded = true;
 			}
 
 			function createEventDetails(newEvent, daysOfWeek, mapLocation){
@@ -168,8 +176,9 @@
 			function createEvent(newEvent){
 				newEvent.makerId = model.loggedMaker.makerId;
 				newEvent.newAddressAdded = model.newAddressAdded;
-				newEvent.newGeoLocationAdded = model.newGeoLocationAdded;
-				console.log('the event to create', newEvent);
+				newEvent.addressSelected = model.addressSelected;
+				// newEvent.newGeoLocationAdded = model.newGeoLocationAdded;
+				// console.log('the event to create', newEvent);
 				eventsService
 					.addNewEvent(newEvent)
 					.then(function(addedEvent){
@@ -189,6 +198,7 @@
 			function addNewAddress() {
 				console.log('new address added');
 				model.newAddressAdded = true;
+				model.addressSelected = false;
 			}
 			
 			

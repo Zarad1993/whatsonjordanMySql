@@ -17,8 +17,7 @@ membersDB.getMemberEvents = getMemberEvents;
 
 
 function addNewMember(id){
-    return membersDB
-                .create();
+    return membersDB.create();
 }
 
 function findMemberById(memberId){
@@ -35,6 +34,7 @@ function updateMemberDetails(id, member){
                 .findById(id)
                 .then(function(foundMember){
                     if(member.address){
+                        member.address.createdBy = 'Member'+id
                         return addressesDB
                             .updateAddressDetails(member.address)
                             .then(function (updatedAddress) {

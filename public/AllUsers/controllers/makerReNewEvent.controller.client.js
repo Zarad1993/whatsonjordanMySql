@@ -3,13 +3,14 @@
 		.module('whatsOnJordan')
 		.controller('makerReNewEventController', makerReNewEventController);
 
-	function makerReNewEventController($location, $routeParams, eventsService, categoriesService, subCategoriesService, ageGroupsService, loggedMaker, userService){
+	function makerReNewEventController($location, $routeParams, eventsService, addressService, categoriesService, subCategoriesService, ageGroupsService, loggedMaker, userService){
 			var model = this;
 			function init(){
 				var eventId = $routeParams.eventId;
 				model.loggedMaker = loggedMaker;
 				model.newAddressAdded = false;
-				model.newGeoLocationAdded = false;
+				model.addressSelected = false;
+				// model.newGeoLocationAdded = false;
 				var makerId = loggedMaker.makerId;
 
 				categoriesService
@@ -32,9 +33,9 @@
 							});
 					})
 					.then(function(){
-						eventsService	
+						addressService
 							.getMakerAddresses(makerId)
-							.then(function(allAddresses){
+							.then(function (allAddresses) {
 								model.allAddresses = allAddresses.data;
 							});
 					})
@@ -79,8 +80,9 @@
 				eventsService
 					.findEventByEventId(eventId)
 					.then(function(eventDetails){
+						console.log('the event details: ', eventDetails);
 						// model.eventDetails = eventDetails;
-						model.mapLocation = { longitude: eventDetails.geoLocation.longitude, latitude: eventDetails.geoLocation.latitude };
+						model.mapLocation = { longitude: eventDetails.address.geoLocation.longitude, latitude: eventDetails.address.geoLocation.latitude };
 						eventDetails.startingDate = new Date(eventDetails.startingDate);
 						eventDetails.expiryDate = new Date(eventDetails.expiryDate);
 						// event.sessionStartTime = event.startingDate.getTime();
@@ -147,12 +149,18 @@
 			model.getLocationFromMap = getLocationFromMap;
 			model.mapLocation = {longitude: 0, latitude: 0};
 			model.addNewAddress = addNewAddress;
+			model.selectAddress = selectAddress;
 
+
+			function selectAddress(){
+				model.addressSelected = true;
+				model.newAddressAdded = false;
+			}
 
 			function getCurrentLocation() {
 			    if (navigator.geolocation) {
 					navigator.geolocation.getCurrentPosition(showPosition);
-					model.newGeoLocationAdded = true;
+					// model.newGeoLocationAdded = true;
 			    } else { 
 			        console.log("Geolocation is not supported by this browser.");
 			    }
@@ -163,20 +171,19 @@
 				model.mapLocation.longitude = position.coords.longitude;
 				document.getElementById('mapLongitude').value = model.mapLocation.longitude;
 				document.getElementById('mapLatitude').value = model.mapLocation.latitude;
-
 			}
 
 			function getLocationFromMap(){
 				document.getElementById('mapLongitude').value = model.mapLocation.longitude;
 				document.getElementById('mapLatitude').value = model.mapLocation.latitude;
-				model.newGeoLocationAdded = true;
+				// model.newGeoLocationAdded = true;
 			}
 
 			function createEventDetails(reNewed, newEvent, daysOfWeek, mapLocation){
 				console.log('the event to renew', reNewed);
 				
-				reNewed.geoLocation.latitude = mapLocation.latitude;
-				reNewed.geoLocation.longitude = mapLocation.longitude;
+				reNewed.geoLocation = mapLocation;
+				// reNewed.geoLocation.longitude = mapLocation.longitude;
 				// create dates based on start-end dates and the days of the weeks
 				var start = new Date(newEvent.startingDate);
 				var end = new Date(newEvent.expiryDate);
@@ -221,20 +228,22 @@
 					}
 				}
 				reNewed.eventDays = eventDays;
-				// temporary store the old details for each day in array
-				var detailsArray = [];
-				for (var n in reNewed.dailyDetails.programDailyDetails) {
-					detailsArray.push(reNewed.dailyDetails.programDailyDetails[n]);
-				}
+				if(reNewed.dailyDetails){
+					// temporary store the old details for each day in array
+					var detailsArray = [];
+					for (var n in reNewed.dailyDetails.programDailyDetails) {
+						detailsArray.push(reNewed.dailyDetails.programDailyDetails[n]);
+					}
 
-				// remove the old details for old days
-				for (var h in reNewed.dailyDetails.programDailyDetails) {
-					delete reNewed.dailyDetails.programDailyDetails[h];
-				}
+					// remove the old details for old days
+					for (var h in reNewed.dailyDetails.programDailyDetails) {
+						delete reNewed.dailyDetails.programDailyDetails[h];
+					}
 
-				// store the daily details in the new dates
-				for (var d in reNewed.eventDays) {
-					reNewed.dailyDetails.programDailyDetails[reNewed.eventDays[d]] = detailsArray[d];
+					// store the daily details in the new dates
+					for (var d in reNewed.eventDays) {
+						reNewed.dailyDetails.programDailyDetails[reNewed.eventDays[d]] = detailsArray[d];
+					}
 				}
 
 
@@ -258,7 +267,8 @@
 			function reNewEvent(reNewedEvent){
 				// reNewedEvent.makerId = makerId;
 				reNewedEvent.newAddressAdded = model.newAddressAdded;
-				reNewedEvent.newGeoLocationAdded = model.newGeoLocationAdded;
+				reNewedEvent.addressSelected = model.addressSelected;
+				// reNewedEvent.newGeoLocationAdded = model.newGeoLocationAdded;
 				console.log('the final Event to go to renew', reNewedEvent);
 				eventsService
 					.reNewEvent(reNewedEvent)
@@ -279,6 +289,7 @@
 			function addNewAddress(){
 				console.log('new address added');
 				model.newAddressAdded = true;
+				model.addressSelected = false;
 			}
 			
 			

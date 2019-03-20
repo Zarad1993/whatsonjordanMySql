@@ -310,16 +310,16 @@ function checkToken(req, res, next){
 	var token = req.params.token;
 	var password = req.body.password;
 	// resetPassword(req, res, password);
-
 	usersDB
 		.findUserByToken(token)
 		.then(function(user){
-			// console.log(user);
-			if(user){
+			// if user found 
+			if(user.email){
 				newPassword = bcrypt.hashSync(password);
 				usersDB
 					.resetPassword(user, newPassword)
-					.then(function(result){
+					.then(function(result){	
+						console.log('the result after reset password: ', result);					
 						// send email to reset password
 						var mailOptions = {
 							from: 'whatsonjordan@gmail.com',
@@ -330,7 +330,7 @@ function checkToken(req, res, next){
 										'<br><br>'+
 										'<img src="cid:whatsOnJordanLogo001" style="width: 300px; height: 200px;"/>'+
 										'<br>'+
-										'<p style="color: #DB685F; font-size: 4em;">Welcome '+ result.name.firstName + '!'+'</p>'+
+										'<p style="color: #DB685F; font-size: 4em;">Welcome ' + (result.userTypeId == 1 ? result.member.firstName : result.maker.firstName) + '!'+'</p>'+
 										'<p style="font-size: 1.5em;" > You are receiving this because you (or someone else) have requested the reset of the password for your account.</p>'+
 										'<br>'+
 										'<p style="font-size: 1.5em;">This is to confirm that your password has been changed successfully. </p>'+
@@ -352,13 +352,21 @@ function checkToken(req, res, next){
 							
 						};
 						transporter.sendMail(mailOptions, function(error, info){
-							console.log('Email sent to: ' + result.email);
-							res.sendStatus(200);
+							console.log('the error: ', error);
+							console.log('the info: ', info);
+							if (error) { 
+								console.log(error); 
+							}else{
+								console.log('Email sent to: ' + result.email);
+								// res.sendStatus(200);
+							}
 						});
-
 
 						resetPassword(req, res, result);
 					});
+			} else{ // if there is no token for the user or the token expired
+				res.send(user);
+				return;
 			}
 		}, function(err){
 			console.log(err);
@@ -374,17 +382,9 @@ function resetPassword(req, res, user){
 		if(err){
 			return err;
 		} else{
-			res.send(user.data);
+			res.send(user);
 		}
 	});
-
-	// res.send()
-	// console.log(user);
-
-	// var token = req.params.token;
-	// var password = req.body;
-	// console.log(token);	
-	// console.log(password);
 }
 
 function forgetPassword(req, res){
@@ -394,6 +394,8 @@ function forgetPassword(req, res){
         usersDB
         	.addTokenToUser(userEmail, token)
         	.then(function(user){
+				console.log('the user after add token: ', user);
+				
 				// send email to reset password
 				var mailOptions = {
 					from: 'whatsonjordan@gmail.com',
@@ -404,10 +406,10 @@ function forgetPassword(req, res){
 								'<br><br>'+
 								'<img src="cid:whatsOnJordanLogo001" style="width: 300px; height: 200px;"/>'+
 								'<br>'+
-								'<p style="color: #DB685F; font-size: 4em;">Welcome '+ user.name.firstName + '!'+'</p>'+
+								'<p style="color: #DB685F; font-size: 4em;">Welcome '+ (user.userTypeId==1 ? user.member.firstName : user.maker.firstName) + '!'+'</p>'+
 								'<p style="font-size: 1.5em;" > You are receiving this because you (or someone else) have requested the reset of the password for your account.</p>'+
 								'<br>'+
-								'<p style="font-size: 1.5em;">Please click on the following link, or paste this into your browser to complete the process: </p>'+
+								'<p style="font-size: 1.5em;">Please click on the following link, or paste it into your browser to complete the process: </p>'+
 								'<br>'+
 								'<p style="font-size: 1.5em;"> http://' + req.headers.host + '/#!/resetPassword/' + token +'</p>'+
 								'<br>'+
@@ -753,6 +755,10 @@ function addNewUser(req, res){
 					// res.json(addedUser);
 				// }
 			// });
+		}, function(err){
+			// console.log('the error is', err.errors);
+			
+			res.send(err);
 		});
 }
 

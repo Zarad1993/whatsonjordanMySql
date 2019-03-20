@@ -42,6 +42,7 @@ require('./server/AllUsers/userTypes.service.server')(app);
 require('./server/AllUsers/categories.service.server')(app);
 require('./server/AllUsers/ageGroups.service.server')(app);
 require('./server/AllUsers/subCategories.service.server')(app);
+require('./server/AllUsers/address.service.server')(app);
 require('./server/databse.js');
 
 

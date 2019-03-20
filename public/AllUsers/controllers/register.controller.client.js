@@ -30,7 +30,7 @@
 
 
 		function register(user, password2) {
-			console.log(user);
+			// console.log(user);
 			if (!user) {
 				model.error = 'Please fill all the requested fields';
 				return;
@@ -40,7 +40,14 @@
 				return userService
 					.createUser(user)
 					.then(function(createdUser){
-						$location.url('/profile');
+						if (createdUser.data.errors > 0) {
+							if (createdUser.data.errors[0].message == 'email must be unique'){
+								model.error = 'Email already exist';
+							}
+						}else{
+							$location.url('/profile');
+						}
+						// console.log('the return from the db', createdUser.data.errors[0].message)
 						// console.log('the createdUser on controller for the created user: ', createdUser);
 					});
 					// .findUserByEmail(user.email)
@@ -55,7 +62,7 @@
 					// 				var matchedUser = result;
 					// 				var userId = matchedUser._id;
 					// 				$rootScope.loggedUser = matchedUser;
-					// 				// it is not going to userProfile shoud be by adding the login functionality here also or find another solution
+					// 				// it is not going to userProfile should be by adding the login functionality here also or find another solution
 					// 				if(matchedUser.userType === 'user'){
 					// 					$location.url('/userProfile');
 					// 					return;

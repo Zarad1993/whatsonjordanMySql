@@ -466,20 +466,37 @@ working with sql:
 	
 	[x] Add the same scenario of adding new address and the location for the create a new event or chose from old address.
 
-	[] its better to make the geolocation on the address table not seperate table.
-
-	[] maker profile -> events list:
+	[x] maker profile -> events list:
 		[x] show registered members
-		[] Maker could renew event
+		[x] Maker could renew event
 
+	[x] its better to make the geolocation on the address table not seperate table.
+	[x] keep the geolocation table and connect it with the address table (one to one) so when maker create new address he should also create new geolocation.
+	[x] if the maker choose address from a list set the addressId when creating the event
+	[x] if the maker creat a new address -> creat address in addressesDB and add geolocation in geolocationsDB and set the geolocationId on the address table instead of set geolocationId in the event.
 	
+	[x] the logic of creating address and geolocation
+		if maker choose address -> we just need the addressId to set on the event
+		if maker create new address -> set the newAddressAdded to true -> pass the address object and the geolocation object to create them on the db.
+		if maker change his mind and choose the address from the list -> change the newAddressAdded to false in the controller -> pass the addressId
 	
+	[x] to know the one who created the address:
+		1. add field name: createdBy in the address table
+		2. when maker create an address we set the created by to be: maker+makerId
+		3. when member create an address we set the created by to be: member+memberId
+		4. and so on...
+		thats help when we want to bring all maker's addresses
 
+	[] understnd and use the migration through sequelize-cli
+
+	[] Maker profile:
+		[] 
 	[] Member profile working on:
 		Payments, Balance: Attended Days for each event on event list.
 
-	[ ] re add the medical problem to the database either as table or in the member table
-	[ ] get all the schools and save them on the database then the user could choose one from the list
+	[] re add the medical problem to the database either as table or in the member table
+	[] get all the schools and save them on the database then the user could choose one from the list
+	[] when filter the event on all events page the map should list only the filtered evnents
 
 Missed Days: 
 

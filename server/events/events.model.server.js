@@ -6,6 +6,7 @@ var Op = db.Sequelize.Op;
 var eventsDB = require('../models/event.model');
 var addressesDB = require('../AllUsers/addresses.model.server');
 var geoLocationsDB = require('../AllUsers/geoLocation.model.server');
+var GeoLocation = require('../models/geoLocation.model');
 var Address = require('../models/address.model');
 db.sync();
 
@@ -20,7 +21,6 @@ eventsDB.reNewEvent = reNewEvent;
 eventsDB.getAllEvents = getAllEvents;
 eventsDB.findEventByEventId = findEventByEventId;
 eventsDB.findEventsByMakerId = findEventsByMakerId;
-eventsDB.getMakerAddresses = getMakerAddresses;
 eventsDB.updateEvent = updateEvent;
 eventsDB.updateEventByAdmin = updateEventByAdmin;
 // eventsDB.addMemberToEvent = addMemberToEvent;
@@ -67,99 +67,71 @@ event details:  { name: 'Event 1',
 */
 
 function addNewEvent(makerId, event) {
-	// var eventTemp = null;
 	console.log('makerId: ', makerId);
-	// console.log('event details: ', event);
-	event.main.categoryId = event.category.categoryId;
-	event.main.subCategoryId = event.category.subCategoryId;
-	event.main.ageGroupId = event.age.ageGroup.id;
-	event.main.addressId = event.address.id;
-	event.main.geoLocationId = event.geoLocation.id;
-	event.main.makerId = makerId;
+	// event.main.categoryId = event.category.categoryId;
+	// event.main.subCategoryId = event.category.subCategoryId;
+	// event.main.ageGroupId = event.age.ageGroup.id;
+	// // event.main.addressId = event.address.id;
+	// event.main.makerId = makerId;
+	
+	console.log('the final event object: ', event);
 	
 	return eventsDB
 		.create(event.main)
 		.then(function (addedEvent) {
 			// send the address to addressesDB to create address there and then set the id on the event
-			// if the maker add new address the address
+			// if the maker add new address then create address and geolocation on the database
 			if(event.newAddressAdded){
-				return addressesDB
-						.createAddress(event.address)
-						.then(function(addedAddress){
-							// var addressId = addedAddress.id;
-							addedEvent.addressId = addedAddress.id;
-							// addedEvent.categoryId = categoryId;
-							// addedEvent.subCategoryId = subCategoryId;
-							// addedEvent.ageGroupId = ageGroupId;
-							return addedEvent.save();
-						})
-			}
-		})
-		.then(function(addedEvent){
-			if(event.newGeoLocationAdded){
 				return geoLocationsDB
-					.addEventLocation(event.geoLocation)
+						.addEventLocation(event.geoLocation)
 						.then(function(addedLocation){
-							addedEvent.geoLocationId = addedLocation.id;
-							return addedEvent.save();
-						})
-
+							event.address.geoLocationId = addedLocation.id;
+							event.address.createdBy = 'Maker' + makerId;
+							return addressesDB
+									.createAddress(event.address)
+									.then(function(addedAddress){
+										addedEvent.addressId = addedAddress.id;
+										return addedEvent.save();
+									});				
+						});
+			}else{
+				return addedEvent;
 			}
-		})
-		// .then(function (maker) {
-		// 	return eventTemp;
-		// });
+		});
 }
 
 function reNewEvent(reNewedEvent){
-	reNewedEvent.daysPerWeek = JSON.stringify(reNewedEvent.daysPerWeek);
-	reNewedEvent.dailyDetails = JSON.stringify(reNewedEvent.dailyDetails);
-	reNewedEvent.images = JSON.stringify(reNewedEvent.images);
+	// reNewedEvent.daysPerWeek = JSON.stringify(reNewedEvent.daysPerWeek);
+	// reNewedEvent.dailyDetails = JSON.stringify(reNewedEvent.dailyDetails);
+	// reNewedEvent.images = JSON.stringify(reNewedEvent.images);
 
 	// reNewedEvent.categoryId = reNewedEvent.category.id;
 	// reNewedEvent.subCategoryId = reNewedEvent.subCategory.id;
-	reNewedEvent.ageGroupId = reNewedEvent.ageGroup.id;
-	reNewedEvent.addressId = reNewedEvent.address.id;
-
+	// reNewedEvent.ageGroupId = reNewedEvent.ageGroup.id;
+	// reNewedEvent.addressId = reNewedEvent.address.id;
+	console.log('the renewed event: ', reNewedEvent);
+	
 	return eventsDB
 		.create(reNewedEvent)
 		.then(function(addedEvent){
-			// if the maker add new address the address he must change the geolocation also
+	// 		// if the maker add new address the address he must change the geolocation also
 			if (reNewedEvent.newAddressAdded){
-				// prepare address and geoLocation object
-				var removedKeys = ['id', 'createdAt', 'updatedAt']
-				for(var a in removedKeys){
-					delete(reNewedEvent.address[removedKeys[a]]);
-				}
-				var newAddress = reNewedEvent.address;
-				return addressesDB
-					.createAddress(newAddress)
-					.then(function (addedAddress) {
-						addedEvent.addressId = addedAddress.id;
-						return addedEvent.save();
-					});
-				}else{
-					return addedEvent;
-				}
-			})
-			.then(function(addedEvent){
-				if (reNewedEvent.newGeoLocationAdded) {
-					// prepare address and geoLocation object
-					var removedKeys = ['id', 'createdAt', 'updatedAt']
-					for (var a in removedKeys) {
-						delete (reNewedEvent.geoLocation[removedKeys[a]]);
-					}
-					var newGeoLocation = reNewedEvent.geoLocation;
-					return geoLocationsDB
-						.addEventLocation(newGeoLocation)
+				return geoLocationsDB
+					.addEventLocation(reNewedEvent.geoLocation)
 						.then(function (addedLocation) {
-							addedEvent.geoLocationId = addedLocation.id;
-							return addedEvent.save();
+							reNewedEvent.address.geoLocationId = addedLocation.id;
+							reNewedEvent.address.createdBy = 'Maker' + reNewedEvent.makerId;
+							return addressesDB
+								.createAddress(reNewedEvent.address)
+								.then(function(addedAddress){
+									addedEvent.addressId = addedAddress.id;
+									return addedEvent.save();
+								});
 						});
-				}else{
-					return addedEvent;
-				}
-			})
+			}else{
+				return addedEvent;
+			}
+		});
 }
 
 function getAllEvents() {
@@ -167,8 +139,9 @@ function getAllEvents() {
 	return eventsDB
 		.findAll({
 			where: {startingDate: {$gte: today}},
-			include: [{ all: true }]
-		})
+			// include: [{ all: true }]
+			include: [{ all: true }, { model: Address, include: [{ all: true }] }]
+		});
 		// .sort('startingDate')
 		// .populate('makerId')
 		// .exec();
@@ -275,7 +248,7 @@ function findEventByEventId(eventId){
 				.find({
 					where: {id: eventId},
 					attributes: {exclude: ['createdAt', 'updatedAt', 'appropved', 'special']},
-					include: [{all:true}]
+					include: [{all:true}, {model: Address, include: [{all:true}]}]
 					});
 }
 
@@ -292,14 +265,6 @@ function findEventsByMakerId(makerId){
 	// 			.exec();
 }
 
-function getMakerAddresses(makerId){
-	return eventsDB
-			.findAll({
-				where: {makerId: makerId},
-				attributes: [],
-				include: [{model: Address}]
-			});
-}
 
 // function createMakerEventsList(makerId){
 // 	var today = (new Date()).toISOString();
@@ -319,61 +284,34 @@ function updateEventByAdmin(eventId, updatedEvent){
 
 
 function updateEvent(eventId, updatedEvent){
-	// console.log('event id: ', eventId);
-	console.log('updated event: ', updatedEvent);	
-	updatedEvent.daysPerWeek = JSON.stringify(updatedEvent.daysPerWeek);
-	updatedEvent.dailyDetails = JSON.stringify(updatedEvent.dailyDetails);
-	updatedEvent.images = JSON.stringify(updatedEvent.images);
-
-	// updatedEvent.categoryId = updatedEvent.category.id;
-	// updatedEvent.subCategoryId = updatedEvent.subCategory.id;
-	updatedEvent.ageGroupId = updatedEvent.ageGroup.id;
-	updatedEvent.addressId = updatedEvent.address.id;
-	updatedEvent.geoLocationId = updatedEvent.geoLocation.id;
-
+	// console.log('the updated event: ', updatedEvent);	
 	return eventsDB
 		.findById(eventId)
 		.then(function (foundEvent) {
 			// if the maker add new address the address he must change the geolocation also
 			if(updatedEvent.newAddressAdded){
-				// prepare address and geoLocation object
-				var removedKeys = ['id', 'createdAt', 'updatedAt']
-				for (var a in removedKeys) {
-					delete (updatedEvent.address[removedKeys[a]]);
-				}
-				var newAddress = updatedEvent.address;
-
-				return addressesDB
-					.createAddress(newAddress)
-					.then(function (addedAddress) {
-						updatedEvent.addressId = addedAddress.id;
-						return foundEvent;
-					});
-			}else{
-				return foundEvent;
-			}
-		})
-		.then(function (foundEvent) {
-			if (updatedEvent.newGeoLocationAdded){
-				// prepare address and geoLocation object
-				var removedKeys = ['id', 'createdAt', 'updatedAt']
-				for (var a in removedKeys) {
-					delete (updatedEvent.geoLocation[removedKeys[a]]);
-				}
-				var newGeoLocation = updatedEvent.geoLocation;
 				return geoLocationsDB
-					.addEventLocation(newGeoLocation)
-					.then(function (addedLocation) {
-						updatedEvent.geoLocationId = addedLocation.id;
+					.addEventLocation(updatedEvent.geoLocation)
+					.then(function(addedLocation){
+						updatedEvent.address.geoLocationId = addedLocation.id;
+						updatedEvent.address.createdBy = 'Maker' + updatedEvent.makerId;
 						return foundEvent;
+					})
+					.then(function(foundEvent){
+						return addressesDB
+								.createAddress(updatedEvent.address)
+								.then(function(addedAddress){
+									updatedEvent.addressId = addedAddress.id;
+									return foundEvent;
+								});
+					})
+					.then(function(foundEvent){
+						return foundEvent.update(updatedEvent);
 					});
 			}else{
-				return foundEvent;
+				return foundEvent.update(updatedEvent);
 			}
-		})
-		.then(function (foundEvent){
-			return foundEvent.update(updatedEvent);
-		})
+		});
 }
 
 

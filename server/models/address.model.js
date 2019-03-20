@@ -19,6 +19,9 @@ var Address = db.define('address', {
     },
     note: {
         type: Sequelize.STRING
+    },
+    createdBy: {
+        type: Sequelize.STRING
     }
 });
 

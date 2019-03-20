@@ -157,9 +157,7 @@
 			var url = '/api/user/findUserByEmail/'+email;
 			return $http.get(url)
 				.then(function(response) {
-					// original
-					// var result = response.dataValues;
-					var result = response;
+					var result = response.data;
 					if(result.email){
 						return ('email already exist');
 					} else{
@@ -187,11 +185,7 @@
 	
 
 		function createUser(user){
-			return $http.post('/api/user/', user)
-				.then(function(response){
-					console.log('the response after create a user: ', response.data);
-					return(response.data);
-				});
+			return $http.post('/api/user/', user);
 		}
 
 

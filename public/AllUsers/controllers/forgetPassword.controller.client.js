@@ -25,23 +25,36 @@
 
 
 		function forgetPassword (email){
+			model.loadingData = true;
 			userService
-				.findUserByEmail(email)
-				.then(function(result){
-					if(result !== 'email already exist'){
-						model.msg = "Please check your email first; no user under this email!";
-			 			return;					
-					} else{
-						userService
-							.forgetPassword(email)
-							.then(function(result){
-								if(result.data === "ok"){
-									model.msg = "Please check your mailbox, an email has been sent, follow the instructios in it.";
-								}
-							});
-						// return result;
-			 		}
-				});
+			.findUserByEmail(email)
+			.then(function(result){
+				console.log('the result is:', result);
+				if(result !== 'email already exist'){
+					model.loadingData = false;
+					model.msgTitle = "Email Not Exist";
+					model.msg = "Please check your email first \n No user under this email!";
+					$(function(){
+						$('#forgetPassword').modal('show');
+					});
+			 		return;
+				} else{
+					userService
+						.forgetPassword(email)
+						.then(function(result){
+							console.log(result);
+							if(result.data === "OK"){
+								model.loadingData = false;
+								model.msgTitle = "Email Sent..";
+								model.msg = "Please check your mailbox... \n an email has been sent  \n follow the instructios in it.";
+								$(function () {
+									$('#forgetPassword').modal('show');
+								})
+							}
+						});
+					// return result;
+				}
+			});
 				
 
 			// userService

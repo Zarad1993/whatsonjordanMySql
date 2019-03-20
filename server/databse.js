@@ -1,7 +1,10 @@
 // var mongoose = require('mongoose');
 var Sequelize = require('sequelize');
 var Op = Sequelize.Op;
-var operatorsAliases = {$gte: Op.gte}
+var operatorsAliases = {
+	$gte: Op.gte,
+	$gt: Op.gt
+};
 
 var username = process.env.MYSQL_USERNAME;
 var password = process.env.MYSQL_PASSWORD;
@@ -23,7 +26,6 @@ db
 	.authenticate()
 	.then(function(){
 		console.log('Connected successfully');
-
 	})
 	.catch(function(err){
 		console.error('Unable to connect to DB', err);
@@ -85,11 +87,15 @@ Event.belongsTo(Maker);
 Event.belongsTo(Address);
 Event.belongsTo(Category);
 Event.belongsTo(SubCategory);
-Event.belongsTo(GeoLocation);
+// Event.belongsTo(GeoLocation);
 
 // Many to Many relationship (members register for many event And Events has many members)
 Member.belongsToMany(Event, {through: 'MemberEvent'});
 Event.belongsToMany(Member, {through: 'MemberEvent'});
+
+// Connect the address with the geolocation
+Address.belongsTo(GeoLocation);
+
 
 // One to Many relationship between member and feedback each member has many feedbacks and each feedback belongsto member
 // feedback table (memberId, eventId, feedback)

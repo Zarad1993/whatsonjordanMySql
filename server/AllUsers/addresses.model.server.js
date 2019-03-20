@@ -7,6 +7,7 @@ module.exports = addressesDB;
 
 addressesDB.updateAddressDetails = updateAddressDetails;
 addressesDB.createAddress = createAddress;
+addressesDB.getMakerAddresses = getMakerAddresses;
 
 function updateAddressDetails(address) {
     // console.log('the address from the addressdb: ', address);
@@ -23,4 +24,13 @@ function updateAddressDetails(address) {
 
 function createAddress(address){
     return addressesDB.create(address);
+}
+
+function getMakerAddresses(makerId){
+    var maker = 'Maker' + makerId;
+    return addressesDB
+        .findAll({
+            where: {createdBy: maker},
+            include: [{all: true}]
+        })
 }

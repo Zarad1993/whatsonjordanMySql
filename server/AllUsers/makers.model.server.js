@@ -19,6 +19,7 @@ function updateMakerProfile(maker){
             .findById(makerId)
             .then(function(foundMaker){
                 if(maker.address){
+                    maker.address.createdBy = 'Maker'+makerId;
                     return addressesDB
                         .updateAddressDetails(maker.address)
                         .then(function(updatedAddress){

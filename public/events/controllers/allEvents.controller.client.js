@@ -53,7 +53,7 @@
 							                      },
 							                      "geometry": {
 							                        "type": "Point",
-													"coordinates": [JSON.parse(model.eventsList[e].geoLocation.longitude), JSON.parse(model.eventsList[e].geoLocation.latitude)],
+													"coordinates": [JSON.parse(model.eventsList[e].address.geoLocation.longitude), JSON.parse(model.eventsList[e].address.geoLocation.latitude)],
 							                        "zoom": 5
 							                      }
 									            });

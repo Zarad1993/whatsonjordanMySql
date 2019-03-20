@@ -308,20 +308,27 @@ function updateMakerProfile(updatedMakerProfile){
 
 function resetPassword(user, newPassword){
 	return usersDB
-			.findById(user._id)
+			.findOne({ where: { id: user.id}, include: [{all:true}]})
 			.then(function(user){
 				user.password = newPassword;
-				user.resetPasswordToken = undefined;
-				user.resetPasswordExpires = undefined;
+				user.resetPasswordToken = null;
+				user.resetPasswordExpires = null;
 				return user.save();
 			});
 }
 
 function findUserByToken(token){
+	console.log('the token is: ', token);
 	return usersDB
-		.findOne({resetPasswordToken: token, resetPasswordExpires: {$gt: Date.now()}})
+		.findOne({ 
+			where: { resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() }}
+		})
 		.then(function(user){
-			return user;
+			if(user){
+				return user;
+			}else{
+				return('Not found');
+			}
 		}, function(err){
 			console.log(err);
 			return err;
@@ -483,9 +490,9 @@ function findUserByEmail(userEmail){
 				})
 				.then(function(foundUser){
 					if(foundUser){
-						var user = foundUser.get({ plain: true });
+						// var user = foundUser.get({ plain: true });
 						// console.log('the found user ', user);
-						return user;
+						return foundUser;
 					}else{
 						return null;
 					}
