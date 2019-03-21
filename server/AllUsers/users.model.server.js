@@ -5,18 +5,18 @@
 // var usersDB = mongoose.model('usersDB', usersSchema);
 var db = require('../databse');
 // var role = require('../models/userType.model');
-var usersDB = require('../models/user.model');
+var usersDB = db.User; // require('../models/user.model');
 var membersDB = require('./members.model.server');
 var makersDB = require('./makers.model.server');
-var Member = require('../models/member.model');
-var Maker = require('../models/maker.model');
-var School = require('../models/school.model');
-var Contact = require('../models/contact.model');
-var Address = require('../models/address.model');
-var Nationality = require('../models/nationality.model');
-var Grade = require('../models/grade.model');
+var Member = db.Member; // require('../models/member.model');
+var Maker = db.Maker; // require('../models/maker.model');
+var School = db.School; // require('../models/school.model');
+var Contact = db.Contact; // require('../models/contact.model');
+var Address = db.Address; // require('../models/address.model');
+var Nationality = db.Nationality; // require('../models/nationality.model');
+var Grade = db.Grade; // require('../models/grade.model');
 // var role = require('../models/userType.model');
-db.sync();
+db.sequelize.sync();
 // console.log('the User in the database is:', usersDB);
 
 module.exports = usersDB;

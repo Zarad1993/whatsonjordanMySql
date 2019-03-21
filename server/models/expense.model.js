@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
 
-var Expense = db.define('expense', {
+var Expense = db.sequelize.define('expense', {
     details: {
         type: Sequelize.INTEGER
     },

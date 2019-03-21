@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
 
-var Feedback = db.define('feedback', {
+var Feedback = db.sequelize.define('feedback', {
     details: {
         type: Sequelize.STRING
     },

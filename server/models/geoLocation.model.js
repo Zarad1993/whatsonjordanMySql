@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
 
-var GeoLocation = db.define('geoLocation', {
+var GeoLocation = db.sequelize.define('geoLocation', {
     latitude: {
         type: Sequelize.STRING
     },

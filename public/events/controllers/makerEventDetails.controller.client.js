@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('makerEventDetails', makerEventDetails);
 
-	function makerEventDetails($routeParams, eventsService, userService, fixedParametersService, $location, $route, loggedMaker) {
+	function makerEventDetails($routeParams, eventsService, getterService, userService, $location, $route, loggedMaker) {
 
 		var model = this;
 		model.logout = logout;
@@ -80,17 +80,17 @@
 			name: 'Full payment'
 		}, ];
 
-		model.expensesTypes = [{
-			name: 'Expense type...'
-		}, {
-			name: 'Salary'
-		}, {
-			name: 'Hospitality'
-		}, {
-			name: 'Rental fees'
-		}, {
-			name: 'Misc'
-		}];
+		// model.expensesTypes = [{
+		// 	name: 'Expense type...'
+		// }, {
+		// 	name: 'Salary'
+		// }, {
+		// 	name: 'Hospitality'
+		// }, {
+		// 	name: 'Rental fees'
+		// }, {
+		// 	name: 'Misc'
+		// }];
 
 
 
@@ -110,9 +110,16 @@
 			// for default select option the first one is the title
 			model.selectedDiscount = model.discountTypes[0];
 			model.typeOfPayment = model.paymentTypes[0];
-			model.selectedExpenseType = model.expensesTypes[0];
+			// model.selectedExpenseType = model.expensesTypes[0];
 			model.thereIsSpecialDiscount = false;
 			// model.hadDiscount = hadDiscount;
+
+			getterService
+				.getAllExpenseTypes()
+				.then(function(result){
+					// console.log('the expense types', result.data);
+					model.expensesTypes = result.data;
+				})
 
 			eventsService
 				.findEventByEventId(eventId)

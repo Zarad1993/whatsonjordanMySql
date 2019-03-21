@@ -1,7 +1,7 @@
 var db = require('../databse');
-var gradesDB = require('../models/grade.model');
+var gradesDB = db.Grade; //require('../models/grade.model');
 // var usersDB = require('./users.model.server');
-db.sync();
+db.sequelize.sync();
 
 module.exports = gradesDB;
 

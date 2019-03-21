@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize')
 var db = require('../databse')
 
-var Category = db.define('category', {
+var Category = db.sequelize.define('category', {
     category: {
         type: Sequelize.STRING
     },

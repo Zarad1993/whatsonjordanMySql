@@ -1,9 +1,9 @@
 
 var db = require('../databse');
 // var role = require('../models/userType.model');
-var userTypesDB = require('../models/userType.model');
+var userTypesDB = db.UserType; //require('../models/userType.model');
 
-db.sync();
+db.sequelize.sync();
 
 
 module.exports = userTypesDB;

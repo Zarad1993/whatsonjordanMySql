@@ -1,10 +1,10 @@
 var db = require('../databse');
-var makersDB = require('../models/maker.model');
+var makersDB = db.Maker;//require('../models/maker.model');
 // var Contact = require('../models/contact.model');
 // var Address = require('../models/address.model');
 var addressesDB = require('./addresses.model.server');
 var contactsDB = require('./contacts.model.server');
-db.sync();
+db.sequelize.sync();
 
 module.exports = makersDB;
 

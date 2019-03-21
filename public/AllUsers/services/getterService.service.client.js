@@ -9,6 +9,7 @@
         this.getAllSubCategories = getAllSubCategories;
         this.getAllAgeGroups = getAllAgeGroups;
         this.getAllGrades = getAllGrades;
+        this.getAllExpenseTypes = getAllExpenseTypes;
 
 
         function init() { }
@@ -31,7 +32,11 @@
             return $http.get('/api/getterService/getAllGrades');
         }
 
-        
+        function getAllExpenseTypes(){
+            return $http.get('/api/getterService/getAllExpenseTypes');
+        }
+
+
 
 
     }

@@ -1,7 +1,7 @@
 var db = require('../databse');
-var categoriesDB = require('../models/category.model');
+var categoriesDB = db.Category; // require('../models/category.model');
 
-db.sync();
+db.sequelize.sync();
 
 module.exports = categoriesDB;
 

@@ -494,9 +494,11 @@ working with sql:
 			[] Event expenses:
 				[x] create expenseType table that include all the expense types to selecet from when creating expense
 				[x] create expenses table include (details, amount)
-				[x] create relation between expense and expense type (Expense.belongsTo(ExpenseType))
+				[x] create relation between expense and expenseType (Expense.belongsTo(ExpenseType))
 				[x] create a relation between the event and the expenses table (Expense.belongsToMany(Event, {through: 'EventExpense'}))
 
+				[] add expense to event
+					
 				find event by id then foundevent.createExpense(expense)
 
 

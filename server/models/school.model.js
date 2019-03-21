@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
 
-var School = db.define('school', {
+var School = db.sequelize.define('school', {
     name: {
         type: Sequelize.STRING
     },

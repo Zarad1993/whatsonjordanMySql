@@ -1,9 +1,9 @@
 var db = require('../databse');
-var feedbacksDB = require('../models/feedback.model');
-var Event = require('../models/event.model');
-var Member = require('../models/member.model');
+var feedbacksDB = db.Feedback; // require('../models/feedback.model');
+var Event = db.Event; // require('../models/event.model');
+var Member = db.Member; // require('../models/member.model');
 
-db.sync();
+db.sequelize.sync();
 
 module.exports = feedbacksDB;
 

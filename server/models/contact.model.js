@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
-var Contact = db.define('contact', {
+var Contact = db.sequelize.define('contact', {
     phone:{
         type: Sequelize.STRING
     },

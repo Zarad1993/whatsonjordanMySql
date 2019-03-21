@@ -1,7 +1,7 @@
 var db = require('../databse');
-var ageGroupsDB = require('../models/ageGroup.model');
+var ageGroupsDB = db.AgeGroup;  // require('../models/ageGroup.model');
 
-db.sync();
+db.sequelize.sync();
 
 module.exports = ageGroupsDB;
 

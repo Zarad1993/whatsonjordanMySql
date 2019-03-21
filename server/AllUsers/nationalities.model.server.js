@@ -1,7 +1,7 @@
 var db = require('../databse');
-var nationalitiesDB = require('../models/nationality.model');
+var nationalitiesDB = db.Nationality; //require('../models/nationality.model');
 
-db.sync();
+db.sequelize.sync();
 
 module.exports = nationalitiesDB;
 

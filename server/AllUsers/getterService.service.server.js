@@ -5,6 +5,7 @@ module.exports = function (app) {
     var subCategoriesDB = require('./subCategories.model.server');
     var ageGroupsDB = require('./ageGroups.model.server');
     var gradesDB = require('./grades.model.server');
+    var expenseTypesDB = require('./expensesTypes.model.server');
 
     // ---------------------------------- APIs requests ----------------------------------
     
@@ -12,6 +13,7 @@ module.exports = function (app) {
     app.get('/api/getterService/getAllSubCategories', getAllSubCategories);
     app.get('/api/getterService/getAllAgeGroups', getAllAgeGroups);
     app.get('/api/getterService/getAllGrades', getAllGrades);
+    app.get('/api/getterService/getAllExpenseTypes', getAllExpenseTypes);
 
     // ---------------------------------- /APIs requests ----------------------------------
 
@@ -73,6 +75,20 @@ module.exports = function (app) {
                     return;
                 }
             });
+    }
+
+    function getAllExpenseTypes(req, res){
+        expenseTypesDB
+            .getAllExpenseTypes()
+            .then(function(result){
+                if(result){
+                    res.send(result);
+                    return;
+                }else{
+                    res.send('err');
+                    return;
+                }
+            })
     }
 
 

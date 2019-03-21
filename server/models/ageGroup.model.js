@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
 
-var AgeGroup = db.define('ageGroup', {
+var AgeGroup = db.sequelize.define('ageGroup', {
     name: {
         type: Sequelize.STRING
     },

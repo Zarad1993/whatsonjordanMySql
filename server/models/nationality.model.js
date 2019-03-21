@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
 
-var Nationality = db.define('nationality', {
+var Nationality = db.sequelize.define('nationality', {
     nationality: {
         type: Sequelize.STRING
     },

@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
-var UserType = db.define('user_type', {
+var UserType = db.sequelize.define('user_type', {
     userType : {
         type: Sequelize.STRING,
         allowNull : false

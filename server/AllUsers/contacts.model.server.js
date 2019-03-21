@@ -1,7 +1,7 @@
 var db = require('../databse');
-var contactsDB = require('../models/contact.model');
+var contactsDB = db.Contact; // require('../models/contact.model');
 
-db.sync();
+db.sequelize.sync();
 
 module.exports = contactsDB;
 
@@ -25,6 +25,5 @@ function updateContactsDetails(contact) {
                     //     console.log('the created contact', ctratedContact);
                     // })
             }
-            foundContact
-        })
+        });
 }

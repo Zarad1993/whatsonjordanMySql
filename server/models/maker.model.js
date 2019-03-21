@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
-var Maker = db.define('maker', {
+var Maker = db.sequelize.define('maker', {
     firstName: {
         type: Sequelize.STRING
     },

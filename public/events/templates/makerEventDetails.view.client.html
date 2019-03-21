@@ -103,7 +103,7 @@
 								<input type="date" name="expensesDate" ng-model="expenses.date" class="form-control">
 							</div>
 							<div class="col-sm-3" style="margin-top: -10px;">
-								<select id="expensesSelector" class="custom-select" ng-options="expense.name for expense in model.expensesTypes" ng-model="model.selectedExpenseType"></select>
+								<select id="expensesSelector" class="custom-select" ng-options="expense.type for expense in model.expensesTypes" ng-model="model.selectedExpenseType"></select>
 							</div>
 							<div class="col-sm-3" style="margin-top: -10px;">
 								<input type="text" name="expenseDetails" class="form-control" ng-model="expenses.details">

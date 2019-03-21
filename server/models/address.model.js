@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
 
-var Address = db.define('address', {
+var Address = db.sequelize.define('address', {
     country: {
         type: Sequelize.STRING
     },

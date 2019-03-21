@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
-var Member = db.define('member', {
+var Member = db.sequelize.define('member', {
     firstName: {
         type: Sequelize.STRING,
         defaultValue: null

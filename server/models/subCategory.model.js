@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize')
 var db = require('../databse')
 
-var SubCategory = db.define('subCategory', {
+var SubCategory = db.sequelize.define('subCategory', {
     subcategory: {
         type: Sequelize.STRING
     },

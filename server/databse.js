@@ -9,7 +9,8 @@ var operatorsAliases = {
 var username = process.env.MYSQL_USERNAME;
 var password = process.env.MYSQL_PASSWORD;
 
-var db = new Sequelize('whatsonjordan', username, password, {
+var db = {};
+db.sequelize = new Sequelize('whatsonjordan', username, password, {
 	host: 'localhost',
 	dialect: 'mysql',
 	operatorsAliases: operatorsAliases,
@@ -22,7 +23,7 @@ var db = new Sequelize('whatsonjordan', username, password, {
 	}
 });
 
-db
+db.sequelize
 	.authenticate()
 	.then(function(){
 		console.log('Connected successfully');
@@ -46,68 +47,68 @@ db
  
 module.exports = db;
 
-var User = require('./models/user.model');
-var Role = require('./models/userType.model');
-var Member = require('./models/member.model');
-var Maker = require('./models/maker.model');
-var Contact = require('./models/contact.model');
-var Address = require('./models/address.model');
-var GeoLocation = require('./models/geoLocation.model');
-var Nationality = require('./models/nationality.model');
-var Event = require('./models/event.model');
-var Category = require('./models/category.model');
-var SubCategory = require('./models/subCategory.model');
-var AgeGroup = require('./models/ageGroup.model');
-var Grade = require('./models/grade.model');
-var School = require('./models/school.model');
-var Feedback = require('./models/feedback.model');
-var Expense = require('./models/expense.model');
-var ExpenseType = require('./models/expenseType.model');
+db.User = require('./models/user.model');
+db.UserType = require('./models/userType.model');
+db.Member = require('./models/member.model');
+db.Maker = require('./models/maker.model');
+db.Contact = require('./models/contact.model');
+db.Address = require('./models/address.model');
+db.GeoLocation = require('./models/geoLocation.model');
+db.Nationality = require('./models/nationality.model');
+db.Event = require('./models/event.model');
+db.Category = require('./models/category.model');
+db.SubCategory = require('./models/subCategory.model');
+db.AgeGroup = require('./models/ageGroup.model');
+db.Grade = require('./models/grade.model');
+db.School = require('./models/school.model');
+db.Feedback = require('./models/feedback.model');
+db.Expense = require('./models/expense.model');
+db.ExpenseType = require('./models/expenseType.model');
 
-User.belongsTo(Role);
-User.belongsTo(Member);
-User.belongsTo(Maker);
+db.User.belongsTo(db.UserType);
+db.User.belongsTo(db.Member);
+db.User.belongsTo(db.Maker);
 
 // Address.belongsTo(GeoLocation);
 
-Member.belongsTo(School);
-Member.belongsTo(Contact);
-Member.belongsTo(Address);
-Member.belongsTo(Nationality);
-Member.belongsTo(Grade);
+db.Member.belongsTo(db.School);
+db.Member.belongsTo(db.Contact);
+db.Member.belongsTo(db.Address);
+db.Member.belongsTo(db.Nationality);
+db.Member.belongsTo(db.Grade);
 // Member.hasMany(Event);
 
-Maker.belongsTo(Contact);
-Maker.belongsTo(Address);
-Maker.hasMany(Event);
+db.Maker.belongsTo(db.Contact);
+db.Maker.belongsTo(db.Address);
+db.Maker.hasMany(db.Event);
 
-SubCategory.belongsTo(Category);
+db.SubCategory.belongsTo(db.Category);
 
-Event.belongsTo(Category);
-Event.belongsTo(AgeGroup);
-Event.belongsTo(Maker);
-Event.belongsTo(Address);
-Event.belongsTo(Category);
-Event.belongsTo(SubCategory);
+db.Event.belongsTo(db.Category);
+db.Event.belongsTo(db.AgeGroup);
+db.Event.belongsTo(db.Maker);
+db.Event.belongsTo(db.Address);
+db.Event.belongsTo(db.Category);
+db.Event.belongsTo(db.SubCategory);
 // Event.belongsTo(GeoLocation);
 
 // Many to Many relationship (members register for many event And Events has many members)
-Member.belongsToMany(Event, {through: 'MemberEvent'});
-Event.belongsToMany(Member, {through: 'MemberEvent'});
-Expense.belongsToMany(Event, {through: 'EventExpense'});
-Expense.belongsTo(ExpenseType);
+db.Member.belongsToMany(db.Event, {through: 'MemberEvent'});
+db.Event.belongsToMany(db.Member, {through: 'MemberEvent'});
+db.Expense.belongsToMany(db.Event, {through: 'EventExpense'});
+db.Expense.belongsTo(db.ExpenseType);
 
 // Connect the address with the geolocation
-Address.belongsTo(GeoLocation);
+db.Address.belongsTo(db.GeoLocation);
 
 
 // One to Many relationship between member and feedback each member has many feedbacks and each feedback belongsto member
 // feedback table (memberId, eventId, feedback)
 // Member.hasMany(Feedback);
 // will add to member .getFeedbacks .setFeedbacks .createFeedback .addFeedbacks .removeFeedback .removeFeedbacks .hasFeedback .hasFeedbacks .counFeedbacks
-Feedback.belongsTo(Member);
+db.Feedback.belongsTo(db.Member);
 // will create feedback .getMember .setMember .createMember
-Feedback.belongsTo(Event);
+db.Feedback.belongsTo(db.Event);
 // will create feedback .getEvent .setEvent .createEvent
 
 
@@ -115,7 +116,7 @@ Feedback.belongsTo(Event);
 // Expense types
 // addExpenseTypes();
 
-db.sync();
+db.sequelize.sync();
 
 
 
