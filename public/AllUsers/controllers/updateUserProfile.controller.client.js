@@ -3,14 +3,14 @@
 		.module('whatsOnJordan')
 		.controller('updateUserProfile', updateUserProfile);
 
-	function updateUserProfile(userService, gradesService, schoolsService, nationalitiesService, loggedUser, $location) {
+	function updateUserProfile(userService, getterService, schoolsService, nationalitiesService, loggedUser, $location) {
 		var model = this;
 
 		function init() {
 			loggedUser.member.DOB = new Date(loggedUser.member.DOB);
 			model.userProfile = loggedUser;
 			model.loggedUser = loggedUser;
-			gradesService
+			getterService
 				.getAllGrades()
 				.then(function(result){
 					console.log('the grades: ', result.data);

@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('makerNewEventController', makerNewEventController);
 
-	function makerNewEventController($location, eventsService, addressService, categoriesService, subCategoriesService, ageGroupsService, loggedMaker, userService){
+	function makerNewEventController($location, eventsService, addressService, getterService, loggedMaker, userService){
 			var model = this;
 			function init(){
 				if(!loggedMaker){
@@ -15,12 +15,12 @@
 				model.addressSelected = false;
 				// model.newGeoLocationAdded = false;
 				var makerId = loggedMaker.makerId;
-				categoriesService
+				getterService
 					.getAllCategories()
 					.then(function (categories) {
 						// console.log('the categories:', categories);
 							model.allCategories = categories.data;
-							subCategoriesService
+							getterService
 								.getAllSubCategories()
 								.then(function (subCategories) {
 									// console.log('the sub categories:', subCategories);
@@ -28,7 +28,7 @@
 								})
 						})
 						.then(function(){
-							ageGroupsService
+							getterService
 								.getAllAgeGroups()
 								.then(function(allAgeGroups){
 									model.allAgeGroups = allAgeGroups.data;

@@ -489,6 +489,20 @@ working with sql:
 
 	[] understnd and use the migration through sequelize-cli
 
+
+	[] Maker profile --> events list --> more details:	 		
+			[] Event expenses:
+				[x] create expenseType table that include all the expense types to selecet from when creating expense
+				[x] create expenses table include (details, amount)
+				[x] create relation between expense and expense type (Expense.belongsTo(ExpenseType))
+				[x] create a relation between the event and the expenses table (Expense.belongsToMany(Event, {through: 'EventExpense'}))
+
+				find event by id then foundevent.createExpense(expense)
+
+
+
+
+
 	[] Maker profile:
 		[] 
 	[] Member profile working on:
@@ -497,6 +511,14 @@ working with sql:
 	[] re add the medical problem to the database either as table or in the member table
 	[] get all the schools and save them on the database then the user could choose one from the list
 	[] when filter the event on all events page the map should list only the filtered evnents
+
+
+
+
+
+
+
+
 
 Missed Days: 
 

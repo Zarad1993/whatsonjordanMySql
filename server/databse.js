@@ -61,6 +61,8 @@ var AgeGroup = require('./models/ageGroup.model');
 var Grade = require('./models/grade.model');
 var School = require('./models/school.model');
 var Feedback = require('./models/feedback.model');
+var Expense = require('./models/expense.model');
+var ExpenseType = require('./models/expenseType.model');
 
 User.belongsTo(Role);
 User.belongsTo(Member);
@@ -92,6 +94,8 @@ Event.belongsTo(SubCategory);
 // Many to Many relationship (members register for many event And Events has many members)
 Member.belongsToMany(Event, {through: 'MemberEvent'});
 Event.belongsToMany(Member, {through: 'MemberEvent'});
+Expense.belongsToMany(Event, {through: 'EventExpense'});
+Expense.belongsTo(ExpenseType);
 
 // Connect the address with the geolocation
 Address.belongsTo(GeoLocation);
@@ -107,28 +111,19 @@ Feedback.belongsTo(Event);
 // will create feedback .getEvent .setEvent .createEvent
 
 
-
+// When drop the database recreate fixed data
+// Expense types
+// addExpenseTypes();
 
 db.sync();
 
 
-// Eager loading iclude all associated models
-// db.sync().then(function(){
-// 	User
-// 		.findById(1, { include: [{ all: true }] })
-// 		.then(function (user) {
-// 			console.log('Eager loading..............................', user.dataValues.user_type.dataValues);
-// 		});
-// });
 
-
-// change the user_type for particular user
-// db.sync().then(function(){
-// 	User
-// 		.findById(3)
-// 		.then(function(foundUser){
-// 			// console.log(foundUser.dataValues);
-// 			foundUser.setUser_type(3);
-// 			foundUser.save();
-// 		});
-// });
+// function addExpenseTypes() {
+// 	var exTypes = ['Salary', 'Rent', 'Hospitality', 'Misc'];
+// 	for (var i in exTypes) {
+// 		console.log(exTypes[i]);
+// 		var id = i + 1;
+// 		ExpenseType.create({ id: id, type: exTypes[i] })
+// 	}
+// }

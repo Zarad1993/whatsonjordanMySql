@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('makerEventDetails', makerEventDetails);
 
-	function makerEventDetails($routeParams, eventsService, userService, $location, $route, loggedMaker) {
+	function makerEventDetails($routeParams, eventsService, userService, fixedParametersService, $location, $route, loggedMaker) {
 
 		var model = this;
 		model.logout = logout;

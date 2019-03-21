@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('makerEditEventController', makerEditEventController);
 
-	function makerEditEventController(eventsService, addressService, categoriesService, subCategoriesService, ageGroupsService,  $location, loggedMaker, userService){
+	function makerEditEventController(eventsService, addressService, getterService,  $location, loggedMaker, userService){
 		var model = this;
 
 		function init(){
@@ -27,12 +27,12 @@
 			model.selectedEvent = null;
 
 			//  bring categories, subcategories, ageGroups from the database and the map config from server.
-			categoriesService
+			getterService
 				.getAllCategories()
 				.then(function (categories) {
 					// console.log('the categories:', categories);
 					model.allCategories = categories.data;
-					subCategoriesService
+					getterService
 						.getAllSubCategories()
 						.then(function (subCategories) {
 							// console.log('the sub categories:', subCategories);
@@ -40,7 +40,7 @@
 						});
 				})
 				.then(function () {
-					ageGroupsService
+					getterService
 						.getAllAgeGroups()
 						.then(function (allAgeGroups) {
 							model.allAgeGroups = allAgeGroups.data;
