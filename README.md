@@ -498,10 +498,10 @@ working with sql:
 				[x] create a relation between the event and the expenses table (Expense.belongsToMany(Event, {through: 'EventExpense'}))
 
 				[] add expense to event
-					
+
 				find event by id then foundevent.createExpense(expense)
 
-
+	[] restructure the required of the database on all models
 
 
 
