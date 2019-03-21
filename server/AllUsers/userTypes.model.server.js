@@ -1,9 +1,10 @@
 
-var db = require('../databse');
+var db = require('../sequelize/models/index');
+// console.log('the db object:', Object.keys(db));
 // var role = require('../models/userType.model');
-var userTypesDB = require('../models/userType.model');
+var userTypesDB = db.userType; //require('../models/userType.model');
 
-db.sync();
+db.sequelize.sync();
 
 
 module.exports = userTypesDB;

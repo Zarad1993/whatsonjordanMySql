@@ -1,7 +1,9 @@
-var db = require('../databse');
-var addressesDB = require('../models/address.model');
+var db = require('../sequelize/models/index');
+// console.log('the db object:', Object.keys(db));
 
-db.sync();
+var addressesDB = db.address; //require('../models/address.model');
+
+db.sequelize.sync();
 
 module.exports = addressesDB;
 

@@ -3,20 +3,22 @@
 // var usersSchema = require('./users.schema.server.js');
 
 // var usersDB = mongoose.model('usersDB', usersSchema);
-var db = require('../databse');
+var db = require('../sequelize/models/index');
+// console.log('the db object:', Object.keys(db));
+
 // var role = require('../models/userType.model');
-var usersDB = require('../models/user.model');
+var usersDB = db.users; //require('../models/user.model');
 var membersDB = require('./members.model.server');
 var makersDB = require('./makers.model.server');
-var Member = require('../models/member.model');
-var Maker = require('../models/maker.model');
-var School = require('../models/school.model');
-var Contact = require('../models/contact.model');
-var Address = require('../models/address.model');
-var Nationality = require('../models/nationality.model');
-var Grade = require('../models/grade.model');
+var Member = db.member; //require('../models/member.model');
+var Maker = db.maker; //require('../models/maker.model');
+var School = db.school; //require('../models/school.model');
+var Contact = db.contact; //require('../models/contact.model');
+var Address = db.address; //require('../models/address.model');
+var Nationality = db.nationality; //require('../models/nationality.model');
+var Grade = db.grade; //require('../models/grade.model');
 // var role = require('../models/userType.model');
-db.sync();
+db.sequelize.sync();
 // console.log('the User in the database is:', usersDB);
 
 module.exports = usersDB;

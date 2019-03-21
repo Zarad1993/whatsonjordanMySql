@@ -1,7 +1,8 @@
-var db = require('../databse');
-var contactsDB = require('../models/contact.model');
+var db = require('../sequelize/models/index');
+// console.log('the db object:', Object.keys(db));
+var contactsDB = db.contact;//require('../models/contact.model');
 
-db.sync();
+db.sequelize.sync();
 
 module.exports = contactsDB;
 

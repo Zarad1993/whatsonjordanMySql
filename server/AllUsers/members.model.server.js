@@ -1,11 +1,11 @@
-var db = require('../databse');
-var membersDB = require('../models/member.model');
+var db = require('../sequelize/models/index');
+var membersDB = db.member; //require('../models/member.model');
 var usersDB = require('./users.model.server');
 var addressesDB = require('./addresses.model.server');
 var contactsDB = require('./contacts.model.server');
 
-var Contacts = require('../models/contact.model');
-db.sync();
+var Contacts = db.contact; //require('../models/contact.model');
+db.sequelize.sync();
 
 module.exports = membersDB;
 

@@ -1,14 +1,15 @@
 // var mongoose = require('mongoose');
 // var eventsSchema = require('./events.schema.server.js');
-var db = require('../databse');
+var db = require('../sequelize/models/index');
+// console.log('the db object:', Object.keys(db));
 var Op = db.Sequelize.Op;
 
-var eventsDB = require('../models/event.model');
+var eventsDB = db.event; //require('../models/event.model');
 var addressesDB = require('../AllUsers/addresses.model.server');
 var geoLocationsDB = require('../AllUsers/geoLocation.model.server');
-var GeoLocation = require('../models/geoLocation.model');
-var Address = require('../models/address.model');
-db.sync();
+var GeoLocation = db.geoLocation; //require('../models/geoLocation.model');
+var Address = db.address; //require('../models/address.model');
+db.sequelize.sync();
 
 // var usersDB = require('../AllUsers/users.model.server.js');
 

@@ -61,6 +61,8 @@ var AgeGroup = require('./models/ageGroup.model');
 var Grade = require('./models/grade.model');
 var School = require('./models/school.model');
 var Feedback = require('./models/feedback.model');
+var Expense = require('./models/expense.model');
+// var ExpenseType = require('./models/expenseType.model');
 
 User.belongsTo(Role);
 User.belongsTo(Member);
@@ -87,6 +89,9 @@ Event.belongsTo(Maker);
 Event.belongsTo(Address);
 Event.belongsTo(Category);
 Event.belongsTo(SubCategory);
+// Event.belongsTo(Expense);
+// Event.hasMany(Expense);
+
 // Event.belongsTo(GeoLocation);
 
 // Many to Many relationship (members register for many event And Events has many members)

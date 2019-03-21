@@ -1,7 +1,8 @@
-var db = require('../databse');
-var subCategoriesDB = require('../models/subCategory.model');
+var db = require('../sequelize/models/index');
+// console.log('the db object:', Object.keys(db));
+var subCategoriesDB = db.subCategory; //require('../models/subCategory.model');
 
-db.sync();
+db.sequelize.sync();
 
 module.exports = subCategoriesDB;
 

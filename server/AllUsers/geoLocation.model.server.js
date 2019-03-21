@@ -1,7 +1,8 @@
-var db = require('../databse');
-var geoLocationDB = require('../models/geoLocation.model');
+var db = require('../sequelize/models/index');
+// console.log('the db object:', Object.keys(db));
+var geoLocationDB = db.geoLocation; //require('../models/geoLocation.model');
 
-db.sync();
+db.sequelize.sync();
 
 module.exports = geoLocationDB;
 
