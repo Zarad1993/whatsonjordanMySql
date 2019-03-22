@@ -1,5 +1,6 @@
 
 var db = require('../databse');
+// console.log('the db object:', Object.keys(db));
 // var role = require('../models/userType.model');
 var userTypesDB = db.UserType; //require('../models/userType.model');
 

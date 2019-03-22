@@ -162,6 +162,10 @@ module.exports = function(app) {
 		eventsDB
 			.findEventByEventId(eventId)
 			.then(function(event){
+				event.daysPerWeek = JSON.parse(event.daysPerWeek);
+				event.dailyDetails = JSON.parse(event.dailyDetails);
+				event.images = JSON.parse(event.images);
+				
 				// console.log('the found event by id is:', event);
 				res.send(event);
 				return;

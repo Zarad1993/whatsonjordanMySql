@@ -487,7 +487,6 @@ working with sql:
 		4. and so on...
 		thats help when we want to bring all maker's addresses
 
-	[] understnd and use the migration through sequelize-cli
 
 
 	[] Maker profile --> events list --> more details:	 		
@@ -515,6 +514,7 @@ working with sql:
 	[] Member profile working on:
 		Payments, Balance: Attended Days for each event on event list.
 
+	[] understnd and use the migration through sequelize-cli
 	[] re add the medical problem to the database either as table or in the member table
 	[] get all the schools and save them on the database then the user could choose one from the list
 	[] when filter the event on all events page the map should list only the filtered evnents

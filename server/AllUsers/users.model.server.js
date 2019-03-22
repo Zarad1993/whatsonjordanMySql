@@ -4,6 +4,8 @@
 
 // var usersDB = mongoose.model('usersDB', usersSchema);
 var db = require('../databse');
+// console.log('the db object:', Object.keys(db));
+
 // var role = require('../models/userType.model');
 var usersDB = db.User; // require('../models/user.model');
 var membersDB = require('./members.model.server');

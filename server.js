@@ -43,12 +43,28 @@ require('./server/AllUsers/getterService.service.server')(app);
 // require('./server/AllUsers/ageGroups.service.server')(app);
 // require('./server/AllUsers/subCategories.service.server')(app);
 require('./server/AllUsers/address.service.server')(app);
-require('./server/databse.js');
+// require('./server/databse.js');
+// using the sequelize-cli
+// var db = require('./server/sequelize/models');
+
+var db = require('./server/databse.js');
+
 
 
 require('./server/passport.js')(passport);
 
 
 app.listen(port, function() {
-	console.log('jordan events connected to: '+port);
+    // console.log('the database:',Object.keys(db));
+    db
+        .sequelize.authenticate()
+        .then(function () {
+            db.sequelize.sync();
+            console.log('Connected successfully Aws');
+        })
+        .catch(function (err) {
+            console.error('Unable to connect to DB', err);
+        });
+
+    console.log('jordan events connected to: '+port);
 });
