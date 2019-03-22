@@ -503,6 +503,7 @@ working with sql:
 
 				********************************************************
 									On Safe Branch
+								   The final check!
 				********************************************************
 
 	[] restructure the required of the database on all models
