@@ -500,6 +500,11 @@ working with sql:
 				[] add expense to event
 
 				find event by id then foundevent.createExpense(expense)
+				
+
+				********************************************************
+									On Safe Branch
+				********************************************************
 
 	[] restructure the required of the database on all models
 
