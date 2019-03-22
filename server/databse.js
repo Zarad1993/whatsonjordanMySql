@@ -49,8 +49,6 @@ module.exports = db;
 
 db.User = require('./models/user.model');
 
-console.log('the User', db.User);
-
 
 db.UserType = require('./models/userType.model');
 db.Member = require('./models/member.model');
