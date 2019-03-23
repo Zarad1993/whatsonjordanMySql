@@ -8,6 +8,7 @@ var addressesDB = require('../AllUsers/addresses.model.server');
 var geoLocationsDB = require('../AllUsers/geoLocation.model.server');
 // var GeoLocation = require('../models/geoLocation.model');
 var Address = db.Address; // require('../models/address.model');
+// var expensesDB = require('../AllUsers/expenses.model.server');
 db.sequelize.sync();
 
 // var usersDB = require('../AllUsers/users.model.server.js');
@@ -204,14 +205,21 @@ function getAllEvents() {
 // }
 
 
-// function addExpense(eventId, expense){
-// 	return eventsDB
-// 				.findById(eventId)
-// 				.then(function(event){
-// 					event.expenses.push(expense);
-// 					return event.save();
-// 				});
-// }
+function addExpense(eventId, expense){
+	return eventsDB
+				.findById(eventId)
+				.then(function(event){
+					expensesDB
+						.createExpense(expense)
+						.then(function(addedExpense){
+							console.log('the added expense: ', addedExpense);
+							event.expense
+						})
+					
+					// event.expenses.push(expense);
+					// return event.save();
+				});
+}
 
 
 // function addToDiscountedMembers(ids){

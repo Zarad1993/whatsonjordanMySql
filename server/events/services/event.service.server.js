@@ -1,4 +1,5 @@
-var eventsDB = require('./events.model.server.js');
+var eventsDB = require('../events.model.server.js');
+
 
 module.exports = function(app) {
 
@@ -20,7 +21,7 @@ module.exports = function(app) {
 	app.get('/api/eventConfig', eventConfig);
 	app.get('/api/getMapBoxKey', getMapBoxKey);
 	app.put('/api/event/addToDiscountedMembers', addToDiscountedMembers);
-	app.put('/api/event/addExpense', addExpense);
+	// app.put('/api/event/addExpense/:eventId', addExpense);
 	app.put('/api/event/addToFrozeMembers', addToFrozeMembers);
 	// app.delete('/api/event/removeFromFrozeMembers/:userId/:eventId', removeFromFrozeMembers);
 	// app.put('/api/event/removeFrozen/:userId/:eventId/:originalEventId', removeFrozen);
@@ -59,16 +60,16 @@ module.exports = function(app) {
 			});
 	}
 
-	function addExpense(req, res){
-		var expense = req.body;
-		var eventId = expense.eventId;
-		delete(expense.eventId);
-		eventsDB
-			.addExpense(eventId, expense)
-			.then(function(result){
-				res.send(result);
-			});
-	}
+	// function addExpense(req, res){
+	// 	var expense = req.body;
+	// 	var eventId = req.params.eventId;
+	// 	// delete(expense.eventId);
+	// 	// eventsDB
+	// 	// 	.addExpense(eventId, expense)
+	// 	// 	.then(function(result){
+	// 	// 		res.send(result);
+	// 	// 	});
+	// }
 
 	function addToDiscountedMembers(req, res){
 		var ids = req.body;

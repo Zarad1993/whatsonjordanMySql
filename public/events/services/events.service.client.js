@@ -20,7 +20,7 @@
 		this.eventConfig = eventConfig;
 		this.getMapBoxKey = getMapBoxKey;
 		this.addToDiscountedMembers = addToDiscountedMembers;
-		this.addExpense = addExpense;
+		// this.addExpense = addExpense;
 		this.addToFrozeMembers = addToFrozeMembers;
 		// this.removeFromFrozeMembers = removeFromFrozeMembers;
 		this.removeFrozen = removeFrozen;
@@ -42,9 +42,9 @@
 			return $http.put('/api/event/addToFrozeMembers', freezeObject);
 		}
 
-		function addExpense(expense){
-			return $http.put('/api/event/addExpense', expense);
-		}
+		// function addExpense(expense, eventId){
+		// 	return $http.put('/api/event/addExpense/'+eventId, expense);
+		// }
 
 		function addToDiscountedMembers(ids){
 			return $http.put('/api/event/addToDiscountedMembers', ids);

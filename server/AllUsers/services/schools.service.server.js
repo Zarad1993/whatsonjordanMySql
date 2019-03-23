@@ -1,7 +1,7 @@
 module.exports = function (app) {
 
 
-    var schoolsDB = require('./schools.model.server');
+    var schoolsDB = require('../schools.model.server');
 
 
 

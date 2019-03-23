@@ -1,7 +1,7 @@
 module.exports = function (app) {
 
 
-    var geoLocationDB = require('./geoLocation.model.server');
+    var geoLocationDB = require('../geoLocation.model.server');
 
     // ---------------------------------- APIs requests ----------------------------------
 

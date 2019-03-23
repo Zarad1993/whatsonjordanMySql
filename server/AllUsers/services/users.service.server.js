@@ -1,11 +1,11 @@
 module.exports = function(app) {
 
 
-var usersDB 		= require('./users.model.server.js');
-var membersDB		= require('./members.model.server');
-var feedbacksDB 	= require('./feedbacks.model.server');
-var makersDB		= require('./makers.model.server');
-var eventsDB 		= require('../events/events.model.server.js');
+var usersDB 		= require('../users.model.server.js');
+var membersDB		= require('../members.model.server');
+var feedbacksDB 	= require('../feedbacks.model.server');
+var makersDB		= require('../makers.model.server');
+var eventsDB 		= require('../../events/events.model.server.js');
 var passport 		= require('passport');
 var bcrypt   		= require('bcrypt-nodejs');
 var GoogleStrategy 	= require('passport-google-oauth').OAuth2Strategy;

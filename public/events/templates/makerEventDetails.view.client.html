@@ -100,21 +100,21 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-3" style="margin-top: -10px;">
-								<input type="date" name="expensesDate" ng-model="expenses.date" class="form-control">
+								<input type="date" name="expensesDate" ng-model="expense.date" class="form-control">
 							</div>
 							<div class="col-sm-3" style="margin-top: -10px;">
-								<select id="expensesSelector" class="custom-select" ng-options="expense.type for expense in model.expensesTypes" ng-model="model.selectedExpenseType"></select>
+								<select id="expensesSelector" class="custom-select" ng-options="expenses.id as expenses.type for expenses in model.expensesTypes" ng-model="expense.expenseTypeId"></select>
 							</div>
 							<div class="col-sm-3" style="margin-top: -10px;">
-								<input type="text" name="expenseDetails" class="form-control" ng-model="expenses.details">
+								<input type="text" name="expenseDetails" class="form-control" ng-model="expense.details">
 							</div>
 							<div class="col-sm-3" style="margin-top: -10px;">
-								<input type="text" name="expenseAmount" class="form-control" ng-model="expenses.amount">
+								<input type="number" name="expenseAmount" class="form-control" ng-model="expense.amount">
 							</div>
 						</div>
 						
 						<br>
-						<input type="submit" class="btn btn-success pull-right" name="addExpense" ng-click="model.addExpense(expenses, model.selectedExpenseType)" data-dismiss="modal">
+						<input type="submit" class="btn btn-success pull-right" name="addExpense" ng-click="model.addExpense(expense)" data-dismiss="modal">
 					</form>
 					<br>
 				</div>

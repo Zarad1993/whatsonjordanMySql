@@ -1,29 +1,25 @@
 module.exports = function (app) {
 
 
-    var nationalitiesDB = require('./nationalities.model.server');
-
+    var addressesDB = require('../addresses.model.server');
 
 
     // ---------------------------------- APIs requests ----------------------------------
 
-    app.get('/api/nationality/getAllNationalities', getAllNationalities);
-
+    app.get('/api/address/getMakerAddresses/:makerId', getMakerAddresses);
 
     // ---------------------------------- /APIs requests ----------------------------------
 
 
 
-
     // ------------------------------ Functions ------------------------------
 
-    function getAllNationalities(req, res) {
-        console.log('somebody call getAllNationalities');
-        nationalitiesDB
-            .getAllNationalities()
+    function getMakerAddresses(req, res) {
+        var makerId = req.params.makerId;
+        addressesDB
+            .getMakerAddresses(makerId)
             .then(function (result) {
                 if (result) {
-                    console.log('the nationalities are: ', result);
                     res.send(result);
                     return;
                 } else {
@@ -33,7 +29,7 @@ module.exports = function (app) {
             });
     }
 
-
+    
 
 };
 

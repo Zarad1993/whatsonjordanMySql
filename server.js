@@ -33,16 +33,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-require('./server/AllUsers/users.service.server')(app);
-require('./server/events/event.service.server')(app);
+require('./server/AllUsers/services/users.service.server')(app);
+require('./server/events/services/event.service.server')(app);
 // require('./server/AllUsers/grades.service.server')(app);
-require('./server/AllUsers/schools.service.server')(app);
-require('./server/AllUsers/nationalities.service.server')(app);
-require('./server/AllUsers/userTypes.service.server')(app);
-require('./server/AllUsers/getterService.service.server')(app);
+require('./server/AllUsers/services/schools.service.server')(app);
+require('./server/AllUsers/services/nationalities.service.server')(app);
+require('./server/AllUsers/services/userTypes.service.server')(app);
+require('./server/AllUsers/services/getterService.service.server')(app);
 // require('./server/AllUsers/ageGroups.service.server')(app);
 // require('./server/AllUsers/subCategories.service.server')(app);
-require('./server/AllUsers/address.service.server')(app);
+require('./server/AllUsers/services/address.service.server')(app);
 // require('./server/databse.js');
 // using the sequelize-cli
 // var db = require('./server/sequelize/models');
@@ -60,7 +60,7 @@ app.listen(port, function() {
         .sequelize.authenticate()
         .then(function () {
             db.sequelize.sync();
-            console.log('Connected successfully Aws');
+            console.log('Connected successfully on server');
         })
         .catch(function (err) {
             console.error('Unable to connect to DB', err);

@@ -1,7 +1,7 @@
 module.exports = function(app) {
 
 
-var gradesDB 		= require('./grades.model.server');
+var gradesDB 		= require('../grades.model.server');
 
 
 

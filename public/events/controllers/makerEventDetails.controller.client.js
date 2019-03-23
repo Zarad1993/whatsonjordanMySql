@@ -27,7 +27,7 @@
 		model.prepareFreezeDays = prepareFreezeDays;
 		model.getFrozeMembers = getFrozeMembers;
 		model.prepareExpenses = prepareExpenses;
-		model.addExpense = addExpense;
+		// model.addExpense = addExpense;
 		model.attendanceReportCreater = attendanceReportCreater;
 		model.isUserFreezeToday = isUserFreezeToday;
 		model.removeFrozen = removeFrozen;
@@ -102,6 +102,10 @@
 
 
 		function init() {
+			if (!loggedMaker) {
+				$location.url('/login');
+			}
+
 			model.loggedMaker = loggedMaker;
 			model.error2 = null;
 			model.grandTotalPayments = 0;
@@ -886,23 +890,23 @@
 		}
 
 
-		function addExpense(expenses, expenseType) {
-			var expense = {};
+		// function addExpense(expense) {
+		// 	// var expense = {};
 
-			expense.expenseDate = expenses.date;
-			expense.expenseType = expenseType.name;
-			expense.expenseDetails = expenses.details;
-			expense.expenseAmount = JSON.parse(expenses.amount);
-			expense.eventId = model.eventDetails._id;
+		// 	// expense.expenseDate = expenses.date;
+		// 	// expense.expenseType = expenseType.name;
+		// 	// expense.expenseDetails = expenses.details;
+		// 	// expense.expenseAmount = JSON.parse(expenses.amount);
+		// 	var eventId = model.eventDetails.id;
 
-			eventsService
-				.addExpense(expense)
-				.then(function(result) {
-					console.log(result.data);
-					document.getElementById('expensesForm').reset();
-					$route.reload();
-				});
-		}
+		// 	eventsService
+		// 		.addExpense(expense, eventId)
+		// 		.then(function(result) {
+		// 			// console.log(result.data);
+		// 			// document.getElementById('expensesForm').reset();
+		// 			// $route.reload();
+		// 		});
+		// }
 
 
 		function showPaidMembers(v){

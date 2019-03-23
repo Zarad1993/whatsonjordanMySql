@@ -89,9 +89,9 @@
 						eventDetails.sessionStartTime = new Date(eventDetails.sessionStartTime);
 						eventDetails.sessionEndTime = new Date(eventDetails.sessionEndTime);
 						
-						eventDetails.daysPerWeek = JSON.parse(eventDetails.daysPerWeek);
-						eventDetails.dailyDetails = JSON.parse(eventDetails.dailyDetails);
-						eventDetails.images = JSON.parse(eventDetails.images);
+						// eventDetails.daysPerWeek = JSON.parse(eventDetails.daysPerWeek);
+						// eventDetails.dailyDetails = JSON.parse(eventDetails.dailyDetails);
+						// eventDetails.images = JSON.parse(eventDetails.images);
 						
 						// var oldEvent = eventDetails;
 						var originalEventId = eventDetails.id;

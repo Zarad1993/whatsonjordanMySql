@@ -1,11 +1,11 @@
 module.exports = function (app) {
 
 
-    var categoriesDB = require('./categories.model.server');
-    var subCategoriesDB = require('./subCategories.model.server');
-    var ageGroupsDB = require('./ageGroups.model.server');
-    var gradesDB = require('./grades.model.server');
-    var expenseTypesDB = require('./expensesTypes.model.server');
+    var categoriesDB = require('../categories.model.server');
+    var subCategoriesDB = require('../subCategories.model.server');
+    var ageGroupsDB = require('../ageGroups.model.server');
+    var gradesDB = require('../grades.model.server');
+    var expenseTypesDB = require('../expensesTypes.model.server');
 
     // ---------------------------------- APIs requests ----------------------------------
     
