@@ -48,8 +48,6 @@ db.sequelize
 module.exports = db;
 
 db.User = require('./models/user.model');
-
-
 db.UserType = require('./models/userType.model');
 db.Member = require('./models/member.model');
 db.Maker = require('./models/maker.model');

@@ -495,6 +495,7 @@ working with sql:
 				[x] create expenses table include (details, amount)
 				[x] create relation between expense and expenseType (Expense.belongsTo(ExpenseType))
 				[x] create a relation between the event and the expenses table (Expense.belongsToMany(Event, {through: 'EventExpense'}))
+				[x] restructure the required of the database on all models
 
 				[] add expense to event
 
@@ -502,11 +503,27 @@ working with sql:
 				
 
 				********************************************************
-									On Safe Branch
-								   The final check Finally!
+										New Era
 				********************************************************
 
-	[] restructure the required of the database on all models
+	[] Create new database and connect to it.
+		[] create auths table (was user): contains (UUID, email, password, resetPasswordToken, resetPasswordExpires)
+		[] create roles tables(was user_types): contains (UUID, name)
+		[] create join table (x_auths_roles) to set the extra field: 'active: boolean'
+		[] connect auths with roles: many-many (auth.belongsToMany(roles, {through: 'x_auths_roles'})): contain (UUID, authId, roleId)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

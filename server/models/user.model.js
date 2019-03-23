@@ -1,21 +1,6 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
 var User = db.sequelize.define('users', {
-	// firstName: {
-	// 	type: Sequelize.STRING,
-	// 	allowNull: false
-	// },
-	// middleName:{
-	// 	type: Sequelize.STRING
-	// },
-	// lastName: {
-	// 	type: Sequelize.STRING,
-	// 	allowNull: false
-	// },
-	// DOB:{
-	// 	type: Sequelize.DATE,
-	// 	allowNull: false
-	// },
 	email: {
 		type: Sequelize.STRING,
 		unique: true,
@@ -25,12 +10,6 @@ var User = db.sequelize.define('users', {
 		type: Sequelize.STRING,
 		allowNull: false
 	},
-	// profileImage: {
-	// 	type: Sequelize.STRING
-	// },
-	// gender: {
-	// 	type: Sequelize.STRING
-	// },
 	resetPasswordToken:{
 		type: Sequelize.STRING
 	},
