@@ -3,11 +3,11 @@
 		.module('whatsOnJordan')
 		.controller('registerController', registerController);
 
-	function registerController(userService, $location, $rootScope) {
+	function registerController(authService, userService, $location, $rootScope) {
 		var model = this;
 
 		function init() {
-			userService
+			authService
 					.checkUserLogin()
 					.then(function(user){
 						if(user){
@@ -20,7 +20,7 @@
 		model.logout = logout;
 
 		function logout(){
-			userService
+			authService
 				.logout()
 				.then(function(){
 					$location.url('/');
@@ -31,20 +31,21 @@
 
 		function register(user, password2) {
 			// console.log(user);
-			if (!user) {
+			if(!user) {
 				model.error = 'Please fill all the requested fields';
 				return;
 			}
-			if (user.password === password2) {
+			if(user.password === password2) {
 				model.error = null;
-				return userService
+				return authService
 					.createUser(user)
 					.then(function(createdUser){
+						console.log('the created user: ', createdUser);
 						if (createdUser.data.errors > 0) {
 							if (createdUser.data.errors[0].message == 'email must be unique'){
 								model.error = 'Email already exist';
 							}
-						}else{
+						}else{						
 							$location.url('/profile');
 						}
 						// console.log('the return from the db', createdUser.data.errors[0].message)
@@ -56,7 +57,7 @@
 					// 		model.error = 'email already exist';
 					// 		return;
 					// 	}else{
-					// 		return userService.createUser(user)
+					// 		return authService.createUser(user)
 					// 			.then(function(result){
 					// 				console.log(result);
 					// 				var matchedUser = result;

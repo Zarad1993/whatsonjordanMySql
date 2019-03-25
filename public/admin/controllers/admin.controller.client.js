@@ -3,17 +3,17 @@
 		.module('whatsOnJordan')
 		.controller('adminController', adminController);
 
-	function adminController(userService, eventsService, userTypesService, loggedAdmin, $location, $route) {
+	function adminController(userService, eventsService, roleService, loggedAdmin, $location, $route) {
 		var model = this;
 
 		function init() {
 			if(!loggedAdmin){
 				$location.url('/login');
 			}
-			userTypesService
-				.getAllUserTypes()
-				.then(function(userTypes){
-					model.userTypes = userTypes.data;
+			roleService
+				.getAllRoles()
+				.then(function(roles){
+					model.roles = roles.data;
 				})
 			model.loggedAdmin = loggedAdmin;
 			model.adminPage = loggedAdmin;

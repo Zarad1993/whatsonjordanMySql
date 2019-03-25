@@ -1,15 +1,15 @@
 (function() {
 	angular
 		.module('whatsOnJordan')
-		.service('userService', userService);
+		.service('authService', authService);
 
-	function userService($http) {
+	function authService($http) {
 
+		this.checkUserLogin = checkUserLogin;
+		this.createUser = createUser;
 		this.findUserById = findUserById;
 		this.findUserByEmail = findUserByEmail;
 		this.login = login;
-		this.createUser = createUser;
-		this.checkUserLogin = checkUserLogin;
 		this.logout = logout;
 		this.isMaker = isMaker;
 		this.isAdmin = isAdmin;
@@ -29,7 +29,7 @@
 		this.getAllFeedbacks = getAllFeedbacks;
 		this.updateFeedbackByAdmin = updateFeedbackByAdmin;
 		this.getAllMakers = getAllMakers;
-		this.getAllUserTypes = getAllUserTypes;
+		this.getAllRoles = getAllRoles;
 		this.setUserRole = setUserRole;
 		this.submitFeedback = submitFeedback;
 		this.getMemberFeedbacks = getMemberFeedbacks;
@@ -113,8 +113,8 @@
 			return $http.get('/api/maker/getAllMakers');
 		}
 
-		function getAllUserTypes(){
-			return $http.get('/api/userTypes/getAllUserTypes');
+		function getAllRoles(){
+			return $http.get('/api/roles/getAllRoles');
 		}
 
 		function addEventToUser(eventID, memberId){
@@ -196,7 +196,7 @@
 			return $http
 					.get(url)
 					.then(function(result){
-						// console.log('the user from service client checkUserLogin', result);
+						console.log('the result from check user login: ', result);
 						return result.data;
 					});
 		}

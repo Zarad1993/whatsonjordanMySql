@@ -1,9 +1,13 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
-var UserType = db.sequelize.define('user_type', {
-    userType : {
-        type: Sequelize.STRING,
-        allowNull : false
+var X_Auths_Roles = db.sequelize.define('x_auths_roles', {
+    id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV1,
+        primaryKey: true
+    },
+    active: {
+        type: Sequelize.BOOLEAN
     },
     createdAt: {
         type: Sequelize.DATE,
@@ -14,4 +18,4 @@ var UserType = db.sequelize.define('user_type', {
         defaultValue: Sequelize.NOW
     }
 });
-module.exports = UserType;
+module.exports = X_Auths_Roles;

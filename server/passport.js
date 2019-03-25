@@ -2,7 +2,7 @@
 module.exports = function(passport) {
 
     // load all the things we need
-    var usersDB             = require('./AllUsers/users.model.server');
+    var authDB             = require('./AllUsers/auth.model.server');
 
     // passport.use('localMaker', new LocalStrategy(makerStrategy));
     // passport.use('localUser', new LocalStrategy(userStrategy));
@@ -20,11 +20,11 @@ module.exports = function(passport) {
     function deserializeUser(user, done) {
         // console.log('deserializeUser has been called');
         if(user){
-            usersDB
+            authDB
                 .getUserDetails(user.id)
                 .then(
                     function(foundUser){
-                    done(null, foundUser)
+                    done(null, foundUser);
                     },
                     function(err){
                         done(err, null);

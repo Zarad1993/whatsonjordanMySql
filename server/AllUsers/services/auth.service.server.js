@@ -1,11 +1,12 @@
 module.exports = function(app) {
 
 
-var usersDB 		= require('../users.model.server.js');
+var authDB 		    = require('../auth.model.server.js');
+var contactsDB 		= require('../contacts.model.server');
 var membersDB		= require('../members.model.server');
 var feedbacksDB 	= require('../feedbacks.model.server');
-var makersDB		= require('../makers.model.server');
 var eventsDB 		= require('../../events/events.model.server.js');
+var makersDB		= require('../makers.model.server');
 var passport 		= require('passport');
 var bcrypt   		= require('bcrypt-nodejs');
 var GoogleStrategy 	= require('passport-google-oauth').OAuth2Strategy;
@@ -155,7 +156,7 @@ app.get('/api/member/getMemberFeedbacks/:memberId', getMemberFeedbacks);
 
 function updateFeedbackByAdmin(req, res){
 	var feedback = req.body;
-	usersDB
+	authDB
 		.updateFeedbackByAdmin(feedback)
 		.then(function(result){
 			res.send(result);
@@ -202,7 +203,7 @@ function removeFrozeDays(req, res){
 	ids.userId = req.params.userId;
 	ids.originalEventId = req.params.originalEventId;
 	// console.log(ids);
-	usersDB
+	authDB
 		.removeFrozeDays(ids)
 		.then(function(result){
 			res.send(result);
@@ -212,7 +213,7 @@ function removeFrozeDays(req, res){
 
 function freezeMembership(req, res){
 	var freezeObject = req.body;
-	usersDB
+	authDB
 		.freezeMembership(freezeObject)
 		.then(function(result){
 			res.send(result);
@@ -222,7 +223,7 @@ function freezeMembership(req, res){
 
 function updateUserEventParameters(req, res){
 	var discount = req.body;
-	usersDB
+	authDB
 		.updateUserEventParameters(discount)
 		.then(function (result){
 			res.send(result);
@@ -257,7 +258,7 @@ function confirmAttendance(req, res){
 
 	function asyncLoop(i, cb) {
 	    if (i < totalAttended.length) {
-	    	usersDB
+	    	authDB
 				.confirmAttendance(totalAttended[i])
 				.then(function(result){
 					totalResult.push(result);
@@ -276,7 +277,7 @@ function confirmAttendance(req, res){
 
 function makePayment(req, res){
 	var payment = req.body;
-	usersDB
+	authDB
 		.makePayment(payment)
 		.then(function(result){
 			res.send(result);
@@ -286,7 +287,7 @@ function makePayment(req, res){
 
 function updateProfile(req, res){
 	var updatedProfile = req.body;
-	usersDB
+	authDB
 		.updateProfile(updatedProfile)
 		.then(function(result){
 			console.log('the final Updated User in users.server: ', result);
@@ -297,7 +298,7 @@ function updateProfile(req, res){
 
 function updateMakerProfile(req, res){
 	var updatedMakerProfile = req.body;
-	usersDB
+	authDB
 		.updateMakerProfile(updatedMakerProfile)
 		.then(function(result){
 			console.log('the final Updated Maker in users.server: ', result);
@@ -310,13 +311,13 @@ function checkToken(req, res, next){
 	var token = req.params.token;
 	var password = req.body.password;
 	// resetPassword(req, res, password);
-	usersDB
+	authDB
 		.findUserByToken(token)
 		.then(function(user){
 			// if user found 
 			if(user.email){
 				newPassword = bcrypt.hashSync(password);
-				usersDB
+				authDB
 					.resetPassword(user, newPassword)
 					.then(function(result){	
 						console.log('the result after reset password: ', result);					
@@ -330,7 +331,7 @@ function checkToken(req, res, next){
 										'<br><br>'+
 										'<img src="cid:whatsOnJordanLogo001" style="width: 300px; height: 200px;"/>'+
 										'<br>'+
-										'<p style="color: #DB685F; font-size: 4em;">Welcome ' + (result.userTypeId == 1 ? result.member.firstName : result.maker.firstName) + '!'+'</p>'+
+										'<p style="color: #DB685F; font-size: 4em;">Welcome ' + (result.roleId == 1 ? result.member.firstName : result.maker.firstName) + '!'+'</p>'+
 										'<p style="font-size: 1.5em;" > You are receiving this because you (or someone else) have requested the reset of the password for your account.</p>'+
 										'<br>'+
 										'<p style="font-size: 1.5em;">This is to confirm that your password has been changed successfully. </p>'+
@@ -391,7 +392,7 @@ function forgetPassword(req, res){
 	var userEmail = req.params.email;
 	crypto.randomBytes(20, function(err, buf) {
         var token = buf.toString('hex');
-        usersDB
+        authDB
         	.addTokenToUser(userEmail, token)
         	.then(function(user){
 				console.log('the user after add token: ', user);
@@ -406,7 +407,7 @@ function forgetPassword(req, res){
 								'<br><br>'+
 								'<img src="cid:whatsOnJordanLogo001" style="width: 300px; height: 200px;"/>'+
 								'<br>'+
-								'<p style="color: #DB685F; font-size: 4em;">Welcome '+ (user.userTypeId==1 ? user.member.firstName : user.maker.firstName) + '!'+'</p>'+
+								'<p style="color: #DB685F; font-size: 4em;">Welcome '+ (user.roleId==1 ? user.member.firstName : user.maker.firstName) + '!'+'</p>'+
 								'<p style="font-size: 1.5em;" > You are receiving this because you (or someone else) have requested the reset of the password for your account.</p>'+
 								'<br>'+
 								'<p style="font-size: 1.5em;">Please click on the following link, or paste it into your browser to complete the process: </p>'+
@@ -443,7 +444,7 @@ function forgetPassword(req, res){
 
 function findUserByEmail(req, res){
 	var userEmail = req.params.userEmail;
-	usersDB
+	authDB
 		.findUserByEmail(userEmail)
 		.then(
 			// if seccess
@@ -470,7 +471,7 @@ function findUserByEmail(req, res){
 
 function findUserById(req, res){
 	var userId = req.params.userId;
-		usersDB
+		authDB
 			.findUserById(userId)
 			.then(function(result){
 				if(result){
@@ -497,7 +498,7 @@ function uploadImage(req, res){
 			return;
 		}
 		// add the file data to user database
-		usersDB
+		authDB
 			.addProfileImage(req.user._id, profileImage)
 			.then(function(user){
 			});
@@ -509,7 +510,7 @@ function uploadImage(req, res){
 
 
 function userStrategy(username, password, done) {
-	usersDB
+	authDB
 		.findUserByEmail(username)
 		.then(
 			function(foundUser){
@@ -521,7 +522,7 @@ function userStrategy(username, password, done) {
 					return done(null, false);
 				} else if(user && bcrypt.compareSync(password, user.password)){
 					// console.log('user founded', user);
-					// if(user.userTypeId === 1){
+					// if(user.roleId === 1){
 						// membersDB
 						// 	.findMemberByUserId(user.id)
 						// 	.then(function(member){
@@ -546,7 +547,7 @@ function userStrategy(username, password, done) {
 
 
 function googleStrategy(token, refreshToken, profile, done) {
-	usersDB
+	authDB
 	    .findUserByGoogleId(profile.id)
 	    .then(
 	        function(user) {
@@ -565,7 +566,7 @@ function googleStrategy(token, refreshToken, profile, done) {
 	                        token: token
 	                    }
 	                };
-	                return usersDB.addNewUser(newGoogleUser);
+	                return authDB.addNewUser(newGoogleUser);
 	            }
 	        },
 	        function(err) {
@@ -601,7 +602,7 @@ function loginUser(req, res){
 // function findUser(req, res){
 	// if (req.params.userEmail) {
 	// 	var userEmail = req.params.userEmail;
-	// 	usersDB
+	// 	authDB
 	// 		.findUserByEmail(userEmail)
 	// 		.then(
 	// 			// if seccess
@@ -624,7 +625,7 @@ function loginUser(req, res){
 	
 	// if(req.query.userId){
 	// 	var userId = req.query.userId;
-	// 	usersDB
+	// 	authDB
 	// 		.findUserById(userId)
 	// 		.then(function(result){
 	// 			if(result){
@@ -640,7 +641,7 @@ function loginUser(req, res){
 
 
 function getAllUsers(req, res) {
-	usersDB
+	authDB
 		.getAllUsers()
 		.then(function(result){
 			if(result){
@@ -672,36 +673,53 @@ function addNewUser(req, res){
 	var newUser = req.body;
 	// newUser.user_id = 1;
 	newUser.password = bcrypt.hashSync(newUser.password);
-	usersDB
-		.addNewUser(newUser)
-		.then(function (user){
-			// console.log('the created user in usersDB is: ', addedUser.get({plain: true}));
-			var addedUser = user.get({ plain: true })
-			membersDB
-				.addNewMember(addedUser.id)
-				.then(function(member){
-					var addedMember = member.get({plain: true});
-					console.log('the addedMember is: ', addedMember);
-					usersDB
-						.addMemberIdToUser(addedUser.id, addedMember.id)
-						.then(function(finalUser){
-							// console.log('the final created user with member id is: ', finalUser);
-							req.login(finalUser, function (err) {
-								if (err) {
-									return err;
-								} else {
-									// finalUser.firstName = addedMember.firstName;
-									// finalUser.middleName = addedMember.middleName;
-									// finalUser.lastName = addedMember.lastName;
-									// finalUser.DOB = addedMember.DOB;
-									// finalUser.gender = addedMember.gender;
-									res.json(finalUser);
-								}
-							})
-						})
-				})
+	contactsDB
+		.addNewContact()
+		.then(function(contact){
+			authDB
+				.addNewUser(newUser, contact)
+				.then(function (user){
+					// var finalUser = user.get({plain: true});
+					console.log('the created user', user);
+					
+					// console.log('the created user in authDB is: ', addedUser.get({plain: true}));
+			// var addedUser = user.get({ plain: true })
+					// contact
+					// 	.addAuth(user)
+					// 	.then(function(){
+							
+					// res.json(user);
+					
+					req.login(user, function (err) {
+						if (err) {
+							res.send(err);
+							return;
+						} else {
+							res.json(user);
+							return;
+						}
+					});
+
+
+				});
+						// })
+					// var addedMember = contact.get({plain: true});
+			// 		console.log('the addedMember is: ', addedMember);
+					// authDB
+						// .addMemberIdToUser(addedUser.id, addedMember.id)
+			// 			.then(function(finalUser){
+			// 				// console.log('the final created user with member id is: ', finalUser);
+			// 				req.login(finalUser, function (err) {
+			// 					if (err) {
+			// 						return err;
+			// 					} else {
+									// res.json(user);
+				// 				}
+				// 			})
+				// 		})
+				// })
 			
-			// usersDB
+			// authDB
 			// 	.setUserRole(addedUser, 1)
 			// 	.then(function(updatedUser){
 			// 		req.login(updatedUser, function(err){
@@ -765,32 +783,43 @@ function addNewUser(req, res){
 
 function checkUserLogin(req, res){
 	console.log('step 8');
+	console.log('the user to check type: ', req.user);
+	
 	// console.log('the user in req is: ', req.user);
 	if (req.user) {
-		// console.log('the req.user from the checkUserLogin:', req.user);
-		if (req.user.userTypeId === 1){
-			if(req.user.member.DOB){
-				var birthDay = new Date(req.user.member.DOB);
-				var today = new Date();
-				req.user.age = Math.abs((new Date(today - birthDay.getTime())).getUTCFullYear() - 1970);
-				console.log(req.user.age)
-				res.send(req.isAuthenticated() ? req.user : null);
-			}else{
-				console.log('Please update your profile details to get the events fits to your age');
-				res.send(req.isAuthenticated() ? req.user : null);
+		// console.log('the user type is:', req.user.roles);
+		var userRoles = req.user.roles;
+		if(userRoles.length > 1){
+			for(var i in userRoles){
+				if (userRoles[i].x_auths_roles.active){
+					console.log('the user type is: ', userRoles[i]);
+				}
 			}
-		}else if(req.user.userTypeId == 2){
-			res.send(req.isAuthenticated() ? req.user : null)
-		}else if(req.user.userTypeId == 3){
-			res.send(req.isAuthenticated() ? req.user : null)
 		}
+		
+		// if (req.user.roleId === 1){
+		// 	if(req.user.member.DOB){
+		// 		var birthDay = new Date(req.user.member.DOB);
+		// 		var today = new Date();
+		// 		req.user.age = Math.abs((new Date(today - birthDay.getTime())).getUTCFullYear() - 1970);
+		// 		console.log(req.user.age)
+		// 		res.send(req.isAuthenticated() ? req.user : null);
+		// 	}else{
+		// 		console.log('Please update your profile details to get the events fits to your age');
+		// 		res.send(req.isAuthenticated() ? req.user : null);
+		// 	}
+		// }else if(req.user.roleId == 2){
+		// 	res.send(req.isAuthenticated() ? req.user : null)
+		// }else if(req.user.roleId == 3){
+		// 	res.send(req.isAuthenticated() ? req.user : null)
+		// }
 	} else {
 		res.send(null);
 	}
 }
 
 function isMaker(req, res){
-	res.send(req.isAuthenticated() && req.user.userTypeId === 2 ? req.user : null);
+	res.send(req.isAuthenticated() && req.user.roleId === 2 ? req.user : null);
 }
 
 function isAdmin(req, res){
@@ -799,7 +828,7 @@ function isAdmin(req, res){
 }
 
 function checkAdmin(req, res, next){
-	if (req.isAuthenticated() && req.user.userTypeId === 3){
+	if (req.isAuthenticated() && req.user.roleId === 3){
 		next();
 	}
 	else{
@@ -812,7 +841,7 @@ function addEventToUser(req, res){
 	var parameters = req.body;
 	var eventID = parameters.eventID;
 	var memberId = parameters.memberId;
-	// usersDB
+	// authDB
 	// 	.updateProfile(userDetails)
 	// 		.then(function(updatedUser){
 				membersDB	
@@ -851,7 +880,7 @@ function getMemberEvents(req, res){
 function removeRegisteredEvent(req, res){
 	var userId = req.user._id;
 	var eventId = req.params.eventId;
-	usersDB
+	authDB
 		.removeRegisteredEvent(userId, eventId)
 		.then(function(status){
 			res.send(status);
@@ -860,7 +889,7 @@ function removeRegisteredEvent(req, res){
 
 	function setUserRole(req, res){
 		var updatedUser = req.body;
-		usersDB
+		authDB
 			.setUserRole(updatedUser)
 			.then(function(result){
 				res.send(result);

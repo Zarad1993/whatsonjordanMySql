@@ -105,7 +105,7 @@ module.exports = function(app) {
 
 
 	function checkAdmin(req, res, next){
-		if (req.user && req.user.userTypeId === 3){
+		if (req.user && req.user.roleId === 3){
 			next();
 		}else{
 			res.sendStatus(401);

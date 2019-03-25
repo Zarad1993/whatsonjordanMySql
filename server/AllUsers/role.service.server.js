@@ -1,11 +1,11 @@
 module.exports = function(app) {
 
 
-var userTypesDB 		= require('./userTypes.model.server.js');
+var roleDB 		= require('./role.model.server.js');
 
 // ---------------------------------- APIs requests ----------------------------------
 
-app.get('/api/userTypes/getAllUserTypes', getAllUserTypes);
+app.get('/api/roles/getAllRoles', getAllRoles);
 
 // ---------------------------------- /APIs requests ----------------------------------
 
@@ -15,12 +15,12 @@ app.get('/api/userTypes/getAllUserTypes', getAllUserTypes);
 // ------------------------------ Functions ------------------------------
 
 
-	function getAllUserTypes(req, res){
-		userTypesDB
-			.getAllUserTypes()
-			.then(function(userTypes){
-				if(userTypes){
-					res.send(userTypes);
+	function getAllRoles(req, res){
+		roleDB
+			.getAllRoles()
+			.then(function(roles){
+				if(roles){
+					res.send(roles);
 					return;
 				}else{
 					res.send('error');

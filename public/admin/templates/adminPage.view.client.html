@@ -68,7 +68,7 @@
 		</div>
 		<div class="col-md-3">
 			<label>Filter by user type</label>
-			<select ng-options="userType.id as userType.userType for userType in model.userTypes" ng-model="search.userTypeId"></select>
+			<select ng-options="role.id as role.role for role in model.roles" ng-model="search.roleId"></select>
 		</div>
 	</div>
 	<table class="table table-responsive-sm table-hover">
@@ -88,9 +88,9 @@
 				<!-- <td>{{user.name.firstName}} {{user.name.middleName}} {{user.name.lastName}}</td> -->
 				<td>{{user.id}}</td>
 				<td>{{user.email}}</td>
-				<!-- <td>{{user.userTypeId}}</td> -->
+				<!-- <td>{{user.roleId}}</td> -->
 				<td>
-					<select id="userType" ng-model="user.userTypeId" ng-options="userType.id as userType.userType for userType in model.userTypes">
+					<select id="role" ng-model="user.roleId" ng-options="role.id as role.role for role in model.roles">
 					</select>
 				</td>
 				

@@ -145,7 +145,6 @@
 				}
 			})
 
-
 			.when('/makerProfile/makerEventDetails/:eventId', {
 				templateUrl: 'events/templates/makerEventDetails.view.client.html',
 				controller: 'makerEventDetails',
@@ -228,15 +227,17 @@
 			.checkUserLogin()
 			.then(function(user){
 				// console.log('somebody call me..........')
-				if(user.userTypeId === 1){
+				console.log('the result of check user login', user);
+				
+				if(user.roleId === 1){
 					deferred.resolve(user);
 					$location.url('/userProfile');
 					return deferred.promise;
-				} else if(user.userTypeId === 2){
+				} else if(user.roleId === 2){
 					deferred.resolve(user);
 					$location.url('/makerProfile');
 					return deferred.promise;
-				}else if(user.userTypeId === 3){
+				}else if(user.roleId === 3){
 					deferred.resolve(user);
 					$location.url('/adminPage');
 					return deferred.promise;

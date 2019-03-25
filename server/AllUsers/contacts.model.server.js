@@ -1,29 +1,20 @@
 var db = require('../databse');
-var contactsDB = db.Contact; // require('../models/contact.model');
+var contactsDB = db.Contacts;  // require('../models/ageGroup.model');
 
 db.sequelize.sync();
 
 module.exports = contactsDB;
 
-contactsDB.updateContactsDetails = updateContactsDetails
+contactsDB.addNewContact = addNewContact;
+contactsDB.getAllContacts = getAllContacts;
 
-function updateContactsDetails(contact) {
-    return contactsDB
-        .findById(contact.id)
-        .then(function (foundContact) {
-            console.log('the found contact: ', foundContact);
-            if(foundContact){
-                return foundContact
-                    .update(contact)
-                    // .then(function (updatedContact) {
-                    //     return updatedContact;
-                    // })
-            }else{
-                return contactsDB
-                    .create(contact)
-                    // .then(function(ctratedContact){
-                    //     console.log('the created contact', ctratedContact);
-                    // })
-            }
-        });
+
+function addNewContact() {
+    return contactsDB.create();
 }
+
+
+function getAllContacts() {
+    return contactsDB.findAll({});
+}
+

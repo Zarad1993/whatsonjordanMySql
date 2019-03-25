@@ -11,7 +11,7 @@ var Address = db.Address; // require('../models/address.model');
 // var expensesDB = require('../AllUsers/expenses.model.server');
 db.sequelize.sync();
 
-// var usersDB = require('../AllUsers/users.model.server.js');
+
 
 // var eventsDB = mongoose.model('eventsDB', eventsSchema);
 

@@ -2,73 +2,75 @@
 // var mongoose = require('mongoose');
 // var usersSchema = require('./users.schema.server.js');
 
-// var usersDB = mongoose.model('usersDB', usersSchema);
+// var authDB = mongoose.model('authDB', usersSchema);
 var db = require('../databse');
 // console.log('the db object:', Object.keys(db));
 
-// var role = require('../models/userType.model');
-var usersDB = db.User; // require('../models/user.model');
+
+var authDB = db.Auths; // require('../models/user.model');
 var membersDB = require('./members.model.server');
 var makersDB = require('./makers.model.server');
+var Contact = db.Contact; // require('../models/contact.model');
+var Roles = db.Roles;
 var Member = db.Member; // require('../models/member.model');
 var Maker = db.Maker; // require('../models/maker.model');
 var School = db.School; // require('../models/school.model');
-var Contact = db.Contact; // require('../models/contact.model');
 var Address = db.Address; // require('../models/address.model');
 var Nationality = db.Nationality; // require('../models/nationality.model');
 var Grade = db.Grade; // require('../models/grade.model');
-// var role = require('../models/userType.model');
+
 db.sequelize.sync();
-// console.log('the User in the database is:', usersDB);
+// console.log('the User in the database is:', authDB);
 
-module.exports = usersDB;
+module.exports = authDB;
 
-usersDB.addNewUser = addNewUser;
-usersDB.addMemberIdToUser = addMemberIdToUser;
-usersDB.loginUser = loginUser;
-usersDB.getAllUsers = getAllUsers;
-usersDB.getAllMakers = getAllMakers;
-usersDB.findUserById = findUserById;
-usersDB.findUserByEmail = findUserByEmail;
-usersDB.addEventId = addEventId;
-usersDB.removeEventFromList = removeEventFromList;
-usersDB.findUserByGoogleId = findUserByGoogleId;
-// usersDB.addEventToUser = addEventToUser;
-usersDB.removeRegisteredEvent = removeRegisteredEvent;
-usersDB.addProfileImage = addProfileImage;
-usersDB.addTokenToUser = addTokenToUser;
-usersDB.findUserByToken = findUserByToken;
-usersDB.resetPassword = resetPassword;
-usersDB.updateProfile = updateProfile;
-usersDB.updateMakerProfile = updateMakerProfile;
-usersDB.makePayment = makePayment;
-usersDB.confirmAttendance = confirmAttendance;
-usersDB.submitFeedback = submitFeedback;
-usersDB.updateUserEventParameters = updateUserEventParameters;
-usersDB.freezeMembership = freezeMembership;
-usersDB.removeFrozeDays = removeFrozeDays;
-usersDB.getAllFeedbacks = getAllFeedbacks;
-usersDB.updateFeedbackByAdmin = updateFeedbackByAdmin;
-usersDB.getUserDetails = getUserDetails;
-usersDB.setUserRole = setUserRole;
+authDB.addNewUser = addNewUser;
+authDB.addMemberIdToUser = addMemberIdToUser;
+authDB.loginUser = loginUser;
+authDB.getAllUsers = getAllUsers;
+authDB.getAllMakers = getAllMakers;
+authDB.findUserById = findUserById;
+authDB.findUserByEmail = findUserByEmail;
+authDB.addEventId = addEventId;
+authDB.removeEventFromList = removeEventFromList;
+authDB.findUserByGoogleId = findUserByGoogleId;
+// authDB.addEventToUser = addEventToUser;
+authDB.removeRegisteredEvent = removeRegisteredEvent;
+authDB.addProfileImage = addProfileImage;
+authDB.addTokenToUser = addTokenToUser;
+authDB.findUserByToken = findUserByToken;
+authDB.resetPassword = resetPassword;
+authDB.updateProfile = updateProfile;
+authDB.updateMakerProfile = updateMakerProfile;
+authDB.makePayment = makePayment;
+authDB.confirmAttendance = confirmAttendance;
+authDB.submitFeedback = submitFeedback;
+authDB.updateUserEventParameters = updateUserEventParameters;
+authDB.freezeMembership = freezeMembership;
+authDB.removeFrozeDays = removeFrozeDays;
+authDB.getAllFeedbacks = getAllFeedbacks;
+authDB.updateFeedbackByAdmin = updateFeedbackByAdmin;
+authDB.getUserDetails = getUserDetails;
+authDB.setUserRole = setUserRole;
 
 
 function getUserDetails(userId){
-	return usersDB
+	return authDB
 		.findOne({
 			where: { id: userId },
 			attributes: { exclude: ['password', 'resetPasswordExpires', 'resetPasswordToken']},
 			include: [
-				{
-					model: Member, include: [
-						Contact, Address, Nationality, School, Grade
-					]
-				},
-				{
-					model: Maker, include: [
-						{all: true}
-					]
-				}
+				{all: true}
+				// {
+				// 	model: Member, include: [
+				// 		Contact, Address, Nationality, School, Grade
+				// 	]
+				// },
+				// {
+				// 	model: Maker, include: [
+				// 		{all: true}
+				// 	]
+				// }
 			]
 			})
 		.then(function(user){
@@ -80,7 +82,7 @@ function getUserDetails(userId){
 function updateFeedbackByAdmin(feedback){
 	// console.log(feedback);
 	userId = feedback.userId;
-	return usersDB
+	return authDB
 			.findById(userId)
 			.then(function(user){
 				// console.log(user);
@@ -99,8 +101,8 @@ function updateFeedbackByAdmin(feedback){
 
 
 function getAllFeedbacks(){
-	return usersDB
-				.find({userTypeId: 1})
+	return authDB
+				.find({roleId: 1})
 				.then(function(users){
 					return users;
 				});
@@ -110,7 +112,7 @@ function getAllFeedbacks(){
 function removeFrozeDays(ids){
 	var userId = ids.userId;
 	var originalEventId = ids.originalEventId;
-	return usersDB
+	return authDB
 				.findById(userId)
 				.then(function(user){
 					for(var i in user.userEventParameters){
@@ -127,7 +129,7 @@ function freezeMembership(freezeObject){
 	var userId = freezeObject.userId;
 	var eventId = freezeObject.eventId;
 	var days = freezeObject.days;
-	return usersDB
+	return authDB
 				.findById(userId)
 				.then(function(user){
 					for(var p in user.userEventParameters){
@@ -142,7 +144,7 @@ function freezeMembership(freezeObject){
 function updateUserEventParameters(discount){
 	var userId = discount.userId;
 	var eventId = discount.eventId;
-	return usersDB
+	return authDB
 				.findById(userId)
 				.then(function (user){
 					for(var e in user.userEventParameters){
@@ -171,7 +173,7 @@ function submitFeedback(feedbackObject){
 	var feedDate = new Date();
 	// var feedbackObject = {userId: model.loggedUser._id, eventId: eventId, eventName: eventName, feedbackText: feedbackText};
 	var feed = {date: feedDate, eventName: feedbackObject.eventName, feedback: feedbackObject.feedbackText, userId: userId, approved: false};
-	return usersDB
+	return authDB
 		.findById(userId)
 		.then(function(user){
 			// user.userFeedback.push(feedbackObject);
@@ -186,7 +188,7 @@ function submitFeedback(feedbackObject){
 
 
 function confirmAttendance(attendedUser){
-	return usersDB
+	return authDB
 		.findById(attendedUser.userId)
 		.then(function(user){
 			// loop the userEventParameters
@@ -237,7 +239,7 @@ function makePayment(payment){
 	var eventId = payment.eventId;
 	var paymentDate = payment.paymentDate;
 	var paymentAmount = payment.paymentAmount;
-	return usersDB
+	return authDB
 			.findById(userId)
 			.then(function(user){
 				for(var i in user.userEventParameters){
@@ -247,7 +249,7 @@ function makePayment(payment){
 					}
 				}
 			});
-	// return usersDB
+	// return authDB
 	// 			.findById(userId)
 	// 			.then(function (user){
 	// 				user.payments.push(
@@ -269,7 +271,7 @@ function updateProfile(updatedProfile){
 					return result;
 				})
 				.then(function(){
-					return usersDB
+					return authDB
 						.findById(updatedProfile.id, {
 							include: [
 								{
@@ -294,7 +296,7 @@ function updateMakerProfile(updatedMakerProfile){
 				return result;
 			})
 			.then(function(){
-				return usersDB
+				return authDB
 					.findById(updatedMakerProfile.id, {
 						include: [
 							{
@@ -309,7 +311,7 @@ function updateMakerProfile(updatedMakerProfile){
 }
 
 function resetPassword(user, newPassword){
-	return usersDB
+	return authDB
 			.findOne({ where: { id: user.id}, include: [{all:true}]})
 			.then(function(user){
 				user.password = newPassword;
@@ -321,7 +323,7 @@ function resetPassword(user, newPassword){
 
 function findUserByToken(token){
 	console.log('the token is: ', token);
-	return usersDB
+	return authDB
 		.findOne({ 
 			where: { resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() }}
 		})
@@ -339,7 +341,7 @@ function findUserByToken(token){
 
 
 function addTokenToUser(userEmail, token){
-	return usersDB
+	return authDB
 			.findUserByEmail(userEmail)
 			.then(function(user){
 				user.resetPasswordToken = token;
@@ -353,7 +355,7 @@ function addTokenToUser(userEmail, token){
 
 
 function addProfileImage(userId, profileImage){
-	return usersDB
+	return authDB
 				.findUserById(userId)
 				.then(function(user){
 					user.profileImage = profileImage;
@@ -364,26 +366,38 @@ function addProfileImage(userId, profileImage){
 
 
 function findUserByGoogleId(googleId){
-	return usersDB.findOne({'google.id' : googleId});
+	return authDB.findOne({'google.id' : googleId});
 }
 
-function addNewUser(user){
-	// user.gender = 'male';
-	// user.DOB = Date.now();
-	// user.grade = 9;
-	return usersDB
-			.create(user)
-			.then(function(addedUser){
-				addedUser.userTypeId = 1;
-				return addedUser.save();
-			})
+function addNewUser(user, contact){
+	// prepare the roles:
+	return Roles.findOne({where: {name: "Member"}})
+				.then(function(role){
+					return authDB
+						.create(user)
+						.then(function(addedUser){
+							return addedUser
+									.addContact(contact)
+									.then(function(){
+										return addedUser
+											.addRole(role)
+											.then(function(result){
+												console.log('the result after addRole', result);
+												
+												return addedUser;
+											});
+									});
+						});
+
+				});
 }
+
 
 // in case of changing the user role like from user to maker by admin
 function setUserRole(updatedUser){
-	var newRole = updatedUser.userTypeId;
+	var newRole = updatedUser.roleId;
 	var userId = updatedUser.id;
-	return usersDB
+	return authDB
 		.findById(userId)
 		.then(function(foundUser){
 			if(newRole == 2){
@@ -416,7 +430,7 @@ function setUserRole(updatedUser){
 }
 
 function addMemberIdToUser(userId, memberId){
-	return usersDB
+	return authDB
 			.findById(userId)
 			.then(function(user){
 				user.setMember(memberId);
@@ -426,21 +440,21 @@ function addMemberIdToUser(userId, memberId){
 
 function loginUser(username, password){
 	// console.log('somebody call me', username);
-	return usersDB.findOne({email: username, password: password});
+	return authDB.findOne({email: username, password: password});
 }
 
 function getAllUsers(){
-	return usersDB
-				.findAll({attributes: ['id', 'email', 'userTypeId']});
+	return authDB
+				.findAll({attributes: ['id', 'email', 'roleId']});
 				// .populate('events')
 				// .populate('registeredEventsList')
 				// .exec();
 }
 
 function getAllMakers(){
-	return usersDB
+	return authDB
 				.findAll({
-					where: {userTypeId: 2},
+					where: {roleId: 2},
 					attributes: { exclude: ['password', 'resetPasswordExpires', 'resetPasswordToken', 'updatedAt', 'createdAt']},
 					include: [{model: Maker}]
 				});
@@ -448,12 +462,12 @@ function getAllMakers(){
 
 function findUserById(userId){
 	console.log('the userId from the find userById is: ', userId)
-	return usersDB
+	return authDB
 				.findById(userId)
 				.then(function(result){
 					var user = result.get({plain: true});
 					// console.log('the user from the find userById is: ', user);
-					if (user.userTypeId === 1) {
+					if (user.roleId === 1) {
 						return membersDB
 							.findMemberById(user.memberId)
 							.then(function (member) {
@@ -471,7 +485,7 @@ function findUserById(userId){
 
 function findUserByEmail(userEmail){
 	// console.log('checking the email: ', userEmail);
-	return usersDB
+	return authDB
 				.findOne({
 					where:{email: userEmail},
 					// this one works
@@ -535,7 +549,7 @@ function addEventId(userId, eventId){
 
 
 function removeRegisteredEvent(userId, eventId){
-	return usersDB
+	return authDB
 		.findById(userId)
 		.then(function(user){
 			var index = user.registeredEventsList.indexOf(eventId);
@@ -545,7 +559,7 @@ function removeRegisteredEvent(userId, eventId){
 }
 
 function removeEventFromList(userId, eventId){
-	return usersDB
+	return authDB
 		.findById(userId)
 		.then(function(user){
 			var index = user.events.indexOf(eventId);

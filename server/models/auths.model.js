@@ -1,6 +1,11 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
-var User = db.sequelize.define('users', {
+var Auths = db.sequelize.define('auths', {
+	id: {
+		type: Sequelize.UUID,
+		defaultValue: Sequelize.UUIDV1,
+		primaryKey: true
+	},
 	email: {
 		type: Sequelize.STRING,
 		unique: true,
@@ -25,4 +30,4 @@ var User = db.sequelize.define('users', {
 		defaultValue: Sequelize.NOW
 	}
 });	
-module.exports = User;
+module.exports = Auths;

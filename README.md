@@ -426,7 +426,7 @@ working with sql:
 	
 	
 	[x] admin login
-	[x] admin list all users with userTypeId
+	[x] admin list all users with roleId
 	[x] filter users by email and userType
 	[x] add the ability to change the user type from the system by admin
 	[x] when admin change the userType from user to maker:
@@ -438,7 +438,7 @@ working with sql:
 	[x] maker profile
 		registration procedure:
 		1. maker register as normal user
-		2. admin change the userTypeId from 1(default member) to 2(maker)
+		2. admin change the roleId from 1(default member) to 2(maker)
 		3. when maker login again (now as maker) the system redirect him/her to maker profile (empty).
 		4. the maker update the profile 
 		5. on update after submit the object including maker details the server do the sane procedure of updating member profile.
@@ -507,10 +507,17 @@ working with sql:
 				********************************************************
 
 	[] Create new database and connect to it.
-		[] create auths table (was user): contains (UUID, email, password, resetPasswordToken, resetPasswordExpires)
-		[] create roles tables(was user_types): contains (UUID, name)
-		[] create join table (x_auths_roles) to set the extra field: 'active: boolean'
-		[] connect auths with roles: many-many (auth.belongsToMany(roles, {through: 'x_auths_roles'})): contain (UUID, authId, roleId)
+		[x] create auths table (was user): contains ( email, password, resetPasswordToken, resetPasswordExpires)
+		[x] create roles tables(was user_types): contains (name): values: [Coach, Admin, Member, Organizer, Employee]
+		[x] create join table (x_auths_roles) to set the extra field: 'active: boolean'
+		[x] connect auths with roles: many-many (auth.belongsToMany(roles, {through: 'x_auths_roles'})): contain (ID, authId, roleId)
+		[x] create contact table to store the name of the auth and connect it with the auth (1:m auth.hasMany(contact))
+
+		registration flow:
+			1. fill the form
+			2. front controller receive data and pass them to the client service
+
+
 
 
 

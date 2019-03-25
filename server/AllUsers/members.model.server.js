@@ -1,8 +1,8 @@
 var db = require('../databse');
-var membersDB = db.Member; // require('../models/member.model');
-// var usersDB = require('./users.model.server');
+var membersDB = db.Member; 
+
 var addressesDB = require('./addresses.model.server');
-var contactsDB = require('./contacts.model.server');
+var contactsDB = require('./phones.model.server');
 
 var Contacts = db.Contact //require('../models/contact.model');
 db.sequelize.sync();

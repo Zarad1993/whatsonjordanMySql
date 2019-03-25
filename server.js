@@ -33,12 +33,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-require('./server/AllUsers/services/users.service.server')(app);
+require('./server/AllUsers/services/auth.service.server')(app);
 require('./server/events/services/event.service.server')(app);
 // require('./server/AllUsers/grades.service.server')(app);
 require('./server/AllUsers/services/schools.service.server')(app);
 require('./server/AllUsers/services/nationalities.service.server')(app);
-require('./server/AllUsers/services/userTypes.service.server')(app);
+require('./server/AllUsers/services/role.service.server')(app);
 require('./server/AllUsers/services/getterService.service.server')(app);
 // require('./server/AllUsers/ageGroups.service.server')(app);
 // require('./server/AllUsers/subCategories.service.server')(app);
