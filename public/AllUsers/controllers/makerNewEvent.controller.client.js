@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('makerNewEventController', makerNewEventController);
 
-	function makerNewEventController($location, eventsService, addressService, getterService, loggedMaker, userService){
+	function makerNewEventController($location, eventsService, addressService, getterService, loggedMaker, authService){
 			var model = this;
 			function init(){
 				if(!loggedMaker){
@@ -188,7 +188,7 @@
 			}
 
 			function logout(){
-				userService
+				authService
 					.logout()
 					.then(function(){
 						$location.url('/');

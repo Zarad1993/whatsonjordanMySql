@@ -113,8 +113,10 @@ app.get('/api/maker/getAllMakers', getAllMakers);
 app.get('/api/user/findUserById/:userId', findUserById);
 app.get('/api/user/findUserByEmail/:userEmail', findUserByEmail);
 app.post('/api/user/login', passport.authenticate('localUser'), loginUser);
-app.post('/api/user/', addNewUser);
-app.get('/api/checkUserLogin', checkUserLogin);
+app.post('/api/user/loginAs', loginAs);
+app.post('/api/auth/', createAuth);
+app.get('/api/checkAuthLogin', checkAuthLogin);
+app.get('/api/getAuthRoles/:authId', getAuthRoles);
 app.get('/api/isMaker', isMaker);
 app.get('/api/admin/isAdmin', checkAdmin, isAdmin);
 app.post('/api/logout', logout);
@@ -142,7 +144,7 @@ app.put('/api/user/freezeMembership', freezeMembership);
 app.delete('/api/user/removeFrozeDays/:userId/:eventId', removeFrozeDays);
 app.get('/api/member/getAllFeedbacks', getAllFeedbacks);
 app.put('/api/admin/updateFeedbackByAdmin', updateFeedbackByAdmin);
-app.put('/api/admin/setUserRole', setUserRole);
+app.put('/api/admin/addAuthRole', addAuthRole);
 app.post('/api/member/submitFeedback', submitFeedback);
 app.get('/api/member/getMemberFeedbacks/:memberId', getMemberFeedbacks);
 
@@ -514,13 +516,13 @@ function userStrategy(username, password, done) {
 		.findUserByEmail(username)
 		.then(
 			function(foundUser){
-				var user = foundUser;
+				var auth = foundUser;
 				// console.log('the user from userStrategy: ', user);
-				if(!user){
+				if(!auth){
 					return done(null, false);
-				} else if(user && !bcrypt.compareSync(password, user.password)){
+				} else if(auth && !bcrypt.compareSync(password, auth.password)){
 					return done(null, false);
-				} else if(user && bcrypt.compareSync(password, user.password)){
+				} else if(auth && bcrypt.compareSync(password, auth.password)){
 					// console.log('user founded', user);
 					// if(user.roleId === 1){
 						// membersDB
@@ -528,7 +530,7 @@ function userStrategy(username, password, done) {
 						// 	.then(function(member){
 						// 		user.memberDetails = member;
 						// 		console.log('the final user is: ', user);
-								return done(null, user);
+								return done(null, auth);
 							// })
 					// }
 					// return done(null, user);
@@ -566,7 +568,7 @@ function googleStrategy(token, refreshToken, profile, done) {
 	                        token: token
 	                    }
 	                };
-	                return authDB.addNewUser(newGoogleUser);
+					return authDB.createAuth(newGoogleUser);
 	            }
 	        },
 	        function(err) {
@@ -597,6 +599,26 @@ function loginUser(req, res){
 	var user = req.user;
 	// console.log('the user details are: ', user);
 	res.json(user);
+}
+
+function loginAs(req, res){
+	var selectedRole = req.body;
+	// console.log('the selected role: ', selectedRole);
+	// req.session.passport....chosenRole = 'Organizer'
+	for (var i in req.session.passport.user.roles){
+		if (req.session.passport.user.roles[i].id == selectedRole.id){
+			// req.session.passport.user.roles[i].loggedWithin = true;
+			req.session.passport.user.chosenRole = req.session.passport.user.roles[i].name;
+			req.session.save();
+				
+			res.send(req.session.passport.user);
+			// return;
+		}
+	}
+	// console.log('the session: ', req.session);
+	
+
+		
 }
 
 // function findUser(req, res){
@@ -669,15 +691,15 @@ function getAllMakers(req, res){
 }
 
 
-function addNewUser(req, res){
+function createAuth(req, res){
 	var newUser = req.body;
 	// newUser.user_id = 1;
 	newUser.password = bcrypt.hashSync(newUser.password);
-	contactsDB
-		.addNewContact()
-		.then(function(contact){
+	// contactsDB
+	// 	.addNewContact()
+	// 	.then(function(contact){
 			authDB
-				.addNewUser(newUser, contact)
+				.createAuth(newUser)
 				.then(function (user){
 					// var finalUser = user.get({plain: true});
 					console.log('the created user', user);
@@ -701,7 +723,7 @@ function addNewUser(req, res){
 					});
 
 
-				});
+				// });
 						// })
 					// var addedMember = contact.get({plain: true});
 			// 		console.log('the addedMember is: ', addedMember);
@@ -720,7 +742,7 @@ function addNewUser(req, res){
 				// })
 			
 			// authDB
-			// 	.setUserRole(addedUser, 1)
+			// 	.addAuthRole(addedUser, 1)
 			// 	.then(function(updatedUser){
 			// 		req.login(updatedUser, function(err){
 			// 			if(err){
@@ -781,22 +803,27 @@ function addNewUser(req, res){
 }
 
 
-function checkUserLogin(req, res){
+
+function checkAuthLogin(req, res){
 	console.log('step 8');
-	console.log('the user to check type: ', req.user);
-	
-	// console.log('the user in req is: ', req.user);
+	// the passport serialize put the auth in the req.user
 	if (req.user) {
-		// console.log('the user type is:', req.user.roles);
-		var userRoles = req.user.roles;
-		if(userRoles.length > 1){
-			for(var i in userRoles){
-				if (userRoles[i].x_auths_roles.active){
-					console.log('the user type is: ', userRoles[i]);
-				}
-			}
-		}
-		
+		console.log('the auth to check type: ', req.session.passport.user);
+		console.log('the user in session: ', req.user);
+		// var authRoles = req.user.roles;
+		// if(authRoles.length > 1){
+		// 	for(var i in authRoles){
+		// 		if(authRoles[i].x_auths_roles.active){
+		// 			console.log('the auth type is: ', authRoles[i]);
+		// 			res.send(req.user);
+		// 		}
+		// 	}
+		// }
+		res.send(req.isAuthenticated() ? req.session.passport.user : null);
+
+
+
+
 		// if (req.user.roleId === 1){
 		// 	if(req.user.member.DOB){
 		// 		var birthDay = new Date(req.user.member.DOB);
@@ -818,17 +845,42 @@ function checkUserLogin(req, res){
 	}
 }
 
-function isMaker(req, res){
-	res.send(req.isAuthenticated() && req.user.roleId === 2 ? req.user : null);
+function getAuthRoles(req, res){
+	// var authId = req.params.authId;
+	if(req.user){
+		var auth = req.user;
+		// to set later > 1
+		if (auth.roles) {
+			var roles = [];
+			for (var r in auth.roles) {
+				if (auth.roles[r].x_auth_role.active){
+					roles.push(auth.roles[r]);
+				}
+			}
+			res.send(roles);
+		}
+	}
 }
 
-function isAdmin(req, res){
-	var admin = req.user;
-	res.send(admin);
+
+function isMaker(req, res){
+	for (var i in req.session.passport.user.roles) {
+		if (req.session.passport.user.roles[i].loggedWithin) {
+			res.send(req.isAuthenticated() ? req.session.passport.user : null);
+			return;
+		}
+	}
+	// for(var i in req.user.roles){
+	// 	if(req.user.roles[i].name == 'Organizer'){
+	// 		res.send(req.isAuthenticated() ? req.user.roles[i] : null);
+	// 		return;
+	// 	}
+	// }
+	// res.send(req.isAuthenticated() && req.user.roleId === 2 ? req.user : null);
 }
 
 function checkAdmin(req, res, next){
-	if (req.isAuthenticated() && req.user.roleId === 3){
+	if (req.isAuthenticated() && req.user.roles[0].name == 'Admin'){
 		next();
 	}
 	else{
@@ -836,6 +888,12 @@ function checkAdmin(req, res, next){
 		return null;
 	}
 }
+
+function isAdmin(req, res){
+	var admin = req.user;
+	res.send(admin);
+}
+
 
 function addEventToUser(req, res){
 	var parameters = req.body;
@@ -887,10 +945,10 @@ function removeRegisteredEvent(req, res){
 		});
 }
 
-	function setUserRole(req, res){
+	function addAuthRole(req, res){
 		var updatedUser = req.body;
 		authDB
-			.setUserRole(updatedUser)
+			.addAuthRole(updatedUser)
 			.then(function(result){
 				res.send(result);
 			})

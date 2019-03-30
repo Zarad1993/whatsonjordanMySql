@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('updateUserProfile', updateUserProfile);
 
-	function updateUserProfile(userService, getterService, schoolsService, nationalitiesService, loggedUser, $location) {
+	function updateUserProfile(authService, getterService, schoolsService, nationalitiesService, loggedUser, $location) {
 		var model = this;
 
 		function init() {
@@ -38,7 +38,7 @@
 		// model.DOB = new Date(loggedUser.DOB);
 
 		function updateProfile(updatedUserProfile){
-			userService
+			authService
 				.updateProfile(updatedUserProfile)
 				.then(function(result){
 					console.log('Profile Updated', result);
@@ -60,7 +60,7 @@
 
 
 		function logout(){
-			userService
+			authService
 				.logout()
 				.then(function(){
 					$location.url('/');
@@ -71,7 +71,7 @@
 
 		function removeRegisteredEvent(eventId){
 			// var _userId = $routeParams.userId;
-			userService
+			authService
 				.removeRegisteredEvent(loggedUser._id, eventId)
 				.then(function(response){
 					$location.url('/profile');

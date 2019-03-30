@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('forgetPasswordController', forgetPasswordController);
 
-	function forgetPasswordController(userService, $location) {
+	function forgetPasswordController(authService, $location) {
 
 		var model = this;
 		model.logout = logout;
@@ -12,8 +12,8 @@
 		model.msg = null;
 		
 		function init() {
-			// userService
-			// 		.checkUserLogin()
+			// authService
+			// 		.checkAuthLogin()
 			// 		.then(function(result){
 			// 			if(result){
 			// 				model.loggedUser = result;
@@ -26,7 +26,7 @@
 
 		function forgetPassword (email){
 			model.loadingData = true;
-			userService
+			authService
 			.findUserByEmail(email)
 			.then(function(result){
 				console.log('the result is:', result);
@@ -39,7 +39,7 @@
 					});
 			 		return;
 				} else{
-					userService
+					authService
 						.forgetPassword(email)
 						.then(function(result){
 							console.log(result);
@@ -57,7 +57,7 @@
 			});
 				
 
-			// userService
+			// authService
 			// 		.resetPassword(email)
 			// 		.then(function(response){
 			// 			console.log(response);
@@ -73,7 +73,7 @@
 
 
 		function logout(){
-			userService
+			authService
 				.logout()
 				.then(function(){
 					$location.url('/');

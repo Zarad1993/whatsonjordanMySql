@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('makerEventsListController', makerEventsListController);
 
-	function makerEventsListController(eventsService, $location, loggedMaker, userService) {
+	function makerEventsListController(eventsService, $location, loggedMaker, authService) {
 		var model = this;
 
 		function init() {
@@ -25,8 +25,8 @@
 				});
 
 			
-			// userService
-			// 		.checkUserLogin()
+			// authService
+			// 		.checkAuthLogin()
 			// 		.then(function(result){
 			// 			if(result){
 			// 				model.loggedUser = result;
@@ -46,7 +46,7 @@
 		// }
 
 		function logout(){
-			userService
+			authService
 				.logout()
 				.then(function(){
 					$location.url('/');

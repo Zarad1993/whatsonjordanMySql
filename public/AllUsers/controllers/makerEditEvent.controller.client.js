@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('makerEditEventController', makerEditEventController);
 
-	function makerEditEventController(eventsService, addressService, getterService,  $location, loggedMaker, userService){
+	function makerEditEventController(eventsService, addressService, getterService,  $location, loggedMaker, authService){
 		var model = this;
 
 		function init(){
@@ -316,7 +316,7 @@
 
 
 		function logout(){
-			userService
+			authService
 				.logout()
 				.then(function(){
 					$location.url('/');

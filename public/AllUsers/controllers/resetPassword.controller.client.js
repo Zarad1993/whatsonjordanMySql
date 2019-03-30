@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('resetPasswordController', resetPasswordController);
 
-	function resetPasswordController(userService, $location, $routeParams) {
+	function resetPasswordController(authService, $location, $routeParams) {
 		var model = this;
 		model.loggedUser = undefined;
 		model.logout = logout;
@@ -20,7 +20,7 @@
 				model.msg = 'Password shoud be the same as confirm password!';
 				return;
 			} else{
-				userService
+				authService
 					.resetPassword(token, password)
 					.then(function(user){
 						if(user.data.email){
@@ -37,7 +37,7 @@
 
 
 		function logout(){
-			userService
+			authService
 				.logout()
 				.then(function(){
 					$location.url('/');

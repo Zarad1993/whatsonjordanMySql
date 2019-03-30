@@ -31,7 +31,10 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#!/contact">Contact</a>
-            </li>            
+						</li>
+						<form class="form-inline my-2 my-lg-0" ng-show="model.loggedUser">
+							<a class="btn btn-outline-success my-2 my-sm-0" href="#!/login">Switch profile</a>
+						</form>
           </ul>
         </div>
       </div>
@@ -41,7 +44,7 @@
 
 <!-- Main container -->
 <div class="container-top-125" style="margin-left: 50px; margin-right: 50px;">
-	<div class="row" style="background-color: lightgrey;">
+		<div class="row" style="background-color: lightgrey;">
 		<!-- Header including picture and  -->
 		<div class="col-md-3" style="background-color: lightgreen; padding: 30px;">
 			<img ng-src="{{model.userProfile.profileImage.location}}" class="mx-auto d-block profile-img">		

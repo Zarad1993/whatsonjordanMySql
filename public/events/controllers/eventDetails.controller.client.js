@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('eventDetailsController', eventDetailsController);
 
-		function eventDetailsController($routeParams, eventsService, userService, $location){
+		function eventDetailsController($routeParams, eventsService, authService, $location){
 			var model = this;
 
 			function init(){
@@ -15,11 +15,11 @@
 						model.eventDetails = eventDetails;
 					});
 				// check if there any user has already logged in to use it instead of the $rootScope
-				userService
-					.checkUserLogin()
+				authService
+					.checkAuthLogin()
 					.then(function(result){
-						if(result){
-							model.loggedUser = result;
+						if(result.data){
+							model.loggedUser = result.data;
 							model.loggedUser.member.DOB = new Date(model.loggedUser.member.DOB);
 						}
 					});
@@ -32,7 +32,7 @@
 			model.logout = logout;
 
 			function logout(){
-				userService
+				authService
 					.logout()
 					.then(function(){
 						$location.url('/');
@@ -60,7 +60,7 @@
 						}
 					}
 					
-					userService
+					authService
 						.addEventToUser(eventId, memberId)
 						.then(function (response){
 							$location.url('/userProfile');

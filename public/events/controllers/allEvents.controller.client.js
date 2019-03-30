@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('allEventsController', allEventsController);
 
-	function allEventsController($routeParams, eventsService, userService, $location, $route){
+	function allEventsController($routeParams, eventsService, authService, $location, $route){
 		var model = this;
 		model.position = {currentposition: {}};
 		var mapFeatures = [];
@@ -12,11 +12,11 @@
 			// To indicate that the events list is including all the events
 			// model.filtered = false;
 			model.loadingData = true;
-			userService
-					.checkUserLogin()
+			authService
+					.checkAuthLogin()
 					.then(function(result){
-						if(result){
-							model.loggedUser = result;
+						if(result.data){
+							model.loggedUser = result.data;
 							// Calculate the logged user age and add the age to the user's object
 							var birthDay = new Date(model.loggedUser.member.DOB);
 							var today = new Date();
@@ -164,7 +164,7 @@
 		model.logout = logout;
 
 		function logout(){
-			userService
+			authService
 				.logout()
 				.then(function(){
 					$location.url('/');

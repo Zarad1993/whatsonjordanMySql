@@ -47,14 +47,23 @@
 				controller: 'resetPasswordController',
 				controllerAs: 'model'	
 			})
-
+			
 			.when('/profile', {
 				resolve: {
-					loggedUser: checkUserType
+					loggedUser: checkAuthRole
 				}
 			})
+
+			// .when('/chooseRole', {
+			// 	templateUrl: 'AllUsers/templates/chooseRole.view.client.html',
+			// 	controller: 'chooseRoleController',
+			// 	controllerAs: 'model',
+			// 	resolve: {
+			// 		authRoles: getAuthRoles
+			// 	}
+			// })
 			
-			.when('/userProfile', {
+			.when('/MemberProfile', {
 				templateUrl: 'AllUsers/templates/userProfile.view.client.html',
 				controller: 'userProfileController',
 				controllerAs: 'model',
@@ -72,13 +81,23 @@
 				}
 			})
 
-			.when('/makerProfile', {
+			// .when('/makerProfile', {
+			// 	templateUrl: 'AllUsers/templates/makerProfile.view.client.html',
+			// 	controller: 'makerProfileController',
+			// 	controllerAs: 'model',
+			// 	resolve: {
+			// 		loggedMaker: isMaker
+			// 	}
+			// })
+
+			.when('/OrganizerProfile', {
 				templateUrl: 'AllUsers/templates/makerProfile.view.client.html',
 				controller: 'makerProfileController',
 				controllerAs: 'model',
 				resolve: {
 					loggedMaker: isMaker
 				}
+				// key: 'Organizer'
 			})
 
 			.when('/updateMakerProfile', {
@@ -91,7 +110,7 @@
 			})
 
 
-			.when('/adminPage', {
+			.when('/AdminProfile', {
 				templateUrl: 'admin/templates/adminPage.view.client.html',
 				controller: 'adminController',
 				controllerAs: 'model',
@@ -159,7 +178,7 @@
 			// 	controller: 'adminController',
 			// 	controllerAs: 'model',
 			// 	resolve: {
-			// 		loggedUser: checkUserLogin
+			// 		loggedUser: checkAuthLogin
 			// 	}
 			// })
 			.when('/contact', {
@@ -171,44 +190,49 @@
 				templateUrl: '../views/pages/about.view.client.html',
 				controller: 'homePageController',
 				controllerAs: 'model'
-			});
+			})
+			.otherwise({redirectTo: '/'});
 	}
 	
 	// check the user if still logged in through the server cockies if the user logged in he is in the cockies based on that we can protect the url
-	function isUser(userService, $q, $location){
+	function isUser(authService, $q, $location){
 		var deferred = $q.defer();
-		userService
-			.checkUserLogin()
+		authService
+			.checkAuthLogin()
 			.then(function(user){
-				if(user === null){
+				if(user.data === null){
 					deferred.reject();
 					$location.url('/login');
-				} else{
+				} else if (user.data.chosenRole == 'Member'){
 					// console.log('from isUser in config: ', user);
-					deferred.resolve(user);
+						deferred.resolve(user.data);
 				}
 			});
 		return deferred.promise;
 	}
 
-	function isMaker(userService, $q, $location){
+	function isMaker(authService, $q, $location){
 		var deferred = $q.defer();
-		userService
-			.isMaker()
+		authService
+			// .isMaker()
+			.checkAuthLogin()
 			.then(function(maker){
-				if(maker === null){
+				if(maker.data === null){
 					deferred.reject();
 					$location.url('/login');
-				} else{
+				} else if(maker.data.chosenRole == 'Organizer'){
 					deferred.resolve(maker);
+				}else{
+					deferred.reject();
+					$location.url('/login');
 				}
 			});
 		return deferred.promise;
 	}
 
-	function isAdmin(userService, $q, $location){
+	function isAdmin(authService, $q, $location){
 		var deferred = $q.defer();
-		userService
+		authService
 			.isAdmin()
 			.then(function(admin){
 				if(admin === null){
@@ -221,30 +245,78 @@
 			return deferred.promise;
 	}
 
-	function checkUserType(userService, $q, $location){
+
+
+	// function getAuthRoles(authService, $q, $location){
+	// 	var deferred = $q.defer();
+	// 	authService
+	// 		.getAuthRoles()
+	// 		.then(function(roles){
+	// 			if(roles){
+	// 				console.log('available roles: ', roles.data);
+	// 				deferred.resolve(roles.data);
+	// 				// $location.url('/chooseRole');
+	// 				// return deferred.promise;
+	// 			}
+	// 		});
+	// 		return deferred.promise;
+	// 	}
+
+	function checkAuthRole(authService, $q, $location){
 		var deferred = $q.defer();
-		userService
-			.checkUserLogin()
-			.then(function(user){
-				// console.log('somebody call me..........')
+		authService
+			.checkAuthLogin()
+			.then(function(result){
+				var user = result.data;
 				console.log('the result of check user login', user);
+				var route = '/' + user.chosenRole + 'Profile';
+				$location.url(route);
+
 				
-				if(user.roleId === 1){
-					deferred.resolve(user);
-					$location.url('/userProfile');
-					return deferred.promise;
-				} else if(user.roleId === 2){
-					deferred.resolve(user);
-					$location.url('/makerProfile');
-					return deferred.promise;
-				}else if(user.roleId === 3){
-					deferred.resolve(user);
-					$location.url('/adminPage');
-					return deferred.promise;
-				}else{
-					deferred.reject();
-					$location.url('/');
-				}
+				// if(user.roles.length > 1){
+				// 	for(var i in user.roles){					
+				// 		if(user.roles[i].loggedWithin){
+				// 			// console.log('logged within: ', user.roles[i].loggedWithin);
+				// 			var route = '/' + user.roles[i].name + 'Profile';
+				// 			$location.url(route);
+				// 			return;
+				// 		}
+				// 	}
+				// 	// var roles = [];
+				// 	// for(var r in user.roles){
+				// 	// 	// roles.push({ roleName: user.roles[r].name, active: user.roles[r].x_auths_roles.active});
+				// 	// 	roles.push(user.roles[r]);
+				// 	// }
+				// 	// console.log('the auth has many roles');
+				// 	// console.log('the user roles: ', roles);
+				// 	// $location.url('/chooseRole');
+				// 	// return;
+				// }else{
+				// 	// $location.url('/userProfile');
+				// 	deferred.resolve(user);
+				// 	var x = '/'+user.roles[0].name+'Profile';
+				// 	$location.url(x);
+				// 	return deferred.promise;
+				// }
+
+
+
+				// if(user.data.roleId === 1){
+				// 	deferred.resolve(user.data);
+				// 	$location.url('/userProfile');
+				// 	return deferred.promise;
+				// } else if(user.data.roleId === 2){
+				// 	deferred.resolve(user.data);
+				// 	$location.url('/makerProfile');
+				// 	return deferred.promise;
+				// }else if(user.data.roleId === 3){
+				// 	deferred.resolve(user.data);
+				// 	$location.url('/adminPage');
+				// 	return deferred.promise;
+				// }else{
+				// 	deferred.reject();
+				// 	$location.url('/');
+				// }
 			});
 	}
 

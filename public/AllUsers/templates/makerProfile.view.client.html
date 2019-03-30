@@ -1,6 +1,4 @@
 
-
-
 <!-- Navigation -->
     <nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
       <div class="container-fluid">
@@ -29,12 +27,17 @@
             <li class="nav-item">
               <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedMaker">Profile</a>
             </li>
+            
             <li class="nav-item">
               <a class="nav-link" href="#!/about">About</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#!/contact">Contact</a>
             </li>
+            <form class="form-inline my-2 my-lg-0" ng-show="model.loggedMaker">
+              <a class="btn btn-outline-success my-2 my-sm-0" href="#!/login">Switch profile</a>
+            </form>
+            
           </ul>
         </div>
       </div>
@@ -47,7 +50,8 @@
 <div class="container container-top-125">
 	<div>
 		<h3 class="text-danger">Maker Profile:</h3>
-		<hr>
+    <hr>
+    {{model.makerProfile}}
 		<h5>Name: {{model.makerProfile.maker.firstName}} {{model.makerProfile.maker.middleName}} {{model.makerProfile.maker.lastName}}</h5>
 		<h5>Email: {{model.makerProfile.email}}</h5>
 		<h5>Phone 1: {{model.makerProfile.maker.contact.phone1}}</h5>

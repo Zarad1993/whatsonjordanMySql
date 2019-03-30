@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('makerReNewEventController', makerReNewEventController);
 
-	function makerReNewEventController($location, $routeParams, eventsService, addressService, getterService, loggedMaker, userService){
+	function makerReNewEventController($location, $routeParams, eventsService, addressService, getterService, loggedMaker, authService){
 			var model = this;
 			function init(){
 				var eventId = $routeParams.eventId;
@@ -279,7 +279,7 @@
 			}
 
 			function logout(){
-				userService
+				authService
 					.logout()
 					.then(function(){
 						$location.url('/');

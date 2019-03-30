@@ -5,11 +5,13 @@
 
 	function authService($http) {
 
-		this.checkUserLogin = checkUserLogin;
-		this.createUser = createUser;
+		this.checkAuthLogin = checkAuthLogin;
+		this.getAuthRoles = getAuthRoles;
+		this.createAuth = createAuth;
 		this.findUserById = findUserById;
 		this.findUserByEmail = findUserByEmail;
 		this.login = login;
+		this.loginAs = loginAs;
 		this.logout = logout;
 		this.isMaker = isMaker;
 		this.isAdmin = isAdmin;
@@ -30,7 +32,7 @@
 		this.updateFeedbackByAdmin = updateFeedbackByAdmin;
 		this.getAllMakers = getAllMakers;
 		this.getAllRoles = getAllRoles;
-		this.setUserRole = setUserRole;
+		this.addAuthRole = addAuthRole;
 		this.submitFeedback = submitFeedback;
 		this.getMemberFeedbacks = getMemberFeedbacks;
 		
@@ -173,32 +175,35 @@
 					if (response === null){
 						return '0';
 					}
-					// console.log('i found the user: ', response);
-					return response;
+					return response.data;
 				},
 				function(err){
 					return err;
 				});
 		}
 
+		function loginAs(selectedRole){
+			return $http.post('/api/user/loginAs', selectedRole);
+		}
+
 		
 	
 
-		function createUser(user){
-			return $http.post('/api/user/', user);
+		function createAuth(auth){
+			return $http.post('/api/auth/', auth);
 		}
 
 
 
 
-		function checkUserLogin(){
-			var url = '/api/checkUserLogin';
-			return $http
-					.get(url)
-					.then(function(result){
-						console.log('the result from check user login: ', result);
-						return result.data;
-					});
+		function checkAuthLogin(){
+			var url = '/api/checkAuthLogin';
+			return $http.get(url);
+		}
+
+		function getAuthRoles(){
+			var url = '/api/getAuthRoles/:authId';
+			return $http.get(url);
 		}
 
 		function isMaker(){
@@ -217,8 +222,8 @@
 					});
 		}
 
-		function setUserRole(updatedUser){
-			return $http.put('/api/admin/setUserRole', updatedUser);
+		function addAuthRole(updatedUser){
+			return $http.put('/api/admin/addAuthRole', updatedUser);
 		}
 
 	}

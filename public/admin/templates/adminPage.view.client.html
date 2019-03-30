@@ -68,16 +68,19 @@
 		</div>
 		<div class="col-md-3">
 			<label>Filter by user type</label>
-			<select ng-options="role.id as role.role for role in model.roles" ng-model="search.roleId"></select>
+			<select ng-options="role.id as role.name for role in model.roles" ng-model="search.roles.id"></select>
 		</div>
 	</div>
+
 	<table class="table table-responsive-sm table-hover">
 		<thead class="table-primary">
 			<tr>
 				<!-- <th>Name</th> -->
-				<th>ID</th>
+				<!-- <th>ID</th> -->
 				<th>Email</th>
-				<th>User Type ID</th>
+				<th>Has roles</th>
+				<th>Add role</th>
+
 				<th>Change user type</th>
 				<!-- <th>Maker events</th>
 				<th>User Registered events</th> -->
@@ -86,16 +89,22 @@
 		<tbody >
 			<tr ng-repeat="user in filteredUsers = (model.users | filter:search)">
 				<!-- <td>{{user.name.firstName}} {{user.name.middleName}} {{user.name.lastName}}</td> -->
-				<td>{{user.id}}</td>
+				<!-- <td>{{user.id}}</td> -->
 				<td>{{user.email}}</td>
 				<!-- <td>{{user.roleId}}</td> -->
 				<td>
-					<select id="role" ng-model="user.roleId" ng-options="role.id as role.role for role in model.roles">
-					</select>
+					<ul ng-repeat="authRole in user.roles">
+						<li>{{authRole.name}}</li>
+					</ul>
+				</td>
+				<td>
+					<!-- <select id="role" ng-model="user.roleId" ng-options="role.id as role.role for role in model.roles"> -->
+					<select id="role" ng-model="user.newRole" ng-options="role.id as role.name for role in model.roles"></select>
 				</td>
 				
 				<td>
-					<button class="btn btn-danger" ng-click="model.setUserRole(user)">Confirm</button>
+					<!-- add role ro user -->
+					<button class="btn btn-danger" ng-click="model.addAuthRole(user)">Confirm</button>
 				</td>
 				<!-- <td>
 					<ul ng-repeat="event in user.events">

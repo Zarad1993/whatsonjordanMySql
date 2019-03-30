@@ -11,6 +11,8 @@ var authDB = db.Auths; // require('../models/user.model');
 var membersDB = require('./members.model.server');
 var makersDB = require('./makers.model.server');
 var Contact = db.Contact; // require('../models/contact.model');
+var contactsDB = require('./contacts.model.server');
+var x_auths_roles = require('../models/x_auths_roles.model')
 var Roles = db.Roles;
 var Member = db.Member; // require('../models/member.model');
 var Maker = db.Maker; // require('../models/maker.model');
@@ -24,7 +26,7 @@ db.sequelize.sync();
 
 module.exports = authDB;
 
-authDB.addNewUser = addNewUser;
+authDB.createAuth = createAuth;
 authDB.addMemberIdToUser = addMemberIdToUser;
 authDB.loginUser = loginUser;
 authDB.getAllUsers = getAllUsers;
@@ -50,17 +52,19 @@ authDB.freezeMembership = freezeMembership;
 authDB.removeFrozeDays = removeFrozeDays;
 authDB.getAllFeedbacks = getAllFeedbacks;
 authDB.updateFeedbackByAdmin = updateFeedbackByAdmin;
-authDB.getUserDetails = getUserDetails;
-authDB.setUserRole = setUserRole;
+authDB.getAuthDetails = getAuthDetails;
+authDB.addAuthRole = addAuthRole;
 
 
-function getUserDetails(userId){
+function getAuthDetails(userId){
 	return authDB
 		.findOne({
 			where: { id: userId },
 			attributes: { exclude: ['password', 'resetPasswordExpires', 'resetPasswordToken']},
 			include: [
-				{all: true}
+					{all: true}
+				// { model: Roles, include: [{ model: x_auths_roles, include: [{all:true}]}]},
+
 				// {
 				// 	model: Member, include: [
 				// 		Contact, Address, Nationality, School, Grade
@@ -74,8 +78,28 @@ function getUserDetails(userId){
 			]
 			})
 		.then(function(user){
-			// console.log('the user on getUserDetails: ', user.get({plain: true}));
-			return user.get({plain: true});
+			// for(var i in user.roles){
+			// 	contactsDB	
+			// 		.findContactByXAuthRoleId(user.roles[i].x_auth_role.id)
+			// 		.then(function(foundContact){
+						
+			// 			var contact = foundContact.get({plain: true});
+			// 			console.log('the founded contact', contact);
+			// 			user.roles[i].contact = contact;
+						
+			// 		});
+			// 	}
+				// return contactsDB
+				// 	.findContactByXAuthRoleId(user.roles[0].x_auth_role.id)
+				// 	.then(function(foundContact){
+					// 		// var finalUser = user.get({plain: true});
+					// 		finalUser.contact = foundContact.get({plain: true});
+					
+					// console.log('the final user', user);
+			// console.log('the user details on getAuthDetails: ', user.roles[0].x_auth_role);
+					// console.log('the x_auths_roles on getAuthDetails: ', user.roles[0].x_auths_roles);
+					return user;
+				// })
 		})
 }
 
@@ -369,63 +393,91 @@ function findUserByGoogleId(googleId){
 	return authDB.findOne({'google.id' : googleId});
 }
 
-function addNewUser(user, contact){
+function createAuth(user){
+	// console.log('the contact: ', contact);
+	
 	// prepare the roles:
 	return Roles.findOne({where: {name: "Member"}})
 				.then(function(role){
 					return authDB
-						.create(user)
-						.then(function(addedUser){
-							return addedUser
-									.addContact(contact)
-									.then(function(){
-										return addedUser
-											.addRole(role)
-											.then(function(result){
-												console.log('the result after addRole', result);
-												
+							.create(user)
+							.then(function(addedUser){
+								return addedUser
+									.addRole(role, {through: {active: true, loggedWithin: false}})
+									.then(function(authRole){
+										console.log('after add role: ', authRole[0][0]);	
+										return contactsDB
+											.addNewContact(authRole[0][0].id)
+											.then(function (addedContact) {
+												console.log('the addedUser: ', addedUser);
+												console.log('the created contact: ', addedContact);
+													
 												return addedUser;
-											});
+												
 									});
-						});
+							});
+				})
+					})
 
-				});
+									
+									// authRole
+									// .createContact()
+									// .then(function (updatedauthRole){
+									// 	// console.log('after add role: ', updatedauthRole);
+									// 	})
+				// });
 }
 
 
 // in case of changing the user role like from user to maker by admin
-function setUserRole(updatedUser){
-	var newRole = updatedUser.roleId;
+function addAuthRole(updatedUser){
+	
+	var newRole = updatedUser.newRole;
 	var userId = updatedUser.id;
+	console.log('the new role: ', newRole);
 	return authDB
 		.findById(userId)
 		.then(function(foundUser){
-			if(newRole == 2){
-				return foundUser
-					.setUser_type(newRole)
-					.then(function(){
-						if (!foundUser.dataValues.makerId){
-							return makersDB
-								.addNewMaker()
-								.then(function(createdMaker){
-									console.log('the created maker: ', createdMaker.get({plain: true}));
-									var makerId = createdMaker.id;
-									return foundUser
-										.setMaker(makerId)
-										// .then(function () {
-										// 	return foundUser.save();
-										// }) 
-									// return createdMaker;
-								});
-						}
-					});
-			}else if(newRole == 1){
-				return foundUser
-							.setUser_type(newRole)
-							.then(function(){
-								return foundUser.save();
-							});
-			}
+			return foundUser
+				.addRole(newRole, { through: { active: true } })
+				.then(function (authRole) {
+					console.log('after add role: ', authRole[0][0]);
+					return contactsDB
+						.addNewContact(authRole[0][0].id)
+						.then(function (addedContact) {
+							console.log('the foundUser: ', foundUser);
+							console.log('the created contact: ', addedContact);
+
+							return foundUser;
+
+						});
+				});
+			// if(newRole == 2){
+			// 	return foundUser
+			// 		.setUser_type(newRole)
+			// 		.then(function(){
+			// 			if (!foundUser.dataValues.makerId){
+			// 				return makersDB
+			// 					.addNewMaker()
+			// 					.then(function(createdMaker){
+			// 						console.log('the created maker: ', createdMaker.get({plain: true}));
+			// 						var makerId = createdMaker.id;
+			// 						return foundUser
+			// 							.setMaker(makerId)
+			// 							// .then(function () {
+			// 							// 	return foundUser.save();
+			// 							// }) 
+			// 						// return createdMaker;
+			// 					});
+			// 			}
+			// 		});
+			// }else if(newRole == 1){
+			// 	return foundUser
+			// 				.setUser_type(newRole)
+			// 				.then(function(){
+			// 					return foundUser.save();
+			// 				});
+			// }
 		});
 }
 
@@ -445,7 +497,10 @@ function loginUser(username, password){
 
 function getAllUsers(){
 	return authDB
-				.findAll({attributes: ['id', 'email', 'roleId']});
+				.findAll({
+					// attributes: ['id', 'email', 'roles'],
+					include: [{all: true}]
+				});
 				// .populate('events')
 				// .populate('registeredEventsList')
 				// .exec();
@@ -488,21 +543,22 @@ function findUserByEmail(userEmail){
 	return authDB
 				.findOne({
 					where:{email: userEmail},
+					include: [{all: true}]
 					// this one works
 					// attributes: {exclude: ['email']},
-					include: [
-						// if the user is member
-						{
-							model: Member, include: [
-								Contact, Address, Nationality, School, Grade
-							]
-						},
-						{
-							model: Maker, include: [
-								{all: true}
-							]
-						}
-					]
+					// include: [
+					// 	// if the user is member
+					// 	{
+					// 		model: Member, include: [
+					// 			Contact, Address, Nationality, School, Grade
+					// 		]
+					// 	},
+					// 	{
+					// 		model: Maker, include: [
+					// 			{all: true}
+					// 		]
+					// 	}
+					// ]
 				})
 				.then(function(foundUser){
 					if(foundUser){

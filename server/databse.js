@@ -49,7 +49,8 @@ module.exports = db;
 // new structure
 db.Auths = require('./models/auths.model');
 db.Roles = require('./models/Roles.model');
-db.X_Auths_Roles = require('./models/x_auths_roles.model');
+db.X_Auth_Role = require('./models/x_auths_roles.model');
+// db.DetailsCollection = require('./models/detailsCollection.model');
 db.Contacts = require('./models/contacts.model'); // hold the (type: [individual, organizatio], name) connected to Auths
 db.Phones = require('./models/phones.model'); // holds the (contactId, number)
 
@@ -75,9 +76,11 @@ db.ExpenseType = require('./models/expenseType.model');
 				 	Relations
    **************************************************** */
 // new structure:
-db.Auths.belongsToMany(db.Roles, { through: db.X_Auths_Roles });
+db.Auths.belongsToMany(db.Roles, { through: db.X_Auth_Role });
 
-db.Auths.hasMany(db.Contacts);
+// db.Auths.hasMany(db.Contacts);
+// db.X_Auths_Roles.belongsTo(db.Contacts);
+db.Contacts.belongsTo(db.X_Auth_Role);
 
 // db.User.belongsTo(db.UserType);
 // db.User.belongsTo(db.Member);

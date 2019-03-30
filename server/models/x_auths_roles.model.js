@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 var db = require('../databse');
-var X_Auths_Roles = db.sequelize.define('x_auths_roles', {
+var X_Auth_Role = db.sequelize.define('x_auth_role', {
     id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV1,
@@ -17,5 +17,7 @@ var X_Auths_Roles = db.sequelize.define('x_auths_roles', {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
     }
-});
-module.exports = X_Auths_Roles;
+}, {
+    freezeTableName: true,
+    tableName: 'x_auth_role'});
+module.exports = X_Auth_Role;

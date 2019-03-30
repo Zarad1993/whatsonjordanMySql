@@ -518,6 +518,26 @@ working with sql:
 			2. front controller receive data and pass them to the client service
 
 
+login flow:
+	login page (auth)
+	call: model.login(auth) on controller
+	that call: authService.login(auth) on server:
+		then it will call the userStrategy that will put the auth as user in the req
+		and call loginUser function to return the user.
+		if the auth.role[i] is active: push it on the array that will return
+	on controller:
+		if the roles array >1:
+			create model.authRoles and push to it the available roles
+			if the created model.authRoles > 1:
+				show the modal to select the role 
+			else: send the user to '/profile' route
+
+idea: when login add key loggesWithin to the x_auth_role to be changed when select another role
+
+	if ok: 
+
+	
+
 
 
 

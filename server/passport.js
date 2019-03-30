@@ -2,7 +2,7 @@
 module.exports = function(passport) {
 
     // load all the things we need
-    var authDB             = require('./AllUsers/auth.model.server');
+    var authDB = require('./AllUsers/auth.model.server');
 
     // passport.use('localMaker', new LocalStrategy(makerStrategy));
     // passport.use('localUser', new LocalStrategy(userStrategy));
@@ -11,20 +11,22 @@ module.exports = function(passport) {
     passport.deserializeUser(deserializeUser);
 
     // used to serialize the user for the session
-    function serializeUser(user, done) {
+    function serializeUser(auth, done) {
         console.log('serialize step 6');
-        done(null, user);
+        done(null, auth);
     }
 
     // used to deserialize the user
-    function deserializeUser(user, done) {
+    function deserializeUser(auth, done) {
         // console.log('deserializeUser has been called');
-        if(user){
+        if(auth){
             authDB
-                .getUserDetails(user.id)
+                .getAuthDetails(auth.id)
                 .then(
-                    function(foundUser){
-                    done(null, foundUser);
+                    function(foundAuth){
+                        // console.log('the found auth on passport: ', foundAuth);
+                        
+                    done(null, foundAuth);
                     },
                     function(err){
                         done(err, null);

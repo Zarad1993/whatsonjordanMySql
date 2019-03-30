@@ -32,9 +32,9 @@
             <li class="nav-item">
               <a class="nav-link" href="#!/contact">Contact</a>
             </li>
-            
-           
-            
+            <form class="form-inline my-2 my-lg-0" ng-show="model.loggedUser">
+              <a class="btn btn-outline-success my-2 my-sm-0" href="#!/login">Switch profile</a>
+            </form>
           </ul>
         </div>
       </div>
@@ -53,13 +53,13 @@
   	  <form>
   	  	<fieldset>
   			  <div class="form-group">
-  		      	<label for="email">Email address</label>
+  		      	<label for="email">Email address:</label>
   		      	<input type="email" 
   		      			class="form-control" 
   		      			id="email" 
   		      			aria-describedby="emailHelp" 
   		      			placeholder="Enter email" 
-  		      			ng-model="model.user.email">
+  		      			ng-model="auth.email">
   		      	<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
   		      	<div nd-show="error" class="text-danger">{{model.error}}</div>
   	    	</div>
@@ -70,10 +70,38 @@
   		      			class="form-control" 
         					id="password" 
         					placeholder="Password" 
-        					ng-model="model.user.password">
+        					ng-model="auth.password">
   			</div>
   	  	
-  	  		<button type="submit" class="btn btn-success" ng-click="model.login(model.user)">Login</button>
+          <button type="submit" class="btn btn-success" ng-click="model.login(auth)">Login</button>
+          
+          <!-- Choose Role Modal -->
+          <div class="modal fade" id="chooseRoleModal" tabindex="-1" role="dialog" aria-labelledby="chooseRoleModalModalLabel"
+            data-show="true" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="chooseRoleModalModalLabel">Choose Role:</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Please select role:</p>
+                  <div class="form-group">
+                    <label for="authRoles">roles:</label>
+                    <select id="authRoles" class="form-control" ng-model="selectedRole"
+                      ng-options="role as role.name for role in model.authRoles"></select>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <a class="btn btn-success" ng-click="model.loginAs(selectedRole)" data-dismiss="modal">login</a>
+                  <!-- href="#!/{{selectedRole.name}}Profile" -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Choose Role Modal -->
   	  		
   	  		<!-- register with google -->
 

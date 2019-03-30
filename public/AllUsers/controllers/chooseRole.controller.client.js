@@ -1,25 +1,31 @@
 (function() {
 	angular
 		.module('whatsOnJordan')
-		.controller('userProfileController', userProfileController);
+		.controller('chooseRoleController', chooseRoleController);
 
-	function userProfileController(authService, loggedUser, $location, $sce, $route) {
+	function chooseRoleController(authService, authRoles, $location, $sce, $route) {
 		var model = this;
 
 		function init() {
-			if(!loggedUser){
-				$location.url('/login');
-				return;
-			}
-			model.userProfile = loggedUser;
-			model.loggedUser = loggedUser;
-			model.upcommingProgram = [];
-			// model.userFeedbacks = [];
+			// if(!loggedUser){
+			// 	$location.url('/login');
+			// 	return;
+			// }
+			// model.userProfile = loggedUser;
+            // model.loggedUser = loggedUser;
+            console.log('the roles available: ', authRoles);
+            
+            model.authRoles = authRoles;
+            
+
+
+			// model.upcommingProgram = [];
+			// // model.userFeedbacks = [];
 			// var memberId = loggedUser.member.id;
 			// authService
 			// 	.getMemberEvents(memberId)
 			// 	.then(function(registeredEvents){
-			// 		// The feedback list console.log('the registeredEvents list are: ', registeredEvents.data);
+			// 		// Fthe feedback listconsole.log('the registeredEvents list are: ', registeredEvents.data);
 			// 		model.registeredEventsList = registeredEvents.data;
 					
 			// 		// get the upcomming daily program item
@@ -48,21 +54,27 @@
 			// 	})
 			// 	;
 
-			// for(var j in model.userProfile.userEventParameters){
-			// 	for(var f in model.userProfile.userEventParameters[j].feedbacks){
-			// 		model.userFeedbacks.push(model.userProfile.userEventParameters[j].feedbacks[f]);
-			// 	}
-			// }
+			// // for(var j in model.userProfile.userEventParameters){
+			// // 	for(var f in model.userProfile.userEventParameters[j].feedbacks){
+			// // 		model.userFeedbacks.push(model.userProfile.userEventParameters[j].feedbacks[f]);
+			// // 	}
+			// // }
 
 		}
 		init();
-
+		model.selectedRole = null;
+		model.loginAs = loginAs;
 		model.logout = logout;
 		model.removeRegisteredEvent = removeRegisteredEvent;
 		model.totalPayments = totalPayments;
 		model.attendedDays = attendedDays;
 		model.trustedUrl = trustedUrl;
 		model.submitFeedback = submitFeedback;
+
+
+		function loginAs(selectedRole){
+			// console.log('the selected role: ', selectedRole);
+		}
 
 		function submitFeedback(eventId, feedbackText){
 			var feedbackObject = { memberId: loggedUser.member.id, eventId: eventId, details: feedbackText};

@@ -3,17 +3,17 @@
 		.module('whatsOnJordan')
 		.controller('homePageController', homePageController);
 
-	function homePageController(userService, $location, eventsService, $route, $interval){
+	function homePageController(authService, $location, eventsService, $route, $interval){
 		var model = this;
 		model.logout = logout;
 		model.getAllFeedbacks = getAllFeedbacks;
 
 		function init(){
-			userService
-				.checkUserLogin()
+			authService
+				.checkAuthLogin()
 				.then(function(result){
-					if(result){
-						model.loggedUser = result;
+					if(result.data){
+						model.loggedUser = result.data;
 						return;
 					}else{
 						model.loggedUser = null;
@@ -21,7 +21,7 @@
 					}
 				});
 
-			userService
+			authService
 				.getAllMakers()
 				.then(function(makers){
 					// console.log('the makers are: ', makers.data);
@@ -43,7 +43,7 @@
 					}		
 				});
 
-			userService
+			authService
 				.getAllFeedbacks()
 				.then(function(feedbacks){
 					// console.log('all feedbacks: ', feedbacks);
@@ -73,7 +73,7 @@
 				})
 
 			// function getTheFeedbacks(){
-			// 	userService
+			// 	authService
 			// 		.getAllFeedbacks()
 			// 		.then(function(result){
 			// 			model.feedbacks = result.data;	
@@ -115,7 +115,7 @@
 		init();
 
 		function getAllFeedbacks(){
-			userService
+			authService
 				.getAllFeedbacks()
 				.then(function(result){
 				});
@@ -123,7 +123,7 @@
 		}
 
 		function logout(){
-			userService
+			authService
 				.logout()
 				.then(function(){
 					$location.url('/');

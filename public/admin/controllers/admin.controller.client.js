@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('adminController', adminController);
 
-	function adminController(userService, eventsService, roleService, loggedAdmin, $location, $route) {
+	function adminController(authService, eventsService, roleService, loggedAdmin, $location, $route) {
 		var model = this;
 
 		function init() {
@@ -28,10 +28,10 @@
 		model.updateEventByAdmin = updateEventByAdmin;
 		model.getAllFeedbacks = getAllFeedbacks;
 		model.updateFeedbackByAdmin = updateFeedbackByAdmin;
-		model.setUserRole = setUserRole;
+		model.addAuthRole = addAuthRole;
 
 		function updateFeedbackByAdmin(feedback){
-			userService
+			authService
 				.updateFeedbackByAdmin(feedback)
 				.then(getAllFeedbacks);
 		}
@@ -39,7 +39,7 @@
 		function getAllFeedbacks(){
 			model.events = null;
 			model.users = null;
-			userService
+			authService
 				.getAllFeedbacks()
 				.then(function(feedbacks){
 					model.feedbacks = feedbacks.data;
@@ -49,7 +49,7 @@
 		function getAllUsers(){
 			model.events = null;
 			model.feedbacks = null;
-			return userService
+			return authService
 				.getAllUsers()
 				.then(function (users){
 					if(users){
@@ -79,16 +79,16 @@
 
 
 		function logout(){
-			userService
+			authService
 				.logout()
 				.then(function(){
 					$location.url('/');
 				});
 		}
 
-		function setUserRole(user){
-			userService
-				.setUserRole(user)
+		function addAuthRole(user){
+			authService
+				.addAuthRole(user)
 				.then(function(result){
 					console.log('user role has been changed');
 					$route.reload();

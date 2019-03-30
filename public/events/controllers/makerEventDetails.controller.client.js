@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('makerEventDetails', makerEventDetails);
 
-	function makerEventDetails($routeParams, eventsService, getterService, userService, $location, $route, loggedMaker) {
+	function makerEventDetails($routeParams, eventsService, getterService, authService, $location, $route, loggedMaker) {
 
 		var model = this;
 		model.logout = logout;
@@ -419,7 +419,7 @@
 							}
 						});
 					discount.normalEventPrice = 0;
-					userService
+					authService
 						.updateUserEventParameters(discount)
 						.then(function(result) {
 							if (result.data._id) {
@@ -431,7 +431,7 @@
 						});
 				} else {
 					discount.discountedEventPrice = 0;
-					userService
+					authService
 						.updateUserEventParameters(discount)
 						.then(function(result) {
 							if (result.data._id) {
@@ -589,7 +589,7 @@
 			payment.userId = userId;
 			payment.paymentDate = paymentDate;
 			payment.paymentAmount = paymentAmount;
-			userService
+			authService
 				.makePayment(payment)
 				.then(function(result) {
 					console.log('Payment done...');
@@ -685,7 +685,7 @@
 		// make it on the database
 		function confirmAttendance(totalAttended) {
 			console.log(totalAttended);
-			userService
+			authService
 				.confirmAttendance(totalAttended)
 				.then(function(result) {
 					console.log(result);
@@ -802,7 +802,7 @@
 				days: final
 			};
 			// make it on DB
-			userService
+			authService
 				.freezeMembership(freezeObject)
 				.then(function(result) {
 					console.log(result.data);
@@ -920,7 +920,7 @@
 
 
 		function logout() {
-			userService
+			authService
 				.logout()
 				.then(function() {
 					$location.url('/');
