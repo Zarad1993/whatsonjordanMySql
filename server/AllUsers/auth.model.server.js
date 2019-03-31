@@ -393,6 +393,7 @@ function findUserByGoogleId(googleId){
 	return authDB.findOne({'google.id' : googleId});
 }
 
+
 function createAuth(user){
 	// console.log('the contact: ', contact);
 	
@@ -403,7 +404,7 @@ function createAuth(user){
 							.create(user)
 							.then(function(addedUser){
 								return addedUser
-									.addRole(role, {through: {active: true, loggedWithin: false}})
+									.addRole(role, {through: {active: true}})
 									.then(function(authRole){
 										console.log('after add role: ', authRole[0][0]);	
 										return contactsDB
@@ -431,19 +432,21 @@ function createAuth(user){
 
 // in case of changing the user role like from user to maker by admin
 function addAuthRole(updatedUser){
-	
 	var newRole = updatedUser.newRole;
+	var newRoleId = newRole.id;
+	var newRoleName = newRole.name;
 	var userId = updatedUser.id;
 	console.log('the new role: ', newRole);
 	return authDB
 		.findById(userId)
 		.then(function(foundUser){
 			return foundUser
-				.addRole(newRole, { through: { active: true } })
+				.addRole(newRoleId, { through: { active: true } })
 				.then(function (authRole) {
 					console.log('after add role: ', authRole[0][0]);
+					// newRoleName = newRole.name;
 					return contactsDB
-						.addNewContact(authRole[0][0].id)
+						.addNewContact(authRole[0][0].id, newRoleName)
 						.then(function (addedContact) {
 							console.log('the foundUser: ', foundUser);
 							console.log('the created contact: ', addedContact);

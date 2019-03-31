@@ -172,10 +172,13 @@
 			var url = '/api/user/login';
 			return $http.post(url, {username: username, password: password})
 				.then(function(response) {
+					console.log('the logged auth: ', response);
 					if (response === null){
 						return '0';
+					}else{
+						
+						return response.data;
 					}
-					return response.data;
 				},
 				function(err){
 					return err;
@@ -198,7 +201,11 @@
 
 		function checkAuthLogin(){
 			var url = '/api/checkAuthLogin';
-			return $http.get(url);
+			return $http
+					.get(url)
+					.then(function(result){
+						return result.data;
+					})
 		}
 
 		function getAuthRoles(){

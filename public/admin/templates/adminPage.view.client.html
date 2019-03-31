@@ -99,7 +99,7 @@
 				</td>
 				<td>
 					<!-- <select id="role" ng-model="user.roleId" ng-options="role.id as role.role for role in model.roles"> -->
-					<select id="role" ng-model="user.newRole" ng-options="role.id as role.name for role in model.roles"></select>
+					<select id="role" ng-model="user.newRole" ng-options="role as role.name for role in model.roles"></select>
 				</td>
 				
 				<td>

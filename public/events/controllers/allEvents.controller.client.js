@@ -15,8 +15,8 @@
 			authService
 					.checkAuthLogin()
 					.then(function(result){
-						if(result.data){
-							model.loggedUser = result.data;
+						if(result){
+							model.loggedUser = result;
 							// Calculate the logged user age and add the age to the user's object
 							var birthDay = new Date(model.loggedUser.member.DOB);
 							var today = new Date();

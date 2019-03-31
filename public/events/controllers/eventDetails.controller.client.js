@@ -18,8 +18,8 @@
 				authService
 					.checkAuthLogin()
 					.then(function(result){
-						if(result.data){
-							model.loggedUser = result.data;
+						if(result){
+							model.loggedUser = result;
 							model.loggedUser.member.DOB = new Date(model.loggedUser.member.DOB);
 						}
 					});

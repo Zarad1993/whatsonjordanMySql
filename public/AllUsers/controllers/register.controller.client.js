@@ -10,8 +10,8 @@
 			authService
 					.checkAuthLogin()
 					.then(function(auth){
-						if(auth.data){
-							model.loggedUser = auth.data;
+						if(auth){
+							model.loggedUser = auth;
 						}
 					});
 		}

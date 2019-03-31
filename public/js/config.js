@@ -200,12 +200,11 @@
 		authService
 			.checkAuthLogin()
 			.then(function(user){
-				if(user.data === null){
+				if(user === null){
 					deferred.reject();
 					$location.url('/login');
-				} else if (user.data.chosenRole == 'Member'){
-					// console.log('from isUser in config: ', user);
-						deferred.resolve(user.data);
+				} else if (user.chosenRole == 'Member' || user.roles[0].name == "Member"){
+					deferred.resolve(user);
 				}
 			});
 		return deferred.promise;
@@ -217,10 +216,10 @@
 			// .isMaker()
 			.checkAuthLogin()
 			.then(function(maker){
-				if(maker.data === null){
+				if(maker === null){
 					deferred.reject();
 					$location.url('/login');
-				} else if(maker.data.chosenRole == 'Organizer'){
+				} else if(maker.chosenRole == 'Organizer'){
 					deferred.resolve(maker);
 				}else{
 					deferred.reject();
@@ -267,10 +266,15 @@
 		authService
 			.checkAuthLogin()
 			.then(function(result){
-				var user = result.data;
+				var user = result;
 				console.log('the result of check user login', user);
-				var route = '/' + user.chosenRole + 'Profile';
-				$location.url(route);
+				if(user.roles.length > 1){
+					var route1 = '/' + user.chosenRole + 'Profile';
+					$location.url(route1);
+				}else{
+					var route2 = '/' + user.roles[0].name + 'Profile';
+					$location.url(route2);
+				}
 
 				
 				// if(user.roles.length > 1){

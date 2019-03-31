@@ -34,7 +34,7 @@
             <li class="nav-item">
               <a class="nav-link" href="#!/contact">Contact</a>
             </li>
-            <form class="form-inline my-2 my-lg-0" ng-show="model.loggedMaker">
+            <form class="form-inline my-2 my-lg-0" ng-show="model.loggedMaker.roles.length>1">
               <a class="btn btn-outline-success my-2 my-sm-0" href="#!/login">Switch profile</a>
             </form>
             
@@ -46,12 +46,11 @@
 <!-- /Navigation -->
 
 
-
 <div class="container container-top-125">
-	<div>
-		<h3 class="text-danger">Maker Profile:</h3>
+  <div>
+    <h3 class="text-danger">Maker Profile:</h3>
     <hr>
-    {{model.makerProfile}}
+    <!-- {{model.makerProfile}} -->
 		<h5>Name: {{model.makerProfile.maker.firstName}} {{model.makerProfile.maker.middleName}} {{model.makerProfile.maker.lastName}}</h5>
 		<h5>Email: {{model.makerProfile.email}}</h5>
 		<h5>Phone 1: {{model.makerProfile.maker.contact.phone1}}</h5>
@@ -59,7 +58,7 @@
     <!-- <h5>Emergency Contact Name: {{model.makerProfile.contact.emergency.name}}</h5> -->
     <h5>Emergency Phone number: {{model.makerProfile.maker.contact.emergency}}</h5>
     <!-- <h5>Notes: {{model.makerProfile.notes}}</h5> -->
-
+    
 	</div>
 	<br>
 	<div>

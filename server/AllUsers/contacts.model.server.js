@@ -14,16 +14,26 @@ function findContactByXAuthRoleId(authRoleId){
     return contactsDB.findOne({ xAuthsRoleId: authRoleId});
 }
 
-function addNewContact(authRoleId) {
+function addNewContact(authRoleId, roleName) {
     console.log('the authRoleId', authRoleId);
-    
-    return contactsDB
+    console.log('the role name is: ', roleName);
+    if(roleName && roleName=='Organizer'){
+        return contactsDB
+            .create({ type: 'Organization', xAuthRoleId: authRoleId} );
+            // .then(function (createdContact) {
+            //     // createdContact.xAuthRoleId = authRoleId;
+            //     return createdContact;
+
+            // })
+    }else{
+        return contactsDB
                 .create()
                 .then(function(createdContact){
                     createdContact.xAuthRoleId = authRoleId;
-                    return createdContact.save();
-                                
+                    return createdContact.save();                            
                 })
+    }
+    
 }
 
 

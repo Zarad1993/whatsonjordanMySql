@@ -18,8 +18,8 @@
 					.checkAuthLogin()
 					.then(function(result){
 						// console.log('from login controller', result);
-						if(result.data){
-							model.loggedAuth = result.data;
+						if(result){
+							model.loggedAuth = result;
 							selectRole();
 						}else{
 							return;
@@ -48,13 +48,15 @@
 					// if sccess
 					function(matchedAuth){
 						console.log('the matchedAuth: ', matchedAuth);
-						if(matchedAuth === "Bad Request"){
+						if(matchedAuth.data === "Bad Request"){
 							model.error = 'Please double check the email field';
 							return;
-						}else if (matchedAuth === "Unauthorized") {
+						}else if (matchedAuth.data === "Unauthorized") {
 							model.error = 'Please check your email and/or password';
 							return;
 						} else {
+							console.log('matchedAuth', matchedAuth);
+							
 							model.loggedAuth = matchedAuth;
 							selectRole();
 							return;
@@ -89,6 +91,8 @@
 		}
 
 		function selectRole(){
+			console.log('the logged auth: ', model.loggedAuth);
+			
 			if (model.loggedAuth.roles.length > 1) {
 				for (var i in model.loggedAuth.roles) {
 					if (model.loggedAuth.roles[i].x_auth_role.active) {

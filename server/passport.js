@@ -13,7 +13,14 @@ module.exports = function(passport) {
     // used to serialize the user for the session
     function serializeUser(auth, done) {
         console.log('serialize step 6');
-        done(null, auth);
+        authDB
+            .getAuthDetails(auth.id)
+            .then(function (foundAuth) {
+                done(null, foundAuth);
+            },
+                function (err) {
+                    done(err, null);
+                });
     }
 
     // used to deserialize the user
