@@ -78,9 +78,9 @@ db.ExpenseType = require('./models/expenseType.model');
 // new structure:
 db.Auth.belongsToMany(db.Role, { through: db.X_Auth_Role });
 
-
 db.Auth.hasMany(db.Contact);
-// db.Auth.hasOne(db.Contact);
+
+db.Contact.hasOne(db.Phone);
 
 
 
