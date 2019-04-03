@@ -1,7 +1,7 @@
 
 var db = require('../databse');
 // console.log('the db object:', Object.keys(db));
-var roleDB = db.Roles;
+var roleDB = db.Role;
 
 db.sequelize.sync();
 

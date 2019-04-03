@@ -40,7 +40,7 @@
 					.createAuth(auth)
 					.then(function(createdAuth){
 						console.log('the created auth: ', createdAuth);
-						if (createdAuth.data.errors > 0) {
+						if (createdAuth.data.errors && createdAuth.data.errors.length > 0) {
 							if (createdAuth.data.errors[0].message == 'email must be unique'){
 								model.error = 'Email already exist';
 							}

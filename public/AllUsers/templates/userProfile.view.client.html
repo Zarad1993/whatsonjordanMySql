@@ -49,12 +49,12 @@
 		<div class="col-md-3" style="background-color: lightgreen; padding: 30px;">
 			<img ng-src="{{model.userProfile.profileImage.location}}" class="mx-auto d-block profile-img">		
 			<br>
-			<h1 class="poiret-font" style="text-align: center;"><strong>{{model.userProfile.member.firstName}} {{model.userProfile.member.middleName}} {{model.userProfile.member.lastName}}</strong></h1>
+			<h1 class="poiret-font" style="text-align: center;"><strong>{{model.userProfile.contact.name}}</strong></h1>
 			<div style="text-align: center;">
 				<a class="btn btn-warning" href="#!/updateUserProfile" > <i class="fas fa-pencil-alt"></i>Update profile</a>
 			</div>
 			<br>
-			<h4><i class="fas fa-envelope"></i><span> {{model.userProfile.email}}</span></h4>
+			<h4><i class="fas fa-envelope"></i><span> {{model.loggedUser.email}}</span></h4>
 			<h4><i class="fas fa-birthday-cake"></i> {{model.userProfile.member.DOB |date}}</h4>
 			<h4><i class="fas fa-transgender"></i> {{model.userProfile.member.gender}}</h4>
 			<h4><i class="fas fa-map-marked-alt"></i> {{model.userProfile.member.address.country}}, {{model.userProfile.member.address.province}} - {{model.userProfile.member.address.city}} - {{model.userProfile.member.address.street}} street</h4>

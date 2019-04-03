@@ -676,6 +676,7 @@ function getAllUsers(req, res) {
 		});
 }
 
+
 function getAllMakers(req, res){
 	makersDB
 		.getAllMakers()

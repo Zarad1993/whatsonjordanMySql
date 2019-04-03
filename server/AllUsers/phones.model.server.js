@@ -1,5 +1,5 @@
 var db = require('../databse');
-var phonesDB = db.Phones; // require('../models/phone.model');
+var phonesDB = db.Phone; // require('../models/phone.model');
 
 db.sequelize.sync();
 

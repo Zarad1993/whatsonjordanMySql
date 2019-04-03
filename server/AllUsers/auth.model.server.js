@@ -7,13 +7,13 @@ var db = require('../databse');
 // console.log('the db object:', Object.keys(db));
 
 
-var authDB = db.Auths; // require('../models/user.model');
+var authDB = db.Auth; // require('../models/user.model');
 var membersDB = require('./members.model.server');
 var makersDB = require('./makers.model.server');
 var Contact = db.Contact; // require('../models/contact.model');
 var contactsDB = require('./contacts.model.server');
-var x_auths_roles = require('../models/x_auths_roles.model')
-var Roles = db.Roles;
+var x_auth_role = db.X_Auth_Role;
+var Roles = db.Role;
 var Member = db.Member; // require('../models/member.model');
 var Maker = db.Maker; // require('../models/maker.model');
 var School = db.School; // require('../models/school.model');
@@ -62,45 +62,21 @@ function getAuthDetails(userId){
 			where: { id: userId },
 			attributes: { exclude: ['password', 'resetPasswordExpires', 'resetPasswordToken']},
 			include: [
-					{all: true}
-				// { model: Roles, include: [{ model: x_auths_roles, include: [{all:true}]}]},
-
-				// {
-				// 	model: Member, include: [
-				// 		Contact, Address, Nationality, School, Grade
-				// 	]
-				// },
-				// {
-				// 	model: Maker, include: [
-				// 		{all: true}
-				// 	]
-				// }
+				{all: true}
 			]
 			})
 		.then(function(user){
-			// for(var i in user.roles){
-			// 	contactsDB	
-			// 		.findContactByXAuthRoleId(user.roles[i].x_auth_role.id)
-			// 		.then(function(foundContact){
-						
-			// 			var contact = foundContact.get({plain: true});
-			// 			console.log('the founded contact', contact);
-			// 			user.roles[i].contact = contact;
-						
-			// 		});
-			// 	}
-				// return contactsDB
-				// 	.findContactByXAuthRoleId(user.roles[0].x_auth_role.id)
-				// 	.then(function(foundContact){
-					// 		// var finalUser = user.get({plain: true});
-					// 		finalUser.contact = foundContact.get({plain: true});
-					
-					// console.log('the final user', user);
-			// console.log('the user details on getAuthDetails: ', user.roles[0].x_auth_role);
-					// console.log('the x_auths_roles on getAuthDetails: ', user.roles[0].x_auths_roles);
-					return user;
-				// })
-		})
+				var plainUser = user.get({plain: true});
+				return contactsDB
+					.findContactsByAuthId(plainUser.id)
+					.then(function(foundContacts){
+						for(var i in plainUser.roles){
+							plainUser.roles[i].contact = foundContacts[i].get({plain: true});
+						}
+						console.log('the user after add contacts: ', plainUser);
+						return plainUser;
+					});
+		});
 }
 
 function updateFeedbackByAdmin(feedback){
@@ -396,22 +372,31 @@ function findUserByGoogleId(googleId){
 
 function createAuth(user){
 	// console.log('the contact: ', contact);
-	
+	var rolename = '';
+	if (user.email == 'admin@email.com'){
+		rolename = 'Admin';
+	}else{
+		rolename = 'Member';
+	}
 	// prepare the roles:
-	return Roles.findOne({where: {name: "Member"}})
+	return Roles.findOne({where: {name: rolename}})
 				.then(function(role){
 					return authDB
 							.create(user)
 							.then(function(addedUser){
 								return addedUser
-									.addRole(role, {through: {active: true}})
-									.then(function(authRole){
-										console.log('after add role: ', authRole[0][0]);	
-										return contactsDB
-											.addNewContact(authRole[0][0].id)
-											.then(function (addedContact) {
+								.addRole(role, {through: {active: true}})
+								.then(function(authRole){
+									console.log('the created authRole ',authRole[0][0].id);
+									
+									return contactsDB
+										.addNewContact(addedUser.id, null)
+										.then(function (addedContact) {
+										// console.log('after add role: ', authRole[0][0]);	
+												
 												console.log('the addedUser: ', addedUser);
 												console.log('the created contact: ', addedContact);
+												// console.log('the created authRole: ', authRole);
 													
 												return addedUser;
 												
@@ -441,13 +426,13 @@ function addAuthRole(updatedUser){
 		.findById(userId)
 		.then(function(foundUser){
 			return foundUser
-				.addRole(newRoleId, { through: { active: true } })
-				.then(function (authRole) {
+			.addRole(newRoleId, { through: { active: true } })
+			.then(function (authRole) {
+				return contactsDB
+					.addNewContact(foundUser.id, newRoleName)
+					.then(function (addedContact) {
 					console.log('after add role: ', authRole[0][0]);
 					// newRoleName = newRole.name;
-					return contactsDB
-						.addNewContact(authRole[0][0].id, newRoleName)
-						.then(function (addedContact) {
 							console.log('the foundUser: ', foundUser);
 							console.log('the created contact: ', addedContact);
 

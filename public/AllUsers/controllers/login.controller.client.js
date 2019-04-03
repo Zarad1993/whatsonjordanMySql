@@ -54,34 +54,11 @@
 						}else if (matchedAuth.data === "Unauthorized") {
 							model.error = 'Please check your email and/or password';
 							return;
-						} else {
-							console.log('matchedAuth', matchedAuth);
-							
+						} else {						
 							model.loggedAuth = matchedAuth;
 							selectRole();
 							return;
-							// if (matchedAuth.roles.length > 1){
-							// 	for (var i in matchedAuth.roles){
-							// 		if (matchedAuth.roles[i].x_auth_role.active){
-							// 			model.authRoles.push(matchedAuth.roles[i]);
-							// 		}
-							// 	}
-							// 	console.log('available roles: ', model.authRoles);
-							// 	if(model.authRoles.length > 1){
-							// 		// model.selectRole = true;
-							// 		$(function () {
-							// 			$('#chooseRoleModal').modal('show');
-							// 		});
-							// 	}else{
-							// 		$location.url('/profile');
-							// 	}
-							// }else{
-							// 	$location.url('/profile');
-							// }
-							// return;
 						}
-							////////////
-
 					},
 					// if error
 					function(err){

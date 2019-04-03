@@ -1,25 +1,26 @@
 var db = require('../databse');
-var contactsDB = db.Contacts;  // require('../models/ageGroup.model');
+var contactsDB = db.Contact;  // require('../models/ageGroup.model');
+var x_auth_role = db.X_Auth_Role;
+var auth = db.Auth;
+var role = db.Role;
 
 db.sequelize.sync();
 
 module.exports = contactsDB;
 
 contactsDB.addNewContact = addNewContact;
-contactsDB.getAllContacts = getAllContacts;
-contactsDB.findContactByXAuthRoleId = findContactByXAuthRoleId;
+contactsDB.findContactsByAuthId = findContactsByAuthId;
 
 
-function findContactByXAuthRoleId(authRoleId){
-    return contactsDB.findOne({ xAuthsRoleId: authRoleId});
-}
 
-function addNewContact(authRoleId, roleName) {
-    console.log('the authRoleId', authRoleId);
-    console.log('the role name is: ', roleName);
+function addNewContact(authId, roleName) {
+    // console.log('the authRoleId', authRoleId);
+    // console.log('the role name is: ', roleName);
+    console.log('the authId: ', authId);
+    
     if(roleName && roleName=='Organizer'){
         return contactsDB
-            .create({ type: 'Organization', xAuthRoleId: authRoleId} );
+            .create({ type: 'Organization', authId: authId} );
             // .then(function (createdContact) {
             //     // createdContact.xAuthRoleId = authRoleId;
             //     return createdContact;
@@ -27,17 +28,17 @@ function addNewContact(authRoleId, roleName) {
             // })
     }else{
         return contactsDB
-                .create()
-                .then(function(createdContact){
-                    createdContact.xAuthRoleId = authRoleId;
-                    return createdContact.save();                            
-                })
+                .create({authId: authId});
+                // .then(function(createdContact){
+                //     createdContact.xAuthRoleId = authRoleId;
+                //     return createdContact.save();                            
+                // })
     }
     
 }
 
-
-function getAllContacts() {
-    return contactsDB.findAll({});
+function findContactsByAuthId(authId){
+    return contactsDB.findAll({where: {authId: authId}});
 }
+
 

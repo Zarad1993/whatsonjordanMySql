@@ -11,9 +11,19 @@
 				$location.url('/login');
 				return;
 			}
-			model.userProfile = loggedUser;
+			console.log('the userProfile: ', loggedUser);
+			
+			// model.userProfile = loggedUser;
 			model.loggedUser = loggedUser;
 			model.upcommingProgram = [];
+
+			for(var i in loggedUser.roles){
+				if (loggedUser.roles[i].name == loggedUser.chosenRole){
+					model.userProfile = loggedUser.roles[i]; 
+				}
+			}
+
+
 			// model.userFeedbacks = [];
 			// var memberId = loggedUser.member.id;
 			// authService

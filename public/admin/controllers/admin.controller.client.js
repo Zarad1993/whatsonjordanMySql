@@ -15,10 +15,14 @@
 				.then(function(roles){
 					model.roles = roles.data;
 				})
+
+			
 			model.loggedAdmin = loggedAdmin;
-			model.adminPage = loggedAdmin;
+			// model.adminPage = loggedAdmin;
 			model.users = null;
 			model.events = null;
+			console.log('the logged in is: ', model.loggedAdmin);
+			
 		}
 		init();
 
@@ -54,9 +58,13 @@
 				.then(function (users){
 					if(users){
 						model.users = users.data;
+						console.log('the users are: ', users);
+						
 					}
 				});
 		}
+
+		
 
 		function getAllEvents(){
 			model.users = null;

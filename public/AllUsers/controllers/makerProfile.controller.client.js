@@ -18,13 +18,21 @@
 			if(!loggedMaker){
 				$location.url('/login');
 			}
+			
 			model.loggedMaker = loggedMaker;
+
+			console.log('the logged in is: ', model.loggedMaker);
+			
 			
 			
 			// if (loggedMaker.DOB){
 			// 	loggedMaker.DOB = new Date(loggedMaker.DOB);
 			// }
-			model.makerProfile = loggedMaker;
+			for(var i in loggedMaker.roles){
+				if (loggedMaker.roles[i].name == loggedMaker.chosenRole){
+					model.makerProfile = loggedMaker.roles[i];
+				}
+			}
 			
 			// eventsService
 			// 	.findEventsByMakerId(loggedMaker.maker.id)

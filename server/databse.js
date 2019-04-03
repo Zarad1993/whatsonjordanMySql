@@ -47,12 +47,12 @@ db.sequelize
 module.exports = db;
 
 // new structure
-db.Auths = require('./models/auths.model');
-db.Roles = require('./models/Roles.model');
+db.Auth = require('./models/auths.model');
+db.Role = require('./models/Roles.model');
 db.X_Auth_Role = require('./models/x_auths_roles.model');
 // db.DetailsCollection = require('./models/detailsCollection.model');
-db.Contacts = require('./models/contacts.model'); // hold the (type: [individual, organizatio], name) connected to Auths
-db.Phones = require('./models/phones.model'); // holds the (contactId, number)
+db.Contact = require('./models/contacts.model'); // hold the (type: [individual, organizatio], name) connected to Auths
+db.Phone = require('./models/phones.model'); // holds the (contactId, number)
 
 
 db.Member = require('./models/member.model');
@@ -76,15 +76,11 @@ db.ExpenseType = require('./models/expenseType.model');
 				 	Relations
    **************************************************** */
 // new structure:
-db.Auths.belongsToMany(db.Roles, { through: db.X_Auth_Role });
+db.Auth.belongsToMany(db.Role, { through: db.X_Auth_Role });
 
-// db.Auths.hasMany(db.Contacts);
-// db.X_Auths_Roles.belongsTo(db.Contacts);
-db.Contacts.belongsTo(db.X_Auth_Role);
 
-// db.User.belongsTo(db.UserType);
-// db.User.belongsTo(db.Member);
-// db.User.belongsTo(db.Maker);
+db.Auth.hasMany(db.Contact);
+// db.Auth.hasOne(db.Contact);
 
 
 
@@ -150,7 +146,7 @@ function addExpenseTypes() {
 function createRoles(){
 	var roles = ['Member', 'Organizer', 'Coach', 'Employee', 'Admin'];
 	for (var i in roles){
-		db.Roles.create({name: roles[i]})
+		db.Role.create({name: roles[i]})
 	}
 
 }
