@@ -50,34 +50,26 @@
 			
 			.when('/profile', {
 				resolve: {
-					loggedUser: checkAuthRole
+					loggedMember: checkAuthRole
 				}
 			})
 
-			// .when('/chooseRole', {
-			// 	templateUrl: 'AllUsers/templates/chooseRole.view.client.html',
-			// 	controller: 'chooseRoleController',
-			// 	controllerAs: 'model',
-			// 	resolve: {
-			// 		authRoles: getAuthRoles
-			// 	}
-			// })
 			
 			.when('/MemberProfile', {
-				templateUrl: 'AllUsers/templates/userProfile.view.client.html',
-				controller: 'userProfileController',
+				templateUrl: 'AllUsers/templates/memberProfile.view.client.html',
+				controller: 'memberProfileController',
 				controllerAs: 'model',
 				resolve: {
-					loggedUser: isUser
+					loggedMember: isMember
 				}
 			})
 			
-			.when('/updateUserProfile', {
-				templateUrl:'AllUsers/templates/updateUserProfile.view.client.html',
-				controller: 'updateUserProfile',
+			.when('/updateMemberProfile', {
+				templateUrl:'AllUsers/templates/updateMemberProfile.view.client.html',
+				controller: 'updateMemberProfile',
 				controllerAs: 'model',
 				resolve:{
-						loggedUser: isUser
+						loggedMember: isMember
 				}
 			})
 
@@ -86,7 +78,7 @@
 			// 	controller: 'makerProfileController',
 			// 	controllerAs: 'model',
 			// 	resolve: {
-			// 		loggedMaker: isMaker
+			// 		loggedMaker: isOrganizer
 			// 	}
 			// })
 
@@ -95,7 +87,7 @@
 				controller: 'makerProfileController',
 				controllerAs: 'model',
 				resolve: {
-					loggedMaker: isMaker
+					loggedMaker: isOrganizer
 				}
 				// key: 'Organizer'
 			})
@@ -105,7 +97,7 @@
 				controller: 'makerProfileController',
 				controllerAs: 'model',
 				resolve:{
-					loggedMaker: isMaker
+					loggedMaker: isOrganizer
 				}
 			})
 
@@ -132,7 +124,7 @@
 				controller:   'makerEventsListController',
 				controllerAs: 'model',
 				resolve: {
-					loggedMaker: isMaker
+					loggedMaker: isOrganizer
 				}
 			})
 
@@ -142,7 +134,7 @@
 				controller: 'makerNewEventController',
 				controllerAs: 'model',
 				resolve: {
-					loggedMaker: isMaker
+					loggedMaker: isOrganizer
 				}
 			})
 
@@ -151,7 +143,7 @@
 				controller: 'makerReNewEventController',
 				controllerAs: 'model',
 				resolve: {
-					loggedMaker: isMaker
+					loggedMaker: isOrganizer
 				}
 			})
 
@@ -160,7 +152,7 @@
 				controller: 'makerEditEventController',
 				controllerAs: 'model',
 				resolve: {
-					loggedMaker: isMaker
+					loggedMaker: isOrganizer
 				}
 			})
 
@@ -169,7 +161,7 @@
 				controller: 'makerEventDetails',
 				controllerAs: 'model',
 				resolve: {
-					loggedMaker: isMaker
+					loggedMaker: isOrganizer
 				}
 			})
 
@@ -178,7 +170,7 @@
 			// 	controller: 'adminController',
 			// 	controllerAs: 'model',
 			// 	resolve: {
-			// 		loggedUser: checkAuthLogin
+			// 		loggedMember: checkAuthLogin
 			// 	}
 			// })
 			.when('/contact', {
@@ -195,7 +187,7 @@
 	}
 	
 	// check the user if still logged in through the server cockies if the user logged in he is in the cockies based on that we can protect the url
-	function isUser(authService, $q, $location){
+	function isMember(authService, $q, $location){
 		var deferred = $q.defer();
 		authService
 			.checkAuthLogin()
@@ -203,24 +195,42 @@
 				if(user === null){
 					deferred.reject();
 					$location.url('/login');
-				} else if (user.chosenRole == 'Member' || user.roles[0].name == "Member"){
-					deferred.resolve(user);
+				} else if (user.roles.length == 1 && user.roles[0].name == "Member"){
+					user.roles[0].email = user.email;
+					console.log('the member details: ', user.roles[0]);
+					deferred.resolve({chosenRole: user.roles[0], allRoles: user});
+				} else if(user.chosenRole == 'Member'){
+					console.log('the user details all: ', user);
+					for(var i in user.roles){
+						if(user.roles[i].name == user.chosenRole){
+							user.roles[i].email = user.email;
+							deferred.resolve({ chosenRole: user.roles[i], allRoles: user });
+						}
+					}
+					
+					// deferred.resolve(user);
 				}
 			});
 		return deferred.promise;
 	}
 
-	function isMaker(authService, $q, $location){
+	function isOrganizer(authService, $q, $location){
 		var deferred = $q.defer();
 		authService
-			// .isMaker()
+			// .isOrganizer()
 			.checkAuthLogin()
 			.then(function(maker){
 				if(maker === null){
 					deferred.reject();
 					$location.url('/login');
 				} else if(maker.chosenRole == 'Organizer'){
-					deferred.resolve(maker);
+					for (var i in maker.roles) {
+						if (maker.roles[i].name == maker.chosenRole) {
+							maker.roles[i].email = maker.email;
+							deferred.resolve({chosenRole: maker.roles[i], allRoles: maker});
+						}
+					}
+					// deferred.resolve(maker);
 				}else{
 					deferred.reject();
 					$location.url('/login');

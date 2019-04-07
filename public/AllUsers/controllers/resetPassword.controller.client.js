@@ -5,7 +5,7 @@
 
 	function resetPasswordController(authService, $location, $routeParams) {
 		var model = this;
-		model.loggedUser = undefined;
+		model.loggedMember = undefined;
 		model.logout = logout;
 		model.resetPassword = resetPassword;
 		model.msg = null;
@@ -25,7 +25,7 @@
 					.then(function(user){
 						if(user.data.email){
 							console.log('The password changed successfully...');
-							model.loggedUser = user;
+							model.loggedMember = user;
 							$location.url('/profile');
 						}else{
 							model.msg = 'Please resend the password reset request; double check the email submitted is correct and reset the password within one hour from the time of send the reset password request!';

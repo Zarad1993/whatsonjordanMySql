@@ -19,13 +19,13 @@
               <a class="nav-link" href="#!/allEvents">Events</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#!/login" ng-show="!model.loggedMaker">Login</a>
+              <a class="nav-link" href="#!/login" ng-show="!model.makerProfile">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedMaker">Logout</a>
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.makerProfile">Logout</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedMaker">Profile</a>
+              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.makerProfile">Profile</a>
             </li>
             
             <li class="nav-item">
@@ -34,7 +34,7 @@
             <li class="nav-item">
               <a class="nav-link" href="#!/contact">Contact</a>
             </li>
-            <form class="form-inline my-2 my-lg-0" ng-show="model.loggedMaker.roles.length>1">
+            <form class="form-inline my-2 my-lg-0" ng-show="model.allRoles.roles.length>1">
               <a class="btn btn-outline-success my-2 my-sm-0" href="#!/login">Switch profile</a>
             </form>
             
@@ -52,9 +52,10 @@
     <hr>
     <!-- {{model.makerProfile}} -->
 		<h5>Name: {{model.makerProfile.contact.name}}</h5>
-		<h5>Email: {{model.loggedMaker.email}}</h5>
-		<h5>Phone 1: {{model.makerProfile.maker.contact.phone1}}</h5>
-    <h5>Phone 2: {{model.makerProfile.maker.contact.phone2}}</h5>
+		<h5>Email: {{model.makerProfile.email}}</h5>
+    
+    <h5>Phone 1: {{model.makerProfile.contact.phone1}}</h5>
+    <h5>Phone 2: {{model.makerProfile.contact.phone2}}</h5>
     <!-- <h5>Emergency Contact Name: {{model.makerProfile.contact.emergency.name}}</h5> -->
     <h5>Emergency Phone number: {{model.makerProfile.maker.contact.emergency}}</h5>
     <!-- <h5>Notes: {{model.makerProfile.notes}}</h5> -->
@@ -80,7 +81,7 @@
 			    <h5 class="card-title">Category: {{event.category.category}}</h5>
 			    <h5 class="card-title">Sub-Category: {{event.subCategory.subcategory}}</h5>
 			    <p class="card-text">Details: {{event.details}}</p>
-			    <!-- <a href="" ng-click="model.removeRegisteredEvent(model.userProfile._id, event._id)" class=" btn btn-default pull-right">Remove...</a> -->
+			    <!-- <a href="" ng-click="model.removeRegisteredEvent(model.memberProfile._id, event._id)" class=" btn btn-default pull-right">Remove...</a> -->
 			  </div>
 			</div>
 		</div>

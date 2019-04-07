@@ -1,15 +1,30 @@
 (function() {
 	angular
 		.module('whatsOnJordan')
-		.controller('updateUserProfile', updateUserProfile);
+		.controller('updateMemberProfile', updateMemberProfile);
 
-	function updateUserProfile(authService, getterService, schoolsService, nationalitiesService, loggedUser, $location) {
+	function updateMemberProfile(authService, getterService, schoolsService, nationalitiesService, loggedMember, $location) {
 		var model = this;
 
 		function init() {
-			loggedUser.member.DOB = new Date(loggedUser.member.DOB);
-			model.userProfile = loggedUser;
-			model.loggedUser = loggedUser;
+			
+			model.memberProfile = loggedMember.chosenRole;
+			model.allRoles = loggedMember.allRoles;
+
+
+			if (model.memberProfile.contact.DOB){
+				model.memberProfile.contact.DOB = new Date(model.memberProfile.contact.DOB);
+			}
+			
+			// model.memberProfile = loggedMember;
+			// model.loggedMember = loggedMember;
+			
+			getterService
+				.getPhoneTypes()
+				.then(function(phoneTypes){
+					model.phoneTypes = phoneTypes.data;
+				})
+
 			getterService
 				.getAllGrades()
 				.then(function(result){
@@ -35,7 +50,7 @@
 		model.logout = logout;
 		model.removeRegisteredEvent = removeRegisteredEvent;
 		model.updateProfile = updateProfile;
-		// model.DOB = new Date(loggedUser.DOB);
+		// model.DOB = new Date(loggedMember.DOB);
 
 		function updateProfile(updatedUserProfile){
 			authService
@@ -72,7 +87,7 @@
 		function removeRegisteredEvent(eventId){
 			// var _userId = $routeParams.userId;
 			authService
-				.removeRegisteredEvent(loggedUser._id, eventId)
+				.removeRegisteredEvent(loggedMember._id, eventId)
 				.then(function(response){
 					$location.url('/profile');
 				});

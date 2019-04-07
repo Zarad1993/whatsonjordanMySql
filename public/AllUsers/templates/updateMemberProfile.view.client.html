@@ -20,13 +20,13 @@
               <a class="nav-link" href="#!/allEvents">Events</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#!/login" ng-show="!model.loggedUser">Login</a>
+              <a class="nav-link" href="#!/login" ng-show="!model.memberProfile">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedUser">Logout</a>
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.memberProfile">Logout</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedUser">Profile</a>
+              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.memberProfile">Profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#!/about">About</a>
@@ -34,7 +34,7 @@
             <li class="nav-item">
               <a class="nav-link" href="#!/contact">Contact</a>
 						</li>
-						<form class="form-inline my-2 my-lg-0" ng-show="model.loggedUser.roles.length>1">
+						<form class="form-inline my-2 my-lg-0" ng-show="model.allRoles.roles.length>1">
 							<a class="btn btn-outline-success my-2 my-sm-0" href="#!/login">Switch profile</a>
 						</form>
           </ul>
@@ -51,12 +51,12 @@
 <div class="container container-top-125">
 			
 	<div class="jumbotron" >
-		<img ng-src="{{model.userProfile.profileImage.location}}" class="mx-auto d-block profile-img">
+		<img ng-src="{{model.memberProfile.contact.profileImage}}" class="mx-auto d-block profile-img">
 		
 
 		<!-- <h5>Update profile image: </h5>
 		<p>Note: The uploaded picture should be less than 1 mg and with the following extension (jpeg, jpg, png, gif)</p>
-		<div class="alert alert-danger" role="alert" ng-show="model.userProfile.profileImage.size > 1000000">
+		<div class="alert alert-danger" role="alert" ng-show="model.memberProfile.profileImage.size > 1000000">
   			The uploaded picture should be less than 1MB.
 		</div> -->
 
@@ -88,45 +88,45 @@
 		  <div class="form-row">
 			    <div class="form-group col-md-4">
 			      <label for="firstName">First Name</label>
-			      <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="model.userProfile.member.firstName">
+			      <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="model.memberProfile.contact.firstName">
 			    </div>
 			    <div class="form-group col-md-4">
 			      <label for="middleName">Middle Name</label>
-			      <input type="text" class="form-control" id="middleName" placeholder="Middle Name" ng-model="model.userProfile.member.middleName">
+			      <input type="text" class="form-control" id="middleName" placeholder="Middle Name" ng-model="model.memberProfile.contact.middleName">
 			    </div>
 			    <div class="form-group col-md-4">
 			      <label for="lastName">Last Name</label>
-			      <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="model.userProfile.member.lastName">
+			      <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="model.memberProfile.contact.lastName">
 			    </div>
 		  </div>
 
 		  <div class="form-row">
 			    <div class="form-group col-md-4">
 			      <label for="gender">Gender</label>
-			      <select id="gender" class="form-control" ng-model="model.userProfile.member.gender">
+			      <select id="gender" class="form-control" ng-model="model.memberProfile.contact.gender">
 			        <option>Male</option>
 			        <option>Female</option>
       			</select>
 			    </div>
 			    <div class="form-group col-md-4">
 						<label for="DOB">Date of birth</label>
-			      <input type="date" class="form-control" id="DOB" placeholder="Date of birth" ng-model="model.userProfile.member.DOB">
+			      <input type="date" class="form-control" id="DOB" placeholder="Date of birth" ng-model="model.memberProfile.contact.DOB">
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label for="nationality">nationality</label>
-						<select id="nationality" class="form-control" ng-model="model.userProfile.member.nationalityId"
+						<select id="nationality" class="form-control" ng-model="model.memberProfile.contact.nationalityId"
 							ng-options="nationality.id as nationality.nationality for nationality in model.nationalities">
 						</select>
-						{{model.userProfile.member.nationalityId}}
-						<!-- <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.userProfile.member.school.name"> -->
+						{{model.memberProfile.contact.nationalityId}}
+						<!-- <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.memberProfile.member.school.name"> -->
 					</div>
 
 			    <div class="form-group col-md-4">
-						<label for="grade">Grade (current grade: {{model.userProfile.member.grade.grade}})</label>
-						<!-- {{model.userProfile.member.gradeId.gradeId}} -->
+						<label for="grade">Grade (current grade: {{model.memberProfile.member.grade.grade}})</label>
+						<!-- {{model.memberProfile.member.gradeId.gradeId}} -->
 						<!-- {{grade.gradeId}} -->
-			      <select id="grade" class="form-control" ng-model="model.userProfile.member.gradeId" ng-options="grade.id as grade.grade for grade in model.allGrades">
+			      <select id="grade" class="form-control" ng-model="model.memberProfile.member.gradeId" ng-options="grade.id as grade.grade for grade in model.allGrades">
 							<!-- <option>KG1</option>
 								<option>KG2</option>
 								<option>1</option>
@@ -139,28 +139,28 @@
 								<option>8</option>
 								<option>9</option> -->
 						</select>
-						the grade id: {{model.userProfile.member.gradeId}}
+						the grade id: {{model.memberProfile.member.gradeId}}
 			    </div>
 			    <div class="form-group col-md-12">
 			      <label for="school">School</label>
-						<select id="school" class="form-control" ng-model="model.userProfile.member.schoolId" ng-options="school.id as school.name for school in model.allSchools">
+						<select id="school" class="form-control" ng-model="model.memberProfile.member.schoolId" ng-options="school.id as school.name for school in model.allSchools">
 						</select>
-						{{model.userProfile.member.schoolId}}
-						<!-- <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.userProfile.member.school.name"> -->
+						{{model.memberProfile.member.schoolId}}
+						<!-- <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.memberProfile.member.school.name"> -->
 		    	</div>
 		  </div>
 
 		  <div class="form-row">
 			    <div class="form-group col-md-4">
 			      <label for="medicalIssue">Any medical issues?</label>
-			      <select id="medicalIssue" class="form-control" ng-model="model.userProfile.medical.medicalIssues">
+			      <select id="medicalIssue" class="form-control" ng-model="model.memberProfile.medical.medicalIssues">
 			        <option>Yes</option>
 			        <option>No</option>
       			  </select>
 			    </div>
 			    <div class="form-group col-md-8">
 			      <label for="problemDetails">If yes please fill the details:</label>
-			      <input type="text" class="form-control" id="problemDetails" placeholder="Medical issue details..." ng-model="model.userProfile.medical.problemDetails">
+			      <input type="text" class="form-control" id="problemDetails" placeholder="Medical issue details..." ng-model="model.memberProfile.medical.problemDetails">
 			    </div>
 		  </div>
 
@@ -168,11 +168,11 @@
 			  <div class="form-group col-md-12">
 					<label for="address">Address</label>
 					<br>
-					Country: <input type="text" class="form-control" id="addressCountry" placeholder="Country" ng-model="model.userProfile.member.address.country">
-					Province: <input type="text" class="form-control" id="addressProvince" placeholder="Province" ng-model="model.userProfile.member.address.province">
-					City: <input type="text" class="form-control" id="addressCity" placeholder="City" ng-model="model.userProfile.member.address.city">
-					Street: <input type="text" class="form-control" id="addressStreet" placeholder="Street" ng-model="model.userProfile.member.address.street">
-					Building number: <input type="text" class="form-control" id="addressBuilding" placeholder="Building" ng-model="model.userProfile.member.address.building">
+					Country: <input type="text" class="form-control" id="addressCountry" placeholder="Country" ng-model="model.memberProfile.member.address.country">
+					Province: <input type="text" class="form-control" id="addressProvince" placeholder="Province" ng-model="model.memberProfile.member.address.province">
+					City: <input type="text" class="form-control" id="addressCity" placeholder="City" ng-model="model.memberProfile.member.address.city">
+					Street: <input type="text" class="form-control" id="addressStreet" placeholder="Street" ng-model="model.memberProfile.member.address.street">
+					Building number: <input type="text" class="form-control" id="addressBuilding" placeholder="Building" ng-model="model.memberProfile.member.address.building">
 			  </div>
 		  </div>
 
@@ -180,20 +180,25 @@
 
 		  <div class="form-row">
 		  	<div class="form-group col-md-12">
-		  		<label><h3>Contact details:</h3></label>
+					<label><h3>Contact details:</h3></label>
+					{{model.phoneTypes}}
 		  	</div>
 		  </div>
 
 		  <div class="form-row">
 					<div class="form-group col-md-6">
-						<label for="phone">Personal phone number</label>
+						<label for="phone">Select Phone Type</label>
+						<select id="phoneType" class="form-control" ng-model="phone.type"
+							ng-options="phone for phone in model.phoneTypes">
+						</select>
 						<input type="text" id="phone" class="form-control" placeholder="Personal phone number"
-							ng-model="model.userProfile.member.contact.phone">
+							ng-model="phone.number">
+							{{phone}}
 					</div>
 
 			    <div class="form-group col-md-6">
 			      <label for="fatherPhone">Father phone number</label>
-			      <input type="text" id="fatherPhone" class="form-control" placeholder="Father phone number" ng-model="model.userProfile.member.contact.fatherPhone">
+			      <input type="text" id="fatherPhone" class="form-control" placeholder="Father phone number" ng-model="model.memberProfile.member.contact.fatherPhone">
 			    </div>
 		  </div>
 
@@ -202,13 +207,13 @@
 			    
 			    <div class="form-group col-md-6">
 			      <label for="motherPhone">Mother phone number</label>
-			      <input type="text" id="motherPhone" class="form-control" placeholder="Mother phone number" ng-model="model.userProfile.member.contact.motherPhone">
+			      <input type="text" id="motherPhone" class="form-control" placeholder="Mother phone number" ng-model="model.memberProfile.member.contact.motherPhone">
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label for="emergencyPhone">Emergency phone number</label>
 						<input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number"
-							ng-model="model.userProfile.member.contact.emergency">
+							ng-model="model.memberProfile.member.contact.emergency">
 					</div>
 		  </div>
 
@@ -220,11 +225,11 @@
   		<div class="form-row">
 			  <div class="form-group col-md-12">
 					<label for="notes">Notes:</label>
-					<input type="text" class="form-control" id="notes" placeholder="Notes..." ng-model="model.userProfile.notes">
+					<input type="text" class="form-control" id="notes" placeholder="Notes..." ng-model="model.memberProfile.notes">
 			  </div>
 			</div>
 			
-		  <button type="submit" class="btn btn-success" ng-click="model.updateProfile(model.userProfile)">Update profile</button>
+		  <button type="submit" class="btn btn-success" ng-click="model.updateProfile(model.memberProfile)">Update profile</button>
 			<a class="btn btn-danger" href="#!/" role="button">Cancel</a>
 		</form>
 	</div>

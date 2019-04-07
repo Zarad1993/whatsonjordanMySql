@@ -16,7 +16,7 @@
 			// 		.checkAuthLogin()
 			// 		.then(function(result){
 			// 			if(result){
-			// 				model.loggedUser = result;
+			// 				model.loggedMember = result;
 			// 				model.error = 'Sorry but you already logged in!';
 			// 			}
 			// 		});

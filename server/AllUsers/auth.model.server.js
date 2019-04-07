@@ -71,9 +71,18 @@ function getAuthDetails(userId){
 					.findContactsByAuthId(plainUser.id)
 					.then(function(foundContacts){
 						for(var i in plainUser.roles){
-							plainUser.roles[i].contact = foundContacts[i].get({plain: true});
+							if (plainUser.roles[i].name == 'Member'){
+								plainUser.roles[i].contact = foundContacts[i].get({plain: true});
+								if (plainUser.roles[i].contact.name){
+									plainUser.roles[i].contact.firstName = plainUser.roles[i].contact.name.split(' ')[0];
+									plainUser.roles[i].contact.middleName = plainUser.roles[i].contact.name.split(' ')[1];
+									plainUser.roles[i].contact.lastName = plainUser.roles[i].contact.name.split(' ')[2];
+								}
+							}else{
+								plainUser.roles[i].contact = foundContacts[i].get({ plain: true });
+							}
 						}
-						console.log('the user after add contacts: ', plainUser);
+						// console.log('the user after add contacts: ', plainUser.roles);
 						return plainUser;
 					});
 		});
@@ -171,7 +180,7 @@ function submitFeedback(feedbackObject){
 	var userId = feedbackObject.userId;
 	var eventId = feedbackObject.eventId;
 	var feedDate = new Date();
-	// var feedbackObject = {userId: model.loggedUser._id, eventId: eventId, eventName: eventName, feedbackText: feedbackText};
+	// var feedbackObject = {userId: model.loggedMember._id, eventId: eventId, eventName: eventName, feedbackText: feedbackText};
 	var feed = {date: feedDate, eventName: feedbackObject.eventName, feedback: feedbackObject.feedbackText, userId: userId, approved: false};
 	return authDB
 		.findById(userId)
@@ -263,28 +272,81 @@ function makePayment(payment){
 
 
 function updateProfile(updatedProfile){
+	/*
+		{ 
+			id: 'eade0a80-560b-11e9-b305-b51e72cd8978',
+			name: 'Member',
+			createdAt: '2019-04-03T12:27:59.000Z',
+			updatedAt: '2019-04-03T12:27:59.000Z',
+				x_auth_role:
+					{ 	id: '19ab7a30-560e-11e9-96f7-538b03b484ec',
+						active: true,
+						createdAt: '2019-04-03T12:43:37.000Z',
+						updatedAt: '2019-04-03T12:43:37.000Z',
+						authId: '19a8e220-560e-11e9-96f7-538b03b484ec',
+						roleId: 'eade0a80-560b-11e9-b305-b51e72cd8978' 
+					},
+				contact:
+					{ 	id: '19ac3d80-560e-11e9-96f7-538b03b484ec',
+						type: 'Individual',
+						name: null,
+						DOB: '1976-03-10T22:00:00.000Z',
+						profileImage: 'https://randomuser.me/api/portraits/lego/1.jpg',
+						gender: 'Male',
+						createdAt: '2019-04-03T12:43:37.000Z',
+						updatedAt: '2019-04-03T12:43:37.000Z',
+						authId: '19a8e220-560e-11e9-96f7-538b03b484ec',
+						phones: [ [Object] ],
+						firstName: 'Aws',
+						middleName: 'Yaseen',
+						lastName: 'Ahmed' 
+					},
+				email: 'user1@email.com' 
+		}
+
+
+	*/
+
+
 	// console.log('the updated profile: ', updatedProfile);
-	return membersDB
-				.updateMemberDetails(updatedProfile.memberId, updatedProfile.member)
-				.then(function(result){
-					console.log('the result from update member: ', result);	
-					return result;
-				})
-				.then(function(){
-					return authDB
-						.findById(updatedProfile.id, {
-							include: [
-								{
-									model: Member, include: [
-										Contact, Address, Nationality, School, Grade
-									]
-								}
-							]
-						})
-						.then(function(user){
-							return user.get({plain: true});
-						})
-				})
+	var phones = updatedProfile.contact.phones;
+	updatedProfile.contact.name = updatedProfile.contact.firstName +" "+ updatedProfile.contact.middleName +" "+ updatedProfile.contact.lastName;
+	
+	// var unwantedKeys = ['createdAt', 'updatedAt', 'phones', 'firstName', 'middleName', 'lastName'];
+	// for(var i in unwantedKeys){
+	// 	delete updatedProfile.contact[unwantedKeys[i]];
+	// }
+	
+
+	return contactsDB
+		.updateContact(updatedProfile.contact, phones)
+		.then(function(updatedContact){
+			console.log('the updatedContact: ', updatedContact);
+			// return updatedContact;
+			return getAuthDetails(updatedContact.authId);
+		});
+
+	// return membersDB
+	// 			.updateMemberDetails(updatedProfile.memberId, updatedProfile.member)
+	// 			.then(function(result){
+	// 				console.log('the result from update member: ', result);	
+	// 				return result;
+	// 			})
+	// 			.then(function(){
+	// 				return authDB
+	// 					.findById(updatedProfile.id, {
+	// 						include: [
+	// 							{
+	// 								model: Member, include: [
+	// 									Contact, Address, Nationality, School, Grade
+	// 								]
+	// 							}
+	// 						]
+	// 					})
+	// 					.then(function(user){
+	// 						return user.get({plain: true});
+	// 					})
+	// 			})
 }
 
 

@@ -1,31 +1,29 @@
 (function() {
 	angular
 		.module('whatsOnJordan')
-		.controller('chooseRoleController', chooseRoleController);
+		.controller('memberProfileController', memberProfileController);
 
-	function chooseRoleController(authService, authRoles, $location, $sce, $route) {
+	function memberProfileController(authService, loggedMember, $location, $sce, $route) {
 		var model = this;
 
 		function init() {
-			// if(!loggedUser){
-			// 	$location.url('/login');
-			// 	return;
-			// }
-			// model.userProfile = loggedUser;
-            // model.loggedUser = loggedUser;
-            console.log('the roles available: ', authRoles);
-            
-            model.authRoles = authRoles;
-            
+			if(!loggedMember){
+				$location.url('/login');
+				return;
+			}
+			console.log('the memberProfile: ', loggedMember);
+			
+			model.memberProfile = loggedMember.chosenRole;
+			model.allRoles = loggedMember.allRoles;
+			model.upcommingProgram = [];			
 
 
-			// model.upcommingProgram = [];
-			// // model.userFeedbacks = [];
-			// var memberId = loggedUser.member.id;
+			// model.userFeedbacks = [];
+			// var memberId = loggedMember.member.id;
 			// authService
 			// 	.getMemberEvents(memberId)
 			// 	.then(function(registeredEvents){
-			// 		// Fthe feedback listconsole.log('the registeredEvents list are: ', registeredEvents.data);
+			// 		// The feedback list console.log('the registeredEvents list are: ', registeredEvents.data);
 			// 		model.registeredEventsList = registeredEvents.data;
 					
 			// 		// get the upcomming daily program item
@@ -54,16 +52,15 @@
 			// 	})
 			// 	;
 
-			// // for(var j in model.userProfile.userEventParameters){
-			// // 	for(var f in model.userProfile.userEventParameters[j].feedbacks){
-			// // 		model.userFeedbacks.push(model.userProfile.userEventParameters[j].feedbacks[f]);
-			// // 	}
-			// // }
+			// for(var j in model.memberProfile.userEventParameters){
+			// 	for(var f in model.memberProfile.userEventParameters[j].feedbacks){
+			// 		model.userFeedbacks.push(model.memberProfile.userEventParameters[j].feedbacks[f]);
+			// 	}
+			// }
 
 		}
 		init();
-		model.selectedRole = null;
-		model.loginAs = loginAs;
+
 		model.logout = logout;
 		model.removeRegisteredEvent = removeRegisteredEvent;
 		model.totalPayments = totalPayments;
@@ -71,13 +68,8 @@
 		model.trustedUrl = trustedUrl;
 		model.submitFeedback = submitFeedback;
 
-
-		function loginAs(selectedRole){
-			// console.log('the selected role: ', selectedRole);
-		}
-
 		function submitFeedback(eventId, feedbackText){
-			var feedbackObject = { memberId: loggedUser.member.id, eventId: eventId, details: feedbackText};
+			var feedbackObject = { memberId: loggedMember.member.id, eventId: eventId, details: feedbackText};
 			authService
 				.submitFeedback(feedbackObject)
 				.then(function(result){
@@ -99,10 +91,10 @@
 		function attendedDays(eventId){
 			var attended = 0;
 			var missed = 0;
-			for(var i in loggedUser.attendedEvents){
-				if(eventId === loggedUser.attendedEvents[i].eventId && loggedUser.attendedEvents[i].attended===true){
+			for(var i in loggedMember.attendedEvents){
+				if(eventId === loggedMember.attendedEvents[i].eventId && loggedMember.attendedEvents[i].attended===true){
 					attended+=1;
-				} else if(eventId === loggedUser.attendedEvents[i].eventId && loggedUser.attendedEvents[i].attended===false){
+				} else if(eventId === loggedMember.attendedEvents[i].eventId && loggedMember.attendedEvents[i].attended===false){
 					missed+=1;
 				}
 			}
@@ -114,9 +106,9 @@
 		function totalPayments(eventId, eventPrice){
 			var totals = 0;
 			var balance = 0;
-			for(var i in loggedUser.payments){
-				if(eventId === loggedUser.payments[i].eventId){
-					totals+= JSON.parse(loggedUser.payments[i].paymentAmount);
+			for(var i in loggedMember.payments){
+				if(eventId === loggedMember.payments[i].eventId){
+					totals+= JSON.parse(loggedMember.payments[i].paymentAmount);
 				}
 			}
 			balance = totals - eventPrice;
@@ -149,7 +141,7 @@
 		function removeRegisteredEvent(eventId){
 			// var _userId = $routeParams.userId;
 			authService
-				.removeRegisteredEvent(loggedUser._id, eventId)
+				.removeRegisteredEvent(loggedMember._id, eventId)
 				.then(function(response){
 					$location.url('/profile');
 				});

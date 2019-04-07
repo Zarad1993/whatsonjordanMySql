@@ -145,7 +145,7 @@ tbody tr:nth-child(even){ background-color: antiquewhite}
 
 
 .profile-img{
-    /*background: "{{model.userProfile.profileImage}}";*/
+    /*background: "{{model.memberProfile.profileImage}}";*/
     background-size: cover;
     border-radius:50% 50% 50% 50%;
     width:200px;

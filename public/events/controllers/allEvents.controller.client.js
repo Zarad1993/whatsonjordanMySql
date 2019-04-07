@@ -16,12 +16,12 @@
 					.checkAuthLogin()
 					.then(function(result){
 						if(result){
-							model.loggedUser = result;
+							model.loggedMember = result;
 							// Calculate the logged user age and add the age to the user's object
-							var birthDay = new Date(model.loggedUser.member.DOB);
+							var birthDay = new Date(model.loggedMember.member.DOB);
 							var today = new Date();
-							model.loggedUser.age =  Math.abs((new Date(today - birthDay.getTime())).getUTCFullYear() - 1970);
-							// console.log('the user age is: ', model.loggedUser.age);
+							model.loggedMember.age =  Math.abs((new Date(today - birthDay.getTime())).getUTCFullYear() - 1970);
+							// console.log('the user age is: ', model.loggedMember.age);
 							
 						}
 					});
@@ -40,8 +40,8 @@
 							model.eventsList = eventsParams.eventsList.filter(function(event){return (event.makerId == makerId);});
 						}
 						// if there is a logged user then filter the events based on the user age compare to the event accepted ages
-						// if(model.loggedUser && model.loggedUser.roleId===1){
-							// model.eventsList = model.eventsList.filter(function (event) { return (event.ageGroup.from <= model.loggedUser.age && event.ageGroup.to >= model.loggedUser.age); });
+						// if(model.loggedMember && model.loggedMember.roleId===1){
+							// model.eventsList = model.eventsList.filter(function (event) { return (event.ageGroup.from <= model.loggedMember.age && event.ageGroup.to >= model.loggedMember.age); });
 						// }
 						//  if there are events initialize them on the map
 						if(model.eventsList.length>0){

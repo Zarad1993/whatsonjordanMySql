@@ -13,6 +13,17 @@ var Contacts = db.sequelize.define('contact', {
     name: {
         type: Sequelize.STRING
     },
+    DOB: {
+        type: Sequelize.DATE,
+        defaultValue: null
+    },
+    profileImage: {
+        type: Sequelize.STRING
+    },
+    gender: {
+        type: Sequelize.STRING,
+        defaultValue: null
+    },
     createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
@@ -21,6 +32,7 @@ var Contacts = db.sequelize.define('contact', {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
     }
+    
     // phone:{
     //     type: Sequelize.STRING
     // },

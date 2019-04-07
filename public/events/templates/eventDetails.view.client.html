@@ -18,13 +18,13 @@
               <a class="nav-link" style="color: #DB685F;" href="#!/allEvents">Events</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#!/login" ng-show="!model.loggedUser">Login</a>
+              <a class="nav-link" href="#!/login" ng-show="!model.loggedMember">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedUser">Logout</a>
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedMember">Logout</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#!/profile" ng-show="model.loggedUser">Profile</a>
+              <a class="nav-link" href="#!/profile" ng-show="model.loggedMember">Profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#!/about">About</a>
@@ -32,7 +32,7 @@
             <li class="nav-item">
               <a class="nav-link" href="#!/contact">Contact</a>
             </li>
-            <form class="form-inline my-2 my-lg-0" ng-show="model.loggedUser.roles.length>1">
+            <form class="form-inline my-2 my-lg-0" ng-show="model.loggedMember.roles.length>1">
               <a class="btn btn-outline-success my-2 my-sm-0" href="#!/login">Switch profile</a>
             </form>
           </ul>
@@ -100,35 +100,35 @@
         <div class="modal-body">
           <form id="registrationForm">
             <!-- Name -->
-            {{model.loggedUser.member}}
+            {{model.loggedMember.member}}
             <div class="form-row">
                 <div class="form-group col-md-4">
                   <label for="firstName">First Name</label>
-                  <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="model.loggedUser.member.firstName" disabled>
+                  <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="model.loggedMember.member.firstName" disabled>
                 </div>
                 <div class="form-group col-md-4">
                   <label for="middleName">Middle Name</label>
-                  <input type="text" class="form-control" id="middleName" placeholder="Middle Name" ng-model="model.loggedUser.member.middleName" disabled>
+                  <input type="text" class="form-control" id="middleName" placeholder="Middle Name" ng-model="model.loggedMember.member.middleName" disabled>
                 </div>
                 <div class="form-group col-md-4">
                   <label for="lastName">Last Name</label>
-                  <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="model.loggedUser.member.lastName" disabled>
+                  <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="model.loggedMember.member.lastName" disabled>
                 </div>
             </div>
 
             <div class="form-row">
               <div class="form-group col-md-4">
                 <label for="gender">Gender</label>
-                <input type="text" id="gender" class="form-control" ng-model="model.loggedUser.member.gender" disabled>
+                <input type="text" id="gender" class="form-control" ng-model="model.loggedMember.member.gender" disabled>
               </div>
               <div class="form-group col-md-4">
                 <label for="DOB">Date of birth</label>
-                <input type="date" class="form-control" id="DOB" placeholder="Date of birth" ng-model="model.loggedUser.member.DOB" disabled>
+                <input type="date" class="form-control" id="DOB" placeholder="Date of birth" ng-model="model.loggedMember.member.DOB" disabled>
               </div>
               <div class="form-group col-md-4">
                 <label for="grade">Grade</label>
-                <input type="text" class="form-control" id="grade" placeholder="Grade" ng-model="model.loggedUser.member.grade.grade" disabled>
-                <!-- <select id="grade" class="form-control" ng-model="model.loggedUser.member.grade.grade">
+                <input type="text" class="form-control" id="grade" placeholder="Grade" ng-model="model.loggedMember.member.grade.grade" disabled>
+                <!-- <select id="grade" class="form-control" ng-model="model.loggedMember.member.grade.grade">
                   <option>KG1</option>
                   <option>KG2</option>
                   <option>1</option>
@@ -147,45 +147,45 @@
               </div>
               <div class="form-group col-md-12">
                 <label for="school">School</label>
-                <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.loggedUser.member.school.name" disabled>
+                <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.loggedMember.member.school.name" disabled>
               </div>
           </div>
 
           <!-- <div class="form-row">
               <div class="form-group col-md-4">
                 <label for="medicalIssue">Any medical issues?</label>
-                <select id="medicalIssue" class="form-control" ng-model="model.loggedUser.medical.medicalIssues">
+                <select id="medicalIssue" class="form-control" ng-model="model.loggedMember.medical.medicalIssues">
                   <option>Yes</option>
                   <option>No</option>
                   </select>
               </div>
               <div class="form-group col-md-8">
                 <label for="problemDetails">If yes please fill the details:</label>
-                <input type="text" class="form-control" id="problemDetails" placeholder="Medical issue details..." ng-model="model.loggedUser.medical.problemDetails">
+                <input type="text" class="form-control" id="problemDetails" placeholder="Medical issue details..." ng-model="model.loggedMember.medical.problemDetails">
               </div>
           </div> -->
 
           <div class="form-row">
             <div class="form-group col-md-12">
             <label for="address">Address</label>
-            <!-- <input type="text" class="form-control" id="address" placeholder="Address" ng-model="model.loggedUser.address"> -->
+            <!-- <input type="text" class="form-control" id="address" placeholder="Address" ng-model="model.loggedMember.address"> -->
             Country: <input type="text" class="form-control" id="addressCountry" placeholder="Country"
-              ng-model="model.loggedUser.member.address.country" disabled>
+              ng-model="model.loggedMember.member.address.country" disabled>
             Province: <input type="text" class="form-control" id="addressProvince" placeholder="Province"
-              ng-model="model.loggedUser.member.address.province" disabled>
+              ng-model="model.loggedMember.member.address.province" disabled>
             City: <input type="text" class="form-control" id="addressCity" placeholder="City"
-              ng-model="model.loggedUser.member.address.city" disabled>
+              ng-model="model.loggedMember.member.address.city" disabled>
             Street: <input type="text" class="form-control" id="addressStreet" placeholder="Street"
-              ng-model="model.loggedUser.member.address.street" disabled>
+              ng-model="model.loggedMember.member.address.street" disabled>
             Building number: <input type="text" class="form-control" id="addressBuilding" placeholder="Building"
-              ng-model="model.loggedUser.member.address.building" disabled>
+              ng-model="model.loggedMember.member.address.building" disabled>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group col-md-12">
             <label for="nationality">Nationality</label>
-            <input type="text" class="form-control" id="nationality" placeholder="Nationality" ng-model="model.loggedUser.member.nationality.nationality" disabled>
+            <input type="text" class="form-control" id="nationality" placeholder="Nationality" ng-model="model.loggedMember.member.nationality.nationality" disabled>
             </div>
           </div>
 
@@ -201,13 +201,13 @@
             <div class="form-group col-md-6">
               <label for="phone">Personal phone number</label>
               <input type="text" id="phone" class="form-control" placeholder="Personal phone number"
-                ng-model="model.loggedUser.member.contact.phone" disabled>
+                ng-model="model.loggedMember.member.contact.phone" disabled>
             </div>
           
             <div class="form-group col-md-6">
               <label for="fatherPhone">Father phone number</label>
               <input type="text" id="fatherPhone" class="form-control" placeholder="Father phone number"
-                ng-model="model.loggedUser.member.contact.fatherPhone" disabled>
+                ng-model="model.loggedMember.member.contact.fatherPhone" disabled>
             </div>
           </div>
           
@@ -216,13 +216,13 @@
             <div class="form-group col-md-6">
               <label for="motherPhone">Mother phone number</label>
               <input type="text" id="motherPhone" class="form-control" placeholder="Mother phone number"
-                ng-model="model.loggedUser.member.contact.motherPhone" disabled>
+                ng-model="model.loggedMember.member.contact.motherPhone" disabled>
             </div>
           
             <div class="form-group col-md-6">
               <label for="emergencyPhone">Emergency phone number</label>
               <input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number"
-                ng-model="model.loggedUser.member.contact.emergency" disabled>
+                ng-model="model.loggedMember.member.contact.emergency" disabled>
             </div>
           </div>
 
@@ -231,7 +231,7 @@
           <div class="form-row">
             <div class="form-group col-md-12">
               <label for="notes">Notes:</label>
-              <input type="text" class="form-control" id="notes" name="notes" placeholder="Notes..." ng-model="model.loggedUser.notes" disabled>
+              <input type="text" class="form-control" id="notes" name="notes" placeholder="Notes..." ng-model="model.loggedMember.notes" disabled>
             </div>
           </div>
 
@@ -241,10 +241,10 @@
             <div class="form-group col-md-12">
               <label for="termsAndConditions">Terms and conditions:</label>
               <textarea class="form-control" rows='5'  id="termsAndConditions" disabled ng-model="model.eventDetails.termsAndConditions" disabled></textarea>
-              <!-- <input type="checkbox"  name="termsAcceptance" id="termsAcceptance" required ng-model="model.loggedUser.termsAcceptance"> <label for="termsAcceptance">I read and agree the terms and conditions.</label> -->
+              <!-- <input type="checkbox"  name="termsAcceptance" id="termsAcceptance" required ng-model="model.loggedMember.termsAcceptance"> <label for="termsAcceptance">I read and agree the terms and conditions.</label> -->
               <br>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" ng-model="model.loggedUser.termsAcceptance" id="termsAcceptance" name="termsAcceptance">
+                <input class="form-check-input" type="checkbox" value="" ng-model="model.loggedMember.termsAcceptance" id="termsAcceptance" name="termsAcceptance">
                 <label class="form-check-label" for="termsAcceptance">
                   I read and agree the terms and conditions.
                 </label>
@@ -254,7 +254,7 @@
           </div>
 
             <br>
-            <input type="submit" class="btn btn-success pull-right" name="register" ng-click="model.eventRegistration(model.eventDetails, model.loggedUser)" >
+            <input type="submit" class="btn btn-success pull-right" name="register" ng-click="model.eventRegistration(model.eventDetails, model.loggedMember)" >
           </form>
           <br>
         </div>

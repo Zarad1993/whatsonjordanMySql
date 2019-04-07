@@ -10,6 +10,7 @@
         this.getAllAgeGroups = getAllAgeGroups;
         this.getAllGrades = getAllGrades;
         this.getAllExpenseTypes = getAllExpenseTypes;
+        this.getPhoneTypes = getPhoneTypes;
 
 
         function init() { }
@@ -34,6 +35,10 @@
 
         function getAllExpenseTypes(){
             return $http.get('/api/getterService/getAllExpenseTypes');
+        }
+
+        function getPhoneTypes(){
+            return $http.get('/api/getterService/getPhoneTypes');
         }
 
 

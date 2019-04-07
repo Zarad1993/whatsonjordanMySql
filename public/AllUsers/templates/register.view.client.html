@@ -18,13 +18,13 @@
               <a class="nav-link" href="#!/allEvents">Events</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" style="color: #DB685F;" href="#!/login" ng-show="!model.loggedUser">Login</a>
+              <a class="nav-link" style="color: #DB685F;" href="#!/login" ng-show="!model.loggedMember">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedUser">Logout</a>
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedMember">Logout</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#!/profile" ng-show="model.loggedUser">Profile</a>
+              <a class="nav-link" href="#!/profile" ng-show="model.loggedMember">Profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#!/about">About</a>
@@ -32,7 +32,7 @@
             <li class="nav-item">
               <a class="nav-link" href="#!/contact">Contact</a>
             </li>
-            <form class="form-inline my-2 my-lg-0" ng-show="model.loggedUser.roles.length>1">
+            <form class="form-inline my-2 my-lg-0" ng-show="model.loggedMember.roles.length>1">
               <a class="btn btn-outline-success my-2 my-sm-0" href="#!/login">Switch profile</a>
             </form>
           </ul>

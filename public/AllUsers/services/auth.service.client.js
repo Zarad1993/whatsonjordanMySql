@@ -13,7 +13,7 @@
 		this.login = login;
 		this.loginAs = loginAs;
 		this.logout = logout;
-		this.isMaker = isMaker;
+		this.isOrganizer = isOrganizer;
 		this.isAdmin = isAdmin;
 		this.addEventToUser = addEventToUser;
 		this.getMemberEvents = getMemberEvents;
@@ -149,9 +149,9 @@
 			var url = '/api/user/findUserById/' + userId;
 			return $http.get(url)
 				.then(function(response) {
-					var userProfile = response.data;
+					var memberProfile = response.data;
 					console.log('findUserById has been called called', response);
-					return userProfile;
+					return memberProfile;
 				});
 		}
 
@@ -213,9 +213,9 @@
 			return $http.get(url);
 		}
 
-		function isMaker(){
+		function isOrganizer(){
 			return $http
-					.get('/api/isMaker')
+					.get('/api/isOrganizer')
 					.then(function(result){
 						return result.data;
 					});

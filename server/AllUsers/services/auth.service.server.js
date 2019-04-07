@@ -117,7 +117,7 @@ app.post('/api/user/loginAs', loginAs);
 app.post('/api/auth/', createAuth);
 app.get('/api/checkAuthLogin', checkAuthLogin);
 app.get('/api/getAuthRoles/:authId', getAuthRoles);
-app.get('/api/isMaker', isMaker);
+app.get('/api/isOrganizer', isOrganizer);
 app.get('/api/admin/isAdmin', checkAdmin, isAdmin);
 app.post('/api/logout', logout);
 app.post('/api/addEventToUser', addEventToUser);
@@ -286,15 +286,32 @@ function makePayment(req, res){
 		});
 }
 
-
 function updateProfile(req, res){
 	var updatedProfile = req.body;
+	console.log('the profile to update profile', updatedProfile);
+	console.log('the user on the session ', req.session.passport.user);
+	
+	// if(updatedProfile.chosenRole){
+	// 	var chosenRole = req.session.passport.user.chosenRole;
+	// }
+	
 	authDB
 		.updateProfile(updatedProfile)
 		.then(function(result){
+			result.chosenRole = updatedProfile.name;
 			console.log('the final Updated User in users.server: ', result);
-			res.send(req.isAuthenticated() ? req.user : null);
+
 			
+			// req.session.passport.user.chosenRole = req.session.passport.user.roles[i].name;
+			
+			req.session.passport.user = result;
+			req.session.save();
+
+			// res.send(req.session.passport.user);
+
+
+
+			res.send(req.isAuthenticated() ? req.session.passport.user : null);
 		});
 }
 
@@ -504,7 +521,7 @@ function uploadImage(req, res){
 			.addProfileImage(req.user._id, profileImage)
 			.then(function(user){
 			});
-		res.redirect('/#!/userProfile');
+		res.redirect('/#!/memberProfile');
 }
 
 
@@ -820,6 +837,10 @@ function checkAuthLogin(req, res){
 		// 		}
 		// 	}
 		// }
+		// work on this 
+		// if req.user its ok on show updated info after update
+		// but the switch user will not working 
+		// because the req.user can't be updated
 		res.send(req.isAuthenticated() ? req.session.passport.user : null);
 
 
@@ -864,7 +885,7 @@ function getAuthRoles(req, res){
 }
 
 
-function isMaker(req, res){
+function isOrganizer(req, res){
 	for (var i in req.session.passport.user.roles) {
 		if (req.session.passport.user.roles[i].loggedWithin) {
 			res.send(req.isAuthenticated() ? req.session.passport.user : null);

@@ -1,29 +1,19 @@
 var db = require('../databse');
-var phonesDB = db.Phone; // require('../models/phone.model');
+var phonesDB = db.Phone;
 
 db.sequelize.sync();
 
 module.exports = phonesDB;
 
-phonesDB.updatePhoneDetails = updatePhoneDetails
 
-function updatePhoneDetails(phone) {
-    return phonesDB
-        .findById(phone.id)
-        .then(function (foundphone) {
-            console.log('the found phone: ', foundphone);
-            if(foundphone){
-                return foundphone
-                    .update(phone)
-                    // .then(function (updatedphone) {
-                    //     return updatedphone;
-                    // })
-            }else{
-                return phonesDB
-                    .create(phone)
-                    // .then(function(ctratedphone){
-                    //     console.log('the created phone', ctratedphone);
-                    // })
-            }
-        });
+phonesDB.updatePhones = updatePhones;
+
+
+
+function updatePhones(phones){
+    console.log('the phones are: ', phones);
+    // console.log('the phones Enum:', phonesDB.rawAttributes.type.values);
+    return phones;
+    // return contactsDB.update(contact, {where:{id: contact.id}});
+    
 }

@@ -11,7 +11,7 @@
 					.checkAuthLogin()
 					.then(function(auth){
 						if(auth){
-							model.loggedUser = auth;
+							model.loggedMember = auth;
 						}
 					});
 		}

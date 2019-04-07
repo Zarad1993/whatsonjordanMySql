@@ -19,20 +19,31 @@
 				$location.url('/login');
 			}
 			
-			model.loggedMaker = loggedMaker;
+			model.makerProfile = loggedMaker.chosenRole;
+			model.allRoles = loggedMaker.allRoles;
+			
+			// model.loggedMaker = loggedMaker;
 
-			console.log('the logged in is: ', model.loggedMaker);
+			console.log('the logged in is: ', loggedMaker);
 			
 			
 			
-			// if (loggedMaker.DOB){
-			// 	loggedMaker.DOB = new Date(loggedMaker.DOB);
+			
+			// for(var i in loggedMaker.roles){
+			// 	if (loggedMaker.roles[i].name == loggedMaker.chosenRole){
+			// 		model.makerProfile = loggedMaker.roles[i];
+			// 	}
 			// }
-			for(var i in loggedMaker.roles){
-				if (loggedMaker.roles[i].name == loggedMaker.chosenRole){
-					model.makerProfile = loggedMaker.roles[i];
-				}
-			}
+
+			// if (model.allRoles.roles.length > 1) {
+			// 	for (var i in model.allRoles.roles) {
+			// 		if (model.allRoles.roles[i].name == model.allRoles.chosenRole) {
+			// 			model.makerProfile = loggedMaker.roles[i];
+			// 		}
+			// 	}
+			// } else {
+			// 	model.makerProfile = loggedMaker.roles[0];
+			// }
 			
 			// eventsService
 			// 	.findEventsByMakerId(loggedMaker.maker.id)

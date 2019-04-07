@@ -7,7 +7,8 @@ var Phones = db.sequelize.define('phone', {
         primaryKey: true
     },
     type: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM,
+        values: ['Mobile', 'Landline', 'Emergency']
     },
     number: {
         type: Sequelize.STRING

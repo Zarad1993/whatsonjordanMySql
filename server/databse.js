@@ -80,7 +80,7 @@ db.Auth.belongsToMany(db.Role, { through: db.X_Auth_Role });
 
 db.Auth.hasMany(db.Contact);
 
-db.Contact.hasOne(db.Phone);
+db.Contact.hasMany(db.Phone);
 
 
 

@@ -19,8 +19,8 @@
 					.checkAuthLogin()
 					.then(function(result){
 						if(result){
-							model.loggedUser = result;
-							model.loggedUser.member.DOB = new Date(model.loggedUser.member.DOB);
+							model.loggedMember = result;
+							model.loggedMember.member.DOB = new Date(model.loggedMember.member.DOB);
 						}
 					});
 
@@ -45,14 +45,14 @@
 				var eventId = event.id;
 				var memberId = user.member.id;
 				console.log('event name: ', event.name , ' user name:', user.member.firstName);
-				if (!model.loggedUser){
+				if (!model.loggedMember){
 					model.error1 = 'Please login or sign-up to register on this event';
 					$('#eventRegistrationModal').modal('hide');
 					$('html, body').animate({ scrollTop: 0 }, 'slow');
 					return;
 				} else {
-					var userId = model.loggedUser.id;
-					var eventsList = model.loggedUser.registeredEventsList;
+					var userId = model.loggedMember.id;
+					var eventsList = model.loggedMember.registeredEventsList;
 					for(var e in eventsList){
 						if(eventsList[e].id === event.id){
 							model.error2 = 'You already registered for this event';
@@ -63,7 +63,7 @@
 					authService
 						.addEventToUser(eventId, memberId)
 						.then(function (response){
-							$location.url('/userProfile');
+							$location.url('/memberProfile');
 					});
 					if(user.termsAcceptance){
 						$('#eventRegistrationModal').modal('hide');

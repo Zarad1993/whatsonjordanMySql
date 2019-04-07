@@ -13,10 +13,10 @@
 				.checkAuthLogin()
 				.then(function(result){
 					if(result){
-						model.loggedUser = result;
+						model.loggedMember = result;
 						return;
 					}else{
-						model.loggedUser = null;
+						model.loggedMember = null;
 						return;
 					}
 				});

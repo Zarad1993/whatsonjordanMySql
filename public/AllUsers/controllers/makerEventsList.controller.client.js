@@ -29,7 +29,7 @@
 			// 		.checkAuthLogin()
 			// 		.then(function(result){
 			// 			if(result){
-			// 				model.loggedUser = result;
+			// 				model.loggedMember = result;
 			// 			}
 			// 		});
 

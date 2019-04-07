@@ -6,6 +6,7 @@ module.exports = function (app) {
     var ageGroupsDB = require('../ageGroups.model.server');
     var gradesDB = require('../grades.model.server');
     var expenseTypesDB = require('../expensesTypes.model.server');
+    var Phone = require('../../models/phones.model');
 
     // ---------------------------------- APIs requests ----------------------------------
     
@@ -14,6 +15,7 @@ module.exports = function (app) {
     app.get('/api/getterService/getAllAgeGroups', getAllAgeGroups);
     app.get('/api/getterService/getAllGrades', getAllGrades);
     app.get('/api/getterService/getAllExpenseTypes', getAllExpenseTypes);
+    app.get('/api/getterService/getPhoneTypes', getPhoneTypes);
 
     // ---------------------------------- /APIs requests ----------------------------------
 
@@ -89,6 +91,11 @@ module.exports = function (app) {
                     return;
                 }
             })
+    }
+
+    function getPhoneTypes(req, res){
+        console.log('the phones Enum:', Phone.rawAttributes.type.values);
+        res.send(Phone.rawAttributes.type.values);
     }
 
 
