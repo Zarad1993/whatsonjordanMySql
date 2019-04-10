@@ -711,25 +711,11 @@ function getAllMakers(req, res){
 
 function createAuth(req, res){
 	var newUser = req.body;
-	// newUser.user_id = 1;
 	newUser.password = bcrypt.hashSync(newUser.password);
-	// contactsDB
-	// 	.addNewContact()
-	// 	.then(function(contact){
 			authDB
 				.createAuth(newUser)
 				.then(function (user){
-					// var finalUser = user.get({plain: true});
 					console.log('the created user', user);
-					
-					// console.log('the created user in authDB is: ', addedUser.get({plain: true}));
-			// var addedUser = user.get({ plain: true })
-					// contact
-					// 	.addAuth(user)
-					// 	.then(function(){
-							
-					// res.json(user);
-					
 					req.login(user, function (err) {
 						if (err) {
 							res.send(err);
@@ -740,42 +726,10 @@ function createAuth(req, res){
 						}
 					});
 
-
-				// });
-						// })
-					// var addedMember = contact.get({plain: true});
-			// 		console.log('the addedMember is: ', addedMember);
-					// authDB
-						// .addMemberIdToUser(addedUser.id, addedMember.id)
-			// 			.then(function(finalUser){
-			// 				// console.log('the final created user with member id is: ', finalUser);
-			// 				req.login(finalUser, function (err) {
-			// 					if (err) {
-			// 						return err;
-			// 					} else {
-									// res.json(user);
-				// 				}
-				// 			})
-				// 		})
-				// })
-			
-			// authDB
-			// 	.addAuthRole(addedUser, 1)
-			// 	.then(function(updatedUser){
-			// 		req.login(updatedUser, function(err){
-			// 			if(err){
-			// 				return err;
-			// 			}else{
-			// 				res.json(updatedUser);
-			// 			}
-			// 		})
-			// 	})
-			
 			// req.login(addedUser, function(err){
 			// 	if(err){
 			// 		return err;
 			// 	}else{
-					// commented for test
 					// var mailOptions = {
 					// 	from: 'whatsonjordan@gmail.com',
 					// 	to: addedUser.email,
@@ -815,7 +769,6 @@ function createAuth(req, res){
 			// });
 		}, function(err){
 			// console.log('the error is', err.errors);
-			
 			res.send(err);
 		});
 }
@@ -828,40 +781,7 @@ function checkAuthLogin(req, res){
 	if (req.user) {
 		console.log('the auth to check type: ', req.session.passport.user);
 		console.log('the user in session: ', req.user);
-		// var authRoles = req.user.roles;
-		// if(authRoles.length > 1){
-		// 	for(var i in authRoles){
-		// 		if(authRoles[i].x_auths_roles.active){
-		// 			console.log('the auth type is: ', authRoles[i]);
-		// 			res.send(req.user);
-		// 		}
-		// 	}
-		// }
-		// work on this 
-		// if req.user its ok on show updated info after update
-		// but the switch user will not working 
-		// because the req.user can't be updated
 		res.send(req.isAuthenticated() ? req.session.passport.user : null);
-
-
-
-
-		// if (req.user.roleId === 1){
-		// 	if(req.user.member.DOB){
-		// 		var birthDay = new Date(req.user.member.DOB);
-		// 		var today = new Date();
-		// 		req.user.age = Math.abs((new Date(today - birthDay.getTime())).getUTCFullYear() - 1970);
-		// 		console.log(req.user.age)
-		// 		res.send(req.isAuthenticated() ? req.user : null);
-		// 	}else{
-		// 		console.log('Please update your profile details to get the events fits to your age');
-		// 		res.send(req.isAuthenticated() ? req.user : null);
-		// 	}
-		// }else if(req.user.roleId == 2){
-		// 	res.send(req.isAuthenticated() ? req.user : null)
-		// }else if(req.user.roleId == 3){
-		// 	res.send(req.isAuthenticated() ? req.user : null)
-		// }
 	} else {
 		res.send(null);
 	}
@@ -892,13 +812,6 @@ function isOrganizer(req, res){
 			return;
 		}
 	}
-	// for(var i in req.user.roles){
-	// 	if(req.user.roles[i].name == 'Organizer'){
-	// 		res.send(req.isAuthenticated() ? req.user.roles[i] : null);
-	// 		return;
-	// 	}
-	// }
-	// res.send(req.isAuthenticated() && req.user.roleId === 2 ? req.user : null);
 }
 
 function checkAdmin(req, res, next){

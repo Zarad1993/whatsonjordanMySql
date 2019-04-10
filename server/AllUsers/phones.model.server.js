@@ -12,20 +12,6 @@ phonesDB.updatePhones = updatePhones;
 
 function updatePhones(phones, contactId){
     console.log('the phones are: ', phones);
-    // var phoneTypes = phonesDB.rawAttributes.type.values;
-    // var updatedTypes = [];
-    // for(var i in phones){
-    //     updatedTypes.push(phones[i].type);
-    // }
-    // phonesDB
-    //     .findOrCreate({where: {type: updatedTypes}})
-    //     .then(function(finalPhones){
-    //         console.log('the final phones: ', finalPhones);
-    //         // return finalPhones;
-    //     });
-    // console.log('the phones Enum:', phonesDB.rawAttributes.type.values);
-    // return contactsDB.update(contact, {where:{id: contact.id}});
-    
     // var totalResult = [];
     function asyncLoop(i, cb) {
         if (i < phones.length) {
@@ -57,12 +43,6 @@ function updatePhones(phones, contactId){
             cb();
         }
     }
-    // asyncLoop(0, function () {
-    //     return('Finished');
-    //     // console.log('the result : ', totalResult);
-        
-    // });
-
     var phonePromise = new Promise(function(resolve, reject){
         asyncLoop(0, function () {
             resolve ('Finished');

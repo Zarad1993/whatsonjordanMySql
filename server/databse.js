@@ -30,19 +30,6 @@ db.sequelize
 	.catch(function(err){
 		console.error('Unable to connect to whatsonjordan3 DB', err);
 	});
-
-// sequelize
-// 	.sync()
-// 	.then(function(){
-// 		console.log('whatsonjordan db and user table created successfully');
-// 	});
-
-// var db = {};
- 
-// db.Sequelize = Sequelize;
-// db.sequelize = sequelize;
-// db.user = require('./models/user.model.js')(sequelize, Sequelize);
-// console.log(db); 
  
 module.exports = db;
 
@@ -50,7 +37,6 @@ module.exports = db;
 db.Auth = require('./models/auths.model');
 db.Role = require('./models/Roles.model');
 db.X_Auth_Role = require('./models/x_auths_roles.model');
-// db.DetailsCollection = require('./models/detailsCollection.model');
 db.Contact = require('./models/contacts.model'); // hold the (type: [individual, organizatio], name) connected to Auths
 db.Phone = require('./models/phones.model'); // holds the (contactId, number)
 
@@ -138,7 +124,7 @@ function addExpenseTypes() {
 	for (var i in exTypes) {
 		console.log(exTypes[i]);
 		var id = i + 1;
-		ExpenseType.create({ id: id, type: exTypes[i] })
+		ExpenseType.create({ id: id, type: exTypes[i] });
 	}
 }
 
@@ -146,7 +132,7 @@ function addExpenseTypes() {
 function createRoles(){
 	var roles = ['Member', 'Organizer', 'Coach', 'Employee', 'Admin'];
 	for (var i in roles){
-		db.Role.create({name: roles[i]})
+		db.Role.create({name: roles[i]});
 	}
 
 }

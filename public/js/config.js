@@ -73,15 +73,6 @@
 				}
 			})
 
-			// .when('/makerProfile', {
-			// 	templateUrl: 'AllUsers/templates/makerProfile.view.client.html',
-			// 	controller: 'makerProfileController',
-			// 	controllerAs: 'model',
-			// 	resolve: {
-			// 		loggedMaker: isOrganizer
-			// 	}
-			// })
-
 			.when('/OrganizerProfile', {
 				templateUrl: 'AllUsers/templates/makerProfile.view.client.html',
 				controller: 'makerProfileController',
@@ -89,7 +80,6 @@
 				resolve: {
 					loggedMaker: isOrganizer
 				}
-				// key: 'Organizer'
 			})
 
 			.when('/updateMakerProfile', {
@@ -165,14 +155,6 @@
 				}
 			})
 
-			// .when('/admin', {
-			// 	templateUrl: 'admin/templates/adminPage.view.client.html',
-			// 	controller: 'adminController',
-			// 	controllerAs: 'model',
-			// 	resolve: {
-			// 		loggedMember: checkAuthLogin
-			// 	}
-			// })
 			.when('/contact', {
 				templateUrl: '../views/pages/contact.view.client.html',
 				controller: 'homePageController',
@@ -207,8 +189,6 @@
 							deferred.resolve({ chosenRole: user.roles[i], allRoles: user });
 						}
 					}
-					
-					// deferred.resolve(user);
 				}
 			});
 		return deferred.promise;
@@ -217,7 +197,6 @@
 	function isOrganizer(authService, $q, $location){
 		var deferred = $q.defer();
 		authService
-			// .isOrganizer()
 			.checkAuthLogin()
 			.then(function(maker){
 				if(maker === null){
@@ -230,7 +209,6 @@
 							deferred.resolve({chosenRole: maker.roles[i], allRoles: maker});
 						}
 					}
-					// deferred.resolve(maker);
 				}else{
 					deferred.reject();
 					$location.url('/login');
@@ -255,22 +233,6 @@
 	}
 
 
-
-	// function getAuthRoles(authService, $q, $location){
-	// 	var deferred = $q.defer();
-	// 	authService
-	// 		.getAuthRoles()
-	// 		.then(function(roles){
-	// 			if(roles){
-	// 				console.log('available roles: ', roles.data);
-	// 				deferred.resolve(roles.data);
-	// 				// $location.url('/chooseRole');
-	// 				// return deferred.promise;
-	// 			}
-	// 		});
-	// 		return deferred.promise;
-	// 	}
-
 	function checkAuthRole(authService, $q, $location){
 		var deferred = $q.defer();
 		authService
@@ -285,52 +247,6 @@
 					var route2 = '/' + user.roles[0].name + 'Profile';
 					$location.url(route2);
 				}
-
-				
-				// if(user.roles.length > 1){
-				// 	for(var i in user.roles){					
-				// 		if(user.roles[i].loggedWithin){
-				// 			// console.log('logged within: ', user.roles[i].loggedWithin);
-				// 			var route = '/' + user.roles[i].name + 'Profile';
-				// 			$location.url(route);
-				// 			return;
-				// 		}
-				// 	}
-				// 	// var roles = [];
-				// 	// for(var r in user.roles){
-				// 	// 	// roles.push({ roleName: user.roles[r].name, active: user.roles[r].x_auths_roles.active});
-				// 	// 	roles.push(user.roles[r]);
-				// 	// }
-				// 	// console.log('the auth has many roles');
-				// 	// console.log('the user roles: ', roles);
-				// 	// $location.url('/chooseRole');
-				// 	// return;
-				// }else{
-				// 	// $location.url('/userProfile');
-				// 	deferred.resolve(user);
-				// 	var x = '/'+user.roles[0].name+'Profile';
-				// 	$location.url(x);
-				// 	return deferred.promise;
-				// }
-
-
-
-				// if(user.data.roleId === 1){
-				// 	deferred.resolve(user.data);
-				// 	$location.url('/userProfile');
-				// 	return deferred.promise;
-				// } else if(user.data.roleId === 2){
-				// 	deferred.resolve(user.data);
-				// 	$location.url('/makerProfile');
-				// 	return deferred.promise;
-				// }else if(user.data.roleId === 3){
-				// 	deferred.resolve(user.data);
-				// 	$location.url('/adminPage');
-				// 	return deferred.promise;
-				// }else{
-				// 	deferred.reject();
-				// 	$location.url('/');
-				// }
 			});
 	}
 
