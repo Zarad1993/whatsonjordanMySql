@@ -62,13 +62,21 @@
 			<h4><i class="fas fa-map-marked-alt"></i> {{model.memberProfile.member.address.country}}, {{model.memberProfile.member.address.province}} - {{model.memberProfile.member.address.city}} - {{model.memberProfile.member.address.street}} street</h4>
 			<h4><i class="fas fa-graduation-cap"></i> {{model.memberProfile.member.school.name}}</h4>
 			<h4><i class="fas fa-user-graduate"></i> Grade: {{model.memberProfile.member.grade.grade}}</h4>
-			<h4><i class="fas fa-phone"></i> Contacts list:</h4>
-				<h5 style="text-indent: 30px;" ng-show="model.memberProfile.member.contact.fatherPhone">Father Phone: {{model.memberProfile.member.contact.fatherPhone}}</h5></li>
+			<h4><i class="fas fa-phone"></i> Phones list:</h4>
+			<div style="margin-left:30px;">
+				<ul ng-repeat="phone in model.memberProfile.contact.phones">
+					<li>
+						<h5><b>{{phone.type}}:</b></h5>
+						<h5>{{phone.number}}</h5>
+					</li>
+				</ul>
+			</div>
+				<!-- <h5 style="text-indent: 30px;" ng-show="model.memberProfile.member.contact.fatherPhone">Father Phone: {{model.memberProfile.member.contact.fatherPhone}}</h5></li>
 				<h5 style="text-indent: 30px;" ng-show="model.memberProfile.member.contact.motherPhone">Mother Phone: {{model.memberProfile.member.contact.motherPhone}}</h5></li>
 				<h5 style="text-indent: 30px;" ng-show="model.memberProfile.member.contact.emergency">Emergency Phone: {{model.memberProfile.member.contact.emergency}}</h5></li>
 				<h5 style="text-indent: 30px;" ng-show="model.memberProfile.member.contact.phone">Personal Phone:
 					{{model.memberProfile.member.contact.phone}}</h5>
-				</li>
+				</li> -->
 
 				<!-- <h5 style="text-indent: 30px;" ng-show="model.memberProfile.contact.phone">{{model.memberProfile.contact.phone}}</h5></li> -->
 			<!-- <h4 ng-show="model.memberProfile.medical.problemDetails"><i class="fas fa-briefcase-medical"></i> {{model.memberProfile.medical.problemDetails}}</h4>

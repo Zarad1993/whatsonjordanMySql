@@ -18,16 +18,16 @@ function addNewContact(authId, roleName) {
     
     if(roleName && roleName=='Organizer'){
         return contactsDB
-            .create({ type: 'Organization', authId: authId} )
-            .then(function(addedContact){
-                return addedContact.createPhone({contactId: addedContact.id});
-            });
+            .create({ type: 'Organization', authId: authId} );
+            // .then(function(addedContact){
+            //     return addedContact.createPhone({contactId: addedContact.id});
+            // });
     }else{
         return contactsDB
-                .create({authId: authId})
-                .then(function(addedContact){
-                    return addedContact.createPhone({contactId: addedContact.id});
-                })
+                .create({authId: authId});
+                // .then(function(addedContact){
+                //     return addedContact.createPhone({contactId: addedContact.id});
+                // })
     }
     
 }
@@ -49,12 +49,12 @@ function updateContact(contact, phone){
                 .then(function(foundContact){
                     return foundContact.
                                 update(contact)
-                                .then(function(updatedContact){
-                                    phonesDB
-                                        .updatePhones(phone)
-                                        // .then(function(updatedPhones){
-                                            return updatedContact;
-                                        // })
-                                })
+                                    .then(function(updatedContact){
+                                        return phonesDB
+                                            .updatePhones(phone, contact.id)
+                                            .then(function(updatedPhones){
+                                                return updatedContact;
+                                            })
+                                    })
                 })
 }

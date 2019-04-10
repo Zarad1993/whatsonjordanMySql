@@ -50,7 +50,13 @@
 		model.logout = logout;
 		model.removeRegisteredEvent = removeRegisteredEvent;
 		model.updateProfile = updateProfile;
+		model.addedPhones = [];
+		model.addPhone = addPhone;
 		// model.DOB = new Date(loggedMember.DOB);
+
+		function addPhone(phoneDetails){
+			model.addedPhones.push(phoneDetails);
+		}
 
 		function updateProfile(updatedUserProfile){
 			authService

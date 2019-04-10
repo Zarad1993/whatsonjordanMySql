@@ -186,7 +186,7 @@
 		  </div>
 
 		  <div class="form-row">
-					<div class="form-group col-md-6">
+					<!-- <div class="form-group col-md-6">
 						<label for="phone">Select Phone Type</label>
 						<select id="phoneType" class="form-control" ng-model="phone.type"
 							ng-options="phone for phone in model.phoneTypes">
@@ -194,18 +194,32 @@
 						<input type="text" id="phone" class="form-control" placeholder="Personal phone number"
 							ng-model="phone.number">
 							{{phone}}
-					</div>
+					</div> -->
 
-			    <div class="form-group col-md-6">
+			    <!-- <div class="form-group col-md-6">
 			      <label for="fatherPhone">Father phone number</label>
 			      <input type="text" id="fatherPhone" class="form-control" placeholder="Father phone number" ng-model="model.memberProfile.member.contact.fatherPhone">
-			    </div>
+			    </div> -->
 		  </div>
 
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					<label>Phone Type</label>
+				</div>
+				<div class="form-group col-md-8">
+						<label>Phone Number</label>
+				</div>
+			</div>
 
-		  <div class="form-row">
-			    
-			    <div class="form-group col-md-6">
+		  <div class="form-row" ng-repeat="type in model.phoneTypes">
+				<div class="form-group col-md-4">
+					<select id="phoneType" class="form-control" ng-model="model.memberProfile.contact.phones[$index].type" ng-options="phoneType for phoneType in model.phoneTypes"></select>
+				</div>
+				<div class="form-group col-md-8">
+					<input type="text" id="{{type}}" class="form-control" placeholder="{{type}} number" ng-model="model.memberProfile.contact.phones[$index].number">
+				</div>
+
+			    <!-- <div class="form-group col-md-6">
 			      <label for="motherPhone">Mother phone number</label>
 			      <input type="text" id="motherPhone" class="form-control" placeholder="Mother phone number" ng-model="model.memberProfile.member.contact.motherPhone">
 					</div>
@@ -214,8 +228,11 @@
 						<label for="emergencyPhone">Emergency phone number</label>
 						<input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number"
 							ng-model="model.memberProfile.member.contact.emergency">
-					</div>
-		  </div>
+					</div> -->
+					<!-- {{phone}} -->
+					<!-- <button ng-click="model.addPhone(phone)">Add Phone</button> -->
+				</div>
+				{{model.memberProfile.contact.phones}}
 
 
 
