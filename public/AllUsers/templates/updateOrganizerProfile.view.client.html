@@ -20,13 +20,13 @@
               <a class="nav-link" href="#!/allEvents">Events</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#!/login" ng-show="!model.loggedMaker">Login</a>
+              <a class="nav-link" href="#!/login" ng-show="!model.loggedOrganizer">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedMaker">Logout</a>
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedOrganizer">Logout</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedMaker">Profile</a>
+              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedOrganizer">Profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#!/about">About</a>
@@ -34,7 +34,7 @@
             <li class="nav-item">
               <a class="nav-link" href="#!/contact">Contact</a>
 						</li>      
-						<form class="form-inline my-2 my-lg-0" ng-show="model.loggedMaker.roles.length>1">
+						<form class="form-inline my-2 my-lg-0" ng-show="model.loggedOrganizer.roles.length>1">
 							<a class="btn btn-outline-success my-2 my-sm-0" href="#!/login">Switch profile</a>
 						</form>
           </ul>
@@ -55,7 +55,7 @@
 		<form>
 			<div nd-show="model.error" class="text-danger">{{model.error}}</div>
 
-		  <div class="form-row">
+		  <!-- <div class="form-row">
 			    <div class="form-group col-md-4">
 			      <label for="firstName">First Name</label>
 			      <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="model.makerProfile.maker.firstName">
@@ -68,12 +68,12 @@
 			      <label for="lastName">Last Name</label>
 			      <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="model.makerProfile.maker.lastName">
 			    </div>
-			</div>
+			</div> -->
 			<div class="form-row">
 				<div class="form-group col-md-12">
 					<label for="middleName">Organization Name</label>
 					<input type="text" class="form-control" id="organizationName" placeholder="Organization Name"
-						ng-model="model.makerProfile.maker.organizationName">
+						ng-model="model.makerProfile.contact.name">
 				</div>
 			</div>
 
@@ -117,7 +117,28 @@
 		  	</div>
 		  </div>
 
-		  <div class="form-row">
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					<label>Phone Type</label>
+				</div>
+				<div class="form-group col-md-8">
+					<label>Phone Number</label>
+				</div>
+			</div>
+			
+			<div class="form-row" ng-repeat="type in model.phoneTypes">
+				<div class="form-group col-md-4">
+					<select id="phoneType" class="form-control" ng-model="model.makerProfile.contact.phones[$index].type"
+						ng-options="phoneType for phoneType in model.phoneTypes"></select>
+				</div>
+				<div class="form-group col-md-8">
+					<input type="text" id="{{type}}" class="form-control" placeholder="{{type}} number"
+						ng-model="model.makerProfile.contact.phones[$index].number">
+				</div>
+			</div>
+			
+
+		  <!-- <div class="form-row">
 			    <div class="form-group col-md-6">
 			      <label for="phone1">Phone 1</label>
 			      <input type="text" id="phone1" class="form-control" placeholder="Phone 1" ng-model="model.makerProfile.maker.contact.phone1">
@@ -130,16 +151,11 @@
 		  </div>
 
 		  <div class="form-row">
-			    <!-- <div class="form-group col-md-6">
-			      <label for="emergencyName">Emergency Contact Name:</label>
-			      <input type="text" id="emergencyName" class="form-control" placeholder="Emergency Contact Name" ng-model="model.makerProfile.contact.emergency.name">
-			    </div> -->
-
 			    <div class="form-group col-md-6">
 			      <label for="emergencyPhone">Emergency phone number</label>
 			      <input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number" ng-model="model.makerProfile.maker.contact.emergency">
 			    </div>
-		  </div>
+		  </div> -->
 
 		  <hr class="my-4">
 
@@ -152,7 +168,7 @@
 
 
 			  
-		  <button type="submit" class="btn btn-success" ng-click="model.updateMakerProfile(model.makerProfile)">Update profile</button>
+		  <button type="submit" class="btn btn-success" ng-click="model.updateOrganizerProfile(model.makerProfile)">Update profile</button>
 	  	  <a class="btn btn-danger" href="#!/" role="button">Cancel</a>
 		</form>
 	</div>

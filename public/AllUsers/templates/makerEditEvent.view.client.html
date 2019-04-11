@@ -20,13 +20,13 @@
 					<a class="nav-link" href="#!/allEvents">Events</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#!/login" ng-show="!model.loggedMaker">Login</a>
+					<a class="nav-link" href="#!/login" ng-show="!model.loggedOrganizer">Login</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedMaker">Logout</a>
+					<a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedOrganizer">Logout</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedMaker">Profile</a>
+					<a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedOrganizer">Profile</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#!/about">About</a>
@@ -34,7 +34,7 @@
 				<li class="nav-item">
 					<a class="nav-link" href="#!/contact">Contact</a>
 				</li>
-				<form class="form-inline my-2 my-lg-0" ng-show="model.loggedMaker.roles.length>1">
+				<form class="form-inline my-2 my-lg-0" ng-show="model.loggedOrganizer.roles.length>1">
 					<a class="btn btn-outline-success my-2 my-sm-0" href="#!/login">Switch profile</a>
 				</form>
 			</ul>

@@ -22,7 +22,7 @@
 		this.forgetPassword = forgetPassword;
 		this.resetPassword = resetPassword;
 		this.updateProfile = updateProfile;
-		this.updateMakerProfile = updateMakerProfile;
+		this.updateOrganizerProfile = updateOrganizerProfile;
 		this.makePayment = makePayment;
 		this.confirmAttendance = confirmAttendance;
 		this.updateUserEventParameters = updateUserEventParameters;
@@ -91,8 +91,8 @@
 			return $http.put(url, updatedProfile);
 		}
 
-		function updateMakerProfile(updatedMakerProfile){
-			var url = '/api/maker/updateMakerProfile';
+		function updateOrganizerProfile(updatedMakerProfile){
+			var url = '/api/maker/updateOrganizerProfile';
 			return  $http.put(url, updatedMakerProfile);
 		}
 

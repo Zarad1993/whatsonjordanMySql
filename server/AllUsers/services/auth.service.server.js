@@ -136,7 +136,7 @@ app.post('/api/userProfile/uploadProfilePic', upload.single('profilePicture'), u
 app.post('/api/forgetPassword/:email', forgetPassword);
 app.post('/api/resetPassword/:token', checkToken, resetPassword);
 app.put('/api/user/updateProfile', updateProfile);
-app.put('/api/maker/updateMakerProfile', updateMakerProfile);
+app.put('/api/maker/updateOrganizerProfile', updateOrganizerProfile);
 app.put('/api/maker/makePayment', makePayment);
 app.put('/api/maker/confirmAttendance', confirmAttendance);
 app.put('/api/user/updateUserEventParameters', updateUserEventParameters);
@@ -289,36 +289,23 @@ function makePayment(req, res){
 function updateProfile(req, res){
 	var updatedProfile = req.body;
 	console.log('the profile to update profile', updatedProfile);
-	console.log('the user on the session ', req.session.passport.user);
 	
-	// if(updatedProfile.chosenRole){
-	// 	var chosenRole = req.session.passport.user.chosenRole;
-	// }
 	
 	authDB
 		.updateProfile(updatedProfile)
 		.then(function(result){
 			result.chosenRole = updatedProfile.name;
 			console.log('the final Updated User in users.server: ', result);
-
-			
-			// req.session.passport.user.chosenRole = req.session.passport.user.roles[i].name;
-			
 			req.session.passport.user = result;
 			req.session.save();
-
-			// res.send(req.session.passport.user);
-
-
-
 			res.send(req.isAuthenticated() ? req.session.passport.user : null);
 		});
 }
 
-function updateMakerProfile(req, res){
+function updateOrganizerProfile(req, res){
 	var updatedMakerProfile = req.body;
 	authDB
-		.updateMakerProfile(updatedMakerProfile)
+		.updateOrganizerProfile(updatedMakerProfile)
 		.then(function(result){
 			console.log('the final Updated Maker in users.server: ', result);
 			res.send(req.isAuthenticated() ? req.user : null);

@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('makerEventDetails', makerEventDetails);
 
-	function makerEventDetails($routeParams, eventsService, getterService, authService, $location, $route, loggedMaker) {
+	function makerEventDetails($routeParams, eventsService, getterService, authService, $location, $route, loggedOrganizer) {
 
 		var model = this;
 		model.logout = logout;
@@ -102,11 +102,11 @@
 
 
 		function init() {
-			if (!loggedMaker) {
+			if (!loggedOrganizer) {
 				$location.url('/login');
 			}
 
-			model.loggedMaker = loggedMaker;
+			model.loggedOrganizer = loggedOrganizer;
 			model.error2 = null;
 			model.grandTotalPayments = 0;
 			var eventId = $routeParams.eventId;

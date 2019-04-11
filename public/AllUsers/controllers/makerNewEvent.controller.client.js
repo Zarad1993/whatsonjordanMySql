@@ -3,18 +3,18 @@
 		.module('whatsOnJordan')
 		.controller('makerNewEventController', makerNewEventController);
 
-	function makerNewEventController($location, eventsService, addressService, getterService, loggedMaker, authService){
+	function makerNewEventController($location, eventsService, addressService, getterService, loggedOrganizer, authService){
 			var model = this;
 			function init(){
-				if(!loggedMaker){
+				if(!loggedOrganizer){
 					$location.url('/login')
 				}
 				model.newEventMain = true;
-				model.loggedMaker = loggedMaker;
+				model.loggedOrganizer = loggedOrganizer;
 				model.newAddressAdded = false;
 				model.addressSelected = false;
 				// model.newGeoLocationAdded = false;
-				var makerId = loggedMaker.makerId;
+				var makerId = loggedOrganizer.makerId;
 				getterService
 					.getAllCategories()
 					.then(function (categories) {
@@ -174,7 +174,7 @@
 
 			
 			function createEvent(newEvent){
-				newEvent.makerId = model.loggedMaker.makerId;
+				newEvent.makerId = model.loggedOrganizer.makerId;
 				newEvent.newAddressAdded = model.newAddressAdded;
 				newEvent.addressSelected = model.addressSelected;
 				// newEvent.newGeoLocationAdded = model.newGeoLocationAdded;

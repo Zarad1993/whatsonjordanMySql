@@ -3,10 +3,10 @@
 		.module('whatsOnJordan')
 		.controller('makerProfileController', makerProfileController);
 
-	function makerProfileController(authService, eventsService, loggedMaker, $location) {
+	function makerProfileController(authService, getterService, eventsService, loggedOrganizer, $location) {
 		var model = this;
 		model.logout = logout;
-		model.updateMakerProfile = updateMakerProfile;
+		model.updateOrganizerProfile = updateOrganizerProfile;
 
 		function init() {
 			console.log('reached');
@@ -15,48 +15,53 @@
 			// if not Maker and not logged
 			// $location.url('/login');
 			
-			if(!loggedMaker){
+			if(!loggedOrganizer){
 				$location.url('/login');
 			}
 			
-			model.makerProfile = loggedMaker.chosenRole;
-			model.allRoles = loggedMaker.allRoles;
+			model.makerProfile = loggedOrganizer.chosenRole;
+			model.allRoles = loggedOrganizer.allRoles;
 			
-			// model.loggedMaker = loggedMaker;
+			// model.loggedOrganizer = loggedOrganizer;
 
-			console.log('the logged in is: ', loggedMaker);
+			console.log('the logged in is: ', loggedOrganizer);
+			
+			getterService
+				.getPhoneTypes()
+				.then(function (phoneTypes) {
+					model.phoneTypes = phoneTypes.data;
+				})
 			
 			
 			
-			
-			// for(var i in loggedMaker.roles){
-			// 	if (loggedMaker.roles[i].name == loggedMaker.chosenRole){
-			// 		model.makerProfile = loggedMaker.roles[i];
+			// for(var i in loggedOrganizer.roles){
+			// 	if (loggedOrganizer.roles[i].name == loggedOrganizer.chosenRole){
+			// 		model.makerProfile = loggedOrganizer.roles[i];
 			// 	}
 			// }
 
 			// if (model.allRoles.roles.length > 1) {
 			// 	for (var i in model.allRoles.roles) {
 			// 		if (model.allRoles.roles[i].name == model.allRoles.chosenRole) {
-			// 			model.makerProfile = loggedMaker.roles[i];
+			// 			model.makerProfile = loggedOrganizer.roles[i];
 			// 		}
 			// 	}
 			// } else {
-			// 	model.makerProfile = loggedMaker.roles[0];
+			// 	model.makerProfile = loggedOrganizer.roles[0];
 			// }
 			
 			// eventsService
-			// 	.findEventsByMakerId(loggedMaker.maker.id)
+			// 	.findEventsByMakerId(loggedOrganizer.maker.id)
 			// 	.then(function (events) {
 			// 		model.eventsList = events.data;
 			// 	});
 		}
 		init();
 
-		function updateMakerProfile(updatedMakerProfile){
+		function updateOrganizerProfile(updatedMakerProfile){
 			console.log('the updated maker profile: ', updatedMakerProfile);
 			authService
-				.updateMakerProfile(updatedMakerProfile)
+				.updateProfile(updatedMakerProfile)
 				.then(function(result){
 					console.log('Profile Updated');
 					$location.url('/profile');

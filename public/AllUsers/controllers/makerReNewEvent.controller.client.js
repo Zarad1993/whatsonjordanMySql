@@ -3,15 +3,15 @@
 		.module('whatsOnJordan')
 		.controller('makerReNewEventController', makerReNewEventController);
 
-	function makerReNewEventController($location, $routeParams, eventsService, addressService, getterService, loggedMaker, authService){
+	function makerReNewEventController($location, $routeParams, eventsService, addressService, getterService, loggedOrganizer, authService){
 			var model = this;
 			function init(){
 				var eventId = $routeParams.eventId;
-				model.loggedMaker = loggedMaker;
+				model.loggedOrganizer = loggedOrganizer;
 				model.newAddressAdded = false;
 				model.addressSelected = false;
 				// model.newGeoLocationAdded = false;
-				var makerId = loggedMaker.makerId;
+				var makerId = loggedOrganizer.makerId;
 
 				getterService
 					.getAllCategories()

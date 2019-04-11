@@ -43,7 +43,7 @@ authDB.addTokenToUser = addTokenToUser;
 authDB.findUserByToken = findUserByToken;
 authDB.resetPassword = resetPassword;
 authDB.updateProfile = updateProfile;
-authDB.updateMakerProfile = updateMakerProfile;
+authDB.updateOrganizerProfile = updateOrganizerProfile;
 authDB.makePayment = makePayment;
 authDB.confirmAttendance = confirmAttendance;
 authDB.submitFeedback = submitFeedback;
@@ -274,8 +274,10 @@ function makePayment(payment){
 function updateProfile(updatedProfile){
 	// console.log('the updated profile: ', updatedProfile);
 	var phones = updatedProfile.contact.phones;
+	if (!updatedProfile.name == "Organizer"){
+		updatedProfile.contact.name = updatedProfile.contact.firstName +" "+ updatedProfile.contact.middleName +" "+ updatedProfile.contact.lastName;
+	}
 	// join the three parts of name to one part name
-	updatedProfile.contact.name = updatedProfile.contact.firstName +" "+ updatedProfile.contact.middleName +" "+ updatedProfile.contact.lastName;
 	return contactsDB
 		.updateContact(updatedProfile.contact, phones)
 		.then(function(updatedContact){
@@ -285,9 +287,9 @@ function updateProfile(updatedProfile){
 }
 
 
-function updateMakerProfile(updatedMakerProfile){
+function updateOrganizerProfile(updatedMakerProfile){
 	return makersDB
-			.updateMakerProfile(updatedMakerProfile.maker)
+			.updateOrganizerProfile(updatedMakerProfile.maker)
 			.then(function(result){
 				console.log('the result from update maker: ', result);
 				return result;

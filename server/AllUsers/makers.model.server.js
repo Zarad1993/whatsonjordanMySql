@@ -9,11 +9,11 @@ db.sequelize.sync();
 module.exports = makersDB;
 
 makersDB.addNewMaker = addNewMaker;
-makersDB.updateMakerProfile = updateMakerProfile;
+makersDB.updateOrganizerProfile = updateOrganizerProfile;
 makersDB.getAllMakers = getAllMakers;
 
 
-function updateMakerProfile(maker){
+function updateOrganizerProfile(maker){
     var makerId = maker.id;
     return makersDB
             .findById(makerId)

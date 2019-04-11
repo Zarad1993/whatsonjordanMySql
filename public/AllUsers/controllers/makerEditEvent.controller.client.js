@@ -3,23 +3,23 @@
 		.module('whatsOnJordan')
 		.controller('makerEditEventController', makerEditEventController);
 
-	function makerEditEventController(eventsService, addressService, getterService,  $location, loggedMaker, authService){
+	function makerEditEventController(eventsService, addressService, getterService,  $location, loggedOrganizer, authService){
 		var model = this;
 
 		function init(){
-			if(!loggedMaker){
+			if(!loggedOrganizer){
 				$location.url('/login');
 				return;
 			}
 			model.updateEventMain = true;
-			model.loggedMaker = loggedMaker;
+			model.loggedOrganizer = loggedOrganizer;
 			model.newAddressAdded = false;
 			model.addressSelected = false;
 			// model.newGeoLocationAdded = false;
-			var makerId = loggedMaker.makerId;
+			var makerId = loggedOrganizer.makerId;
 
 			eventsService
-				.findEventsByMakerId(loggedMaker.maker.id)
+				.findEventsByMakerId(loggedOrganizer.maker.id)
 				.then(function(events){
 					// console.log('the events',events);
 					model.eventsList = events.data;

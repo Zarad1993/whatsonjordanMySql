@@ -3,22 +3,22 @@
 		.module('whatsOnJordan')
 		.controller('makerEventsListController', makerEventsListController);
 
-	function makerEventsListController(eventsService, $location, loggedMaker, authService) {
+	function makerEventsListController(eventsService, $location, loggedOrganizer, authService) {
 		var model = this;
 
 		function init() {
-			if(!loggedMaker){
+			if(!loggedOrganizer){
 				$location.url('/login');
 			}
-			model.loggedMaker = loggedMaker;
-			// var makerName = loggedMaker.name;
-			// var loggedMakerId = loggedMaker._id;
+			model.loggedOrganizer = loggedOrganizer;
+			// var makerName = loggedOrganizer.name;
+			// var loggedMakerId = loggedOrganizer._id;
 			// model.makerName = makerName;
 			// model.makerId = loggedMakerId;
-			// console.log('the logged maker', loggedMaker);
+			// console.log('the logged maker', loggedOrganizer);
 			
 			eventsService
-				.findEventsByMakerId(loggedMaker.maker.id)
+				.findEventsByMakerId(loggedOrganizer.maker.id)
 				.then(function(events){
 					// console.log('the maker events are:', events.data);
 					model.eventsList = events.data;
@@ -55,7 +55,7 @@
 
 
 		function removeEvent(makerId, eventId){
-			//var makerId = $rootScope.loggedMaker._id;
+			//var makerId = $rootScope.loggedOrganizer._id;
 			eventsService.removeEvent(makerId, eventId)
 				.then(function(deleted){
 					var url = "/makerProfile";

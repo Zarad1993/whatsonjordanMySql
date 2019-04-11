@@ -1,6 +1,3 @@
-
-
-
 <!-- Navigation -->
     <nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
       <div class="container-fluid">
@@ -62,14 +59,18 @@
 <!-- All Users -->
 <div ng-show="model.users" >
 	<div class="row">
-		<div class="col-md-3">
+		<div class="col-md-1"></div>
+		<div class="col-md-4">
 			<input type="text" class="form-control" name="searchByEmail" ng-model="search.email"
 				placeholder="Search by Email">
 		</div>
 		<div class="col-md-3">
-			<label>Filter by user type</label>
-			<select ng-options="role.id as role.name for role in model.roles" ng-model="search.roles.id"></select>
+			<label class="pull-right">Filter by user type</label>
 		</div>
+		<div class="col-md-3">
+			<select class="form-control" ng-options="role.id as role.name for role in model.roles" ng-model="search.roles.id"></select>
+		</div>
+		<div class="col-md-1"></div>
 	</div>
 
 	<table class="table table-responsive-sm table-hover">

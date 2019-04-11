@@ -53,11 +53,13 @@
     <!-- {{model.makerProfile}} -->
 		<h5>Name: {{model.makerProfile.contact.name}}</h5>
 		<h5>Email: {{model.makerProfile.email}}</h5>
-    
-    <h5>Phone 1: {{model.makerProfile.contact.phone1}}</h5>
+    <div ng-repeat="phone in model.makerProfile.contact.phones">
+      <h5>{{phone.type}}: {{phone.number}}</h5>
+    </div>
+    <!-- <h5>Phone 1: {{model.makerProfile.contact.phone1}}</h5>
     <h5>Phone 2: {{model.makerProfile.contact.phone2}}</h5>
-    <!-- <h5>Emergency Contact Name: {{model.makerProfile.contact.emergency.name}}</h5> -->
-    <h5>Emergency Phone number: {{model.makerProfile.maker.contact.emergency}}</h5>
+    
+    <h5>Emergency Phone number: {{model.makerProfile.maker.contact.emergency}}</h5> -->
     <!-- <h5>Notes: {{model.makerProfile.notes}}</h5> -->
     
 	</div>
@@ -68,7 +70,7 @@
 		<a class="btn btn-primary" href="#!/makerProfile/newEvent">New Event</a>
 		<a class="btn btn-primary" href="#!/makerProfile/editEvent">Edit Event</a>
 		<a class="btn btn-primary" href="#!/makerProfile/eventsList">Events List</a>
-    <a href="#!/updateMakerProfile" class="btn btn-warning">Update profile</a>
+    <a href="#!/updateOrganizerProfile" class="btn btn-warning">Update profile</a>
 	</div>
 	<br>
 	<h4>Events:</h4>

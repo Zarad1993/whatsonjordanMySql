@@ -78,16 +78,16 @@
 				controller: 'makerProfileController',
 				controllerAs: 'model',
 				resolve: {
-					loggedMaker: isOrganizer
+					loggedOrganizer: isOrganizer
 				}
 			})
 
-			.when('/updateMakerProfile', {
-				templateUrl:'AllUsers/templates/updateMakerProfile.view.client.html',
+			.when('/updateOrganizerProfile', {
+				templateUrl:'AllUsers/templates/updateOrganizerProfile.view.client.html',
 				controller: 'makerProfileController',
 				controllerAs: 'model',
 				resolve:{
-					loggedMaker: isOrganizer
+					loggedOrganizer: isOrganizer
 				}
 			})
 
@@ -114,7 +114,7 @@
 				controller:   'makerEventsListController',
 				controllerAs: 'model',
 				resolve: {
-					loggedMaker: isOrganizer
+					loggedOrganizer: isOrganizer
 				}
 			})
 
@@ -124,7 +124,7 @@
 				controller: 'makerNewEventController',
 				controllerAs: 'model',
 				resolve: {
-					loggedMaker: isOrganizer
+					loggedOrganizer: isOrganizer
 				}
 			})
 
@@ -133,7 +133,7 @@
 				controller: 'makerReNewEventController',
 				controllerAs: 'model',
 				resolve: {
-					loggedMaker: isOrganizer
+					loggedOrganizer: isOrganizer
 				}
 			})
 
@@ -142,7 +142,7 @@
 				controller: 'makerEditEventController',
 				controllerAs: 'model',
 				resolve: {
-					loggedMaker: isOrganizer
+					loggedOrganizer: isOrganizer
 				}
 			})
 
@@ -151,7 +151,7 @@
 				controller: 'makerEventDetails',
 				controllerAs: 'model',
 				resolve: {
-					loggedMaker: isOrganizer
+					loggedOrganizer: isOrganizer
 				}
 			})
 
