@@ -20,8 +20,8 @@ var Address = db.sequelize.define('address', {
     note: {
         type: Sequelize.STRING
     },
-    createdBy: {
-        type: Sequelize.STRING
+    active: {
+        type: Sequelize.BOOLEAN
     }
 });
 

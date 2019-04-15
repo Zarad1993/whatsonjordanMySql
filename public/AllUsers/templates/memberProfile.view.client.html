@@ -59,9 +59,9 @@
 			<h4><i class="fas fa-transgender"></i> {{model.memberProfile.contact.gender}}</h4>
 			
 			
-			<h4><i class="fas fa-map-marked-alt"></i> {{model.memberProfile.member.address.country}}, {{model.memberProfile.member.address.province}} - {{model.memberProfile.member.address.city}} - {{model.memberProfile.member.address.street}} street</h4>
-			<h4><i class="fas fa-graduation-cap"></i> {{model.memberProfile.member.school.name}}</h4>
-			<h4><i class="fas fa-user-graduate"></i> Grade: {{model.memberProfile.member.grade.grade}}</h4>
+			<h4><i class="fas fa-map-marked-alt"></i> {{model.memberProfile.contact.addresses[0].country}}, {{model.memberProfile.contact.addresses[0].province}} - {{model.memberProfile.contact.addresses[0].city}} - {{model.memberProfile.contact.addresses[0].street}} street</h4>
+			<h4><i class="fas fa-graduation-cap"></i> {{model.memberProfile.contact.school.name}}</h4>
+			<h4><i class="fas fa-user-graduate"></i> Grade: {{model.memberProfile.contact.grade.grade}}</h4>
 			<h4><i class="fas fa-phone"></i> Phones list:</h4>
 			<div style="margin-left:30px;">
 				<ul ng-repeat="phone in model.memberProfile.contact.phones">

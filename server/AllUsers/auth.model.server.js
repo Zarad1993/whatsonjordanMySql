@@ -62,7 +62,7 @@ function getAuthDetails(userId){
 			where: { id: userId },
 			attributes: { exclude: ['password', 'resetPasswordExpires', 'resetPasswordToken']},
 			include: [
-				{all: true}
+				{all: true}, {model:Contact, include:[{all:true}]}
 			]
 			})
 		.then(function(user){
@@ -272,12 +272,13 @@ function makePayment(payment){
 
 // the parameter updatedProfile is the member profile only not all roles
 function updateProfile(updatedProfile){
-	// console.log('the updated profile: ', updatedProfile);
+	console.log('the updated profile: ', updatedProfile);
 	var phones = updatedProfile.contact.phones;
-	if (!updatedProfile.name == "Organizer"){
+	if (updatedProfile.name !== "Organizer"){
+		// join the three parts of name to one part name
 		updatedProfile.contact.name = updatedProfile.contact.firstName +" "+ updatedProfile.contact.middleName +" "+ updatedProfile.contact.lastName;
 	}
-	// join the three parts of name to one part name
+	
 	return contactsDB
 		.updateContact(updatedProfile.contact, phones)
 		.then(function(updatedContact){

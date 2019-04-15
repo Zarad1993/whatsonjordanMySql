@@ -63,38 +63,42 @@ db.ExpenseType = require('./models/expenseType.model');
    **************************************************** */
 // new structure:
 db.Auth.belongsToMany(db.Role, { through: db.X_Auth_Role });
-
 db.Auth.hasMany(db.Contact);
 
 db.Contact.hasMany(db.Phone);
+db.Contact.belongsTo(db.Nationality);
+db.Contact.belongsTo(db.Grade);
+db.Contact.belongsTo(db.School);
+db.Contact.hasMany(db.Address);
 
 
-
-db.Member.belongsTo(db.School);
+// db.Member.belongsTo(db.School);
 // db.Member.belongsTo(db.Contact);
-db.Member.belongsTo(db.Address);
-db.Member.belongsTo(db.Nationality);
-db.Member.belongsTo(db.Grade);
-
-
+// db.Member.belongsTo(db.Grade);
 // db.Maker.belongsTo(db.Contact);
-db.Maker.belongsTo(db.Address);
-db.Maker.hasMany(db.Event);
-
-db.SubCategory.belongsTo(db.Category);
-
-db.Event.belongsTo(db.Category);
-db.Event.belongsTo(db.AgeGroup);
-db.Event.belongsTo(db.Maker);
-db.Event.belongsTo(db.Address);
-db.Event.belongsTo(db.Category);
-db.Event.belongsTo(db.SubCategory);
 
 
-db.Member.belongsToMany(db.Event, {through: 'MemberEvent'});
-db.Event.belongsToMany(db.Member, {through: 'MemberEvent'});
-db.Expense.belongsToMany(db.Event, {through: 'EventExpense'});
-db.Expense.belongsTo(db.ExpenseType);
+// db.Member.belongsTo(db.Address);
+
+
+
+// db.Maker.belongsTo(db.Address);
+// db.Maker.hasMany(db.Event);
+
+// db.SubCategory.belongsTo(db.Category);
+
+// db.Event.belongsTo(db.Category);
+// db.Event.belongsTo(db.AgeGroup);
+// db.Event.belongsTo(db.Maker);
+// db.Event.belongsTo(db.Address);
+// db.Event.belongsTo(db.Category);
+// db.Event.belongsTo(db.SubCategory);
+
+
+// db.Member.belongsToMany(db.Event, {through: 'MemberEvent'});
+// db.Event.belongsToMany(db.Member, {through: 'MemberEvent'});
+// db.Expense.belongsToMany(db.Event, {through: 'EventExpense'});
+// db.Expense.belongsTo(db.ExpenseType);
 
 // Connect the address with the geolocation
 // db.Address.belongsTo(db.GeoLocation);
@@ -104,9 +108,9 @@ db.Expense.belongsTo(db.ExpenseType);
 // feedback table (memberId, eventId, feedback)
 
 // will add to member .getFeedbacks .setFeedbacks .createFeedback .addFeedbacks .removeFeedback .removeFeedbacks .hasFeedback .hasFeedbacks .counFeedbacks
-db.Feedback.belongsTo(db.Member);
+// db.Feedback.belongsTo(db.Member);
 // will create feedback .getMember .setMember .createMember
-db.Feedback.belongsTo(db.Event);
+// db.Feedback.belongsTo(db.Event);
 // will create feedback .getEvent .setEvent .createEvent
 
 
@@ -114,6 +118,9 @@ db.Feedback.belongsTo(db.Event);
 // Expense types
 // addExpenseTypes();
 // createRoles();
+// addNationalities();
+// addGrades();
+// addSchools();
 
 db.sequelize.sync();
 
@@ -135,4 +142,28 @@ function createRoles(){
 		db.Role.create({name: roles[i]});
 	}
 
+}
+
+function addNationalities() {
+	var nationalities = ['Jordanian', 'Iraqi', 'Syrian'];
+	for (var i in nationalities) {
+		db.Nationality.create({nationality: nationalities[i] });
+	}
+}
+
+function addSchools(){
+	var schools = ['Alruwad', 'Amman Academy', 'American co,,unity school', 'Modern American school'];
+	for(var i in schools){
+		// var id = Number(i)+1;
+		db.School.create({name: schools[i]});
+	}
+}
+
+function addGrades(){
+	var grades = ['KG1', 'KG2', '1','2','3','4','5','6','7','8','9','10','11','12'];
+	for(var i in grades){
+		// var id = Number(i) + 1;
+		// console.log('id is: ', id);
+		db.Grade.create({grade: grades[i]});
+	}
 }

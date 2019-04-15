@@ -5,18 +5,18 @@ var School = db.sequelize.define('school', {
     name: {
         type: Sequelize.STRING
     },
-    address:{
-        type: Sequelize.STRING
-    },
-    phone1:{
-        type: Sequelize.STRING
-    },
-    phone2: {
-        type: Sequelize.STRING
-    },
-    email:{
-        type: Sequelize.STRING
-    },
+    // address:{
+    //     type: Sequelize.STRING
+    // },
+    // phone1:{
+    //     type: Sequelize.STRING
+    // },
+    // phone2: {
+    //     type: Sequelize.STRING
+    // },
+    // email:{
+    //     type: Sequelize.STRING
+    // },
     createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW

@@ -2,6 +2,7 @@ var db = require('../databse');
 var contactsDB = db.Contact;  // require('../models/ageGroup.model');
 var Phone = db.Phone;
 var phonesDB = require('../AllUsers/phones.model.server');
+var addressesDB = require('../AllUsers/addresses.model.server');
 
 db.sequelize.sync();
 
@@ -37,12 +38,14 @@ function findContactsByAuthId(authId){
     // will log the value of the enum
     return contactsDB.findAll({
         where: {authId: authId},
-        include: [Phone]
+        include: [{all: true}]
     })
 }
 
 function updateContact(contact, phone){
-    // console.log('the phones are: ', phone);
+    console.log('the contact: ', contact);
+    console.log('the address objects: ', contact.addresses);
+    
     // return contactsDB.update(contact, {where:{id: contact.id}});
     return contactsDB
                 .findById(contact.id)
@@ -53,7 +56,12 @@ function updateContact(contact, phone){
                                         return phonesDB
                                             .updatePhones(phone, contact.id)
                                             .then(function(updatedPhones){
-                                                return updatedContact;
+                                                return addressesDB
+                                                    .updateOrCreateAddress(contact.addresses, contact.id, contact.type)
+                                                    .then(function(address){
+                                                        console.log('the updated created address: ', address);
+                                                        return updatedContact;
+                                                    })
                                             })
                                     })
                 })

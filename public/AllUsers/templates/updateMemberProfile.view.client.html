@@ -1,5 +1,3 @@
-
-
 <!-- Navigation -->
     <nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
       <div class="container-fluid">
@@ -78,8 +76,7 @@
 			<input type="submit" name="uploadImage" class="form-control" >
 		</form>
 
-
-
+		
 	  <h1 class="display-3">Update profile:</h1>
 	  <hr class="my-4">
 		<form>
@@ -123,29 +120,16 @@
 					</div>
 
 			    <div class="form-group col-md-4">
-						<label for="grade">Grade (current grade: {{model.memberProfile.member.grade.grade}})</label>
+						<label for="grade">Grade:</label>
 						<!-- {{model.memberProfile.member.gradeId.gradeId}} -->
 						<!-- {{grade.gradeId}} -->
-			      <select id="grade" class="form-control" ng-model="model.memberProfile.member.gradeId" ng-options="grade.id as grade.grade for grade in model.allGrades">
-							<!-- <option>KG1</option>
-								<option>KG2</option>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
-								<option>6</option>
-								<option>7</option>
-								<option>8</option>
-								<option>9</option> -->
-						</select>
-						the grade id: {{model.memberProfile.member.gradeId}}
+			      <select id="grade" class="form-control" ng-model="model.memberProfile.contact.gradeId" ng-options="grade.id as grade.grade for grade in model.allGrades"></select>
 			    </div>
-			    <div class="form-group col-md-12">
+					
+					<div class="form-group col-md-12">
 			      <label for="school">School</label>
-						<select id="school" class="form-control" ng-model="model.memberProfile.member.schoolId" ng-options="school.id as school.name for school in model.allSchools">
+						<select id="school" class="form-control" ng-model="model.memberProfile.contact.schoolId" ng-options="school.id as school.name for school in model.allSchools">
 						</select>
-						{{model.memberProfile.member.schoolId}}
 						<!-- <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.memberProfile.member.school.name"> -->
 		    	</div>
 		  </div>
@@ -168,11 +152,11 @@
 			  <div class="form-group col-md-12">
 					<label for="address">Address</label>
 					<br>
-					Country: <input type="text" class="form-control" id="addressCountry" placeholder="Country" ng-model="model.memberProfile.member.address.country">
-					Province: <input type="text" class="form-control" id="addressProvince" placeholder="Province" ng-model="model.memberProfile.member.address.province">
-					City: <input type="text" class="form-control" id="addressCity" placeholder="City" ng-model="model.memberProfile.member.address.city">
-					Street: <input type="text" class="form-control" id="addressStreet" placeholder="Street" ng-model="model.memberProfile.member.address.street">
-					Building number: <input type="text" class="form-control" id="addressBuilding" placeholder="Building" ng-model="model.memberProfile.member.address.building">
+					Country: <input type="text" class="form-control" id="addressCountry" placeholder="Country" ng-model="model.memberProfile.contact.addresses[0].country">
+					Province: <input type="text" class="form-control" id="addressProvince" placeholder="Province" ng-model="model.memberProfile.contact.addresses[0].province">
+					City: <input type="text" class="form-control" id="addressCity" placeholder="City" ng-model="model.memberProfile.contact.addresses[0].city">
+					Street: <input type="text" class="form-control" id="addressStreet" placeholder="Street" ng-model="model.memberProfile.contact.addresses[0].street">
+					Building number: <input type="text" class="form-control" id="addressBuilding" placeholder="Building" ng-model="model.memberProfile.contact.addresses[0].building">
 			  </div>
 		  </div>
 
@@ -181,7 +165,6 @@
 		  <div class="form-row">
 		  	<div class="form-group col-md-12">
 					<label><h3>Contact details:</h3></label>
-					{{model.phoneTypes}}
 		  	</div>
 		  </div>
 

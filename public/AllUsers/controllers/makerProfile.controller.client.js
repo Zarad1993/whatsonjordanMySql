@@ -23,8 +23,16 @@
 			model.allRoles = loggedOrganizer.allRoles;
 			
 			// model.loggedOrganizer = loggedOrganizer;
+			if(model.makerProfile.contact.addresses.length <1){
+				model.createAddress = true;
+			}
+			model.newAddressIndex = model.makerProfile.contact.addresses.length;
+			// console.log('the logged in is: ', loggedOrganizer);
+			console.log('the addresses list: ', model.makerProfile.contact.addresses);
 
-			console.log('the logged in is: ', loggedOrganizer);
+
+
+			
 			
 			getterService
 				.getPhoneTypes()
@@ -67,6 +75,7 @@
 					$location.url('/profile');
 				})
 		}
+
 
 		function logout(){
 			authService

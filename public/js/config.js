@@ -240,7 +240,7 @@
 			.then(function(result){
 				var user = result;
 				console.log('the result of check user login', user);
-				if(user.roles.length > 1){
+				if (user.roles.length > 1){
 					var route1 = '/' + user.chosenRole + 'Profile';
 					$location.url(route1);
 				}else{

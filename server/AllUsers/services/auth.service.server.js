@@ -288,9 +288,7 @@ function makePayment(req, res){
 
 function updateProfile(req, res){
 	var updatedProfile = req.body;
-	console.log('the profile to update profile', updatedProfile);
-	
-	
+	console.log('the profile to update profile', updatedProfile);	
 	authDB
 		.updateProfile(updatedProfile)
 		.then(function(result){

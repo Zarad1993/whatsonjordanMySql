@@ -33,7 +33,7 @@ function updatePhones(phones, contactId){
                             .then(function(updatedPhone){
                                 // totalResult.push(result);
                                 asyncLoop(i + 1, cb);
-                            })
+                            });
                     }else{
                         // totalResult.push(result);
                         asyncLoop(i + 1, cb);

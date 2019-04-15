@@ -18,7 +18,8 @@ var Contacts = db.sequelize.define('contact', {
         defaultValue: null
     },
     profileImage: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'https://image.flaticon.com/icons/svg/145/145867.svg'
     },
     gender: {
         type: Sequelize.STRING,
