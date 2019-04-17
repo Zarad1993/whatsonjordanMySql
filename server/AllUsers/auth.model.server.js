@@ -274,13 +274,14 @@ function makePayment(payment){
 function updateProfile(updatedProfile){
 	console.log('the updated profile: ', updatedProfile);
 	var phones = updatedProfile.contact.phones;
+	var removedMedical = updatedProfile.removedMedical;
 	if (updatedProfile.name !== "Organizer"){
 		// join the three parts of name to one part name
 		updatedProfile.contact.name = updatedProfile.contact.firstName +" "+ updatedProfile.contact.middleName +" "+ updatedProfile.contact.lastName;
 	}
 	
 	return contactsDB
-		.updateContact(updatedProfile.contact, phones)
+		.updateContact(updatedProfile.contact, phones, removedMedical)
 		.then(function(updatedContact){
 			console.log('the updatedContact: ', updatedContact);
 			return getAuthDetails(updatedContact.authId);

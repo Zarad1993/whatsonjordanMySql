@@ -115,7 +115,6 @@
 						<select id="nationality" class="form-control" ng-model="model.memberProfile.contact.nationalityId"
 							ng-options="nationality.id as nationality.nationality for nationality in model.nationalities">
 						</select>
-						{{model.memberProfile.contact.nationalityId}}
 						<!-- <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.memberProfile.member.school.name"> -->
 					</div>
 
@@ -132,22 +131,62 @@
 						</select>
 						<!-- <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.memberProfile.member.school.name"> -->
 		    	</div>
-		  </div>
+			</div>
+			
 
-		  <div class="form-row">
-			    <div class="form-group col-md-4">
-			      <label for="medicalIssue">Any medical issues?</label>
-			      <select id="medicalIssue" class="form-control" ng-model="model.memberProfile.medical.medicalIssues">
-			        <option>Yes</option>
-			        <option>No</option>
-      			  </select>
-			    </div>
-			    <div class="form-group col-md-8">
-			      <label for="problemDetails">If yes please fill the details:</label>
-			      <input type="text" class="form-control" id="problemDetails" placeholder="Medical issue details..." ng-model="model.memberProfile.medical.problemDetails">
-			    </div>
-		  </div>
 
+
+
+			<h5>Medical issues:</h5>
+			<div ng-show="model.memberProfile.contact.medicalIssues.length==0">
+				<div class="form-row">
+						<div class="form-group col-md-5">
+							<label for="medicalIssue">Any medical issues?</label>
+							<select id="medicalIssue" class="form-control" ng-model="model.memberProfile.contact.medicalStatus" ng-change="model.medicalIssuesStatus()">
+								<option>Yes</option>
+								<option>No</option>
+							</select>
+						</div>
+				</div>
+			</div>
+
+			<div ng-show="model.memberProfile.contact.medicalIssues.length>0">
+				<div class="form-row">
+					<div class="form-group col-md-4">
+						<label for="problemDetails">Medical issue title:</label>
+					</div>
+					<div class="form-group col-md-8">
+						<label for="problemDetails">Medical issue details:</label>
+					</div>
+				</div>
+				<div class="form-row" ng-repeat="medical in model.memberProfile.contact.medicalIssues">
+					<div class="form-group col-md-4">
+						<input 
+								type="text" class="form-control" 
+								id="problemDetails{{$index}}" 
+								placeholder="Medical issue details..." 
+								ng-model="model.memberProfile.contact.medicalIssues[$index].title" 
+						>
+					</div>
+					<div class="form-group col-md-7">
+						<input type="text" class="form-control" id="problemDetails{{$index}}" placeholder="Medical issue details..."
+						ng-model="model.memberProfile.contact.medicalIssues[$index].details">
+					</div>
+					<div class="form-group col-md-1">
+						<i class="fas fa-backspace" style="font-size: 2.5em; color: tomato; cursor: pointer;" ng-click="model.removeMedicalIssue($index)"></i>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-row pull-right" ng-show="model.memberProfile.contact.medicalIssues.length>0">
+				<div class="form-group col-md-5">
+					<a class="btn btn-warning"ng-click="model.addMedicalIssue()">Another medical issue!</a>
+				</div>
+			</div>
+
+
+
+				
 		  <div class="form-row">
 			  <div class="form-group col-md-12">
 					<label for="address">Address</label>

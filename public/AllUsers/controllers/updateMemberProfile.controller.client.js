@@ -10,7 +10,7 @@
 			
 			model.memberProfile = loggedMember.chosenRole;
 			model.allRoles = loggedMember.allRoles;
-
+			model.newMedicalIssue = null;
 
 			if (model.memberProfile.contact.DOB){
 				model.memberProfile.contact.DOB = new Date(model.memberProfile.contact.DOB);
@@ -51,6 +51,9 @@
 		model.removeRegisteredEvent = removeRegisteredEvent;
 		model.updateProfile = updateProfile;
 		model.addedPhones = [];
+		model.addMedicalIssue = addMedicalIssue;
+		model.medicalIssuesStatus = medicalIssuesStatus;
+		model.removeMedicalIssue = removeMedicalIssue;
 		// model.DOB = new Date(loggedMember.DOB);
 
 
@@ -62,6 +65,30 @@
 					// model.logout();
 					$location.url('/profile');
 				})
+		}
+
+
+		function medicalIssuesStatus(){
+			if (model.memberProfile.contact.medicalStatus == 'Yes'){
+				model.memberProfile.contact.medicalIssues.push({
+					title: null,
+					details: null
+				});
+			}
+		}
+
+
+		function addMedicalIssue(){
+			model.memberProfile.contact.medicalIssues.push({
+				title: null,
+				details: null
+			});
+		}
+
+		function removeMedicalIssue(index){
+			console.log('the index is: ', index);
+			model.memberProfile.removedMedical = model.memberProfile.contact.medicalIssues[index];
+			model.memberProfile.contact.medicalIssues.splice(index, 1);
 		}
 
 		function ValidateSize(file) {

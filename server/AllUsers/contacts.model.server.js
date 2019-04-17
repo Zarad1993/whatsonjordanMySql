@@ -3,6 +3,7 @@ var contactsDB = db.Contact;  // require('../models/ageGroup.model');
 var Phone = db.Phone;
 var phonesDB = require('../AllUsers/phones.model.server');
 var addressesDB = require('../AllUsers/addresses.model.server');
+var medicalIssuesDB = require('../AllUsers/medicalIssues.model.server');
 
 db.sequelize.sync();
 
@@ -42,9 +43,9 @@ function findContactsByAuthId(authId){
     })
 }
 
-function updateContact(contact, phone){
+function updateContact(contact, phone, removedMedical){
     console.log('the contact: ', contact);
-    console.log('the address objects: ', contact.addresses);
+    console.log('the medical issues objects: ', contact.medicalIssues);
     
     // return contactsDB.update(contact, {where:{id: contact.id}});
     return contactsDB
@@ -59,10 +60,14 @@ function updateContact(contact, phone){
                                                 return addressesDB
                                                     .updateOrCreateAddress(contact.addresses, contact.id, contact.type)
                                                     .then(function(address){
-                                                        console.log('the updated created address: ', address);
-                                                        return updatedContact;
-                                                    })
-                                            })
-                                    })
-                })
+                                                        return medicalIssuesDB
+                                                            .updateOrCreateMedicalIssues(contact.medicalIssues, contact.id, removedMedical)
+                                                                .then(function(medical){
+                                                                    console.log('the updated created medical: ', medical);
+                                                                    return updatedContact;
+                                                                });
+                                                    });
+                                            });
+                                    });
+                });
 }

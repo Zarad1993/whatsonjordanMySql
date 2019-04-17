@@ -55,6 +55,7 @@ db.School = require('./models/school.model');
 db.Feedback = require('./models/feedback.model');
 db.Expense = require('./models/expense.model');
 db.ExpenseType = require('./models/expenseType.model');
+db.MedicalIssue = require('./models/medicalIssue.model');
 
 
 
@@ -70,6 +71,7 @@ db.Contact.belongsTo(db.Nationality);
 db.Contact.belongsTo(db.Grade);
 db.Contact.belongsTo(db.School);
 db.Contact.hasMany(db.Address);
+db.Contact.hasMany(db.MedicalIssue);
 
 
 // db.Member.belongsTo(db.School);
@@ -152,7 +154,7 @@ function addNationalities() {
 }
 
 function addSchools(){
-	var schools = ['Alruwad', 'Amman Academy', 'American co,,unity school', 'Modern American school'];
+	var schools = ['Alruwad', 'Almohammadiya', 'Amman Academy', 'American co,,unity school', 'Modern American school'];
 	for(var i in schools){
 		// var id = Number(i)+1;
 		db.School.create({name: schools[i]});
