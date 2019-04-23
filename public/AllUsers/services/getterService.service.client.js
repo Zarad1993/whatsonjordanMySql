@@ -5,6 +5,8 @@
         .service('getterService', getterService);
 
     function getterService($http) {
+        this.getEventHelpers = getEventHelpers;
+        this.getMemberProfileHelpers = getMemberProfileHelpers;
         this.getAllCategories = getAllCategories;
         this.getAllSubCategories = getAllSubCategories;
         this.getAllAgeGroups = getAllAgeGroups;
@@ -16,6 +18,13 @@
         function init() { }
         init();
 
+        function getEventHelpers(organizerId){
+            return $http.get('/api/getterService/getEventHelpers/'+organizerId);
+        }
+
+        function getMemberProfileHelpers(){
+            return $http.get('/api/getterService/getMemberProfileHelpers');
+        }
 
         function getAllCategories() {
             return $http.get('/api/getterService/getAllCategories');

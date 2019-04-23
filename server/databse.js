@@ -39,23 +39,25 @@ db.Role = require('./models/Roles.model');
 db.X_Auth_Role = require('./models/x_auths_roles.model');
 db.Contact = require('./models/contacts.model'); // hold the (type: [individual, organizatio], name) connected to Auths
 db.Phone = require('./models/phones.model'); // holds the (contactId, number)
-
-
-db.Member = require('./models/member.model');
-db.Maker = require('./models/maker.model');
 db.Address = require('./models/address.model');
-db.GeoLocation = require('./models/geoLocation.model');
 db.Nationality = require('./models/nationality.model');
-db.Event = require('./models/event.model');
-db.Category = require('./models/category.model');
-db.SubCategory = require('./models/subCategory.model');
-db.AgeGroup = require('./models/ageGroup.model');
 db.Grade = require('./models/grade.model');
 db.School = require('./models/school.model');
+db.MedicalIssue = require('./models/medicalIssue.model');
+
+db.Category = require('./models/category.model');
+db.SubCategory = require('./models/subCategory.model');
+db.Event = require('./models/event.model');
+db.ProgramDetails = require('./models/programDetails.model');
+
+
+// db.Member = require('./models/member.model');
+// db.Maker = require('./models/maker.model');
+db.GeoLocation = require('./models/geoLocation.model');
+db.AgeGroup = require('./models/ageGroup.model');
 db.Feedback = require('./models/feedback.model');
 db.Expense = require('./models/expense.model');
 db.ExpenseType = require('./models/expenseType.model');
-db.MedicalIssue = require('./models/medicalIssue.model');
 
 
 
@@ -66,6 +68,7 @@ db.MedicalIssue = require('./models/medicalIssue.model');
 db.Auth.belongsToMany(db.Role, { through: db.X_Auth_Role });
 db.Auth.hasMany(db.Contact);
 
+// Contact
 db.Contact.hasMany(db.Phone);
 db.Contact.belongsTo(db.Nationality);
 db.Contact.belongsTo(db.Grade);
@@ -73,28 +76,21 @@ db.Contact.belongsTo(db.School);
 db.Contact.hasMany(db.Address);
 db.Contact.hasMany(db.MedicalIssue);
 
+// Event
+db.SubCategory.belongsTo(db.Category);
+db.Contact.hasMany(db.Event);
+db.Event.belongsTo(db.Category);
+db.Event.belongsTo(db.SubCategory);
+db.Event.belongsTo(db.AgeGroup);
+db.Event.belongsTo(db.Address);
+db.Address.belongsTo(db.GeoLocation);
+db.ProgramDetails.belongsTo(db.Event);
 
-// db.Member.belongsTo(db.School);
-// db.Member.belongsTo(db.Contact);
-// db.Member.belongsTo(db.Grade);
-// db.Maker.belongsTo(db.Contact);
-
-
-// db.Member.belongsTo(db.Address);
 
 
 
-// db.Maker.belongsTo(db.Address);
-// db.Maker.hasMany(db.Event);
 
-// db.SubCategory.belongsTo(db.Category);
 
-// db.Event.belongsTo(db.Category);
-// db.Event.belongsTo(db.AgeGroup);
-// db.Event.belongsTo(db.Maker);
-// db.Event.belongsTo(db.Address);
-// db.Event.belongsTo(db.Category);
-// db.Event.belongsTo(db.SubCategory);
 
 
 // db.Member.belongsToMany(db.Event, {through: 'MemberEvent'});
@@ -103,7 +99,6 @@ db.Contact.hasMany(db.MedicalIssue);
 // db.Expense.belongsTo(db.ExpenseType);
 
 // Connect the address with the geolocation
-// db.Address.belongsTo(db.GeoLocation);
 
 
 // One to Many relationship between member and feedback each member has many feedbacks and each feedback belongsto member
@@ -123,6 +118,9 @@ db.Contact.hasMany(db.MedicalIssue);
 // addNationalities();
 // addGrades();
 // addSchools();
+// addCategories();
+// addSubCategories();
+// addAgeGroups();
 
 db.sequelize.sync();
 
@@ -167,5 +165,36 @@ function addGrades(){
 		// var id = Number(i) + 1;
 		// console.log('id is: ', id);
 		db.Grade.create({grade: grades[i]});
+	}
+}
+
+function addCategories(){
+	var categories = ['Sport', 'Art', 'Fair'];
+	for(var i in categories){
+		var id = Number(i) + 1;
+		db.Category.create({id: id, category: categories[i]});
+	}
+}
+
+function addSubCategories(){
+	var subCategories = [{name: 'Soccer', categoryId: 1}, {name: 'Basketball', categoryId: 1}, {name: 'Swimming', categoryId: 1}, {name: 'Painting', categoryId: 2}, {name: 'Foodfair', categoryId: 3}];
+	for(var i in subCategories){
+		var id = Number(i) + 1;
+		db.SubCategory.create({ id: id, subcategory: subCategories[i].name, categoryId: subCategories[i].categoryId});
+	}
+}
+
+function addAgeGroups(){
+	var ages = [
+		{ name: 'From 4 to 6', from: '4', to: '6' },
+		{ name: 'From 7 to 9', from: '7', to: '9' },
+		{ name: 'From 10 to 12', from: '10', to: '12' },
+		{ name: 'From 13 to 15', from: '13', to: '15' },
+		{ name: 'From 16 to 18', from: '16', to: '18' }
+	];
+	for(var i in ages){
+		var id = Number(i)+1;
+		ages[i].id = id;
+		db.AgeGroup.create(ages[i]);
 	}
 }

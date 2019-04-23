@@ -15,8 +15,8 @@
 		<div class="col-2"> <h5 ng-cloak>{{event.category}}</h5> </div>
 		<div class="col-2"> <h5 ng-cloak>{{event.subcategory}}</h5> </div>
 		<div class="col-2"> <h5 ng-cloak>{{event.created | date}}</h5> </div>
-		<div class="col-1"> <h5><a href="#!/makerProfile/editEvent"><span class="fa fa-pencil-square-o" aria-hidden="true"></span></a></h5></div>
-		<div class="col-1" ng-click="model.removeEvent(event.makerId, event._id)"> <h5><a href="" ><span class="fa fa-trash-o" aria-hidden="true"></span></a></h5> </div>
+		<div class="col-1"> <h5><a href="#!/organizerProfile/editEvent"><span class="fa fa-pencil-square-o" aria-hidden="true"></span></a></h5></div>
+		<div class="col-1" ng-click="model.removeEvent(event.organizerId, event._id)"> <h5><a href="" ><span class="fa fa-trash-o" aria-hidden="true"></span></a></h5> </div>
 
 
 
@@ -35,7 +35,7 @@
 		      <div class="modal-body">
 		        <h5>Are your sure you want to remove the following event:</h5>
 		        <div><p>{{event.name}}</p></div>
-		        <div><p>{{event.makerId}}</p></div>
+		        <div><p>{{event.organizerId}}</p></div>
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-primary" ng-click="model.removeEvent(event.eventId)">Remove</button>

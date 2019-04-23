@@ -10,5 +10,9 @@ nationalitiesDB.getAllNationalities = getAllNationalities;
 
 function getAllNationalities() {
     return nationalitiesDB
-        .findAll({})
+        .findAll({raw: true})
+        .then(function(nationalities){
+            var allNationalities = { allNationalities: nationalities };
+            return allNationalities;
+        })
 }

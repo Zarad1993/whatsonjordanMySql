@@ -1,9 +1,9 @@
 (function() {
 	angular
 		.module('whatsOnJordan')
-		.controller('makerEventsListController', makerEventsListController);
+		.controller('organizerEventsListController', organizerEventsListController);
 
-	function makerEventsListController(eventsService, $location, loggedOrganizer, authService) {
+	function organizerEventsListController(eventsService, $location, loggedOrganizer, authService) {
 		var model = this;
 
 		function init() {
@@ -11,14 +11,18 @@
 				$location.url('/login');
 			}
 			model.loggedOrganizer = loggedOrganizer;
+			
+			model.organizerProfile = loggedOrganizer.chosenRole;
+			model.allRoles = loggedOrganizer.allRoles;
+			
 			// var makerName = loggedOrganizer.name;
 			// var loggedMakerId = loggedOrganizer._id;
 			// model.makerName = makerName;
-			// model.makerId = loggedMakerId;
+			// model.organizerId = loggedMakerId;
 			// console.log('the logged maker', loggedOrganizer);
 			
 			eventsService
-				.findEventsByMakerId(loggedOrganizer.maker.id)
+				.findEventsByOrganizerId(model.organizerProfile.contact.id)
 				.then(function(events){
 					// console.log('the maker events are:', events.data);
 					model.eventsList = events.data;
@@ -54,18 +58,18 @@
 		}
 
 
-		function removeEvent(makerId, eventId){
-			//var makerId = $rootScope.loggedOrganizer._id;
-			eventsService.removeEvent(makerId, eventId)
+		function removeEvent(organizerId, eventId){
+			//var organizerId = $rootScope.loggedOrganizer._id;
+			eventsService.removeEvent(organizerId, eventId)
 				.then(function(deleted){
-					var url = "/makerProfile";
+					var url = "/OrganizerProfile";
 					$location.url(url);
 				});
 		}
 
 		function reCreateEvent(event){
 			
-			var unnecessaryProperties = ['created', 'eventDays', 'registeredMembers', 'discountedMembers', 'expenses', '_id', 'startingDate', 'expiryDate', 'makerId', 'special', '__v', 'approved', '$$hashKey'];
+			var unnecessaryProperties = ['created', 'eventDays', 'registeredMembers', 'discountedMembers', 'expenses', '_id', 'startingDate', 'expiryDate', 'organizerId', 'special', '__v', 'approved', '$$hashKey'];
 			for(var i in unnecessaryProperties){
 				delete(event[unnecessaryProperties[i]]);
 			}
@@ -97,7 +101,7 @@
 			// 						    startingDate: {"$date": "2018-08-31T21:00:00.000Z"},
 			// 						    expiryDate: {"$date": "2018-09-29T21:00:00.000Z"},
 			// 						    price: 200,
-			// 						    // "makerId": {"$oid": "5b00233cfef8af0004b1cb9f"},
+			// 						    // "organizerId": {"$oid": "5b00233cfef8af0004b1cb9f"},
 			// 						    // "special": false,
 			// 						    // "__v": 78,
 			// 						    // "approved": true,

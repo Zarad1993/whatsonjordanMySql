@@ -76,6 +76,12 @@
 			<input type="submit" name="uploadImage" class="form-control" >
 		</form>
 
+		-------------------------------- <br>	
+		{{model.allNationalities}}
+		<!-- {{model.allGrades}}
+		{{model.allSchools}}
+		{{model.phoneTypes}} -->
+	 <br>	--------------------------------				
 		
 	  <h1 class="display-3">Update profile:</h1>
 	  <hr class="my-4">
@@ -113,7 +119,7 @@
 					<div class="form-group col-md-12">
 						<label for="nationality">nationality</label>
 						<select id="nationality" class="form-control" ng-model="model.memberProfile.contact.nationalityId"
-							ng-options="nationality.id as nationality.nationality for nationality in model.nationalities">
+							ng-options="nationality.id as nationality.nationality for nationality in model.allNationalities">
 						</select>
 						<!-- <input type="text" class="form-control" id="school" placeholder="School name..." ng-model="model.memberProfile.member.school.name"> -->
 					</div>

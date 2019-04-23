@@ -10,8 +10,11 @@ ageGroupsDB.getAllAgeGroups = getAllAgeGroups;
 
 function getAllAgeGroups() {
     return ageGroupsDB
-        .findAll({})
-        // .then(function (allCategories) {
-        //     return allCategories.map(function (category) { return category.get({ plain: true }) });;
-        // })
+        .findAll({ raw: true })
+        .then(function (ageGroups) {
+            var allAgeGroups = { allAgeGroups: ageGroups };
+            return allAgeGroups;
+            //     // console.log('the categories on the model:', allCategories);
+
+        })
 }

@@ -262,7 +262,7 @@ User actions from starting register for particular evet:
 		1. [x] maker can give a freeze for user membership once through the event by selecting the days the user want to freeze, if the user already had a froze days then the checkboxes of the days will be disabled and note displayed that the user already had a froze days, the froze days appear on the bottomn of the modal.
 		2. [x] Store the froze members on event frozeMembers Array, and on the userEventParameters.
 		3. [x] Create a button on the event list for the maker to ReCreate an event, when clicked call the reCreateEvent() function that first step on it is copying the event data and store it in temporary object named reNewedEvent.
-		4. [x] remove unnecessary properties from the temporary object: _id, created, makerId, special, __v, approved, registeredMembers, discountedMembers, expenses.
+		4. [x] remove unnecessary properties from the temporary object: _id, created, organizerId, special, __v, approved, registeredMembers, discountedMembers, expenses.
 		5. [x] redirect to the page of creating new event with the modified object (reNewedEvent) to fill the form from it.
 		6. [x] add originalEventId to the event object to indicate that this is renewed event and the removal of the frozen members will be based on it to solve the problem of on which event the user get back the frozen dates from.
 		7. [x] next time when user register for the same event recognised by originalEventId if the user have froze days when maker choose the discount type to create the userEventParameters loop on the userEventParameters searching for the originalEventId if the user had frozeDays, if yes; calculate the event days will be with steps:
@@ -432,7 +432,7 @@ working with sql:
 	[x] when admin change the userType from user to maker:
 		1. check if user already has maker profile
 		2. if not have record create maker record on Maker table
-		3. connect the maker record with the makerId on user table
+		3. connect the maker record with the organizerId on user table
 
 
 	[x] maker profile
@@ -482,7 +482,7 @@ working with sql:
 	
 	[x] to know the one who created the address:
 		1. add field name: createdBy in the address table
-		2. when maker create an address we set the created by to be: maker+makerId
+		2. when maker create an address we set the created by to be: maker+organizerId
 		3. when member create an address we set the created by to be: member+memberId
 		4. and so on...
 		thats help when we want to bring all maker's addresses

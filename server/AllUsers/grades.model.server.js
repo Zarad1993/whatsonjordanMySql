@@ -32,8 +32,9 @@ function findGradeByGradeId(gradeId){
 
 function getAllGrades(){
     return gradesDB
-                .findAll()
+                .findAll({ raw: true })
                 .then(function(foundGrades){
-                    return foundGrades;
+                    var allGrades = { allGrades: foundGrades };
+                    return allGrades;
                 })
 }

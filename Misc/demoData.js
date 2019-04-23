@@ -56,7 +56,7 @@
             "videoLink": "https://youtu.be/-ygmGIDFNuE"
         }
     },
-    "makerId": {
+    "organizerId": {
         "$oid": "5b00233cfef8af0004b1cb9f"
     },
     "__v": 1,
@@ -123,7 +123,7 @@
             "videoLink": "https://youtu.be/z3T8vZL93tU"
         }
     },
-    "makerId": {
+    "organizerId": {
         "$oid": "5b00233cfef8af0004b1cb9f"
     },
     "__v": 1,
@@ -162,7 +162,7 @@
         "$date": "2018-09-29T21:00:00.000Z"
     },
     "price": 200,
-    "makerId": {
+    "organizerId": {
         "$oid": "5b00233cfef8af0004b1cb9f"
     },
     "__v": 4,
@@ -233,7 +233,7 @@
         "$date": "2018-09-29T21:00:00.000Z"
     },
     "price": 200,
-    "makerId": {
+    "organizerId": {
         "$oid": "5b00233cfef8af0004b1cb9f"
     },
     "special": false,

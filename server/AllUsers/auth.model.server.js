@@ -8,14 +8,14 @@ var db = require('../databse');
 
 
 var authDB = db.Auth; // require('../models/user.model');
-var membersDB = require('./members.model.server');
-var makersDB = require('./makers.model.server');
+// var membersDB = require('./members.model.server');
+// var makersDB = require('./makers.model.server');
 var Contact = db.Contact; // require('../models/contact.model');
 var contactsDB = require('./contacts.model.server');
 var x_auth_role = db.X_Auth_Role;
 var Roles = db.Role;
-var Member = db.Member; // require('../models/member.model');
-var Maker = db.Maker; // require('../models/maker.model');
+// var Member = db.Member; // require('../models/member.model');
+// var Maker = db.Maker; // require('../models/maker.model');
 var School = db.School; // require('../models/school.model');
 var Address = db.Address; // require('../models/address.model');
 var Nationality = db.Nationality; // require('../models/nationality.model');
@@ -31,19 +31,19 @@ authDB.addMemberIdToUser = addMemberIdToUser;
 authDB.loginUser = loginUser;
 authDB.getAllUsers = getAllUsers;
 authDB.getAllMakers = getAllMakers;
-authDB.findUserById = findUserById;
+// authDB.findUserById = findUserById;
 authDB.findUserByEmail = findUserByEmail;
-authDB.addEventId = addEventId;
+// authDB.addEventId = addEventId;
 authDB.removeEventFromList = removeEventFromList;
 authDB.findUserByGoogleId = findUserByGoogleId;
 // authDB.addEventToUser = addEventToUser;
 authDB.removeRegisteredEvent = removeRegisteredEvent;
-authDB.addProfileImage = addProfileImage;
+// authDB.addProfileImage = addProfileImage;
 authDB.addTokenToUser = addTokenToUser;
 authDB.findUserByToken = findUserByToken;
 authDB.resetPassword = resetPassword;
 authDB.updateProfile = updateProfile;
-authDB.updateOrganizerProfile = updateOrganizerProfile;
+// authDB.updateOrganizerProfile = updateOrganizerProfile;
 authDB.makePayment = makePayment;
 authDB.confirmAttendance = confirmAttendance;
 authDB.submitFeedback = submitFeedback;
@@ -270,7 +270,6 @@ function makePayment(payment){
 }
 
 
-// the parameter updatedProfile is the member profile only not all roles
 function updateProfile(updatedProfile){
 	console.log('the updated profile: ', updatedProfile);
 	var phones = updatedProfile.contact.phones;
@@ -289,27 +288,27 @@ function updateProfile(updatedProfile){
 }
 
 
-function updateOrganizerProfile(updatedMakerProfile){
-	return makersDB
-			.updateOrganizerProfile(updatedMakerProfile.maker)
-			.then(function(result){
-				console.log('the result from update maker: ', result);
-				return result;
-			})
-			.then(function(){
-				return authDB
-					.findById(updatedMakerProfile.id, {
-						include: [
-							{
-								model: Maker, include: [{all: true}]
-							}
-						]
-					})
-					.then(function (maker) {
-						return maker.get({ plain: true });
-					})
-			})
-}
+// function updateOrganizerProfile(updatedMakerProfile){
+// 	return makersDB
+// 			.updateOrganizerProfile(updatedMakerProfile.maker)
+// 			.then(function(result){
+// 				console.log('the result from update maker: ', result);
+// 				return result;
+// 			})
+// 			.then(function(){
+// 				return authDB
+// 					.findById(updatedMakerProfile.id, {
+// 						include: [
+// 							{
+// 								model: Maker, include: [{all: true}]
+// 							}
+// 						]
+// 					})
+// 					.then(function (maker) {
+// 						return maker.get({ plain: true });
+// 					})
+// 			})
+// }
 
 function resetPassword(user, newPassword){
 	return authDB
@@ -355,14 +354,14 @@ function addTokenToUser(userEmail, token){
 		
 
 
-function addProfileImage(userId, profileImage){
-	return authDB
-				.findUserById(userId)
-				.then(function(user){
-					user.profileImage = profileImage;
-					return user.save();
-				});
-}
+// function addProfileImage(userId, profileImage){
+// 	return authDB
+// 				.findUserById(userId)
+// 				.then(function(user){
+// 					user.profileImage = profileImage;
+// 					return user.save();
+// 				});
+// }
 
 
 
@@ -463,24 +462,24 @@ function getAllMakers(){
 				});
 }
 
-function findUserById(userId){
-	console.log('the userId from the find userById is: ', userId)
-	return authDB
-				.findById(userId)
-				.then(function(result){
-					var user = result.get({plain: true});
-					// console.log('the user from the find userById is: ', user);
-					if (user.roleId === 1) {
-						return membersDB
-							.findMemberById(user.memberId)
-							.then(function (member) {
-								user.memberDetails = member;
-								// console.log('the final user is: ', user);
-								return user;
-							});
-					}
-				});
-}
+// function findUserById(userId){
+// 	console.log('the userId from the find userById is: ', userId)
+// 	return authDB
+// 				.findById(userId)
+// 				.then(function(result){
+// 					var user = result.get({plain: true});
+// 					// console.log('the user from the find userById is: ', user);
+// 					if (user.roleId === 1) {
+// 						return membersDB
+// 							.findMemberById(user.memberId)
+// 							.then(function (member) {
+// 								user.memberDetails = member;
+// 								// console.log('the final user is: ', user);
+// 								return user;
+// 							});
+// 					}
+// 				});
+// }
 
 function findUserByEmail(userEmail){
 	// console.log('checking the email: ', userEmail);
@@ -515,13 +514,13 @@ function findUserByEmail(userEmail){
 				})
 }
 
-function addEventId(userId, eventId){
-	return findUserById(userId)
-		.then(function(user){
-			user.events.push(eventId);
-			return user.save();
-		});
-}
+// function addEventId(userId, eventId){
+// 	return findUserById(userId)
+// 		.then(function(user){
+// 			user.events.push(eventId);
+// 			return user.save();
+// 		});
+// }
 
 // function addEventToUser(userDetails, eventDetails){
 // 	return findUserById(userDetails.id)

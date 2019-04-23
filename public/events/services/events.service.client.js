@@ -11,7 +11,7 @@
 
 		this.getAllEvents = getAllEvents;
 		this.findEventByEventId = findEventByEventId;
-		this.findEventsByMakerId = findEventsByMakerId;
+		this.findEventsByOrganizerId = findEventsByOrganizerId;
 		this.addNewEvent = addNewEvent;
 		this.reNewEvent = reNewEvent;
 		this.updateEvent = updateEvent;
@@ -26,8 +26,8 @@
 		this.removeFrozen = removeFrozen;
 		// this.createMakerEventsList = createMakerEventsList;
 
-		// function createMakerEventsList(makerId){
-		// 	return $http.get('/api/makerEventsList/' + makerId);
+		// function createMakerEventsList(organizerId){
+		// 	return $http.get('/api/makerEventsList/' + organizerId);
 		// }
 
 
@@ -80,8 +80,8 @@
 				});
 		}
 
-		function findEventsByMakerId(makerId) {
-			return $http.get('/api/makerEvents/' + makerId)
+		function findEventsByOrganizerId(organizerId) {
+			return $http.get('/api/organizerEvents/' + organizerId);
 				// .then(function(response){
 					
 				// 	return response.data;
@@ -108,8 +108,8 @@
 		}
 
 
-		function removeEvent(makerId, eventId){
-			var url = '/api/event/?eventId=' + eventId + '&makerId='+makerId;
+		function removeEvent(organizerId, eventId){
+			var url = '/api/event/?eventId=' + eventId + '&organizerId='+organizerId;
 			return $http.delete(url)
 				.then(function(response){
 					return response.data;

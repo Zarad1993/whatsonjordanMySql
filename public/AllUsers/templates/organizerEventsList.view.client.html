@@ -54,7 +54,7 @@
 		src="'../../views/htmlComponents/eventsListComponent/makerEventsList-component.view.client.html'">
 	</ng-include> -->
 
-	<h2 ng-cloak>Event Maker Name: {{model.loggedOrganizer.maker.firstName}} {{model.loggedOrganizer.maker.middleName}} {{model.loggedOrganizer.maker.lastName}}</h2>
+	<h2 ng-cloak>Organizer Name: {{model.loggedOrganizer.maker.firstName}} {{model.loggedOrganizer.maker.middleName}} {{model.loggedOrganizer.maker.lastName}}</h2>
 	<h4>Events List: </h4>
 	<table id="t01">
 	  <tr>
@@ -74,9 +74,9 @@
 	    <td class="text-center">{{event.subCategory.subcategory}}</td>
 	    <td class="text-center">{{event.createdAt | date}}</td>
 	    <td class="text-center">{{event.members.length}}</td>
-	    <td class="text-center"><a href="#!/makerProfile/editEvent"><span class="fa fa-pencil-square-o" aria-hidden="true"></span></a></td>
+	    <td class="text-center"><a href="#!/organizerProfile/editEvent"><span class="fa fa-pencil-square-o" aria-hidden="true"></span></a></td>
 	    <!-- <td><a href="" ><span class="fa fa-trash-o" aria-hidden="true"></span></a></td> -->
-	    <td><a href="#!/makerProfile/reNewEvent/{{event.id}}">ReNewEvent</a></td>
+	    <td><a href="#!/organizerProfile/reNewEvent/{{event.id}}">ReNewEvent</a></td>
 	    <!-- <td><button class="btn btn-warning" data-toggle="modal" data-target="#recreateEventModal-{{$index}}">Re-create</button>
 		    <div class="modal fade" id="recreateEventModal-{{$index}}" role="dialog">
 				<div class="modal-dialog modal-lg">
@@ -115,7 +115,7 @@
 				</div>
 			</div>
 		</td> -->
-	    <td class="text-center"><a href="#!/makerProfile/makerEventDetails/{{event.id}}" class=" btn btn-default pull-right">More details...</a></td>
+	    <td class="text-center"><a href="#!/organizerProfile/organizerEventDetails/{{event.id}}" class=" btn btn-default pull-right">More details...</a></td>
 	  </tr>
 	</table>
 
@@ -135,8 +135,8 @@
 		<div class="col-2"> <h5 ng-cloak>{{event.category}}</h5> </div>
 		<div class="col-2"> <h5 ng-cloak>{{event.subcategory}}</h5> </div>
 		<div class="col-2"> <h5 ng-cloak>{{event.created | date}}</h5> </div>
-		<div class="col-1"> <h5><a href="#!/makerProfile/editEvent"><span class="fa fa-pencil-square-o" aria-hidden="true"></span></a></h5></div>
-		<div class="col-1" ng-click="model.removeEvent(event.makerId, event._id)"> <h5><a href="" ><span class="fa fa-trash-o" aria-hidden="true"></span></a></h5> </div>
+		<div class="col-1"> <h5><a href="#!/organizerProfile/editEvent"><span class="fa fa-pencil-square-o" aria-hidden="true"></span></a></h5></div>
+		<div class="col-1" ng-click="model.removeEvent(event.organizerId, event._id)"> <h5><a href="" ><span class="fa fa-trash-o" aria-hidden="true"></span></a></h5> </div>
 
 	</div> -->
 

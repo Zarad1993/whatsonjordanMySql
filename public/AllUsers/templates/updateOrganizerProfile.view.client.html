@@ -20,13 +20,13 @@
               <a class="nav-link" href="#!/allEvents">Events</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#!/login" ng-show="!model.makerProfile">Login</a>
+              <a class="nav-link" href="#!/login" ng-show="!model.organizerProfile">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.makerProfile">Logout</a>
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.organizerProfile">Logout</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.makerProfile">Profile</a>
+              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.organizerProfile">Profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#!/about">About</a>
@@ -58,36 +58,36 @@
 		  <!-- <div class="form-row">
 			    <div class="form-group col-md-4">
 			      <label for="firstName">First Name</label>
-			      <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="model.makerProfile.maker.firstName">
+			      <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="model.organizerProfile.maker.firstName">
 			    </div>
 			    <div class="form-group col-md-4">
 			      <label for="middleName">Middle Name</label>
-			      <input type="text" class="form-control" id="middleName" placeholder="Middle Name" ng-model="model.makerProfile.maker.middleName">
+			      <input type="text" class="form-control" id="middleName" placeholder="Middle Name" ng-model="model.organizerProfile.maker.middleName">
 			    </div>
 			    <div class="form-group col-md-4">
 			      <label for="lastName">Last Name</label>
-			      <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="model.makerProfile.maker.lastName">
+			      <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="model.organizerProfile.maker.lastName">
 			    </div>
 			</div> -->
 			<div class="form-row">
 				<div class="form-group col-md-12">
 					<label for="middleName">Organization Name</label>
 					<input type="text" class="form-control" id="organizationName" placeholder="Organization Name"
-						ng-model="model.makerProfile.contact.name">
+						ng-model="model.organizerProfile.contact.name">
 				</div>
 			</div>
 
 		  <!-- <div class="form-row">
 			    <div class="form-group col-md-4">
 			      <label for="gender">Gender</label>
-			      <select id="gender" class="form-control" ng-model="model.makerProfile.gender">
+			      <select id="gender" class="form-control" ng-model="model.organizerProfile.gender">
 			        <option>Male</option>
 			        <option>Female</option>
       			  </select>
 			    </div>
 			    <div class="form-group col-md-4">
 			      <label for="DOB">Date of birth</label>
-			      <input type="date" class="form-control" id="DOB" placeholder="Date of birth" ng-model="model.makerProfile.DOB">
+			      <input type="date" class="form-control" id="DOB" placeholder="Date of birth" ng-model="model.organizerProfile.DOB">
 			    </div>
 		  </div> -->
 
@@ -95,36 +95,36 @@
 			  <div class="form-group col-md-12">
 					<label for="address">Address</label>
 
-					<!-- <input type="text" class="form-control" id="address" placeholder="Address" ng-model="model.makerProfile.address"> -->
+					<!-- <input type="text" class="form-control" id="address" placeholder="Address" ng-model="model.organizerProfile.address"> -->
 					<br>
 					Country: <input type="text" class="form-control" id="addressCountry" placeholder="Country"
-						ng-model="model.makerProfile.contact.addresses[0].country">
+						ng-model="model.organizerProfile.contact.addresses[0].country">
 					Province: <input type="text" class="form-control" id="addressProvince" placeholder="Province"
-						ng-model="model.makerProfile.contact.addresses[0].province">
+						ng-model="model.organizerProfile.contact.addresses[0].province">
 					City: <input type="text" class="form-control" id="addressCity" placeholder="City"
-						ng-model="model.makerProfile.contact.addresses[0].city">
+						ng-model="model.organizerProfile.contact.addresses[0].city">
 					Street: <input type="text" class="form-control" id="addressStreet" placeholder="Street"
-						ng-model="model.makerProfile.contact.addresses[0].street">
+						ng-model="model.organizerProfile.contact.addresses[0].street">
 					Building number: <input type="text" class="form-control" id="addressBuilding" placeholder="Building"
-						ng-model="model.makerProfile.contact.addresses[0].building">
+						ng-model="model.organizerProfile.contact.addresses[0].building">
 			  </div>
 			</div>
 			
 			<div ng-show="!model.createAddress">
-				<div class="form-group col-md-12"  ng-repeat="address in model.makerProfile.contact.addresses">
+				<div class="form-group col-md-12"  ng-repeat="address in model.organizerProfile.contact.addresses">
 					<label for="address">Address No. {{$index+1}}:</label>
-					<!-- <input type="text" class="form-control" id="address" placeholder="Address" ng-model="model.makerProfile.address"> -->
+					<!-- <input type="text" class="form-control" id="address" placeholder="Address" ng-model="model.organizerProfile.address"> -->
 					<br>
 					Country: <input type="text" class="form-control" id="addressCountry{{$index}}" placeholder="Country"
-						ng-model="model.makerProfile.contact.addresses[$index].country">
+						ng-model="model.organizerProfile.contact.addresses[$index].country">
 					Province: <input type="text" class="form-control" id="addressProvince" placeholder="Province"
-						ng-model="model.makerProfile.contact.addresses[$index].province">
+						ng-model="model.organizerProfile.contact.addresses[$index].province">
 					City: <input type="text" class="form-control" id="addressCity" placeholder="City"
-						ng-model="model.makerProfile.contact.addresses[$index].city">
+						ng-model="model.organizerProfile.contact.addresses[$index].city">
 					Street: <input type="text" class="form-control" id="addressStreet" placeholder="Street"
-						ng-model="model.makerProfile.contact.addresses[$index].street">
+						ng-model="model.organizerProfile.contact.addresses[$index].street">
 					Building number: <input type="text" class="form-control" id="addressBuilding" placeholder="Building"
-						ng-model="model.makerProfile.contact.addresses[$index].building">
+						ng-model="model.organizerProfile.contact.addresses[$index].building">
 				</div>
 
 				<a class="btn btn-warning pull-right" data-toggle="modal" data-target="#newAddressModal" style="margin-left: 10px;">Add New Address</a>
@@ -144,15 +144,15 @@
 							<div class="modal-body">
 								<div>
 									Country: <input type="text" class="form-control" id="addressCountry" placeholder="Country"
-										ng-model="model.makerProfile.contact.addresses[model.newAddressIndex].country">
+										ng-model="model.organizerProfile.contact.addresses[model.newAddressIndex].country">
 									Province: <input type="text" class="form-control" id="addressProvince" placeholder="Province"
-										ng-model="model.makerProfile.contact.addresses[model.newAddressIndex].province">
+										ng-model="model.organizerProfile.contact.addresses[model.newAddressIndex].province">
 									City: <input type="text" class="form-control" id="addressCity" placeholder="City"
-										ng-model="model.makerProfile.contact.addresses[model.newAddressIndex].city">
+										ng-model="model.organizerProfile.contact.addresses[model.newAddressIndex].city">
 									Street: <input type="text" class="form-control" id="addressStreet" placeholder="Street"
-										ng-model="model.makerProfile.contact.addresses[model.newAddressIndex].street">
+										ng-model="model.organizerProfile.contact.addresses[model.newAddressIndex].street">
 									Building number: <input type="text" class="form-control" id="addressBuilding" placeholder="Building"
-										ng-model="model.makerProfile.contact.addresses[model.newAddressIndex].building">
+										ng-model="model.organizerProfile.contact.addresses[model.newAddressIndex].building">
 								</div>
 								<br>
 							</div>
@@ -188,12 +188,12 @@
 			
 			<div class="form-row" ng-repeat="type in model.phoneTypes">
 				<div class="form-group col-md-4">
-					<select id="phoneType" class="form-control" ng-model="model.makerProfile.contact.phones[$index].type"
+					<select id="phoneType" class="form-control" ng-model="model.organizerProfile.contact.phones[$index].type"
 						ng-options="phoneType for phoneType in model.phoneTypes"></select>
 				</div>
 				<div class="form-group col-md-8">
 					<input type="text" id="{{type}}" class="form-control" placeholder="{{type}} number"
-						ng-model="model.makerProfile.contact.phones[$index].number">
+						ng-model="model.organizerProfile.contact.phones[$index].number">
 				</div>
 			</div>
 			
@@ -201,19 +201,19 @@
 		  <!-- <div class="form-row">
 			    <div class="form-group col-md-6">
 			      <label for="phone1">Phone 1</label>
-			      <input type="text" id="phone1" class="form-control" placeholder="Phone 1" ng-model="model.makerProfile.maker.contact.phone1">
+			      <input type="text" id="phone1" class="form-control" placeholder="Phone 1" ng-model="model.organizerProfile.maker.contact.phone1">
 			    </div>
 
 			    <div class="form-group col-md-6">
 			      <label for="phone2">Phone 2</label>
-			      <input type="text" id="phone2" class="form-control" placeholder="Phone 2" ng-model="model.makerProfile.maker.contact.phone2">
+			      <input type="text" id="phone2" class="form-control" placeholder="Phone 2" ng-model="model.organizerProfile.maker.contact.phone2">
 			    </div>
 		  </div>
 
 		  <div class="form-row">
 			    <div class="form-group col-md-6">
 			      <label for="emergencyPhone">Emergency phone number</label>
-			      <input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number" ng-model="model.makerProfile.maker.contact.emergency">
+			      <input type="text" id="emergencyPhone" class="form-control" placeholder="Emergency phone number" ng-model="model.organizerProfile.maker.contact.emergency">
 			    </div>
 		  </div> -->
 
@@ -222,13 +222,13 @@
   		<!-- <div class="form-row">
 			  <div class="form-group col-md-12">
 				<label for="notes">Notes:</label>
-				<input type="text" class="form-control" id="notes" placeholder="Notes..." ng-model="model.makerProfile.notes">
+				<input type="text" class="form-control" id="notes" placeholder="Notes..." ng-model="model.organizerProfile.notes">
 			  </div>
 		  </div> -->
 
 
 			  
-		  <button type="submit" class="btn btn-success" ng-click="model.updateOrganizerProfile(model.makerProfile)">Update profile</button>
+		  <button type="submit" class="btn btn-success" ng-click="model.updateOrganizerProfile(model.organizerProfile)">Update profile</button>
 	  	  <a class="btn btn-danger" href="#!/profile" role="button">Cancel</a>
 		</form>
 	</div>

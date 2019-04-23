@@ -4,14 +4,14 @@
         .service('addressService', addressService);
 
     function addressService($http) {
-        this.getMakerAddresses = getMakerAddresses;
+        this.getOrganizerAddresses = getOrganizerAddresses;
 
 
         function init() { }
         init();
 
-        function getMakerAddresses(makerId) {
-            return $http.get('/api/address/getMakerAddresses/'+makerId);
+        function getOrganizerAddresses(organizerId) {
+            return $http.get('/api/address/getOrganizerAddresses/'+organizerId);
         }
 
         

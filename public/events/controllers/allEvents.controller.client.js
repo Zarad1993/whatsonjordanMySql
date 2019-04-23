@@ -35,9 +35,9 @@
 						model.eventsList = eventsParams.eventsList;
 						
 						// if we want the specific maker events list
-						if($routeParams.makerId){
-							var makerId = $routeParams.makerId;
-							model.eventsList = eventsParams.eventsList.filter(function(event){return (event.makerId == makerId);});
+						if($routeParams.organizerId){
+							var organizerId = $routeParams.organizerId;
+							model.eventsList = eventsParams.eventsList.filter(function(event){return (event.organizerId == organizerId);});
 						}
 						// if there is a logged user then filter the events based on the user age compare to the event accepted ages
 						// if(model.loggedMember && model.loggedMember.roleId===1){

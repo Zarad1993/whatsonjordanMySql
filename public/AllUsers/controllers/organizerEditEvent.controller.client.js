@@ -1,9 +1,9 @@
 (function () {
 	angular
 		.module('whatsOnJordan')
-		.controller('makerEditEventController', makerEditEventController);
+		.controller('organizerEditEventController', organizerEditEventController);
 
-	function makerEditEventController(eventsService, addressService, getterService,  $location, loggedOrganizer, authService){
+	function organizerEditEventController(eventsService, addressService, getterService,  $location, loggedOrganizer, authService){
 		var model = this;
 
 		function init(){
@@ -11,49 +11,35 @@
 				$location.url('/login');
 				return;
 			}
+
+			model.organizerProfile = loggedOrganizer.chosenRole;
+			model.allRoles = loggedOrganizer.allRoles;
+
 			model.updateEventMain = true;
-			model.loggedOrganizer = loggedOrganizer;
+			// model.loggedOrganizer = loggedOrganizer;
 			model.newAddressAdded = false;
 			model.addressSelected = false;
 			// model.newGeoLocationAdded = false;
-			var makerId = loggedOrganizer.makerId;
+			var organizerId = model.organizerProfile.contact.id;
 
 			eventsService
-				.findEventsByMakerId(loggedOrganizer.maker.id)
+				.findEventsByOrganizerId(model.organizerProfile.contact.id)
 				.then(function(events){
 					// console.log('the events',events);
 					model.eventsList = events.data;
 				});
 			model.selectedEvent = null;
 
-			//  bring categories, subcategories, ageGroups from the database and the map config from server.
+			//  bring categories, subcategories, ageGroups and addresses from the database and the map config from server.
 			getterService
-				.getAllCategories()
-				.then(function (categories) {
-					// console.log('the categories:', categories);
-					model.allCategories = categories.data;
-					getterService
-						.getAllSubCategories()
-						.then(function (subCategories) {
-							// console.log('the sub categories:', subCategories);
-							model.allSubCategories = subCategories.data;
-						});
-				})
-				.then(function () {
-					getterService
-						.getAllAgeGroups()
-						.then(function (allAgeGroups) {
-							model.allAgeGroups = allAgeGroups.data;
-						});
-				})
-				.then(function () {
-					addressService
-						.getMakerAddresses(makerId)
-						.then(function (allAddresses){
-							model.allAddresses = allAddresses.data;
-							console.log('the addresses are: ', model.allAddresses);
-							
-						});
+				.getEventHelpers(organizerId)
+				.then(function (result) {
+					var eventHelpers = result.data;
+					console.log('the event helpers:', eventHelpers);
+					for (var i in eventHelpers) {
+						var key = Object.keys(eventHelpers[i])[0];
+						model[key] = eventHelpers[i][Object.keys(eventHelpers[i])[0]];
+					}
 				})
 				.then(function () {
 					eventsService
@@ -248,7 +234,7 @@
 				.updateEvent(updatedEvent, eventId)
 				.then(function(finalEvent){
 					console.log('the final result after update the event: ', finalEvent.data);
-					var url = "/makerProfile/eventsList";
+					var url = "/organizerProfile/eventsList";
 					$location.url(url);
 				});
 		}
@@ -257,7 +243,7 @@
 			eventsService
 				.findEventByEventId(eventId)
 				.then(function(event){
-					// console.log('the selected event', event);
+					console.log('the selected event', event);
 					model.mapLocation = { longitude: event.address.geoLocation.longitude, latitude: event.address.geoLocation.latitude };
 					event.startingDate = new Date(event.startingDate);
 					event.expiryDate = new Date(event.expiryDate);
@@ -265,9 +251,9 @@
 					event.sessionStartTime = new Date(event.sessionStartTime);
 					event.sessionEndTime = new Date (event.sessionEndTime);
 					
-					event.daysPerWeek = JSON.parse(event.daysPerWeek);
-					event.dailyDetails = JSON.parse(event.dailyDetails);
-					event.images = JSON.parse(event.images);
+					// event.daysPerWeek = JSON.parse(event.daysPerWeek);
+					// event.dailyDetails = JSON.parse(event.dailyDetails);
+					// event.images = JSON.parse(event.images);
 					model.selectedEvent = event;
 
 					// Reverse the selected days
@@ -310,7 +296,7 @@
 
 
 		function cancelUpdate(){
-			var url = "/makerProfile";
+			var url = "/OrganizerProfile";
 			$location.url(url);
 		}
 

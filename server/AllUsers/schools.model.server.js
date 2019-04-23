@@ -28,8 +28,9 @@ function findSchoolBySchoolId(schoolId) {
 
 function getAllSchools() {
     return schoolsDB
-        .findAll()
+        .findAll({raw: true})
         .then(function (foundSchools) {
-            return foundSchools;
+            var allSchools = { allSchools: foundSchools };
+            return allSchools;
         })
 }

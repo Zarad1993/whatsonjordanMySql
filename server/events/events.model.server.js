@@ -9,6 +9,7 @@ var geoLocationsDB = require('../AllUsers/geoLocation.model.server');
 // var GeoLocation = require('../models/geoLocation.model');
 var Address = db.Address; // require('../models/address.model');
 // var expensesDB = require('../AllUsers/expenses.model.server');
+var programDetailsDB = require('../AllUsers/progamDetails.model.server');
 db.sequelize.sync();
 
 
@@ -21,7 +22,7 @@ eventsDB.addNewEvent = addNewEvent;
 eventsDB.reNewEvent = reNewEvent;
 eventsDB.getAllEvents = getAllEvents;
 eventsDB.findEventByEventId = findEventByEventId;
-eventsDB.findEventsByMakerId = findEventsByMakerId;
+eventsDB.findEventsByOrganizerId = findEventsByOrganizerId;
 eventsDB.updateEvent = updateEvent;
 eventsDB.updateEventByAdmin = updateEventByAdmin;
 // eventsDB.addMemberToEvent = addMemberToEvent;
@@ -67,13 +68,13 @@ event details:  { name: 'Event 1',
   programDailyDetails: { 'Sat Mar 02 2019': { title: 'Day 1', details: 'Day one details', videoLink: '' } } }
 */
 
-function addNewEvent(makerId, event) {
-	console.log('makerId: ', makerId);
+function addNewEvent(organizerId, event) {
+	console.log('organizerId: ', organizerId);
 	// event.main.categoryId = event.category.categoryId;
 	// event.main.subCategoryId = event.category.subCategoryId;
 	// event.main.ageGroupId = event.age.ageGroup.id;
 	// // event.main.addressId = event.address.id;
-	// event.main.makerId = makerId;
+	// event.main.organizerId = organizerId;
 	
 	console.log('the final event object: ', event);
 	
@@ -87,16 +88,24 @@ function addNewEvent(makerId, event) {
 						.addEventLocation(event.geoLocation)
 						.then(function(addedLocation){
 							event.address.geoLocationId = addedLocation.id;
-							event.address.createdBy = 'Maker' + makerId;
+							event.address.contactId = organizerId;
 							return addressesDB
 									.createAddress(event.address)
 									.then(function(addedAddress){
-										addedEvent.addressId = addedAddress.id;
-										return addedEvent.save();
+										programDetailsDB
+											.addProgramDetails(addedEvent.id, event.programDetails)
+											.then(function(addedProgramDetails){
+												addedEvent.addressId = addedAddress.id;
+												return addedEvent.save();
+											});
 									});				
 						});
 			}else{
-				return addedEvent;
+				return programDetailsDB
+					.addProgramDetails(addedEvent.id, event.programDetails)
+					.then(function (addedProgramDetails) {
+						return addedEvent;
+					});
 			}
 		});
 }
@@ -121,7 +130,7 @@ function reNewEvent(reNewedEvent){
 					.addEventLocation(reNewedEvent.geoLocation)
 						.then(function (addedLocation) {
 							reNewedEvent.address.geoLocationId = addedLocation.id;
-							reNewedEvent.address.createdBy = 'Maker' + reNewedEvent.makerId;
+							reNewedEvent.address.contactId = reNewedEvent.organizerId;
 							return addressesDB
 								.createAddress(reNewedEvent.address)
 								.then(function(addedAddress){
@@ -144,7 +153,7 @@ function getAllEvents() {
 			include: [{ all: true }, { model: Address, include: [{ all: true }] }]
 		});
 		// .sort('startingDate')
-		// .populate('makerId')
+		// .populate('organizerId')
 		// .exec();
 }
 
@@ -260,25 +269,25 @@ function findEventByEventId(eventId){
 					});
 }
 
-function findEventsByMakerId(makerId){
+function findEventsByOrganizerId(organizerId){
 	return eventsDB
 				.findAll({
-					where: {makerId: makerId},
+					where: {contactId: organizerId},
 					include: [{all: true}]
 				});
 	// return eventsDB
-	// 			.find({makerId: makerId})
+	// 			.find({organizerId: organizerId})
 	// 			.sort('startingDate')
 	// 			.populate('registeredMembers')
 	// 			.exec();
 }
 
 
-// function createMakerEventsList(makerId){
+// function createMakerEventsList(organizerId){
 // 	var today = (new Date()).toISOString();
 // 	return eventsDB
 // 				.find({
-// 					makerId: makerId,
+// 					organizerId: organizerId,
 // 					startingDate: {$gt: today}
 // 				})
 // 				.sort('startingDate')
@@ -302,7 +311,7 @@ function updateEvent(eventId, updatedEvent){
 					.addEventLocation(updatedEvent.geoLocation)
 					.then(function(addedLocation){
 						updatedEvent.address.geoLocationId = addedLocation.id;
-						updatedEvent.address.createdBy = 'Maker' + updatedEvent.makerId;
+						updatedEvent.address.contactId = updatedEvent.organizerId;
 						return foundEvent;
 					})
 					.then(function(foundEvent){
@@ -325,11 +334,11 @@ function updateEvent(eventId, updatedEvent){
 
 
 
-// function removeEvent(makerId, eventId){
+// function removeEvent(organizerId, eventId){
 // 	return eventsDB
 // 				.remove({_id: eventId})
 // 				.then(function(status){
-// 					return usersDB.removeEventFromList(makerId, eventId);
+// 					return usersDB.removeEventFromList(organizerId, eventId);
 // 				})
 // 				.then(function(removedEvent){
 // 					return removedEvent;

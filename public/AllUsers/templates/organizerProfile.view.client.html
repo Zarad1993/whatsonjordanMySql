@@ -19,13 +19,13 @@
               <a class="nav-link" href="#!/allEvents">Events</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#!/login" ng-show="!model.makerProfile">Login</a>
+              <a class="nav-link" href="#!/login" ng-show="!model.organizerProfile">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.makerProfile">Logout</a>
+              <a class="nav-link" href="" ng-click="model.logout()" ng-show="model.organizerProfile">Logout</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.makerProfile">Profile</a>
+              <a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.organizerProfile">Profile</a>
             </li>
             
             <li class="nav-item">
@@ -48,28 +48,28 @@
 
 <div class="container container-top-125">
   <div>
-    <h3 class="text-danger">Maker Profile:</h3>
+    <h3 class="text-danger">Organizer Profile:</h3>
     <hr>
-    <!-- {{model.makerProfile}} -->
-		<h5>Name: {{model.makerProfile.contact.name}}</h5>
-		<h5>Email: {{model.makerProfile.email}}</h5>
-    <div ng-repeat="phone in model.makerProfile.contact.phones">
+    <!-- {{model.organizerProfile}} -->
+		<h5>Name: {{model.organizerProfile.contact.name}}</h5>
+		<h5>Email: {{model.organizerProfile.email}}</h5>
+    <div ng-repeat="phone in model.organizerProfile.contact.phones">
       <h5>{{phone.type}}: {{phone.number}}</h5>
     </div>
-    <!-- <h5>Phone 1: {{model.makerProfile.contact.phone1}}</h5>
-    <h5>Phone 2: {{model.makerProfile.contact.phone2}}</h5>
+    <!-- <h5>Phone 1: {{model.organizerProfile.contact.phone1}}</h5>
+    <h5>Phone 2: {{model.organizerProfile.contact.phone2}}</h5>
     
-    <h5>Emergency Phone number: {{model.makerProfile.maker.contact.emergency}}</h5> -->
-    <!-- <h5>Notes: {{model.makerProfile.notes}}</h5> -->
+    <h5>Emergency Phone number: {{model.organizerProfile.maker.contact.emergency}}</h5> -->
+    <!-- <h5>Notes: {{model.organizerProfile.notes}}</h5> -->
     
 	</div>
 	<br>
 	<div>
 		<hr>
-		<!-- <a class="btn btn-primary" href="#!/makerProfile/eventsList">Events List</a> -->
-		<a class="btn btn-primary" href="#!/makerProfile/newEvent">New Event</a>
-		<a class="btn btn-primary" href="#!/makerProfile/editEvent">Edit Event</a>
-		<a class="btn btn-primary" href="#!/makerProfile/eventsList">Events List</a>
+		<!-- <a class="btn btn-primary" href="#!/organizerProfile/eventsList">Events List</a> -->
+		<a class="btn btn-primary" href="#!/organizerProfile/newEvent">New Event</a>
+		<a class="btn btn-primary" href="#!/organizerProfile/editEvent">Edit Event</a>
+		<a class="btn btn-primary" href="#!/organizerProfile/eventsList">Events List</a>
     <a href="#!/updateOrganizerProfile" class="btn btn-warning">Update profile</a>
 	</div>
 	<br>

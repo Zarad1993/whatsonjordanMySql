@@ -9,11 +9,11 @@ categoriesDB.getAllCategories = getAllCategories;
 
 
 function getAllCategories() {
-    return categoriesDB
-        .findAll()
-        // .then(function (allCategories) {
-        //     // return allCategories.map(function (category) { return category.get({ plain: true }) });;
-        //     console.log('the categories on the model:', allCategories);
+    return categoriesDB.findAll({raw: true})
+        .then(function (categories) {
+            var allCategories = { allCategories: categories};
+            return allCategories;
+        //     // console.log('the categories on the model:', allCategories);
             
-        // })
+        })
 }

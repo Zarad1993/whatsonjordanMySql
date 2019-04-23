@@ -18,37 +18,50 @@
 			
 			// model.memberProfile = loggedMember;
 			// model.loggedMember = loggedMember;
-			
-			getterService
-				.getPhoneTypes()
-				.then(function(phoneTypes){
-					model.phoneTypes = phoneTypes.data;
-				})
 
 			getterService
-				.getAllGrades()
-				.then(function(result){
-					console.log('the grades: ', result.data);
-					model.allGrades = result.data;
+				.getMemberProfileHelpers()
+				.then(function (result) {
+					var profileHelpers = result.data;
+					console.log('the event helpers:', profileHelpers);
+					for (var i in profileHelpers) {
+						console.log('the helper: ', profileHelpers[i]);
+						console.log('each event: ', Object.keys(profileHelpers[i])[0]);
+						var key = Object.keys(profileHelpers[i])[0];
+						model[key] = profileHelpers[i][Object.keys(profileHelpers[i])[0]];
+					}
 				});
-			schoolsService
-				.getAllSchools()
-				.then(function(schools){
-					console.log('the schools are: ', schools.data);
-					model.allSchools = schools.data;
-				});
-			nationalitiesService
-				.getAllNationalities()
-				.then(function(nationalities){
-					console.log('the nationalities are: ', nationalities.data);
-					model.nationalities = nationalities.data;
-				});
+			
+			// getterService
+			// 	.getPhoneTypes()
+			// 	.then(function(phoneTypes){
+			// 		model.phoneTypes = phoneTypes.data;
+			// 	})
+
+			// getterService
+			// 	.getAllGrades()
+			// 	.then(function(result){
+			// 		console.log('the grades: ', result.data);
+			// 		model.allGrades = result.data;
+			// 	});
+			// schoolsService
+			// 	.getAllSchools()
+			// 	.then(function(schools){
+			// 		console.log('the schools are: ', schools.data);
+			// 		model.allSchools = schools.data;
+			// 	});
+			// nationalitiesService
+			// 	.getAllNationalities()
+			// 	.then(function(nationalities){
+			// 		console.log('the nationalities are: ', nationalities.data);
+			// 		model.nationalities = nationalities.data;
+			// 	});
 			
 		}
 		init();
 
 		model.logout = logout;
-		model.removeRegisteredEvent = removeRegisteredEvent;
+		// model.removeRegisteredEvent = removeRegisteredEvent;
 		model.updateProfile = updateProfile;
 		model.addedPhones = [];
 		model.addMedicalIssue = addMedicalIssue;
@@ -91,14 +104,14 @@
 			model.memberProfile.contact.medicalIssues.splice(index, 1);
 		}
 
-		function ValidateSize(file) {
-	        		var FileSize = file.files[0].size / 1024 / 1024; // in MB
-	        		if (FileSize > 2) {
-	            		alert('File size exceeds 2 MB');
-	        		} else {
-	        			alert(file.files[0].size);
-	        		}
-    			}
+		// function ValidateSize(file) {
+	    //     		var FileSize = file.files[0].size / 1024 / 1024; // in MB
+	    //     		if (FileSize > 2) {
+	    //         		alert('File size exceeds 2 MB');
+	    //     		} else {
+	    //     			alert(file.files[0].size);
+	    //     		}
+    	// 		}
 
 
 
@@ -113,14 +126,14 @@
 
 
 
-		function removeRegisteredEvent(eventId){
-			// var _userId = $routeParams.userId;
-			authService
-				.removeRegisteredEvent(loggedMember._id, eventId)
-				.then(function(response){
-					$location.url('/profile');
-				});
-		}
+		// function removeRegisteredEvent(eventId){
+		// 	// var _userId = $routeParams.userId;
+		// 	authService
+		// 		.removeRegisteredEvent(loggedMember._id, eventId)
+		// 		.then(function(response){
+		// 			$location.url('/profile');
+		// 		});
+		// }
 
 	}
 })();

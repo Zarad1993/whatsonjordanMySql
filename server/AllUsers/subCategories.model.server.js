@@ -10,8 +10,9 @@ subCategoriesDB.getAllSubCategories = getAllSubCategories;
 
 function getAllSubCategories() {
     return subCategoriesDB
-        .findAll();
-        // .then(function (allSubCategories) {
-        //     return allSubCategories;
-        // })
+        .findAll({raw: true})
+        .then(function (subCategories) {
+            var allSubCategories = { allSubCategories: subCategories};
+            return allSubCategories;
+        })
 }

@@ -7,7 +7,7 @@ var eventsSchema = mongoose.Schema({
 			details: String,
 			ageGroup: {ageGroupTitle: String, ageFrom: Number, ageTo: Number},
 			created: {type: Date, default: Date.now()},
-			makerId: {type: mongoose.Schema.Types.ObjectId, ref: 'usersDB'},
+			organizerId: {type: mongoose.Schema.Types.ObjectId, ref: 'usersDB'},
 			startingDate: Date,
 			expiryDate: Date,
 			sessionStartTime: Date,

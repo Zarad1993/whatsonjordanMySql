@@ -1,45 +1,50 @@
 <!-- Navigation -->
-		<nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
-			<div class="container-fluid">
-				<div class="navbar-header ml-auto">
-						<a class="navbar-brand" href="index.html">
-							<img class="menu-logo" src="./img/logo/wojo2.jpg">
-						</a>
-						<button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-							<span class="navbar-toggler-icon"></span>
-						</button>
-				</div>
-				<div class="collapse navbar-collapse" id="navbarResponsive">
-					<ul class="navbar-nav ml-auto">
-						<li class="nav-item">
-							<a class="nav-link" href="#!/">Home</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#!/allEvents">Events</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#!/login" ng-show="!model.loggedOrganizer">Login</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedOrganizer">Logout</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedOrganizer">Profile</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#!/about">About</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#!/contact">Contact</a>
-						</li>
-						<form class="form-inline my-2 my-lg-0" ng-show="model.loggedOrganizer.roles.length>1">
-							<a class="btn btn-outline-success my-2 my-sm-0" href="#!/login">Switch profile</a>
-						</form>
-					</ul>
-				</div>
-			</div>
-		</nav>
-		<!-- <br><br> -->
+<nav class="navbar navbar-expand-md navbar-light bg-white sticky-nav-top">
+	<div class="container-fluid">
+		<div class="navbar-header ml-auto">
+			<a class="navbar-brand" href="index.html">
+				<img class="menu-logo" src="./img/logo/wojo2.jpg">
+			</a>
+			<button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse"
+				data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		</div>
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="#!/">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!/allEvents">Events</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!/login" ng-show="!model.organizerProfile">Login</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="" ng-click="model.logout()" ng-show="model.organizerProfile">Logout</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" style="color: #DB685F;" href="#!/profile"
+						ng-show="model.organizerProfile">Profile</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link" href="#!/about">About</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!/contact">Contact</a>
+				</li>
+				<form class="form-inline my-2 my-lg-0" ng-show="model.allRoles.roles.length>1">
+					<a class="btn btn-outline-success my-2 my-sm-0" href="#!/login">Switch profile</a>
+				</form>
+
+			</ul>
+		</div>
+	</div>
+</nav>
+<!-- <br><br> -->
 <!-- /Navigation -->
 
 
@@ -248,6 +253,7 @@
 
 						<!-- <button type="button" name="create" class="btn btn-primary" ng-click="model.createEvent(newEvent)">Create</button> -->
 						<button type="button" name="createEvent" class="btn btn-primary" ng-click="model.createEventDetails(model.newEvent, newEvent, model.daysOfWeek, model.mapLocation)">Create Details</button>
+						<button type="button" name="cancel1" class="btn btn-danger" ng-click="model.cancelRenew()">Cancel</button>
 					</fieldset>
 				</form>
 			</div>
@@ -276,6 +282,7 @@
 							</div>
 						</div>
 						<button type="button" name="createDetails" class="btn btn-primary" ng-click="model.reNewEvent(model.newEvent)">Create</button>
+						<button type="button" name="cancel2" class="btn btn-danger" ng-click="model.cancelRenew()">Cancel</button>
 					</fieldset>
 				</form>
 			</div>

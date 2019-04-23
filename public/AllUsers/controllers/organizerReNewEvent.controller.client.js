@@ -1,43 +1,33 @@
 (function(){
 	angular
 		.module('whatsOnJordan')
-		.controller('makerReNewEventController', makerReNewEventController);
+		.controller('organizerReNewEventController', organizerReNewEventController);
 
-	function makerReNewEventController($location, $routeParams, eventsService, addressService, getterService, loggedOrganizer, authService){
+	function organizerReNewEventController($location, $routeParams, eventsService, addressService, getterService, loggedOrganizer, authService){
 			var model = this;
 			function init(){
 				var eventId = $routeParams.eventId;
-				model.loggedOrganizer = loggedOrganizer;
+				
+
+				model.organizerProfile = loggedOrganizer.chosenRole;
+				model.allRoles = loggedOrganizer.allRoles;
+
+				var organizerId = model.organizerProfile.contact.id;
+
+
 				model.newAddressAdded = false;
 				model.addressSelected = false;
 				// model.newGeoLocationAdded = false;
-				var makerId = loggedOrganizer.makerId;
 
 				getterService
-					.getAllCategories()
-					.then(function (categories) {
-						// console.log('the categories:', categories);
-						model.allCategories = categories.data;
-						getterService
-							.getAllSubCategories()
-							.then(function (subCategories) {
-								// console.log('the sub categories:', subCategories);
-								model.allSubCategories = subCategories.data;
-							})
-					})
-					.then(function () {
-						getterService
-							.getAllAgeGroups()
-							.then(function (allAgeGroups) {
-								model.allAgeGroups = allAgeGroups.data;
-							});
-					})
-					.then(function(){
-						addressService
-							.getMakerAddresses(makerId)
-							.then(function (allAddresses) {
-								model.allAddresses = allAddresses.data;
-							});
+					.getEventHelpers(organizerId)
+					.then(function (result) {
+						var eventHelpers = result.data;
+						console.log('the event helpers:', eventHelpers);
+						for (var i in eventHelpers) {
+							var key = Object.keys(eventHelpers[i])[0];
+							model[key] = eventHelpers[i][Object.keys(eventHelpers[i])[0]];
+						}
 					})
 					.then(function () {
 						eventsService
@@ -95,7 +85,7 @@
 						
 						// var oldEvent = eventDetails;
 						var originalEventId = eventDetails.id;
-						// var unnecessaryProperties = ['created', 'eventDays', 'registeredMembers', 'discountedMembers', 'expenses', 'id', 'startingDate', 'expiryDate', 'makerId', 'special', '__v', 'approved', 'programDailyDetails'];
+						// var unnecessaryProperties = ['created', 'eventDays', 'registeredMembers', 'discountedMembers', 'expenses', 'id', 'startingDate', 'expiryDate', 'organizerId', 'special', '__v', 'approved', 'programDailyDetails'];
 						var unnecessaryProperties = ['members', 'id', 'startingDate', 'expiryDate', 'special', 'approved'];
 						for(var c in unnecessaryProperties){
 							// console.log(oldEvent[unnecessaryProperties[i]]);
@@ -144,6 +134,7 @@
 
 			model.reNewEvent = reNewEvent;
 			model.logout = logout;
+			model.cancelRenew = cancelRenew;
 			model.createEventDetails = createEventDetails;
 			model.getCurrentLocation = getCurrentLocation;
 			model.getLocationFromMap = getLocationFromMap;
@@ -265,7 +256,7 @@
 
 			
 			function reNewEvent(reNewedEvent){
-				// reNewedEvent.makerId = makerId;
+				// reNewedEvent.organizerId = organizerId;
 				reNewedEvent.newAddressAdded = model.newAddressAdded;
 				reNewedEvent.addressSelected = model.addressSelected;
 				// reNewedEvent.newGeoLocationAdded = model.newGeoLocationAdded;
@@ -274,7 +265,7 @@
 					.reNewEvent(reNewedEvent)
 					.then(function(addedEvent){
 						console.log('the renewed event is: ', addedEvent);
-						$location.url('/makerProfile/eventsList');
+						$location.url('/organizerProfile/eventsList');
 					});
 			}
 
@@ -285,6 +276,11 @@
 						$location.url('/');
 					});
 			}
+
+		function cancelRenew() {
+			var url = "/OrganizerProfile";
+			$location.url(url);
+		}
 
 			function addNewAddress(){
 				console.log('new address added');

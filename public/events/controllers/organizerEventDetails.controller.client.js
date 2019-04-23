@@ -1,9 +1,9 @@
 (function() {
 	angular
 		.module('whatsOnJordan')
-		.controller('makerEventDetails', makerEventDetails);
+		.controller('organizerEventDetails', organizerEventDetails);
 
-	function makerEventDetails($routeParams, eventsService, getterService, authService, $location, $route, loggedOrganizer) {
+	function organizerEventDetails($routeParams, eventsService, getterService, authService, $location, $route, loggedOrganizer) {
 
 		var model = this;
 		model.logout = logout;
@@ -106,7 +106,10 @@
 				$location.url('/login');
 			}
 
-			model.loggedOrganizer = loggedOrganizer;
+			model.organizerProfile = loggedOrganizer.chosenRole;
+			model.allRoles = loggedOrganizer.allRoles;
+
+			// model.loggedOrganizer = loggedOrganizer;
 			model.error2 = null;
 			model.grandTotalPayments = 0;
 			var eventId = $routeParams.eventId;
@@ -128,6 +131,8 @@
 			eventsService
 				.findEventByEventId(eventId)
 				.then(function(eventDetails) {
+					console.log('the event details: ', eventDetails);
+					
 					model.eventFeedbacks = [];
 					model.frozeMembers = [];
 					model.eventDetails = eventDetails;

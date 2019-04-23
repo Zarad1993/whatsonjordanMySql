@@ -7,11 +7,11 @@ module.exports = function(app) {
 
 	// http handlers
 	app.get('/api/allEvents', getAllEvents);
-	// app.get('/api/eventDetails/:makerId', findEventsByMakerId);
+	// app.get('/api/eventDetails/:organizerId', findEventsByOrganizerId);
 	// app.get('/api/event/:eventId', findEvent);
 	// app.get('/api/event/', findEvent);
-	app.get('/api/makerEvents/:makerId', findEventsByMakerId);
-	// app.get('/api/makerEventsList/:makerId', createMakerEventsList);
+	app.get('/api/organizerEvents/:organizerId', findEventsByOrganizerId);
+	// app.get('/api/makerEventsList/:organizerId', createMakerEventsList);
 	app.get('/api/event/:eventId', findEventByEventId);
 	app.post('/api/event/newEvent', addNewEvent);
 	app.post('/api/event/reNewEvent', reNewEvent);
@@ -29,9 +29,9 @@ module.exports = function(app) {
 
 
 	// function createMakerEventsList(req, res){
-	// 	var makerId = req.params.makerId;
+	// 	var organizerId = req.params.organizerId;
 	// 	eventsDB
-	// 		.createMakerEventsList(makerId)
+	// 		.createMakerEventsList(organizerId)
 	// 		.then(function(result){
 	// 			res.send(result);
 	// 			return;
@@ -134,9 +134,9 @@ module.exports = function(app) {
 	// 					})
 	// 				);
 	// 	}
-	// 	if(req.query.makerId){
+	// 	if(req.query.organizerId){
 	// 		res.send(eventsDB
-	// 					.findEventsByMakerId(req.query.makerId)
+	// 					.findEventsByOrganizerId(req.query.organizerId)
 	// 					.then(function(event){
 	// 						res.send(event);
 	// 						return;
@@ -147,10 +147,10 @@ module.exports = function(app) {
 		
 	// }
 	
-	function findEventsByMakerId(req, res){
-		var makerId = req.params.makerId;
+	function findEventsByOrganizerId(req, res){
+		var organizerId = req.params.organizerId;
 		eventsDB
-			.findEventsByMakerId(makerId)
+			.findEventsByOrganizerId(organizerId)
 			.then(function(events){
 				res.send(events);
 				return;
@@ -197,10 +197,10 @@ module.exports = function(app) {
 		// return ('error');
 	// }
 
-	// function findEventsByMakerId(makerId){
+	// function findEventsByOrganizerId(organizerId){
 	// 	var eventsList = [];
 	// 		for(var e in events){
-	// 			if(makerId === events[e].makerId){
+	// 			if(organizerId === events[e].organizerId){
 	// 				eventsList.push(events[e]);
 	// 			}
 	// 		}
@@ -209,14 +209,14 @@ module.exports = function(app) {
 
 	function addNewEvent(req, res){
 		var newEvent = req.body;
-		var makerId = newEvent.makerId;
+		var organizerId = newEvent.organizerId;
 		newEvent.main.daysPerWeek = JSON.stringify(newEvent.main.daysPerWeek);
-		newEvent.main.dailyDetails = JSON.stringify(newEvent.main.dailyDetails);
+		// newEvent.main.dailyDetails = JSON.stringify(newEvent.main.dailyDetails);
 		newEvent.main.images = JSON.stringify(newEvent.main.images);
 		newEvent.main.categoryId = newEvent.category.categoryId;
 		newEvent.main.subCategoryId = newEvent.category.subCategoryId;
 		newEvent.main.ageGroupId = newEvent.age.ageGroup.id;
-		newEvent.main.makerId = makerId;
+		newEvent.main.contactId = organizerId;
 		
 		if (newEvent.addressSelected){
 			newEvent.main.addressId = newEvent.address.id;
@@ -229,7 +229,7 @@ module.exports = function(app) {
 		}
 		// console.log('the event to create is: ', newEvent);
 		eventsDB
-			.addNewEvent(makerId, newEvent)
+			.addNewEvent(organizerId, newEvent)
 			.then(function(addedEvent){
 				console.log('the created event is: ', addedEvent);				
 				res.send(addedEvent);
@@ -310,11 +310,11 @@ module.exports = function(app) {
 	}
 
 	function removeEvent(req, res){
-		var makerId = req.query.makerId;
+		var organizerId = req.query.organizerId;
 		var eventId = req.query.eventId;
 
 		eventsDB
-			.removeEvent(makerId, eventId)
+			.removeEvent(organizerId, eventId)
 			.then(function(status){
 				res.send(status);
 				return;

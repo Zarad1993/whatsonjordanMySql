@@ -19,7 +19,7 @@
 				controllerAs: 'model'
 			})
 
-			.when('/allEvents/:makerId', {
+			.when('/allEvents/:organizerId', {
 				templateUrl: 'events/templates/allEvents.view.client.html',
 				controller: 'allEventsController',
 				controllerAs: 'model'
@@ -74,8 +74,8 @@
 			})
 
 			.when('/OrganizerProfile', {
-				templateUrl: 'AllUsers/templates/makerProfile.view.client.html',
-				controller: 'makerProfileController',
+				templateUrl: 'AllUsers/templates/organizerProfile.view.client.html',
+				controller: 'organizerProfileController',
 				controllerAs: 'model',
 				resolve: {
 					loggedOrganizer: isOrganizer
@@ -84,7 +84,7 @@
 
 			.when('/updateOrganizerProfile', {
 				templateUrl:'AllUsers/templates/updateOrganizerProfile.view.client.html',
-				controller: 'makerProfileController',
+				controller: 'organizerProfileController',
 				controllerAs: 'model',
 				resolve:{
 					loggedOrganizer: isOrganizer
@@ -109,9 +109,9 @@
 			})
 
 
-			.when('/makerProfile/eventsList', {
-				templateUrl:  'AllUsers/templates/makerEventsList.view.client.html',
-				controller:   'makerEventsListController',
+			.when('/organizerProfile/eventsList', {
+				templateUrl:  'AllUsers/templates/organizerEventsList.view.client.html',
+				controller:   'organizerEventsListController',
 				controllerAs: 'model',
 				resolve: {
 					loggedOrganizer: isOrganizer
@@ -119,36 +119,36 @@
 			})
 
 
-			.when('/makerProfile/newEvent', {
-				templateUrl: 'AllUsers/templates/makerNewEvent.view.client.html',
-				controller: 'makerNewEventController',
+			.when('/organizerProfile/newEvent', {
+				templateUrl: 'AllUsers/templates/organizerNewEvent.view.client.html',
+				controller: 'organizerNewEventController',
 				controllerAs: 'model',
 				resolve: {
 					loggedOrganizer: isOrganizer
 				}
 			})
 
-			.when('/makerProfile/reNewEvent/:eventId', {
-				templateUrl: 'AllUsers/templates/makerReNewEvent.view.client.html',
-				controller: 'makerReNewEventController',
+			.when('/organizerProfile/reNewEvent/:eventId', {
+				templateUrl: 'AllUsers/templates/organizerReNewEvent.view.client.html',
+				controller: 'organizerReNewEventController',
 				controllerAs: 'model',
 				resolve: {
 					loggedOrganizer: isOrganizer
 				}
 			})
 
-			.when('/makerProfile/editEvent', {
-				templateUrl: 'AllUsers/templates/makerEditEvent.view.client.html',
-				controller: 'makerEditEventController',
+			.when('/organizerProfile/editEvent', {
+				templateUrl: 'AllUsers/templates/organizerEditEvent.view.client.html',
+				controller: 'organizerEditEventController',
 				controllerAs: 'model',
 				resolve: {
 					loggedOrganizer: isOrganizer
 				}
 			})
 
-			.when('/makerProfile/makerEventDetails/:eventId', {
-				templateUrl: 'events/templates/makerEventDetails.view.client.html',
-				controller: 'makerEventDetails',
+			.when('/organizerProfile/organizerEventDetails/:eventId', {
+				templateUrl: 'events/templates/organizerEventDetails.view.client.html',
+				controller: 'organizerEventDetails',
 				controllerAs: 'model',
 				resolve: {
 					loggedOrganizer: isOrganizer
@@ -198,15 +198,15 @@
 		var deferred = $q.defer();
 		authService
 			.checkAuthLogin()
-			.then(function(maker){
-				if(maker === null){
+			.then(function(auth){
+				if(auth === null){
 					deferred.reject();
 					$location.url('/login');
-				} else if(maker.chosenRole == 'Organizer'){
-					for (var i in maker.roles) {
-						if (maker.roles[i].name == maker.chosenRole) {
-							maker.roles[i].email = maker.email;
-							deferred.resolve({chosenRole: maker.roles[i], allRoles: maker});
+				} else if(auth.chosenRole == 'Organizer'){
+					for (var i in auth.roles) {
+						if (auth.roles[i].name == auth.chosenRole) {
+							auth.roles[i].email = auth.email;
+							deferred.resolve({chosenRole: auth.roles[i], allRoles: auth});
 						}
 					}
 				}else{
@@ -240,12 +240,16 @@
 			.then(function(result){
 				var user = result;
 				console.log('the result of check user login', user);
-				if (user.roles.length > 1){
-					var route1 = '/' + user.chosenRole + 'Profile';
-					$location.url(route1);
+				if(user){
+					if (user.roles.length > 1){
+						var route1 = '/' + user.chosenRole + 'Profile';
+						$location.url(route1);
+					}else{
+						var route2 = '/' + user.roles[0].name + 'Profile';
+						$location.url(route2);
+					}
 				}else{
-					var route2 = '/' + user.roles[0].name + 'Profile';
-					$location.url(route2);
+					$location.url('/login');
 				}
 			});
 	}

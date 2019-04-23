@@ -6,7 +6,7 @@ module.exports = function (app) {
 
     // ---------------------------------- APIs requests ----------------------------------
 
-    app.get('/api/address/getMakerAddresses/:makerId', getMakerAddresses);
+    app.get('/api/address/getOrganizerAddresses/:organizerId', getOrganizerAddresses);
 
     // ---------------------------------- /APIs requests ----------------------------------
 
@@ -14,10 +14,10 @@ module.exports = function (app) {
 
     // ------------------------------ Functions ------------------------------
 
-    function getMakerAddresses(req, res) {
-        var makerId = req.params.makerId;
+    function getOrganizerAddresses(req, res) {
+        var organizerId = req.params.organizerId;
         addressesDB
-            .getMakerAddresses(makerId)
+            .getOrganizerAddresses(organizerId)
             .then(function (result) {
                 if (result) {
                     res.send(result);

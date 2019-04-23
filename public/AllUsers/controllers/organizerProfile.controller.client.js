@@ -1,9 +1,9 @@
 (function() {
 	angular
 		.module('whatsOnJordan')
-		.controller('makerProfileController', makerProfileController);
+		.controller('organizerProfileController', organizerProfileController);
 
-	function makerProfileController(authService, getterService, eventsService, loggedOrganizer, $location) {
+	function organizerProfileController(authService, getterService, eventsService, loggedOrganizer, $location) {
 		var model = this;
 		model.logout = logout;
 		model.updateOrganizerProfile = updateOrganizerProfile;
@@ -19,47 +19,26 @@
 				$location.url('/login');
 			}
 			
-			model.makerProfile = loggedOrganizer.chosenRole;
+			model.organizerProfile = loggedOrganizer.chosenRole;
 			model.allRoles = loggedOrganizer.allRoles;
 			
 			// model.loggedOrganizer = loggedOrganizer;
-			if(model.makerProfile.contact.addresses.length <1){
+			if(model.organizerProfile.contact.addresses.length <1){
 				model.createAddress = true;
 			}
-			model.newAddressIndex = model.makerProfile.contact.addresses.length;
+			model.newAddressIndex = model.organizerProfile.contact.addresses.length;
 			// console.log('the logged in is: ', loggedOrganizer);
-			console.log('the addresses list: ', model.makerProfile.contact.addresses);
-
-
-
-			
+			console.log('the addresses list: ', model.organizerProfile.contact.addresses);
+	
 			
 			getterService
 				.getPhoneTypes()
 				.then(function (phoneTypes) {
 					model.phoneTypes = phoneTypes.data;
-				})
-			
-			
-			
-			// for(var i in loggedOrganizer.roles){
-			// 	if (loggedOrganizer.roles[i].name == loggedOrganizer.chosenRole){
-			// 		model.makerProfile = loggedOrganizer.roles[i];
-			// 	}
-			// }
-
-			// if (model.allRoles.roles.length > 1) {
-			// 	for (var i in model.allRoles.roles) {
-			// 		if (model.allRoles.roles[i].name == model.allRoles.chosenRole) {
-			// 			model.makerProfile = loggedOrganizer.roles[i];
-			// 		}
-			// 	}
-			// } else {
-			// 	model.makerProfile = loggedOrganizer.roles[0];
-			// }
+				});
 			
 			// eventsService
-			// 	.findEventsByMakerId(loggedOrganizer.maker.id)
+			// 	.findEventsByOrganizerId(model.organizerProfile.contact.id)
 			// 	.then(function (events) {
 			// 		model.eventsList = events.data;
 			// 	});

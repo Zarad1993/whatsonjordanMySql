@@ -8,7 +8,7 @@
 		this.checkAuthLogin = checkAuthLogin;
 		this.getAuthRoles = getAuthRoles;
 		this.createAuth = createAuth;
-		this.findUserById = findUserById;
+		// this.findUserById = findUserById;
 		this.findUserByEmail = findUserByEmail;
 		this.login = login;
 		this.loginAs = loginAs;
@@ -22,13 +22,13 @@
 		this.forgetPassword = forgetPassword;
 		this.resetPassword = resetPassword;
 		this.updateProfile = updateProfile;
-		this.updateOrganizerProfile = updateOrganizerProfile;
+		// this.updateOrganizerProfile = updateOrganizerProfile;
 		this.makePayment = makePayment;
 		this.confirmAttendance = confirmAttendance;
 		this.updateUserEventParameters = updateUserEventParameters;
 		this.freezeMembership = freezeMembership;
 		this.removeFrozeDays = removeFrozeDays;
-		this.getAllFeedbacks = getAllFeedbacks;
+		// this.getAllFeedbacks = getAllFeedbacks;
 		this.updateFeedbackByAdmin = updateFeedbackByAdmin;
 		this.getAllMakers = getAllMakers;
 		this.getAllRoles = getAllRoles;
@@ -45,9 +45,9 @@
 			return $http.put('/api/admin/updateFeedbackByAdmin', feedback);
 		}
 
-		function getAllFeedbacks(){
-			return $http.get('/api/member/getAllFeedbacks');
-		}
+		// function getAllFeedbacks(){
+		// 	return $http.get('/api/member/getAllFeedbacks');
+		// }
 
 
 		function removeFrozeDays(ids){
@@ -91,10 +91,10 @@
 			return $http.put(url, updatedProfile);
 		}
 
-		function updateOrganizerProfile(updatedMakerProfile){
-			var url = '/api/maker/updateOrganizerProfile';
-			return  $http.put(url, updatedMakerProfile);
-		}
+		// function updateOrganizerProfile(updatedMakerProfile){
+		// 	var url = '/api/maker/updateOrganizerProfile';
+		// 	return  $http.put(url, updatedMakerProfile);
+		// }
 
 		function forgetPassword(email){
 			var url = '/api/forgetPassword/'+email;
@@ -145,15 +145,15 @@
 
 
 
-		function findUserById(userId) {
-			var url = '/api/user/findUserById/' + userId;
-			return $http.get(url)
-				.then(function(response) {
-					var memberProfile = response.data;
-					console.log('findUserById has been called called', response);
-					return memberProfile;
-				});
-		}
+		// function findUserById(userId) {
+		// 	var url = '/api/user/findUserById/' + userId;
+		// 	return $http.get(url)
+		// 		.then(function(response) {
+		// 			var memberProfile = response.data;
+		// 			console.log('findUserById has been called called', response);
+		// 			return memberProfile;
+		// 		});
+		// }
 
 		function findUserByEmail(email) {
 			var url = '/api/user/findUserByEmail/'+email;

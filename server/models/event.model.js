@@ -15,18 +15,18 @@ var Events = db.sequelize.define('event', {
     expiryDate:{
         type: Sequelize.DATE
     },
-    sessionStartTime: {
-        type: Sequelize.DATE
-    },
-    sessionEndTime: {
-        type: Sequelize.DATE
-    },
+    // sessionStartTime: {
+    //     type: Sequelize.DATE
+    // },
+    // sessionEndTime: {
+    //     type: Sequelize.DATE
+    // },
     daysPerWeek: {
         type: Sequelize.JSON
     },
-    dailyDetails:{
-        type: Sequelize.JSON
-    },
+    // dailyDetails:{
+    //     type: Sequelize.JSON
+    // },
     images: {
         type: Sequelize.JSON
     },

@@ -3,10 +3,10 @@ module.exports = function(app) {
 
 var authDB 		    = require('../auth.model.server.js');
 var contactsDB 		= require('../contacts.model.server');
-var membersDB		= require('../members.model.server');
+// var membersDB		= require('../members.model.server');
 var feedbacksDB 	= require('../feedbacks.model.server');
 var eventsDB 		= require('../../events/events.model.server.js');
-var makersDB		= require('../makers.model.server');
+// var makersDB		= require('../makers.model.server');
 var passport 		= require('passport');
 var bcrypt   		= require('bcrypt-nodejs');
 var GoogleStrategy 	= require('passport-google-oauth').OAuth2Strategy;
@@ -109,8 +109,8 @@ var async			= require('async');
 // ---------------------------------- APIs requests ----------------------------------
 
 app.get('/api/user/getAllUsers', getAllUsers);
-app.get('/api/maker/getAllMakers', getAllMakers);
-app.get('/api/user/findUserById/:userId', findUserById);
+// app.get('/api/maker/getAllMakers', getAllMakers);
+// app.get('/api/user/findUserById/:userId', findUserById);
 app.get('/api/user/findUserByEmail/:userEmail', findUserByEmail);
 app.post('/api/user/login', passport.authenticate('localUser'), loginUser);
 app.post('/api/user/loginAs', loginAs);
@@ -120,8 +120,8 @@ app.get('/api/getAuthRoles/:authId', getAuthRoles);
 app.get('/api/isOrganizer', isOrganizer);
 app.get('/api/admin/isAdmin', checkAdmin, isAdmin);
 app.post('/api/logout', logout);
-app.post('/api/addEventToUser', addEventToUser);
-app.get('/api/getMemberEvents/:memberId', getMemberEvents);
+// app.post('/api/addEventToUser', addEventToUser);
+// app.get('/api/getMemberEvents/:memberId', getMemberEvents);
 app.delete('/api/removeEventFromUser/:eventId', removeRegisteredEvent);
 
 // login with google
@@ -136,13 +136,13 @@ app.post('/api/userProfile/uploadProfilePic', upload.single('profilePicture'), u
 app.post('/api/forgetPassword/:email', forgetPassword);
 app.post('/api/resetPassword/:token', checkToken, resetPassword);
 app.put('/api/user/updateProfile', updateProfile);
-app.put('/api/maker/updateOrganizerProfile', updateOrganizerProfile);
+// app.put('/api/maker/updateOrganizerProfile', updateOrganizerProfile);
 app.put('/api/maker/makePayment', makePayment);
 app.put('/api/maker/confirmAttendance', confirmAttendance);
 app.put('/api/user/updateUserEventParameters', updateUserEventParameters);
 app.put('/api/user/freezeMembership', freezeMembership);
 app.delete('/api/user/removeFrozeDays/:userId/:eventId', removeFrozeDays);
-app.get('/api/member/getAllFeedbacks', getAllFeedbacks);
+// app.get('/api/member/getAllFeedbacks', getAllFeedbacks);
 app.put('/api/admin/updateFeedbackByAdmin', updateFeedbackByAdmin);
 app.put('/api/admin/addAuthRole', addAuthRole);
 app.post('/api/member/submitFeedback', submitFeedback);
@@ -300,15 +300,15 @@ function updateProfile(req, res){
 		});
 }
 
-function updateOrganizerProfile(req, res){
-	var updatedMakerProfile = req.body;
-	authDB
-		.updateOrganizerProfile(updatedMakerProfile)
-		.then(function(result){
-			console.log('the final Updated Maker in users.server: ', result);
-			res.send(req.isAuthenticated() ? req.user : null);
-		})
-}
+// function updateOrganizerProfile(req, res){
+// 	var updatedMakerProfile = req.body;
+// 	authDB
+// 		.updateOrganizerProfile(updatedMakerProfile)
+// 		.then(function(result){
+// 			console.log('the final Updated Maker in users.server: ', result);
+// 			res.send(req.isAuthenticated() ? req.user : null);
+// 		})
+// }
 
 // Do the action here
 function checkToken(req, res, next){
@@ -473,20 +473,20 @@ function findUserByEmail(req, res){
 		});
 }
 
-function findUserById(req, res){
-	var userId = req.params.userId;
-		authDB
-			.findUserById(userId)
-			.then(function(result){
-				if(result){
-					res.send(result);
-					return;
-				} else {
-					res.send('error');
-					return;
-				}
-			});
-}
+// function findUserById(req, res){
+// 	var userId = req.params.userId;
+// 		authDB
+// 			.findUserById(userId)
+// 			.then(function(result){
+// 				if(result){
+// 					res.send(result);
+// 					return;
+// 				} else {
+// 					res.send('error');
+// 					return;
+// 				}
+// 			});
+// }
 
 
 
@@ -679,19 +679,19 @@ function getAllUsers(req, res) {
 }
 
 
-function getAllMakers(req, res){
-	makersDB
-		.getAllMakers()
-		.then(function(makers){
-			if(makers){
-				res.send(makers);
-				return;
-			} else {
-				res.send('error');
-				return;
-			}
-		});
-}
+// function getAllMakers(req, res){
+// 	makersDB
+// 		.getAllMakers()
+// 		.then(function(makers){
+// 			if(makers){
+// 				res.send(makers);
+// 				return;
+// 			} else {
+// 				res.send('error');
+// 				return;
+// 			}
+// 		});
+// }
 
 
 function createAuth(req, res){
@@ -815,36 +815,36 @@ function isAdmin(req, res){
 }
 
 
-function addEventToUser(req, res){
-	var parameters = req.body;
-	var eventID = parameters.eventID;
-	var memberId = parameters.memberId;
-	// authDB
-	// 	.updateProfile(userDetails)
-	// 		.then(function(updatedUser){
-				membersDB	
-					.addEventToMember(eventID, memberId)
-						.then(function(result){
-							// eventsDB
-							// 	.addMemberToEvent(eventId, userId)
-							// 		.then(function (result){
-							// 			console.log(result);
-							// 		});
-							console.log('what happen on addEventToMember', result);
+// function addEventToUser(req, res){
+// 	var parameters = req.body;
+// 	var eventID = parameters.eventID;
+// 	var memberId = parameters.memberId;
+// 	// authDB
+// 	// 	.updateProfile(userDetails)
+// 	// 		.then(function(updatedUser){
+// 				membersDB	
+// 					.addEventToMember(eventID, memberId)
+// 						.then(function(result){
+// 							// eventsDB
+// 							// 	.addMemberToEvent(eventId, userId)
+// 							// 		.then(function (result){
+// 							// 			console.log(result);
+// 							// 		});
+// 							console.log('what happen on addEventToMember', result);
 							
-							res.send(result);
-						});
-			// });
-		// .addEventToUser(userId, eventId, userDetails)
-		// .then(function(user){
-		// 	eventsDB
-		// 		.addMemberToEvent(eventId, userId)
-		// 		.then(function (result){
-		// 			console.log(result);
-		// 		});
-		// 	res.send(user);
-		// });
-}
+// 							res.send(result);
+// 						});
+// 			// });
+// 		// .addEventToUser(userId, eventId, userDetails)
+// 		// .then(function(user){
+// 		// 	eventsDB
+// 		// 		.addMemberToEvent(eventId, userId)
+// 		// 		.then(function (result){
+// 		// 			console.log(result);
+// 		// 		});
+// 		// 	res.send(user);
+// 		// });
+// }
 
 function getMemberEvents(req, res){
 	var memberId = req.params.memberId;

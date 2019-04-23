@@ -7,7 +7,7 @@ module.exports = addressesDB;
 
 addressesDB.updateAddressDetails = updateAddressDetails;
 addressesDB.createAddress = createAddress;
-addressesDB.getMakerAddresses = getMakerAddresses;
+addressesDB.getOrganizerAddresses = getOrganizerAddresses;
 
 addressesDB.updateOrCreateAddress = updateOrCreateAddress;
 
@@ -67,11 +67,16 @@ function createAddress(address){
     return addressesDB.create(address);
 }
 
-function getMakerAddresses(makerId){
-    var maker = 'Maker' + makerId;
+function getOrganizerAddresses(organizerId){
+    // var maker = 'Maker' + organizerId;
     return addressesDB
         .findAll({
-            where: {createdBy: maker},
-            include: [{all: true}]
+            where: {contactId: organizerId},
+            include: [{all: true}],
+            raw: true
+        })
+        .then(function(addresses){
+            var allAddresses = { allAddresses: addresses };
+            return allAddresses;
         })
 }

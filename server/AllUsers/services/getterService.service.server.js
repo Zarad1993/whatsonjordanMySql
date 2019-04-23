@@ -7,9 +7,14 @@ module.exports = function (app) {
     var gradesDB = require('../grades.model.server');
     var expenseTypesDB = require('../expensesTypes.model.server');
     var Phone = require('../../models/phones.model');
+    var addressesDB = require('../addresses.model.server');
+    var schoolsDB = require('../schools.model.server');
+    var nationalitiesDB = require('../nationalities.model.server');
 
     // ---------------------------------- APIs requests ----------------------------------
     
+    app.get('/api/getterService/getEventHelpers/:organizerId', getEventHelpers);
+    app.get('/api/getterService/getMemberProfileHelpers', getMemberProfileHelpers);
     app.get('/api/getterService/getAllCategories', getAllCategories);
     app.get('/api/getterService/getAllSubCategories', getAllSubCategories);
     app.get('/api/getterService/getAllAgeGroups', getAllAgeGroups);
@@ -22,13 +27,61 @@ module.exports = function (app) {
 
     // ------------------------------ Functions ------------------------------
 
+    // functions that will bring data:
+    var categories= categoriesDB.getAllCategories();
+    var subCategories= subCategoriesDB.getAllSubCategories();
+    var ageGroups = ageGroupsDB.getAllAgeGroups();
+    var phoneTypes = {phoneTypes: Phone.rawAttributes.type.values};
+    var allGrades = gradesDB.getAllGrades();
+    var allSchools = schoolsDB.getAllSchools();
+    var nationalities = nationalitiesDB.getAllNationalities();
+    
+    
+    function getEventHelpers(req, res){
+        var organizerId = req.params.organizerId;
+        var addresses = addressesDB.getOrganizerAddresses(organizerId);
+        
+        var functions = [categories, subCategories, ageGroups, addresses];
+        
+        var allResults = [];
+        
+        return Promise
+                .all(functions)
+                .then(function(results){
+                    results.forEach(function(result){
+                        allResults.push(result);
+                    });
+                    console.log('the promise result: ', allResults);
+                    res.send(allResults);
+                    return;
+                });
+    }
+
+    function getMemberProfileHelpers(req, res){
+        var functions = [phoneTypes, allGrades, allSchools, nationalities];
+
+        var allResults = [];
+
+        return Promise
+            .all(functions)
+            .then(function (results) {
+                results.forEach(function (result) {
+                    allResults.push(result);
+                });
+                console.log('the promise result: ', allResults);
+                res.send(allResults);
+                return;
+            });
+    }
+
+
     function getAllCategories(req, res) {
         categoriesDB
             .getAllCategories()
             .then(function (result) {
                 if (result) {
                     res.send(result);
-                    return;
+                    return result;
                 } else {
                     res.send('error');
                     return;
@@ -42,7 +95,7 @@ module.exports = function (app) {
             .then(function (result) {
                 if (result) {
                     res.send(result);
-                    return;
+                    return result;
                 } else {
                     res.send('error');
                     return;

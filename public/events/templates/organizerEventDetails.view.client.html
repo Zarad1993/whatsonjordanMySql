@@ -3,12 +3,14 @@
 	<div class="container-fluid">
 		<div class="navbar-header ml-auto">
 			<a class="navbar-brand" href="index.html">
-              <img class="menu-logo" src="./img/logo/wojo2.jpg">
-            </a>
-			<button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
+				<img class="menu-logo" src="./img/logo/wojo2.jpg">
+			</a>
+			<button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse"
+				data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		</div>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
@@ -18,27 +20,30 @@
 					<a class="nav-link" href="#!/allEvents">Events</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#!/login" ng-show="!model.loggedOrganizer">Login</a>
+					<a class="nav-link" href="#!/login" ng-show="!model.organizerProfile">Login</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="" ng-click="model.logout()" ng-show="model.loggedOrganizer">Logout</a>
+					<a class="nav-link" href="" ng-click="model.logout()" ng-show="model.organizerProfile">Logout</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.loggedOrganizer">Profile</a>
+					<a class="nav-link" style="color: #DB685F;" href="#!/profile" ng-show="model.organizerProfile">Profile</a>
 				</li>
+
 				<li class="nav-item">
 					<a class="nav-link" href="#!/about">About</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#!/contact">Contact</a>
 				</li>
-				<form class="form-inline my-2 my-lg-0" ng-show="model.loggedOrganizer.roles.length>1">
+				<form class="form-inline my-2 my-lg-0" ng-show="model.allRoles.roles.length>1">
 					<a class="btn btn-outline-success my-2 my-sm-0" href="#!/login">Switch profile</a>
 				</form>
+
 			</ul>
 		</div>
 	</div>
 </nav>
+<!-- <br><br> -->
 <!-- /Navigation -->
 
 
@@ -736,7 +741,7 @@
 	<br>
 
 	
-	<a href="#!/makerProfile" class="btn btn-lg btn-danger">Go back to profile</a>
+	<a href="#!/organizerProfile" class="btn btn-lg btn-danger">Go back to profile</a>
 <br>
 <br>
 <hr>
