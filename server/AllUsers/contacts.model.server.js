@@ -15,18 +15,18 @@ contactsDB.updateContact = updateContact;
 
 
 
-function addNewContact(authId, roleName) {
+function addNewContact(authId, roleId, roleName) {
     console.log('the authId: ', authId);
     
     if(roleName && roleName=='Organizer'){
         return contactsDB
-            .create({ type: 'Organization', authId: authId} );
+            .create({ type: 'Organization', authId: authId, roleId: roleId} );
             // .then(function(addedContact){
             //     return addedContact.createPhone({contactId: addedContact.id});
             // });
     }else{
         return contactsDB
-                .create({authId: authId});
+                .create({authId: authId, roleId: roleId});
                 // .then(function(addedContact){
                 //     return addedContact.createPhone({contactId: addedContact.id});
                 // })

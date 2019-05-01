@@ -517,7 +517,7 @@ function userStrategy(username, password, done) {
 	authDB
 		.findUserByEmail(username)
 		.then(
-			function(foundUser){
+			function(foundUser){			
 				var auth = foundUser;
 				// console.log('the user from userStrategy: ', user);
 				if(!auth){
@@ -612,7 +612,7 @@ function loginAs(req, res){
 			// req.session.passport.user.roles[i].loggedWithin = true;
 			req.session.passport.user.chosenRole = req.session.passport.user.roles[i].name;
 			req.session.save();
-				
+			// console.log('the response from login as: ', req.session.passport.user);
 			res.send(req.session.passport.user);
 			// return;
 		}

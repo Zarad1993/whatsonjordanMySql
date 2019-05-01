@@ -3,7 +3,7 @@
 		.module('whatsOnJordan')
 		.controller('organizerNewEventController', organizerNewEventController);
 
-	function organizerNewEventController($location, eventsService, addressService, getterService, loggedOrganizer, authService){
+	function organizerNewEventController($location, eventsService, getterService, loggedOrganizer, authService){
 			var model = this;
 			function init(){
 				if(!loggedOrganizer){
@@ -23,6 +23,7 @@
 				model.addressSelected = false;
 				// model.newGeoLocationAdded = false;
 				var organizerId = model.organizerProfile.contact.id;
+				
 				
 				getterService
 					.getEventHelpers(organizerId)
@@ -141,6 +142,7 @@
 			
 			model.createEvent = createEvent;
 			model.logout = logout;
+			model.cancelCreate = cancelCreate;
 			model.createEventDetails = createEventDetails;
 			model.getCurrentLocation = getCurrentLocation;
 			model.getLocationFromMap = getLocationFromMap;
@@ -200,18 +202,24 @@
 						}
 					}
 				}
-				newEvent.main.daysPerWeek = [];
+				// newEvent.main.daysPerWeek = [];
 				// remove unselected days
 				for (var i in model.daysOfWeek) {
 					if (model.daysOfWeek[i].day == false) {
 						delete (model.daysOfWeek[i]);
-					}else{
-						delete (model.daysOfWeek[i].day);
-						newEvent.main.daysPerWeek.push(Number(i));
+					// }else{
+					// 	// delete (model.daysOfWeek[i].day);
+					// 	newEvent.main.daysPerWeek.push(Number(i));
+					// 	// newEvent.main.daysWithSessions.push()
 					}
+					// var et = Number(i);
+					// var leng = model.daysOfWeek.length - 1;
+					// if(et == leng){
+					// 	newEvent.main.daysPerWeek = model.daysOfWeek;
+					// }
 				}
 				
-				newEvent.main.sessionsPerDay = model.daysOfWeek;
+				newEvent.main.daysPerWeek = model.daysOfWeek;
 				// newEvent.eventDays = eventDays;
 				newEvent.geoLocation = mapLocation;
 				model.newEvent = newEvent;
@@ -243,6 +251,11 @@
 						$location.url('/');
 					});
 			}
+
+		function cancelCreate() {
+			var url = "/OrganizerProfile";
+			$location.url(url);
+		}
 
 			function addNewAddress() {
 				console.log('new address added');

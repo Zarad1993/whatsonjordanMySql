@@ -305,8 +305,8 @@ input:checked + .slider:before {
   border-radius: 6px;
   background: #dddddd;
   height: 40px;
-  width: 50px;
-  margin-right: 3px;
+  width: 70px;
+  margin-right: 5px;
   line-height: 40px;
   text-align: center;
   cursor: pointer;

@@ -107,11 +107,18 @@
 							<input type="date" class="form-control" rows="4" cols="50" name="expiryDate" id="expiryDate" ng-model="newEvent.main.expiryDate">
 						</div>
 
-						<div class="form-group">
-							<span class="weekDays-selector" ng-repeat="day in model.days">
-								<input type="checkbox" id="weekday-{{day}}" class="weekday" ng-model="model.daysOfWeek[$index].day" />
-								<label for="weekday-{{day}}">{{day}}</label>
-							</span>
+						<!-- Select days per week and the time for each day -->
+						<label>Select Days per week:</label>
+						<div class="form-control">
+							<!-- <div >
+								<label>Select days per week:</label>
+							</div> -->
+							<div  style="text-align: center;">
+								<span class="weekDays-selector" ng-repeat="day in model.days">
+									<input type="checkbox" id="weekday-{{day}}" class="weekday" ng-model="model.daysOfWeek[$index].day"/>
+									<label for="weekday-{{day}}">{{day}}</label>
+								</span>
+							</div>
 							
 							<div ng-repeat="(key, value) in model.daysOfWeek">
 								<div class="row" ng-show="value.day">
@@ -136,7 +143,7 @@
 								</div>
 							</div>
 						</div>
-
+						<!-- {{model.daysOfWeek}} -->
 						<div class="form-group">
 							<label for="price">Price:</label>
 							<input type="text" class="form-control" rows="4" cols="50" name="price" id="price" ng-model="newEvent.main.price">
@@ -255,6 +262,7 @@
 
 						<!-- <button type="button" name="create" class="btn btn-primary" ng-click="model.createEvent(newEvent)">Create</button> -->
 						<button type="button" name="createEvent" class="btn btn-primary" ng-click="model.createEventDetails(newEvent, model.mapLocation)">CreateDetails</button>
+						<button type="button" name="cancel1" class="btn btn-danger" ng-click="model.cancelCreate()">Cancel</button>
 					</fieldset>
 				</form>
 			</div>
@@ -284,6 +292,7 @@
 							</div>
 						</div>
 						<button type="button" name="createDetails" class="btn btn-primary" ng-click="model.createEvent(model.newEvent)">Create</button>
+						<button type="button" name="cancel2" class="btn btn-danger" ng-click="model.cancelCreate()">Cancel</button>
 					</fieldset>
 				</form>
 			</div>

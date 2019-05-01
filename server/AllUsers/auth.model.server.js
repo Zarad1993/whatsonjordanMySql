@@ -67,24 +67,38 @@ function getAuthDetails(userId){
 			})
 		.then(function(user){
 				var plainUser = user.get({plain: true});
-				return contactsDB
-					.findContactsByAuthId(plainUser.id)
-					.then(function(foundContacts){
+				// console.log('the plain user is: ', plainUser);
+				// find contact by auth and role
+				// return contactsDB
+				// 	.findContactsByAuthId(plainUser.id)
+				// 	.then(function(foundContacts){
+						
 						for(var i in plainUser.roles){
+							for(var x in plainUser.contacts){
+								if (plainUser.roles[i].id === plainUser.contacts[x].roleId){
+									plainUser.roles[i].contact = plainUser.contacts[x];//.get({ plain: true });
+								}
+							}
 							if (plainUser.roles[i].name == 'Member'){
-								plainUser.roles[i].contact = foundContacts[i].get({plain: true});
+								// plainUser.roles[i].contact = foundContacts[i].get({plain: true});
 								if (plainUser.roles[i].contact.name){
 									plainUser.roles[i].contact.firstName = plainUser.roles[i].contact.name.split(' ')[0];
 									plainUser.roles[i].contact.middleName = plainUser.roles[i].contact.name.split(' ')[1];
 									plainUser.roles[i].contact.lastName = plainUser.roles[i].contact.name.split(' ')[2];
 								}
-							}else{
-								plainUser.roles[i].contact = foundContacts[i].get({ plain: true });
+							}//else{
+								//plainUser.roles[i].contact = foundContacts[i].get({ plain: true });
+							//}
+							var rolesLength = plainUser.roles.length-1;
+							var iterator = Number(i);
+							if(iterator == rolesLength){
+								// console.log('the final plain user: ', plainUser.roles);
+								return plainUser;		
 							}
 						}
 						// console.log('the user after add contacts: ', plainUser.roles);
-						return plainUser;
-					});
+						// return plainUser;
+					// });
 		});
 }
 
@@ -389,7 +403,7 @@ function createAuth(user){
 								.then(function(authRole){
 									console.log('the created authRole ',authRole[0][0].id);
 									return contactsDB
-										.addNewContact(addedUser.id, null)
+										.addNewContact(addedUser.id, role.id, null)
 										.then(function (addedContact) {
 										// console.log('after add role: ', authRole[0][0]);			
 											console.log('the addedUser: ', addedUser);
@@ -419,7 +433,7 @@ function addAuthRole(updatedUser){
 			.addRole(newRoleId, { through: { active: true } })
 			.then(function (authRole) {
 				return contactsDB
-					.addNewContact(foundUser.id, newRoleName)
+					.addNewContact(foundUser.id, newRoleId, newRoleName)
 					.then(function (addedContact) {
 					console.log('after add role: ', authRole[0][0]);
 					// newRoleName = newRole.name;

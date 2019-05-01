@@ -68,24 +68,26 @@
 		}
 
 		function selectRole(){
-			console.log('the logged auth: ', model.loggedAuth);
-			
 			if (model.loggedAuth.roles.length > 1) {
 				for (var i in model.loggedAuth.roles) {
+					// console.log('logged Auth role: ', model.loggedAuth.roles[i]);
 					if (model.loggedAuth.roles[i].x_auth_role.active) {
 						model.authRoles.push(model.loggedAuth.roles[i]);
 					}
-				}
-				console.log('available roles: ', model.authRoles);
-				if (model.authRoles.length > 1) {
-					// model.selectRole = true;
-					$(function () {
-						$('#chooseRoleModal').modal('show');
-					});
-					return;
-				} else {
-					$location.url('/profile');
-					return;
+					var x = Number(i);
+					var y = model.loggedAuth.roles.length - 1;
+					if (x == y){
+						// console.log('available roles: ', model.authRoles);
+						if (model.authRoles.length > 1) {
+							$(function () {
+								$('#chooseRoleModal').modal('show');
+							});
+							return;
+						} else {
+							$location.url('/profile');
+							return;
+						}
+					}
 				}
 			} else {
 				$location.url('/profile');
@@ -98,7 +100,7 @@
 			authService
 				.loginAs(selectedRole)
 				.then(function(updatedAuth){
-					console.log('the updated auth', updatedAuth);
+					// console.log('the updated auth', updatedAuth);
 					// $(function () {
 					// 	$('#chooseRoleModal').modal('hide');
 					// });

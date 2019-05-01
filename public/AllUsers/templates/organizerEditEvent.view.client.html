@@ -57,7 +57,7 @@
 			<h3>Events List</h3>
 			<hr>
 			<div class="row ngClickPointer" ng-repeat="event in model.eventsList">
-				<div class="col-12" ng-click="model.selectEvent(event.id)">
+				<div class="col-12" ng-click="model.selectEvent(event)">
 					<h5>{{event.name}}
 						<span><i class="fa fa-pencil-square-o pull-right" aria-hidden="true"></i></span>
 					</h5>
@@ -72,6 +72,7 @@
 		<!-- Right side -->
 		<div class="col-8" ng-show="model.updateEventMain">
 			<h4>Main event details:</h4>
+			<!-- {{model.selectedEvent}} -->
 			<div class="form-group">
 				<form>
 					<fieldset>
@@ -126,7 +127,7 @@
 							<input class="form-control" type="date" name="expiryDate" id="expiryDate" ng-model="model.selectedEvent.expiryDate">
 						</div>
 
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<label for="sessionStartTime">Session's starting time:</label>
 							<input type="time" class="form-control" rows="4" cols="50" name="sessionStartTime" id="sessionStartTime" ng-model="model.selectedEvent.sessionStartTime">
 						</div>
@@ -134,9 +135,9 @@
 						<div class="form-group">
 							<label for="sessionEndTime">Session's end time:</label>
 							<input type="time" class="form-control" rows="4" cols="50" name="sessionEndTime" id="sessionEndTime" ng-model="model.selectedEvent.sessionEndTime">
-						</div>
+						</div> -->
 
-						<div>
+						<!-- <div>
 							<div class="weekDays-selector">
 								<input type="checkbox" id="weekday-sat" class="weekday" ng-model="model.daysOfWeek.Sat" />
 								<label for="weekday-sat">Sat</label>
@@ -152,6 +153,43 @@
 								<label for="weekday-thu">Thu</label>
 								<input type="checkbox" id="weekday-fri" class="weekday" ng-model="model.daysOfWeek.Fri" />
 								<label for="weekday-fri">Fri</label>
+							</div>
+						</div> -->
+
+						<!-- Select days per week and the time for each day -->
+						<label>Select Days per week:</label>
+						<div class="form-control">
+							<div style="text-align: center;">
+								<span class="weekDays-selector" ng-repeat="day in model.days">
+									<input type="checkbox" id="weekday-{{day}}" class="weekday" ng-model="model.selectedEvent.daysPerWeek[$index].day" />
+									<label for="weekday-{{day}}">{{day}}</label>
+								</span>
+							</div>
+						
+							<div ng-repeat="(key, value) in model.selectedEvent.daysPerWeek">
+								<div class="row" ng-show="value.day">
+									<div class="col-md-2">
+										<div class="form-group">
+											<label style="color:white">Day:</label><br>
+											<label class="btn btn-success" style="display:block"
+												for="from-{{$index}}">{{model.days[key]}}</label>
+										</div>
+									</div>
+									<div class="col-md-5">
+										<div class="form-group">
+											<label for="">From:</label>
+											<input class="form-control" id="from-{{$index}}" type="time" ng-model="value.from">
+											{{value.from}}
+										</div>
+									</div>
+									<div class="col-md-5">
+										<div class="form-group">
+											<label for="">To:</label>
+											<input class="form-control" type="time" ng-model="value.to">
+											{{value.to}}
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 
@@ -271,7 +309,7 @@
 							<textarea class="form-control" rows="5" cols="50" name="termsAndConditions" id="termsAndConditions" ng-model="model.selectedEvent.termsAndConditions"></textarea>
 						</div>
 
-						<button type="button" name="save" class="btn btn-primary" ng-click="model.updateMainEventDetails(model.selectedEvent, model.daysOfWeek, model.mapLocation)">Update Details</button>
+						<button type="button" name="save" class="btn btn-primary" ng-click="model.updateMainEventDetails(model.selectedEvent, model.mapLocation)">Update Details</button>
 						<button type="button" name="cancel1" class="btn btn-danger" ng-click="model.cancelUpdate()">Cancel</button>
 					</fieldset>
 
@@ -281,6 +319,7 @@
 
 		<!-- Day By Day Details -->
 		<div class="col-8" ng-show="model.updateEventProgramDetails">
+			<!-- {{model.selectedEvent}} -->
 			<div class="col-12">
 				<h1>Program Details Day By Day</h1>
 				<div class="form-group">
@@ -288,11 +327,14 @@
 						<fieldset>
 							<legend>Program Details:</legend>
 							<div>
-								<div style="margin-left: 50px;" class="form-group" ng-repeat="day in model.eventDays">
-									<label style="background-color: lightgreen;"><b>Day: </b>{{day}}</label>
-									<input type="text" class="form-control" placeholder="program Title" style="border-left: 5px; border-style: solid; border-left-color: red; margin-bottom: 3px;" ng-model="model.selectedEvent.dailyDetails.programDailyDetails[day].title" style="margin-bottom: 3px;">
-									<textarea class="form-control" style="border-left: 5px; border-style: solid; border-left-color: red; margin-bottom: 3px;" rows="4" cols="50" ng-model="model.selectedEvent.dailyDetails.programDailyDetails[day].details">Program details</textarea>
-									<input type="text" class="form-control" placeholder="link for video" style="border-left: 5px; border-style: solid; border-left-color: red; margin-bottom: 3px;" ng-model="model.selectedEvent.dailyDetails.programDailyDetails[day].videoLink">
+								<div style="margin-left: 50px;" class="form-group" ng-repeat="day in model.selectedEvent.programDetails">
+									<!-- {{day}} -->
+									<label style="background-color: lightgreen;"><b>Day: </b>{{day.date}}</label>
+									<input type="time" class="form-control" style="border-left: 5px; border-style: solid; border-left-color: red; margin-bottom: 3px;" ng-model="day.sessionStartTime" style="margin-bottom: 3px;">
+									<input type="time" class="form-control" style="border-left: 5px; border-style: solid; border-left-color: red; margin-bottom: 3px;" ng-model="day.sessionEndTime" style="margin-bottom: 3px;">
+									<input type="text" class="form-control" placeholder="program Title" style="border-left: 5px; border-style: solid; border-left-color: red; margin-bottom: 3px;" ng-model="day.title" style="margin-bottom: 3px;">
+									<textarea class="form-control" style="border-left: 5px; border-style: solid; border-left-color: red; margin-bottom: 3px;" rows="4" cols="50" ng-model="day.details"></textarea>
+									<input type="text" class="form-control" placeholder="link for video" style="border-left: 5px; border-style: solid; border-left-color: red; margin-bottom: 3px;" ng-model="day.videoLink">
 									<br>
 								</div>
 							</div>

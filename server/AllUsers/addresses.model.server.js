@@ -75,7 +75,7 @@ function getOrganizerAddresses(organizerId){
             include: [{all: true}],
             raw: true
         })
-        .then(function(addresses){
+        .then(function(addresses){           
             var allAddresses = { allAddresses: addresses };
             return allAddresses;
         })

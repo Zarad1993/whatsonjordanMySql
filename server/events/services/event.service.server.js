@@ -152,6 +152,8 @@ module.exports = function(app) {
 		eventsDB
 			.findEventsByOrganizerId(organizerId)
 			.then(function(events){
+				console.log('the events list of org: ', events);
+				
 				res.send(events);
 				return;
 			});
@@ -164,7 +166,7 @@ module.exports = function(app) {
 			.findEventByEventId(eventId)
 			.then(function(event){
 				event.daysPerWeek = JSON.parse(event.daysPerWeek);
-				event.dailyDetails = JSON.parse(event.dailyDetails);
+				// event.dailyDetails = JSON.parse(event.dailyDetails);
 				event.images = JSON.parse(event.images);
 				
 				// console.log('the found event by id is:', event);
@@ -210,9 +212,9 @@ module.exports = function(app) {
 	function addNewEvent(req, res){
 		var newEvent = req.body;
 		var organizerId = newEvent.organizerId;
-		newEvent.main.daysPerWeek = JSON.stringify(newEvent.main.daysPerWeek);
+		// newEvent.main.daysPerWeek = JSON.stringify(newEvent.main.daysPerWeek);
 		// newEvent.main.dailyDetails = JSON.stringify(newEvent.main.dailyDetails);
-		newEvent.main.images = JSON.stringify(newEvent.main.images);
+		// newEvent.main.images = JSON.stringify(newEvent.main.images);
 		newEvent.main.categoryId = newEvent.category.categoryId;
 		newEvent.main.subCategoryId = newEvent.category.subCategoryId;
 		newEvent.main.ageGroupId = newEvent.age.ageGroup.id;
@@ -279,9 +281,9 @@ module.exports = function(app) {
 		updatedEvent.approved = false;
 		updatedEvent.special = false;
 
-		updatedEvent.daysPerWeek = JSON.stringify(updatedEvent.daysPerWeek);
-		updatedEvent.dailyDetails = JSON.stringify(updatedEvent.dailyDetails);
-		updatedEvent.images = JSON.stringify(updatedEvent.images);
+		// updatedEvent.daysPerWeek = JSON.stringify(updatedEvent.daysPerWeek);
+		// updatedEvent.dailyDetails = JSON.stringify(updatedEvent.dailyDetails);
+		// updatedEvent.images = JSON.stringify(updatedEvent.images);
 		updatedEvent.ageGroupId = updatedEvent.ageGroup.id;
 		
 		if (updatedEvent.addressSelected) {
@@ -293,10 +295,10 @@ module.exports = function(app) {
 			updatedEvent.geoLocation.latitude = JSON.stringify(updatedEvent.geoLocation.latitude);
 			updatedEvent.geoLocation.longitude = JSON.stringify(updatedEvent.geoLocation.longitude);
 			// Prepare the address object
-			var removedKeys = ['id', 'createdAt', 'updatedAt', 'geoLocationId', 'geoLocation'];
-			for (var a in removedKeys) {
-				delete (updatedEvent.address[removedKeys[a]]);
-			}
+			// var removedKeys = ['id', 'createdAt', 'updatedAt', 'geoLocationId', 'geoLocation'];
+			// for (var a in removedKeys) {
+			// 	delete (updatedEvent.address[removedKeys[a]]);
+			// }
 		}
 
 		// console.log('the event id: ', eventId);

@@ -270,10 +270,34 @@ function findEventByEventId(eventId){
 }
 
 function findEventsByOrganizerId(organizerId){
+	var organizerEvents = eventsDB.findAll({where: {contactId: organizerId}, include: [{all:true}]});
+	var eventsProgDetails = programDetailsDB.findDetailsByEventId()
+	
 	return eventsDB
 				.findAll({
 					where: {contactId: organizerId},
-					include: [{all: true}]
+					include: [
+						{all: true}, 
+						{model: Address, include: [{all: true}]}],
+					// raw: true
+				})
+				.then(function(eventsList){
+					return Promise.all(eventsList.map(function(e){
+						var event = e.get({plain: true});
+						return programDetailsDB	
+								.findDetailsByEventId(event.id)
+								.then(function(detailsList){
+									event.programDetails = detailsList;
+									console.log('the event inside: ', event);
+									return event;
+									});
+								})
+					).then(function(result){
+						// console.log('the events: ', eventsLists);
+						console.log('the result from the promise all: ', result);
+						return result;
+					});
+					
 				});
 	// return eventsDB
 	// 			.find({organizerId: organizerId})
@@ -305,29 +329,33 @@ function updateEvent(eventId, updatedEvent){
 	return eventsDB
 		.findById(eventId)
 		.then(function (foundEvent) {
-			// if the maker add new address the address he must change the geolocation also
-			if(updatedEvent.newAddressAdded){
-				return geoLocationsDB
-					.addEventLocation(updatedEvent.geoLocation)
-					.then(function(addedLocation){
-						updatedEvent.address.geoLocationId = addedLocation.id;
-						updatedEvent.address.contactId = updatedEvent.organizerId;
-						return foundEvent;
-					})
-					.then(function(foundEvent){
-						return addressesDB
-								.createAddress(updatedEvent.address)
-								.then(function(addedAddress){
-									updatedEvent.addressId = addedAddress.id;
-									return foundEvent;
-								});
-					})
-					.then(function(foundEvent){
-						return foundEvent.update(updatedEvent);
+			return programDetailsDB
+				.updateProgramDetails(eventId, updatedEvent.programDetails)
+				.then(function(){
+					// if the maker add new address the address he must change the geolocation also
+					if(updatedEvent.newAddressAdded){
+						return geoLocationsDB
+						.addEventLocation(updatedEvent.geoLocation)
+						.then(function(addedLocation){
+							updatedEvent.address.geoLocationId = addedLocation.id;
+								updatedEvent.address.contactId = updatedEvent.organizerId;
+								return foundEvent;
+							})
+							.then(function(foundEvent){
+								return addressesDB
+										.createAddress(updatedEvent.address)
+										.then(function(addedAddress){
+											updatedEvent.addressId = addedAddress.id;
+											return foundEvent;
+										});
+							})
+							.then(function(foundEvent){
+								return foundEvent.update(updatedEvent);
+							});
+						}else{
+							return foundEvent.update(updatedEvent);
+						}
 					});
-			}else{
-				return foundEvent.update(updatedEvent);
-			}
 		});
 }
 
