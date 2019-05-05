@@ -14,15 +14,22 @@
 			model.loadingData = true;
 			authService
 					.checkAuthLogin()
-					.then(function(result){
-						if(result){
-							model.loggedMember = result;
-							// Calculate the logged user age and add the age to the user's object
-							var birthDay = new Date(model.loggedMember.member.DOB);
-							var today = new Date();
-							model.loggedMember.age =  Math.abs((new Date(today - birthDay.getTime())).getUTCFullYear() - 1970);
+					.then(function(user){
+						if(user){
+							model.loggedMember = user;
+							if (user.chosenRole == 'Member') {
+								for (var i in user.roles) {
+									if (user.roles[i].name == user.chosenRole) {
+										user.roles[i].email = user.email;
+										model.loggedMemberDetails = user.roles[i];
+										// Calculate the logged user age and add the age to the user's object
+										var birthDay = new Date(model.loggedMemberDetails.contact.DOB);
+										var today = new Date();
+										model.loggedMemberDetails.age = Math.abs((new Date(today - birthDay.getTime())).getUTCFullYear() - 1970);
 							// console.log('the user age is: ', model.loggedMember.age);
-							
+									}
+								}
+							}
 						}
 					});
 			
@@ -157,7 +164,9 @@
 					}else{
 						model.eventsList = result.data.eventsList;
 					}
-				}).finally(function(){model.loadingData = false});
+				}).finally(function(){
+					model.loadingData = false;
+				});
 		}
 		init();
 		

@@ -232,7 +232,17 @@
 				newEvent.organizerId = model.organizerProfile.contact.id;
 				newEvent.newAddressAdded = model.newAddressAdded;
 				newEvent.addressSelected = model.addressSelected;
-				newEvent.programDetails = model.eventDays;
+				newEvent.programDetails = [];
+				for(var i in model.eventDays){
+					newEvent.programDetails.push({
+						date: model.eventDays[i].date,
+						sessionStartTime: model.eventDays[i].time.from,
+						sessionEndTime: model.eventDays[i].time.to,
+						title: model.eventDays[i].dailyDetails ? model.eventDays[i].dailyDetails.title : null,
+						details: model.eventDays[i].dailyDetails ? model.eventDays[i].dailyDetails.details : null,
+						videoLink: model.eventDays[i].dailyDetails ? model.eventDays[i].dailyDetails.videoLink : null,
+					})
+				}
 				
 				// newEvent.newGeoLocationAdded = model.newGeoLocationAdded;
 				console.log('the event to create', newEvent);

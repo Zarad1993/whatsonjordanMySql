@@ -23,7 +23,8 @@
 							model.loggedMember.member.DOB = new Date(model.loggedMember.member.DOB);
 						}
 					});
-
+				
+				model.days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]; // to create the daysOfWeek
 				
 			}
 			init();

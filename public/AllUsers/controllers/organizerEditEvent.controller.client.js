@@ -222,7 +222,7 @@
 			model.updateEventMain = false;
 			model.updateEventProgramDetails = true;
 			console.log('the updated event is: ', updatedEvent);
-			model.selectEvent = updateEvent;
+			model.selectedEvent = updatedEvent;
 		}
 		
 		
@@ -249,6 +249,7 @@
 			model.mapLocation = { longitude: event.address.geoLocation.longitude, latitude: event.address.geoLocation.latitude };
 			event.startingDate = new Date(event.startingDate);
 			event.expiryDate = new Date(event.expiryDate);
+
 			// event.sessionStartTime = event.startingDate.getTime();
 			// event.sessionStartTime = new Date(event.sessionStartTime);
 			// event.sessionEndTime = new Date (event.sessionEndTime);

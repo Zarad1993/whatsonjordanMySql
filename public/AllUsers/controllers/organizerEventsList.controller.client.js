@@ -6,7 +6,8 @@
 	function organizerEventsListController(eventsService, $location, loggedOrganizer, authService) {
 		var model = this;
 
-		function init() {
+		function init() {		
+			
 			if(!loggedOrganizer){
 				$location.url('/login');
 			}
@@ -43,11 +44,21 @@
 		model.removeEvent = removeEvent;
 		model.logout = logout;
 		model.reCreateEvent = reCreateEvent;
+		model.reNewEvent = reNewEvent;
 		// model.findUserByEventId = findUserByEventId
 
 		// function findUserByEventId(eventId){
 		// 	console.log(eventId);
 		// }
+
+		function reNewEvent(event){
+			console.log('the selected to renew is: ', event);
+			eventsService.reNewEvent(event)
+				.then(function (resutl) {
+					var url = "/OrganizerProfile";
+					$location.url(url);
+				});
+		}
 
 		function logout(){
 			authService

@@ -72,11 +72,13 @@
   <h3>Start date: </h3>
 	<p>{{model.eventDetails.startingDate | date}}</p>
 	<h3>End date: </h3>
-	<p>{{model.eventDetails.expiryDate | date}}</p>
-  <h3>Session's start time: </h3>
-  <p>{{model.eventDetails.sessionStartTime | date: 'shortTime'}}</p>
-  <h3>Session's end time: </h3>
-  <p>{{model.eventDetails.sessionEndTime | date: 'shortTime'}}</p>
+  <p>{{model.eventDetails.expiryDate | date}}</p>
+  
+  <h3>Session's times: </h3>
+    <p ng-repeat="(key, value) in model.eventDetails.daysPerWeek">
+      <b>{{model.days[key]}}:</b> From: {{value.from | date: "h:mma"}}, To: {{value.to | date: "h:mma"}}
+    </p>
+  
   <h3>Price: </h3>
   <p>{{model.eventDetails.price | currency:"JOD "}}</p>
 	<br>

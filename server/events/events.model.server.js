@@ -124,13 +124,13 @@ function reNewEvent(reNewedEvent){
 	return eventsDB
 		.create(reNewedEvent)
 		.then(function(addedEvent){
-	// 		// if the maker add new address the address he must change the geolocation also
+			// if the maker add new address the address he must change the geolocation also
 			if (reNewedEvent.newAddressAdded){
 				return geoLocationsDB
 					.addEventLocation(reNewedEvent.geoLocation)
 						.then(function (addedLocation) {
 							reNewedEvent.address.geoLocationId = addedLocation.id;
-							reNewedEvent.address.contactId = reNewedEvent.organizerId;
+							reNewedEvent.address.contactId = reNewedEvent.contactId;
 							return addressesDB
 								.createAddress(reNewedEvent.address)
 								.then(function(addedAddress){
@@ -141,6 +141,15 @@ function reNewEvent(reNewedEvent){
 			}else{
 				return addedEvent;
 			}
+		})
+		.then(function (result){
+			console.log('the result of above: ', result.get({plain: true}));
+			reEv = result.get({ plain: true });
+			return programDetailsDB
+				.addProgramDetails(reEv.id, reNewedEvent.programDetails)
+				.then(function (addedProgramDetails) {
+					return reEv;
+				});
 		});
 }
 
@@ -266,7 +275,17 @@ function findEventByEventId(eventId){
 					where: {id: eventId},
 					attributes: {exclude: ['createdAt', 'updatedAt', 'appropved', 'special']},
 					include: [{all:true}, {model: Address, include: [{all:true}]}]
-					});
+				})
+				.then(function(event){
+					var foundEvent = event.get({plain: true});
+					return programDetailsDB
+						.findDetailsByEventId(foundEvent.id)
+						.then(function (detailsList) {
+							foundEvent.programDetails = detailsList;
+							console.log('the event inside: ', foundEvent);
+							return foundEvent;
+						});
+				});
 }
 
 function findEventsByOrganizerId(organizerId){

@@ -95,9 +95,9 @@ module.exports = function(app) {
 			.getAllEvents()
 			.then(function(events){
 				eventsParams.eventsList = events.filter(function (event) {
-				event.images = JSON.parse(event.images);
-				event.daysPerWeek = JSON.parse(event.daysPerWeek);
-				event.dailyDetails = JSON.parse(event.dailyDetails);
+				// event.images = JSON.parse(event.images);
+				// event.daysPerWeek = JSON.parse(event.daysPerWeek);
+				// event.dailyDetails = JSON.parse(event.dailyDetails);
 				return event.approved == true;});
 				res.send(eventsParams);
 			});
@@ -105,7 +105,9 @@ module.exports = function(app) {
 
 
 	function checkAdmin(req, res, next){
-		if (req.user && req.user.roleId === 3){
+		console.log('tje user: ', req.user);
+		if (req.isAuthenticated() && req.user.roles[0].name == 'Admin') {
+		// if (req.user && req.user.roleId === 3){
 			next();
 		}else{
 			res.sendStatus(401);
@@ -165,9 +167,11 @@ module.exports = function(app) {
 		eventsDB
 			.findEventByEventId(eventId)
 			.then(function(event){
-				event.daysPerWeek = JSON.parse(event.daysPerWeek);
+				console.log('the found event: ', event);
+				
+				// event.daysPerWeek = event.daysPerWeek;
 				// event.dailyDetails = JSON.parse(event.dailyDetails);
-				event.images = JSON.parse(event.images);
+				// event.images = event.images;
 				
 				// console.log('the found event by id is:', event);
 				res.send(event);
@@ -245,12 +249,15 @@ module.exports = function(app) {
 		reNewedEvent.approved = false;
 		reNewedEvent.special = false;
 
-		reNewedEvent.daysPerWeek = JSON.stringify(reNewedEvent.daysPerWeek);
-		reNewedEvent.dailyDetails = JSON.stringify(reNewedEvent.dailyDetails);
-		reNewedEvent.images = JSON.stringify(reNewedEvent.images);
+		// reNewedEvent.daysPerWeek = JSON.stringify(reNewedEvent.daysPerWeek);
+		// reNewedEvent.dailyDetails = JSON.stringify(reNewedEvent.dailyDetails);
+		// reNewedEvent.images = JSON.stringify(reNewedEvent.images);
 		reNewedEvent.ageGroupId = reNewedEvent.ageGroup.id;
 
 		if (reNewedEvent.addressSelected){
+			reNewedEvent.addressId = reNewedEvent.address.id;
+			delete (reNewedEvent.address);
+		} else if (reNewedEvent.addressSelected == false && reNewedEvent.newAddressAdded == false){
 			reNewedEvent.addressId = reNewedEvent.address.id;
 			delete (reNewedEvent.address);
 		} else if (reNewedEvent.newAddressAdded){

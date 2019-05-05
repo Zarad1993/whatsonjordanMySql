@@ -75,46 +75,7 @@
 	    <td class="text-center">{{event.createdAt | date}}</td>
 	    <td class="text-center">{{event.members.length}}</td>
 	    <td class="text-center"><a href="#!/organizerProfile/editEvent"><span class="fa fa-pencil-square-o" aria-hidden="true"></span></a></td>
-	    <!-- <td><a href="" ><span class="fa fa-trash-o" aria-hidden="true"></span></a></td> -->
-	    <td><a href="#!/organizerProfile/reNewEvent/{{event.id}}">ReNewEvent</a></td>
-	    <!-- <td><button class="btn btn-warning" data-toggle="modal" data-target="#recreateEventModal-{{$index}}">Re-create</button>
-		    <div class="modal fade" id="recreateEventModal-{{$index}}" role="dialog">
-				<div class="modal-dialog modal-lg">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">Recreate Event...</h5>
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-						</div>
-						<div class="modal-body">
-							<div>
-								<form>
-									<div class="row">
-										<label class="col-sm-3">Date:</label>
-										<label class="col-sm-9">{{event.startingDate | date}}</label>
-									</div>
-									<br>
-									<div class="row">
-										<label class="col-sm-3">Event name:</label>
-										<input class="col-sm-9 form-control" type="text" name="eventName" ng-model="event.name">
-									</div>
-									<br>
-									<br>
-									<br>
-									<div class="row">
-										<label class="col-sm-5"></label>
-										<input type="submit" class="col-sm-7 btn btn-success" name="recreateEvent" ng-click="model.reCreateEvent(event)" data-dismiss="modal">
-									</div>
-								</form>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-					
-				</div>
-			</div>
-		</td> -->
+			<td><a href="#!/organizerProfile/reNewEvent/{{event.id}}">ReNewEvent</a></td>
 	    <td class="text-center"><a href="#!/organizerProfile/organizerEventDetails/{{event.id}}" class=" btn btn-default pull-right">More details...</a></td>
 	  </tr>
 	</table>
